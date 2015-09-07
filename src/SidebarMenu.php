@@ -18,30 +18,30 @@ class SidebarMenu extends \hiqdev\menumanager\Menu
     protected $_addTo = 'sidebar';
 
     protected $_where = [
-        'after' => ['dashboard', 'header', 'finance', 'tickets', 'domains', 'servers', 'hosting'],
+        'after'  => ['hosting', 'servers', 'domains', 'tickets', 'finance', 'clients', 'dashboard'],
     ];
 
     protected $_items = [
         'stock' => [
             'label' => 'Stock',
             'url'   => ['/stock/model/index'],
-            'icon'  => 'fa-group',
+            'icon'  => 'fa-cubes',
             'items' => [
                 'model' => [
                     'label' => 'Models',
-                    'url'   => ['/stock/model/index'],
+                    'url'   => ['/stock/model'],
                 ],
                 'part' => [
                     'label' => 'Parts',
-                    'url'   => ['/stock/contact/index'],
+                    'url'   => ['/stock/part'],
                 ],
                 'move' => [
                     'label' => 'History',
-                    'url'   => ['/stock/contact/index'],
+                    'url'   => ['/stock/move'],
                 ],
-                'part' => [
+                'hwconfig' => [
                     'label' => 'Config Templates',
-                    'url'   => ['/stock/contact/index'],
+                    'url'   => ['/stock/hwconfig'],
                 ],
             ],
         ],

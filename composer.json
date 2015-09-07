@@ -44,7 +44,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "hiqdev\\hipanel-module-stock\\": "src"
+            "hipanel\\module\\stock\\": "src"
         }
     }
 }

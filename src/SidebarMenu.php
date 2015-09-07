@@ -23,7 +23,7 @@ class SidebarMenu extends \hiqdev\menumanager\Menu
 
     protected $_items = [
         'stock' => [
-            'label' => 'Clients',
+            'label' => 'Stock',
             'url'   => ['/stock/model/index'],
             'icon'  => 'fa-group',
             'items' => [

@@ -1,0 +1,11 @@
+package:
+    name:           hipanel-module-stock
+    label:          Hipanel StockModule
+    title:          Stock Module for Hipanel
+    type:           yii2-extension
+    keywords:       stock, hipanel, plugin
+    year:           2015
+
+require:
+    hiqdev/hidev-config:        "*"
+    hiqdev/hidev-config-php:    "*"

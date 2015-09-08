@@ -18,32 +18,51 @@ class PartGridView extends BoxedGridView
                     return sprintf('%s %s', Lang::t($model->model_type_label), Lang::t($model->model_brand_label));
                 },
             ],
-            'partno' => [],
-            'serial' => [],
+            'partno' => [
+                'filterAttribute' => 'partno_like'
+            ],
+            'serial' => [
+                'filterAttribute' => 'serial_like'
+            ],
             'last_move' => [
                 'filter' => false,
                 'format' => 'html',
                 'value' => function($model) {
-                    return sprintf('%s &nbsp;←&nbsp; %s', $model->dst_name, $model->src_name);
+                    return sprintf('%s &nbsp;←&nbsp; %s', $model->dst_name, Lang::t($model->src_name));
                 },
             ],
-            'move_type' => [
+            'move_type_label' => [
                 'filter' => false,
+                'enableSorting' => false,
                 'format' => 'html',
                 'value' => function($model) {
-                    return sprintf('%s &nbsp;←&nbsp; %s', $model->dst_name, $model->src_name);
+                    return Lang::t($model->move_type_label);
                 },
             ],
             'move_time' => [
                 'filter' => false,
+                'format' => ['date', 'php:medium'],
+                'sortAttribute' => 'time',
             ],
             'order_data' => [
                 'filter' => false,
+                'enableSorting' => false,
             ],
             'DC_ticket_ID' => [
                 'filter' => false,
-                'value' => function() {
-                    return '1';
+                'enableSorting' => false,
+                'value' => function($model) {
+                    $out = '';
+                    if ($model['move_remote_ticket']) {
+                        $out .= $model['move_remote_ticket'] . "<br>";
+                    }
+                    if ($model['move_hm_ticket']) {
+                        $out .= $model['move_hm_ticket'] . "<br>";
+                    }
+                    if ($model['move_remotehands_label']) {
+                        $out .= $model['move_remotehands_label'] . "<br>";
+                    }
+                    return $out;
                 }
             ],
             'actions' => [

@@ -4,6 +4,7 @@ namespace hipanel\modules\stock\controllers;
 
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
+use Yii;
 
 class PartController extends CrudController
 {
@@ -25,16 +26,21 @@ class PartController extends CrudController
 
     public function getTypes()
     {
-        return Ref::getList('state,domain');
+        return Ref::getList('type,model');
     }
 
     public function getBrands()
     {
-        return Ref::getList('state,domain');
+        return Ref::getList('type,brand');
     }
 
     public function getLocations()
     {
-        return Ref::getList('state,domain');
+        return [
+            'reserve'   =>  Yii::t('app', 'Reserve'),
+            'stock'     =>  Yii::t('app', 'Stock'),
+            'rma'       =>  Yii::t('app', 'RMA'),
+            'trash'     =>  Yii::t('app', 'Trash'),
+        ];
     }
 }

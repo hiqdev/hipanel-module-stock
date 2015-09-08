@@ -2,7 +2,6 @@
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\ActionBox;
-use yii\bootstrap\ButtonGroup;
 
 $this->title = Yii::t('app', 'Parts');
 $this->subtitle = Yii::t('app', array_filter(Yii::$app->request->get($model->formName(), [])) ? 'filtered list' : 'full list');
@@ -13,11 +12,17 @@ $this->breadcrumbs->setItems([
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 <?php $box = ActionBox::begin(['model' => $model, 'dataProvider' => $dataProvider]) ?>
 <?php $box->beginActions() ?>
-<?= $box->renderCreateButton(Yii::t('app', 'Create part')) ?>&nbsp;
+<?= $box->renderCreateButton(Yii::t('app', 'Create part')) ?>
 <?= $box->renderSearchButton() ?>
 <?= $box->renderSorter([
     'attributes' => [
         'id',
+        'type',
+        'brand',
+        'partno',
+        'model',
+        'serial',
+        'time'
     ],
 ]) ?>
 <?= $box->renderPerPage() ?>
@@ -30,7 +35,7 @@ $this->breadcrumbs->setItems([
         $box->renderBulkButton(Yii::t('app', 'RMA'), 'rma'),
     ],
 ]) ?>
-<?= $box->renderSearchForm(['stateData' => $stateData]) ?>
+<?= $box->renderSearchForm(compact(['types', 'locations', 'brands'])) ?>
 <?php $box->end() ?>
 <?php $box->beginBulkForm() ?>
 <?= PartGridView::widget([
@@ -42,7 +47,7 @@ $this->breadcrumbs->setItems([
         'partno',
         'serial',
         'last_move',
-        'move_type',
+        'move_type_label',
 
         'move_time',
         'order_data',

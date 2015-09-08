@@ -4,6 +4,7 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\Model;
 use hipanel\base\ModelTrait;
+use Yii;
 
 class Part extends Model
 {
@@ -21,6 +22,9 @@ class Part extends Model
                 'dst_name',
                 'order_data',
                 'move_time',
+                'move_remote_ticket',
+                'move_hm_ticket',
+                'move_remotehands_label',
 
                 'id',
                 'dst_ids',
@@ -32,6 +36,9 @@ class Part extends Model
                 'partno_like',
                 'model_types',
                 'model_brands',
+                'brand',
+                'model',
+                'time',
                 'place',
                 'src_name_like',
                 'dst_name_like',
@@ -47,6 +54,7 @@ class Part extends Model
             ], 'safe', 'on' => 'search'],
             // Create
             [[
+                'id',
                 'partno',
                 'model_id',
                 'serials',
@@ -63,11 +71,13 @@ class Part extends Model
             ], 'safe', 'on' => ['create']],
             // Update
             [[
+                'id',
                 'serial',
                 'price',
             ], 'safe', 'on' => ['update']],
             // Move
             [[
+                'id',
                 'src_id',
                 'dst_id',
                 'type',
@@ -78,14 +88,40 @@ class Part extends Model
             ], 'safe', 'on' => ['move']],
             // Reserve
             [[
+                'id',
                 'reserve',
                 'descr',
             ], 'safe', 'on' => ['reserve']],
             // Un-Reserve
             [[
+                'id',
                 'reserve',
                 'descr',
             ], 'safe', 'on' => ['un-reserve']],
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return $this->mergeAttributeLabels([
+            'id' => Yii::t('app', 'ID'),
+            'partno' => Yii::t('app', 'Part No.'),
+            'partno_like' => Yii::t('app', 'Part No.'),
+            'type' => Yii::t('app', 'Type'),
+            'brand' => Yii::t('app', 'Manufacturer'),
+            'model_brands' => Yii::t('app', 'Brand'),
+            'serial' => Yii::t('app', 'Serial'),
+            'serial_like' => Yii::t('app', 'Serial'),
+            'last_move' => Yii::t('app', 'Last move'),
+            'move_type_label' => Yii::t('app', 'Move type'),
+            'move_time' => Yii::t('app', 'Time'),
+            'order_data' => Yii::t('app', 'Order'),
+            'order_data_like' => Yii::t('app', 'Order'),
+            'model_types' => Yii::t('app', 'Type'),
+            'move_descr_like' => Yii::t('app', 'Move description'),
+        ]);
     }
 }

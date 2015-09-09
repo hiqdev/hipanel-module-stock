@@ -5,6 +5,9 @@ namespace hipanel\modules\stock\grid;
 use common\components\Lang;
 use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
+use hipanel\modules\stock\controllers\PartController;
+use hipanel\modules\stock\models\Part;
+use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
 
 class PartGridView extends BoxedGridView
@@ -19,7 +22,15 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'partno' => [
-                'filterAttribute' => 'partno_like'
+                'class'               => \hipanel\grid\DataColumn::className(),
+                'filterAttribute' => 'partno_like',
+                'filter' => function ($column, $model, $attribute) {
+                    return PartnoCombo::widget([
+                        'model'               => $model,
+                        'attribute'           => $attribute,
+                        'formElementSelector' => 'td',
+                    ]);
+                }
             ],
             'serial' => [
                 'filterAttribute' => 'serial_like'
@@ -28,7 +39,7 @@ class PartGridView extends BoxedGridView
                 'filter' => false,
                 'format' => 'html',
                 'value' => function($model) {
-                    return sprintf('%s &nbsp;←&nbsp; %s', $model->dst_name, Lang::t($model->src_name));
+                    return Yii::t('app', '{0} &nbsp;←&nbsp; {1}', [$model->dst_name, Lang::t($model->src_name)]);
                 },
             ],
             'move_type_label' => [

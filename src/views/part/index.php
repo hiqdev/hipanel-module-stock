@@ -29,6 +29,7 @@ $this->breadcrumbs->setItems([
 <?php $box->endActions() ?>
 <?php $box->renderBulkActions([
     'items' => [
+        $box->renderBulkButton(Yii::t('app', 'Update'), 'update'),
         $box->renderBulkButton(Yii::t('app', 'Move'), 'move'),
         $box->renderBulkButton(Yii::t('app', 'Reserve'), 'reserve'),
         $box->renderBulkButton(Yii::t('app', 'Unreserve'), 'un-reserve'),

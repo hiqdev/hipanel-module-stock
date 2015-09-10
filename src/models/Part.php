@@ -4,6 +4,7 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\Model;
 use hipanel\base\ModelTrait;
+use hipanel\helpers\StringHelper;
 use Yii;
 
 class Part extends Model
@@ -25,6 +26,7 @@ class Part extends Model
                 'move_remote_ticket',
                 'move_hm_ticket',
                 'move_remotehands_label',
+                'currency_label',
 
                 'id',
                 'dst_ids',
@@ -69,6 +71,12 @@ class Part extends Model
                 'supplier',
                 'order_no',
             ], 'safe', 'on' => ['create']],
+            [[
+
+                'src_id',
+                'dst_id',
+                'move_type',
+            ], 'required', 'on' => ['create']],
             // Update
             [[
                 'id',
@@ -122,6 +130,20 @@ class Part extends Model
             'order_data_like' => Yii::t('app', 'Order'),
             'model_types' => Yii::t('app', 'Type'),
             'move_descr_like' => Yii::t('app', 'Move description'),
+            'descr' => Yii::t('app', 'Description'),
+            'order_no' => Yii::t('app', 'Order'),
+            'src_id' => Yii::t('app', 'Source'),
+            'dst_id' => Yii::t('app', 'Destination'),
+            'move_type' => Yii::t('app', 'Type'),
         ]);
+    }
+
+    public function transformToSymbols($currencyCodes = [])
+    {
+        $result = [];
+        foreach ($currencyCodes as $code) {
+            $result[] = StringHelper::getCurrencySymbol($code);
+        }
+        return $result;
     }
 }

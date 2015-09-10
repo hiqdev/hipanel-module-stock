@@ -21,6 +21,24 @@ class PartController extends CrudController
                     ];
                 },
             ],
+            'create' => [
+                'class'     => 'hipanel\actions\SmartCreateAction',
+                'success'   => Yii::t('app', 'Part was created'),
+                'data' => function ($action) {
+                    return [
+                        'moveTypes' => $action->controller->getMoveTypes(),
+                        'suppliers' => $action->controller->getSuppliers(),
+                        'currencyTypes' => $action->controller->getCurrencyTypes(),
+                    ];
+                },
+            ],
+            'update' => [
+                'class'     => 'hipanel\actions\SmartUpdateAction',
+                'success'   => Yii::t('app', 'Part was updated'),
+            ],
+            'validate-form' => [
+                'class'     => 'hipanel\actions\ValidateFormAction',
+            ],
         ];
     }
 
@@ -42,5 +60,20 @@ class PartController extends CrudController
             'rma'       =>  Yii::t('app', 'RMA'),
             'trash'     =>  Yii::t('app', 'Trash'),
         ];
+    }
+
+    public function getMoveTypes()
+    {
+        return Ref::getList('type,move', ['orderby' => 'no_asc', 'with_recursive' => true]);
+    }
+
+    public function getSuppliers()
+    {
+        return Ref::getList('destination,supplier', ['orderby' => 'name_asc']);
+    }
+
+    public function getCurrencyTypes()
+    {
+        return Ref::getList('type,currency', ['orderby' => 'name_asc']);
     }
 }

@@ -26,7 +26,7 @@ $this->breadcrumbs->setItems([
         $box->renderDeleteButton(Yii::t('app', 'Delete')), // , Url::to('@move/delete')
     ],
 ]) ?>
-<?= $box->renderSearchForm(compact(['types', 'locations', 'brands'])) ?>
+<?= $box->renderSearchForm(compact(['types'])) ?>
 <?php $box->end() ?>
 <?php $box->beginBulkForm() ?>
 <?= MoveGridView::widget([

@@ -2,6 +2,7 @@
 
 namespace hipanel\modules\stock\widgets\combo;
 
+use common\components\Lang;
 use hiqdev\combo\Combo;
 
 class SourceCombo extends Combo
@@ -19,5 +20,5 @@ class SourceCombo extends Combo
     public $_return = ['id'];
 
     /** {@inheritdoc} */
-//    public $_rename = ['text' => 'partno'];
+    public $_rename = ['text' => 'src_name'];
 }

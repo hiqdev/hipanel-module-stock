@@ -17,4 +17,7 @@ class DestinationCombo extends Combo
 
     /** {@inheritdoc} */
     public $_return = ['id'];
+
+    /** {@inheritdoc} */
+    public $_rename = ['text' => 'dst_name'];
 }

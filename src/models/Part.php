@@ -125,6 +125,8 @@ class Part extends Model
             'src_id' => Yii::t('app', 'Source'),
             'dst_id' => Yii::t('app', 'Destination'),
             'move_type' => Yii::t('app', 'Type'),
+            'src_name_like' => Yii::t('app', 'Source'),
+            'dst_name_like' => Yii::t('app', 'Destination'),
         ]);
     }
 

@@ -7,6 +7,7 @@ use wbraganca\dynamicform\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+
 ?>
 <?php $form = ActiveForm::begin([
     'id' => 'dynamic-form',
@@ -26,7 +27,7 @@ use yii\helpers\Url;
     'model' => reset($models),
     'formId' => 'dynamic-form',
     'formFields' => [
-        'part'
+        'part',
     ],
 ]) ?>
 <div class="container-items"><!-- widgetContainer -->
@@ -44,8 +45,10 @@ use yii\helpers\Url;
                 <div class="col-lg-offset-10 col-sm-2 text-right">
                     <?php if ($model->isNewRecord) : ?>
                         <div class="btn-group">
-                            <button type="button" class="add-item btn btn-default btn-sm"><i class="glyphicon glyphicon-plus"></i></button>
-                            <button type="button" class="remove-item btn btn-default btn-sm"><i class="glyphicon glyphicon-minus"></i></button>
+                            <button type="button" class="add-item btn btn-default btn-sm"><i
+                                    class="glyphicon glyphicon-plus"></i></button>
+                            <button type="button" class="remove-item btn btn-default btn-sm"><i
+                                    class="glyphicon glyphicon-minus"></i></button>
                         </div>
                         <!-- /.btn-group -->
                     <?php endif; ?>
@@ -91,7 +94,7 @@ use yii\helpers\Url;
                         <!-- /.row -->
                     </div>
                     <!-- /.col-md-6 -->
-                <?php else : ?>
+                    <?php else : ?>
                     <div class="col-md-4">
                         <?= $form->field($model, "[$i]partno")->textInput(['readonly' => true]) ?>
                     </div>
@@ -101,9 +104,10 @@ use yii\helpers\Url;
                     </div>
                     <!-- /.col-md-4 -->
                     <div class="col-md-4">
-                        <?= Html::activeLabel($model, "[$i]pirce")?>
+                        <?= Html::activeLabel($model, "[$i]pirce") ?>
                         <div class="input-group">
-                            <div class="input-group-addon"><?= \hipanel\helpers\StringHelper::getCurrencySymbol($model->currency) ?></div>
+                            <div
+                                class="input-group-addon"><?= \hipanel\helpers\StringHelper::getCurrencySymbol($model->currency) ?></div>
                             <?= Html::activeTextInput($model, "[$i]price", ['class' => 'form-control']) ?>
                         </div>
                     </div>
@@ -119,14 +123,14 @@ use yii\helpers\Url;
 
 <?php DynamicFormWidget::end() ?>
 <?php Box::begin(['options' => ['class' => 'box-solid']]) ?>
-    <div class="row">
-        <div class="col-md-12 no">
-            <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-default']) ?>
-            &nbsp;
-            <?= Html::button(Yii::t('app', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
-        </div>
-        <!-- /.col-md-12 -->
+<div class="row">
+    <div class="col-md-12 no">
+        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-default']) ?>
+        &nbsp;
+        <?= Html::button(Yii::t('app', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
-    <!-- /.row -->
+    <!-- /.col-md-12 -->
+</div>
+<!-- /.row -->
 <?php Box::end() ?>
 <?php ActiveForm::end() ?>

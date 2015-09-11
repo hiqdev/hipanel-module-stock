@@ -68,6 +68,11 @@ class Move extends Model
             'src_id' => Yii::t('app', 'Source'),
             'dst_id' => Yii::t('app', 'Destination'),
             'data' => Yii::t('app', 'Data'),
+            'src_name_like' => Yii::t('app', 'Source'),
+            'dst_name_like' => Yii::t('app', 'Destination'),
+            'serial_like' => Yii::t('app', 'Serial'),
+            'descr_like' => Yii::t('app', 'Move description'),
+
         ]);
     }
 }

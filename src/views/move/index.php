@@ -16,7 +16,8 @@ $this->breadcrumbs->setItems([
 <?= $box->renderSearchButton() ?>
 <?= $box->renderSorter([
     'attributes' => [
-        'id',
+        'time',
+        'client'
     ],
 ]) ?>
 <?= $box->renderPerPage() ?>

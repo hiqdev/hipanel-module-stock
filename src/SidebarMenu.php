@@ -29,15 +29,15 @@ class SidebarMenu extends \hiqdev\menumanager\Menu
             'items' => [
                 'model' => [
                     'label' => 'Models',
-                    'url'   => ['/stock/model'],
+                    'url'   => ['/stock/model/index'],
                 ],
                 'part' => [
                     'label' => 'Parts',
-                    'url'   => ['/stock/part'],
+                    'url'   => ['/stock/part/index'],
                 ],
                 'move' => [
                     'label' => 'History',
-                    'url'   => ['/stock/move'],
+                    'url'   => ['/stock/move/index'],
                 ],
                 'hwconfig' => [
                     'label' => 'Config Templates',

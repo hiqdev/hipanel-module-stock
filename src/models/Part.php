@@ -60,9 +60,6 @@ class Part extends Model
                 'partno',
                 'model_id',
                 'serials',
-                'src_id',
-                'dst_id',
-                'move_type',
                 'descr',
                 'price',
                 'currency',
@@ -72,7 +69,6 @@ class Part extends Model
                 'order_no',
             ], 'safe', 'on' => ['create']],
             [[
-
                 'src_id',
                 'dst_id',
                 'move_type',
@@ -94,18 +90,12 @@ class Part extends Model
                 'remote_ticket',
                 'hm_ticket',
             ], 'safe', 'on' => ['move']],
-            // Reserve
+            // Reserve / Unreserve
             [[
                 'id',
                 'reserve',
                 'descr',
-            ], 'safe', 'on' => ['reserve']],
-            // Un-Reserve
-            [[
-                'id',
-                'reserve',
-                'descr',
-            ], 'safe', 'on' => ['un-reserve']],
+            ], 'safe', 'on' => ['reserve', 'un-reserve']],
         ];
     }
 

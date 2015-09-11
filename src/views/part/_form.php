@@ -21,7 +21,7 @@ use yii\helpers\Url;
     'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
     'widgetBody' => '.container-items', // required: css class selector
     'widgetItem' => '.item', // required: css class
-    'limit' => 999, // the maximum times, an element can be cloned (default 999)
+    'limit' => 99, // the maximum times, an element can be cloned (default 999)
     'min' => 1, // 0 or 1 (default 1)
     'insertButton' => '.add-item', // css class
     'deleteButton' => '.remove-item', // css class
@@ -32,14 +32,13 @@ use yii\helpers\Url;
     ],
 ]) ?>
 
-
 <div class="container-items"><!-- widgetContainer -->
     <?php foreach ($models as $i => $model) : ?>
         <?php
         // necessary for update action.
         if (!$model->isNewRecord) {
             $model->setScenario('update');
-            echo Html::activeHiddenInput($model, "[$i]id");
+            print Html::activeHiddenInput($model, "[$i]id");
         }
         ?>
         <div class="item">
@@ -78,7 +77,6 @@ use yii\helpers\Url;
                             <!-- /.col-md-4 -->
                         </div>
                         <!-- /.row -->
-
                         <div class="row">
                             <div class="col-md-8">
                                 <?= $form->field($model, "[$i]descr") ?>
@@ -98,8 +96,7 @@ use yii\helpers\Url;
                     <!-- /.col-md-6 -->
                 <?php else : ?>
                     <div class="col-md-4">
-                        <label><?= $model->getAttributeLabel('partno') ?></label>
-                        <p class="form-control-static bg-warning" style="padding-left: 1rem;"><?= $model->partno ?></p>
+                        <?= $form->field($model, "[$i]partno")->textInput(['readonly' => true]) ?>
                     </div>
                     <!-- /.col-md-4 -->
                     <div class="col-md-4">
@@ -109,7 +106,7 @@ use yii\helpers\Url;
                     <div class="col-md-4">
                         <?= Html::activeLabel($model, "[$i]pirce")?>
                         <div class="input-group">
-                            <div class="input-group-addon"><?= \hipanel\helpers\StringHelper::getCurrencySymbol($model->currency)// preg_replace('#[a-z0-9.]*#i', '', Yii::$app->formatter->asCurrency('0', $model['currency'])); ?></div>
+                            <div class="input-group-addon"><?= \hipanel\helpers\StringHelper::getCurrencySymbol($model->currency) ?></div>
                             <?= Html::activeTextInput($model, "[$i]price", ['class' => 'form-control']) ?>
                         </div>
                     </div>

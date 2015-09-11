@@ -1,4 +1,5 @@
 <?php
+use hipanel\helpers\Url;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\ActionBox;
@@ -29,11 +30,11 @@ $this->breadcrumbs->setItems([
 <?php $box->endActions() ?>
 <?php $box->renderBulkActions([
     'items' => [
-        $box->renderBulkButton(Yii::t('app', 'Update'), 'update'),
-        $box->renderBulkButton(Yii::t('app', 'Move'), 'move'),
-        $box->renderBulkButton(Yii::t('app', 'Reserve'), 'reserve'),
-        $box->renderBulkButton(Yii::t('app', 'Unreserve'), 'un-reserve'),
-        $box->renderBulkButton(Yii::t('app', 'RMA'), 'rma'),
+        $box->renderBulkButton(Yii::t('app', 'Update'), Url::to('@part/update')),
+        $box->renderBulkButton(Yii::t('app', 'Move'), Url::to('@part/move')),
+        $box->renderBulkButton(Yii::t('app', 'Reserve'), Url::to('@part/reserve')),
+        $box->renderBulkButton(Yii::t('app', 'Unreserve'), Url::to('@part/un-reserve')),
+        $box->renderBulkButton(Yii::t('app', 'RMA'), Url::to('@part/rma')),
     ],
 ]) ?>
 <?= $box->renderSearchForm(compact(['types', 'locations', 'brands'])) ?>

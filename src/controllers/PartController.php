@@ -22,8 +22,8 @@ class PartController extends CrudController
                 },
             ],
             'create' => [
-                'class'     => 'hipanel\actions\SmartCreateAction',
-                'success'   => Yii::t('app', 'Part was created'),
+                'class' => 'hipanel\actions\SmartCreateAction',
+                'success' => Yii::t('app', 'Part was created'),
                 'data' => function ($action) {
                     return [
                         'moveTypes' => $action->controller->getMoveTypes(),
@@ -33,11 +33,15 @@ class PartController extends CrudController
                 },
             ],
             'update' => [
-                'class'     => 'hipanel\actions\SmartUpdateAction',
-                'success'   => Yii::t('app', 'Part was updated'),
+                'class' => 'hipanel\actions\SmartUpdateAction',
+                'success' => Yii::t('app', 'Part was updated'),
+            ],
+            'reserve' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
+                'success' => Yii::t('app', 'Parts was reserved'),
             ],
             'validate-form' => [
-                'class'     => 'hipanel\actions\ValidateFormAction',
+                'class' => 'hipanel\actions\ValidateFormAction',
             ],
         ];
     }
@@ -55,10 +59,10 @@ class PartController extends CrudController
     public function getLocations()
     {
         return [
-            'reserve'   =>  Yii::t('app', 'Reserve'),
-            'stock'     =>  Yii::t('app', 'Stock'),
-            'rma'       =>  Yii::t('app', 'RMA'),
-            'trash'     =>  Yii::t('app', 'Trash'),
+            'reserve' => Yii::t('app', 'Reserve'),
+            'stock' => Yii::t('app', 'Stock'),
+            'rma' => Yii::t('app', 'RMA'),
+            'trash' => Yii::t('app', 'Trash'),
         ];
     }
 

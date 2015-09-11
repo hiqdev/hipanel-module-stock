@@ -8,7 +8,6 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 ?>
-
 <?php $form = ActiveForm::begin([
     'id' => 'dynamic-form',
     'enableClientValidation' => true,
@@ -16,7 +15,6 @@ use yii\helpers\Url;
     'enableAjaxValidation' => true,
     'validationUrl' => Url::toRoute(['validate-form', 'scenario' => reset($models)->isNewRecord ? 'create' : 'update']),
 ]) ?>
-
 <?php DynamicFormWidget::begin([
     'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
     'widgetBody' => '.container-items', // required: css class selector
@@ -31,7 +29,6 @@ use yii\helpers\Url;
         'part'
     ],
 ]) ?>
-
 <div class="container-items"><!-- widgetContainer -->
     <?php foreach ($models as $i => $model) : ?>
         <?php

@@ -79,7 +79,7 @@ class Part extends Model
                 'serial',
                 'price',
             ], 'safe', 'on' => ['update']],
-            // Move
+            // Move / Bulk-move
             [[
                 'id',
                 'src_id',
@@ -89,7 +89,7 @@ class Part extends Model
                 'remotehands',
                 'remote_ticket',
                 'hm_ticket',
-            ], 'safe', 'on' => ['move']],
+            ], 'safe', 'on' => ['move', 'bulk-move']],
             // Reserve / Unreserve
             [[
                 'id',

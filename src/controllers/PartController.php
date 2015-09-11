@@ -40,6 +40,15 @@ class PartController extends CrudController
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => Yii::t('app', 'Parts was reserved'),
             ],
+            'move' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
+                'success' => Yii::t('app', 'Parts was moved'),
+                'data' => function ($action) {
+                    return [
+                        'moveTypes' => $action->controller->getMoveTypes(),
+                    ];
+                },
+            ],
             'validate-form' => [
                 'class' => 'hipanel\actions\ValidateFormAction',
             ],

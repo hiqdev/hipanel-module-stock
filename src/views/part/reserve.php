@@ -36,11 +36,11 @@ $scenario = $this->context->action->scenario;
 
 <div class="container-items">
     <?php foreach ($models as $i => $model) : ?>
-    <?php
-    // necessary for update action.
-    $model->scenario = $scenario;
-    print Html::activeHiddenInput($model, "[$i]id");
-    ?>
+        <?php
+        // necessary for update action.
+        $model->scenario = $scenario;
+        print Html::activeHiddenInput($model, "[$i]id");
+        ?>
         <div class="item">
             <?php Box::begin() ?>
             <div class="row">

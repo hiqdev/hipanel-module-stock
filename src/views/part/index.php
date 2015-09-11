@@ -32,6 +32,7 @@ $this->breadcrumbs->setItems([
     'items' => [
         $box->renderBulkButton(Yii::t('app', 'Update'), Url::to('@part/update')),
         $box->renderBulkButton(Yii::t('app', 'Move'), Url::to('@part/move')),
+        $box->renderBulkButton(Yii::t('app', 'To move by one'), Url::to('@part/move')),
         $box->renderBulkButton(Yii::t('app', 'Reserve'), Url::to('@part/reserve')),
         $box->renderBulkButton(Yii::t('app', 'Unreserve'), Url::to('@part/un-reserve')),
         $box->renderBulkButton(Yii::t('app', 'RMA'), Url::to('@part/rma')),

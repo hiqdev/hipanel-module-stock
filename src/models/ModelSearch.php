@@ -6,7 +6,8 @@ use hipanel\helpers\ArrayHelper;
 
 class ModelSearch extends Model
 {
-    use SearchModelTrait {
+    use SearchModelTrait
+    {
         searchAttributes as defaultSearchAttributes;
     }
 

@@ -19,6 +19,16 @@ class Model extends YiiModel
             // Search
             [[
                 'id',
+                'state_label',
+                'brand_label',
+                'url',
+                'descr',
+                'short',
+                'is_favourite',
+                'profile',
+                'profile_id',
+                'last_prices',
+                'model',
                 'model_like',
                 'type',
                 'types',
@@ -62,7 +72,7 @@ class Model extends YiiModel
                 'props',
             ], 'safe', 'on' => ['create', 'update']],
             // Hide & Show
-            ['id', 'required', 'on' => ['mark-hidden-from-user']],
+            ['id', 'required', 'on' => ['mark-hidden-from-user', 'un-mark-hidden-from-user']],
         ];
     }
 
@@ -73,6 +83,7 @@ class Model extends YiiModel
     {
         return $this->mergeAttributeLabels([
             'id' => Yii::t('app', 'ID'),
+            'last_prices' => Yii::t('app', 'Last price'),
         ]);
     }
 }

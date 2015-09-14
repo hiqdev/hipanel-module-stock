@@ -4,7 +4,6 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\Model;
 use hipanel\base\ModelTrait;
-use hipanel\helpers\StringHelper;
 use Yii;
 
 class Move extends Model

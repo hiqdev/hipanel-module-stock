@@ -4,6 +4,7 @@ hiqdev/hipanel-module-stock commits history
 ## Under development
 
 - Added basics
+    - cabcedf 2015-09-15 localized menu (sol@hiqdev.com)
     - 13fd042 2015-09-14 Add main functionality to Model section (andreyklochok@gmail.com)
     - 0237b49 2015-09-14 Add Model model (andreyklochok@gmail.com)
     - f55b680 2015-09-11 Add attribute labels (andreyklochok@gmail.com)

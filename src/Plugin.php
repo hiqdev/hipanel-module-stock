@@ -21,9 +21,7 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
             '@hwconfig' => '/stock/hwconfig',
         ],
         'menus' => [
-            [
-                'class' => 'hipanel\modules\stock\SidebarMenu',
-            ],
+            'hipanel\modules\stock\SidebarMenu',
         ],
         'modules' => [
             'stock' => [

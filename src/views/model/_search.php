@@ -36,6 +36,17 @@ use hiqdev\combo\StaticCombo;
 <!-- /.col-md-3 -->
 <div class="col-md-3">
     <?= $search->field('group_like') ?>
-    <?= $search->field('show_hidden_from_user') ?>
+    <?= $search->field('show_hidden_from_user')->widget(StaticCombo::classname(), [
+        'data' => [
+            '0' => Yii::t('app', 'Hide hidden'),
+            '1' => Yii::t('app', 'Show hidden'),
+        ],
+        'hasId' => true,
+        'pluginOptions' => [
+            'select2Options' => [
+                'multiple' => false,
+            ],
+        ],
+    ]) ?>
 </div>
 <!-- /.col-md-3 -->

@@ -19,9 +19,28 @@ class ModelController extends CrudController
                     ];
                 },
             ],
+            'create' => [
+                'class' => 'hipanel\actions\SmartCreateAction',
+                'success' => Yii::t('app', 'Model was created'),
+                'data' => function ($action) {
+                    return [
+                        'types' => $action->controller->getTypes(),
+                        'brands' => $action->controller->getBrands(),
+                    ];
+                },
+            ],
             'update' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => Yii::t('app', 'Model was updated'),
+                'data' => function ($action) {
+                    return [
+                        'types' => $action->controller->getTypes(),
+                        'brands' => $action->controller->getBrands(),
+                    ];
+                },
+            ],
+            'validate-form' => [
+                'class' => 'hipanel\actions\ValidateFormAction',
             ],
         ];
     }
@@ -39,10 +58,5 @@ class ModelController extends CrudController
     public function getBrands()
     {
         return Ref::getList('type,brand');
-    }
-
-    public function getCustumTypes()
-    {
-        return ['server', 'chassis', 'motherboard', 'ram', 'hdd', 'cpu'];
     }
 }

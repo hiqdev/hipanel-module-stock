@@ -56,7 +56,6 @@ class Part extends Model
             ], 'safe', 'on' => 'search'],
             // Create
             [[
-                'id',
                 'partno',
                 'model_id',
                 'serials',

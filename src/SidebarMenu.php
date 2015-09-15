@@ -21,38 +21,33 @@ class SidebarMenu extends \hiqdev\menumanager\Menu
         'after'  => ['hosting', 'servers', 'domains', 'tickets', 'finance', 'clients', 'dashboard'],
     ];
 
-    protected $_items = [
-        'stock' => [
-            'label' => 'Stock',
-            'url'   => ['/stock/model/index'],
-            'icon'  => 'fa-cubes',
-            'items' => [
-                'model' => [
-                    'label' => 'Models',
-                    'url'   => ['/stock/model/index'],
-                ],
-                'part' => [
-                    'label' => 'Parts',
-                    'url'   => ['/stock/part/index'],
-                ],
-                'move' => [
-                    'label' => 'History',
-                    'url'   => ['/stock/move/index'],
-                ],
-                'hwconfig' => [
-                    'label' => 'Config Templates',
-                    'url'   => ['/stock/hwconfig'],
+    public function items()
+    {
+        return [
+            'stock' => [
+                'label'   => Yii::t('app', 'Stock'),
+                'url'     => ['/stock/model/index'],
+                'icon'    => 'fa-cubes',
+                'visible' => function () { return Yii::$app->user->can('support'); },
+                'items' => [
+                    'model' => [
+                        'label' => Yii::t('app', 'Models'),
+                        'url'   => ['/stock/model/index'],
+                    ],
+                    'part' => [
+                        'label' => Yii::t('app', 'Parts'),
+                        'url'   => ['/stock/part/index'],
+                    ],
+                    'move' => [
+                        'label' => Yii::t('app', 'History'),
+                        'url'   => ['/stock/move/index'],
+                    ],
+                    'hwconfig' => [
+                        'label' => Yii::t('app', 'Config Templates'),
+                        'url'   => ['/stock/hwconfig'],
+                    ],
                 ],
             ],
-        ],
-    ];
-
-    public function init()
-    {
-        parent::init();
-        /// XXX quick fix to be redone with 'visible'
-        if (!Yii::$app->user->can('support')) {
-            unset($this->_items['stock']);
-        }
+        ];
     }
 }

@@ -27,7 +27,17 @@ use yii\helpers\Url;
     'model' => reset($models),
     'formId' => 'dynamic-form',
     'formFields' => [
-        'part',
+        'partno',
+        'src_id',
+        'dst_id',
+        'serials',
+        'move_type',
+        'supplier',
+        'order_no',
+        'order_no',
+        'descr',
+        'price',
+        'currency',
     ],
 ]) ?>
 <div class="container-items"><!-- widgetContainer -->

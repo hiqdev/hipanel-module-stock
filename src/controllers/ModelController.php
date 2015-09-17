@@ -3,6 +3,7 @@ namespace hipanel\modules\stock\controllers;
 
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
+use hipanel\modules\stock\models\Model;
 use Yii;
 
 class ModelController extends CrudController
@@ -45,6 +46,21 @@ class ModelController extends CrudController
         ];
     }
 
+    public function actionSubform()
+    {
+        $subFormName = Yii::$app->request->post('subFormName');
+        $itemNumber = Yii::$app->request->post('itemNumber');
+        if ($subFormName) {
+            $validFormNames = $this->getCustomType();
+            if (in_array($subFormName, $validFormNames)) {
+                return $this->renderAjax('_' . $subFormName, ['model' => new Model(), 'i' => $itemNumber]);
+            } else
+                return '';
+        } else
+            return '';
+
+    }
+
     public function getTypes()
     {
         return Ref::getList('type,model');
@@ -58,5 +74,10 @@ class ModelController extends CrudController
     public function getBrands()
     {
         return Ref::getList('type,brand');
+    }
+
+    public function getCustomType()
+    {
+        return ['server', 'chassis', 'motherboard', 'ram', 'hdd', 'cpu'];
     }
 }

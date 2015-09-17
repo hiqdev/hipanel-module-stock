@@ -70,6 +70,25 @@ class Model extends YiiModel
                 'tags',
                 'prop_tags',
                 'props',
+                // Chassis
+                'UNITS_QTY',
+                '35_HDD_QTY',
+                '25_HDD_QTY',
+                // Server
+                'units_qty',
+                '35_hdd_qty',
+                '25_hdd_qty',
+                'ram_qty',
+                'cpu_qty',
+                // CPU
+                // HDD
+                'FORMFACTOR',
+                // Motherboard
+                'RAM_AMOUNT',
+                'RAM_QTY',
+                'CPU_QTY',
+                // RAM
+                'RAM_VOLUME',
             ], 'safe', 'on' => ['create', 'update']],
             // Hide & Show
             ['id', 'required', 'on' => ['mark-hidden-from-user', 'un-mark-hidden-from-user']],
@@ -98,6 +117,8 @@ class Model extends YiiModel
             'model_like' => Yii::t('app', 'Model'),
             'model' => Yii::t('app', 'Model'),
             'profile' => Yii::t('app', 'Group'),
+
+            'RAM_VOLUME' => Yii::t('app', 'RAM volume'),
         ]);
     }
 }

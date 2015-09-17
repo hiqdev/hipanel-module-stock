@@ -110,7 +110,25 @@ class Model extends YiiModel
             'group_like' => Yii::t('app', 'Group'),
             'model_like' => Yii::t('app', 'Model'),
             'profile' => Yii::t('app', 'Group'),
-
+            // Chassis
+            'UNITS_QTY' => Yii::t('app', 'Units'),
+            '35_HDD_QTY' => Yii::t('app', '3.5" HDD'),
+            '25_HDD_QTY' => Yii::t('app', '2.5" HDD'),
+            // Server
+            'units_qty' => Yii::t('app', 'Units'),
+            '35_hdd_qty' => Yii::t('app', '3.5" HDD'),
+            '25_hdd_qty' => Yii::t('app', '2.5" HDD'),
+            'ram_qty' => Yii::t('app', 'RAM slots'),
+            'cpu_qty' => Yii::t('app', 'CPU quantity'),
+            // CPU
+            'prop_tags' => Yii::t('app', 'Prop tags'),
+            // HDD
+            'FORMFACTOR' => Yii::t('app', 'Form factor'),
+            // Motherboard
+            'RAM_AMOUNT' => Yii::t('app', 'Max RAM'),
+            'RAM_QTY' => Yii::t('app', 'RAM slots'),
+            'CPU_QTY' => Yii::t('app', 'CPU sockets'),
+            // RAM
             'RAM_VOLUME' => Yii::t('app', 'RAM volume'),
         ]);
     }

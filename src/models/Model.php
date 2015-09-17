@@ -101,21 +101,14 @@ class Model extends YiiModel
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
-            'id' => Yii::t('app', 'ID'),
-            'last_prices' => Yii::t('app', 'Last price'),
             'partno_like' => Yii::t('app', 'Part No.'),
             'partno' => Yii::t('app', 'Part No.'),
-            'type' => Yii::t('app', 'Type'),
-            'brand' => Yii::t('app', 'Brand'),
             'brand_like' => Yii::t('app', 'Brand'),
             'show_hidden_from_user' => Yii::t('app', 'Show hidden'),
-            'descr' => Yii::t('app', 'Description'),
             'descr_like' => Yii::t('app', 'Description'),
-            'short' => Yii::t('app', 'Short'),
             'short_like' => Yii::t('app', 'Short'),
             'group_like' => Yii::t('app', 'Group'),
             'model_like' => Yii::t('app', 'Model'),
-            'model' => Yii::t('app', 'Model'),
             'profile' => Yii::t('app', 'Group'),
 
             'RAM_VOLUME' => Yii::t('app', 'RAM volume'),

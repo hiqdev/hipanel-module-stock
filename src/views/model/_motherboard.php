@@ -10,7 +10,7 @@ use yii\helpers\Html;
 
 <div class="form-group">
     <label><?= Html::activeLabel($model, 'RAM_QTY')?></label>
-    <?= Html::activeTextInput($model, "[$i][props]RAM_QTY", ['class' => 'form-control']); ?>
+    <?= Html::activeInput('number', $model, "[$i][props]RAM_QTY", ['class' => 'form-control', 'min' => 1, 'max' => 100]); ?>
 </div>
 
 <div class="form-group">

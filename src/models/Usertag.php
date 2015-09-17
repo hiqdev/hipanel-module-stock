@@ -30,8 +30,6 @@ class Usertag extends Model
      */
     public function attributeLabels()
     {
-        return [
-            'id' => Yii::t('app', 'ID'),
-        ];
+        return $this->mergeAttributeLabels([]);
     }
 }

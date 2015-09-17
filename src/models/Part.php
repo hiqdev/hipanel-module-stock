@@ -104,22 +104,17 @@ class Part extends Model
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
-            'id' => Yii::t('app', 'ID'),
             'partno' => Yii::t('app', 'Part No.'),
             'partno_like' => Yii::t('app', 'Part No.'),
-            'type' => Yii::t('app', 'Type'),
             'brand' => Yii::t('app', 'Manufacturer'),
             'model_brands' => Yii::t('app', 'Brand'),
-            'serial' => Yii::t('app', 'Serial'),
             'serial_like' => Yii::t('app', 'Serial'),
-            'last_move' => Yii::t('app', 'Last move'),
             'move_type_label' => Yii::t('app', 'Move type'),
             'move_time' => Yii::t('app', 'Time'),
             'order_data' => Yii::t('app', 'Order'),
             'order_data_like' => Yii::t('app', 'Order'),
             'model_types' => Yii::t('app', 'Type'),
             'move_descr_like' => Yii::t('app', 'Move description'),
-            'descr' => Yii::t('app', 'Description'),
             'order_no' => Yii::t('app', 'Order'),
             'src_id' => Yii::t('app', 'Source'),
             'dst_id' => Yii::t('app', 'Destination'),

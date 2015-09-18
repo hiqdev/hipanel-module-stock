@@ -20,6 +20,9 @@ class ModelController extends CrudController
                     ];
                 },
             ],
+            'view' => [
+                'class' => 'hipanel\actions\ViewAction',
+            ],
             'create' => [
                 'class' => 'hipanel\actions\SmartCreateAction',
                 'success' => Yii::t('app', 'Model was created'),

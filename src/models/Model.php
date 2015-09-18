@@ -90,6 +90,16 @@ class Model extends YiiModel
                 // RAM
                 'RAM_VOLUME',
             ], 'safe', 'on' => ['create', 'update']],
+            [[
+                'type',
+                'brand',
+                'model',
+                'partno',
+            ], 'required', 'on' => ['create']],
+            [[
+                'model',
+                'partno',
+            ], 'required', 'on' => ['update']],
             // Hide & Show
             ['id', 'required', 'on' => ['mark-hidden-from-user', 'un-mark-hidden-from-user']],
         ];

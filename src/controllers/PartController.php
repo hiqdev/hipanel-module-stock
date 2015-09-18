@@ -21,6 +21,16 @@ class PartController extends CrudController
                     ];
                 },
             ],
+            'view' => [
+                'class' => 'hipanel\actions\ViewAction',
+//                'findOptions' => ['with_dns' => 1],
+//                'data' => function ($action) {
+//                    return [
+//                        'domainContactInfo' => Domain::perform('GetContactsInfo', ['id' => $action->getId()]),
+//                        'pincodeModel' => new DynamicModel(['pincode']),
+//                    ];
+//                },
+            ],
             'create' => [
                 'class' => 'hipanel\actions\SmartCreateAction',
                 'success' => Yii::t('app', 'Part was created'),

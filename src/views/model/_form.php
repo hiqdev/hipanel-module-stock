@@ -140,7 +140,7 @@ JS
                         <!-- /.col-md-4 -->
                         <div class="col-md-4 my-dynamic-content">
                             <?php if (!$model->isNewRecord) : ?>
-                                <?= $this->render('_'.$model->type, ['model' => $model, 'i' => $i]) ?>
+                                <?= $this->render('_' . $model->type, ['model' => $model, 'i' => (int)$i]) ?>
                             <?php endif; ?>
                         </div>
                         <!-- /.col-md-4 -->

@@ -45,6 +45,14 @@ class ModelController extends CrudController
                     ];
                 },
             ],
+            'mark-hidden-from-user' => [
+                'class' => 'hipanel\actions\SmartPerformAction',
+                'success' => Yii::t('app', 'Models marked'),
+            ],
+            'un-mark-hidden-from-user' => [
+                'class' => 'hipanel\actions\SmartPerformAction',
+                'success' => Yii::t('app', 'Models marked'),
+            ],
             'validate-form' => [
                 'class' => 'hipanel\actions\ValidateFormAction',
             ],

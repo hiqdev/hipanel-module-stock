@@ -27,8 +27,8 @@ $this->breadcrumbs->setItems([
 <?php $box->endActions() ?>
 <?php $box->renderBulkActions([
     'items' => [
-        $box->renderBulkButton(Yii::t('app', 'Show for users'), Url::to('@part/un-mark-hidden-from-user')),
-        $box->renderBulkButton(Yii::t('app', 'Hide from users'), Url::to('@part/mark-hidden-from-user')),
+        $box->renderBulkButton(Yii::t('app', 'Show for users'), Url::to('@model/un-mark-hidden-from-user')),
+        $box->renderBulkButton(Yii::t('app', 'Hide from users'), Url::to('@model/mark-hidden-from-user')),
         $box->renderBulkButton(Yii::t('app', 'Update'), Url::to('@model/update')),
     ],
 ]) ?>

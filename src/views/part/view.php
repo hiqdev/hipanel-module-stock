@@ -1,11 +1,10 @@
 <?php
 
-use common\components\Lang;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\widgets\Box;
 use yii\helpers\Html;
 
-$this->title    = Html::encode(sprintf('%s %s %s #%s', Lang::t($model->model_type_label), Lang::t($model->model_brand_label), $model->partno, $model->serial));
+$this->title    = Html::encode(sprintf('%s %s %s #%s', $model->model_type_label, $model->model_brand_label, $model->partno, $model->serial));
 $this->subtitle = Yii::t('app','Part details') . ' ' . $this->title;
 $this->breadcrumbs->setItems([
     ['label' => Yii::t('app', 'Parts'), 'url' => ['index']],
@@ -30,7 +29,7 @@ $this->breadcrumbs->setItems([
             <span class="profile-user-role"><?= $model->type ?></span>
             <br>
             <span class="profile-user-name">
-                <?= Lang::t($model->model_type_label) . ' ' . Lang::t($model->model_brand_label . '<br>' . $model->partno . ' ' . $model->serial); ?>
+                <?= $model->model_type_label . ' ' . $model->model_brand_label . '<br>' . $model->partno . ' ' . $model->serial; ?>
             </span>
         </p>
         <div class="profile-usermenu">

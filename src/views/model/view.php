@@ -1,11 +1,10 @@
 <?php
 
-use common\components\Lang;
 use hipanel\modules\stock\grid\ModelGridView;
 use hipanel\widgets\Box;
 use yii\helpers\Html;
 
-$this->title = Html::encode(sprintf('%s %s %s', $model->type, Lang::t($model->brand_label), $model->model));
+$this->title = Html::encode(sprintf('%s %s %s', $model->type, $model->brand_label, $model->model));
 $this->subtitle = Yii::t('app', 'Model details') . ' ' . $this->title;
 $this->breadcrumbs->setItems([
     ['label' => Yii::t('app', 'Models'), 'url' => ['index']],
@@ -29,7 +28,7 @@ $this->breadcrumbs->setItems([
         <p class="text-center">
             <span class="profile-user-role"><?= $model->type ?></span>
             <br>
-            <span class="profile-user-name"><?= Lang::t($model->brand_label) . ' ' . $model->model; ?></span>
+            <span class="profile-user-name"><?= $model->brand_label . ' ' . $model->model; ?></span>
         </p>
         <div class="profile-usermenu">
             <ul class="nav">

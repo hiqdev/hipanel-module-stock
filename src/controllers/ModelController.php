@@ -12,7 +12,8 @@ class ModelController extends CrudController
     {
         return [
             'index' => [
-                'class' => 'hipanel\actions\IndexAction',
+                'class' => 'hipanel\actions\IndexAction', // with_counters
+                'findOptions' => ['with_counters' => 1],
                 'data' => function ($action) {
                     return [
                         'types' => $action->controller->getTypes(),
@@ -22,6 +23,7 @@ class ModelController extends CrudController
             ],
             'view' => [
                 'class' => 'hipanel\actions\ViewAction',
+                'findOptions' => ['with_counters' => 1],
             ],
             'create' => [
                 'class' => 'hipanel\actions\SmartCreateAction',

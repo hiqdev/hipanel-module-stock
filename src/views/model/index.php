@@ -1,9 +1,9 @@
 <?php
 use hipanel\helpers\Url;
 use hipanel\modules\stock\grid\ModelGridView;
+use hipanel\modules\stock\models\Model;
 use hipanel\widgets\ActionBox;
 use hipanel\widgets\Pjax;
-use yii\bootstrap\Dropdown;
 
 $this->title = Yii::t('app', 'Models');
 $this->subtitle = Yii::t('app', array_filter(Yii::$app->request->get($model->formName(), [])) ? 'filtered list' : 'full list');
@@ -43,9 +43,11 @@ $this->breadcrumbs->setItems([
         'type',
         'brand',
         'model',
-
-        'partno',
         'descr',
+        'partno',
+        'dtg',
+        'sdg',
+        'm3',
         'last_prices',
         'actions',
     ],

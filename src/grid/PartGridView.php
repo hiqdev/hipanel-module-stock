@@ -5,8 +5,6 @@ namespace hipanel\modules\stock\grid;
 use common\components\Lang;
 use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
-use hipanel\modules\stock\controllers\PartController;
-use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
 

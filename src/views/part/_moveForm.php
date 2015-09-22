@@ -2,7 +2,7 @@
 
 use hipanel\helpers\Url;
 use hipanel\widgets\Box;
-use wbraganca\dynamicform\DynamicFormWidget;
+use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 $scenario = $this->context->action->scenario;

@@ -3,7 +3,7 @@ use hipanel\helpers\Url;
 use hipanel\modules\stock\widgets\combo\ModelProfileCombo;
 use hipanel\modules\stock\widgets\combo\UsertagCombo;
 use hipanel\widgets\Box;
-use wbraganca\dynamicform\DynamicFormWidget;
+use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\web\JsExpression;

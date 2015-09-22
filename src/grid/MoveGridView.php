@@ -2,7 +2,6 @@
 
 namespace hipanel\modules\stock\grid;
 
-use common\components\Lang;
 use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
 use Yii;
@@ -23,7 +22,7 @@ class MoveGridView extends BoxedGridView
                 'enableSorting' => false,
                 'filter' => false,
                 'value' => function ($model) {
-                    return sprintf('%s&nbsp;←&nbsp;%s', $model->dst_name, Lang::t($model->src_name));
+                    return sprintf('%s&nbsp;←&nbsp;%s', $model->dst_name, $model->src_name);
                 }
             ],
             'descr' => [

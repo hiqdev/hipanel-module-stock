@@ -4,7 +4,9 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\Model as YiiModel;
 use hipanel\base\ModelTrait;
+use hipanel\models\Ref;
 use Yii;
+use yii\helpers\Html;
 
 class Model extends YiiModel
 {
@@ -54,6 +56,12 @@ class Model extends YiiModel
                 'tariff_id',
                 'show_system',
                 'show_hidden_from_user',
+                'dcs',
+                'counters',
+
+                'dtg',
+                'sdg',
+                'm3',
             ], 'safe'],
             // Create & Update
             [[
@@ -140,6 +148,44 @@ class Model extends YiiModel
             'CPU_QTY' => Yii::t('app', 'CPU sockets'),
             // RAM
             'RAM_VOLUME' => Yii::t('app', 'RAM volume'),
+            'dcs' => 'DCS',
+            // ---
+            'dtg' => Yii::t('app', 'USA Equinix DC10'),
+            'sdg' => Yii::t('app', 'NL Amsterdam SDG'),
+            'm3' => Yii::t('app', 'NL Amsterdam M3'),
         ]);
+    }
+
+//    public static function getDcs()
+//    {
+//        return Ref::getList('type,dc');
+//    }
+
+    public function getDcs($dc)
+    {
+        $out = '';
+        if ($this['counters'][$dc]['rma']) {
+            $out .= Html::tag('span', $this['counters'][$dc]['rma'], ['class' => 'text-danger']);
+            // '<span style="color: red">' . $this['counters'][$dc]['rma'] . '</span>/';
+        }
+        $stock = $this['counters'][$dc]['stock'] - $this['counters'][$dc]['reserved'];
+        $out .= $stock >= 0 ? $stock : 0;
+        if ($this['counters'][$dc]['reserved']) {
+            $out .= Html::tag('span', '+ ' . $this['counters'][$dc]['reserved'], ['class' => 'text-info']);
+            //echo '+<span style="color: blue">' . $this['counters'][$dc]['reserved'] . '</span>';
+        }
+        return $out;
+    }
+
+    public function showModelPrices ($data, $delimiter = ' / ')
+    {
+        $prices = [];
+        if (is_array($data)) {
+            foreach ($data as $currency => $price) {
+                $prices[] = Yii::$app->formatter->format($price, ['currency', $currency]);
+            }
+            return implode($delimiter, $prices);
+        }
+        return '';
     }
 }

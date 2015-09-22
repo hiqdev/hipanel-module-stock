@@ -2,11 +2,8 @@
 
 namespace hipanel\modules\stock\grid;
 
-use common\components\Lang;
 use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
-use hipanel\modules\stock\controllers\PartController;
-use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
 
@@ -18,7 +15,7 @@ class PartGridView extends BoxedGridView
             'main'              => [
                 'label'             => Yii::t('app', 'Type') . ' / ' . Yii::t('app', 'Manufacturer'),
                 'value'             => function($model) {
-                    return sprintf('%s %s', Lang::t($model->model_type_label), Lang::t($model->model_brand_label));
+                    return $model->model_type_label . ' ' . $model->model_brand_label;
                 },
             ],
             'partno'            => [
@@ -40,7 +37,7 @@ class PartGridView extends BoxedGridView
                 'filter'            => false,
                 'format'            => 'html',
                 'value'             => function($model) {
-                    return Yii::t('app', '{0} &nbsp;←&nbsp; {1}', [$model->dst_name, Lang::t($model->src_name)]);
+                    return Yii::t('app', '{0} &nbsp;←&nbsp; {1}', [$model->dst_name, $model->src_name]);
                 },
             ],
             'move_type_label'   => [
@@ -48,7 +45,7 @@ class PartGridView extends BoxedGridView
                 'enableSorting'     => false,
                 'format'            => 'html',
                 'value'             => function($model) {
-                    return Lang::t($model->move_type_label);
+                    return $model->move_type_label;
                 },
             ],
             'move_time'         => [

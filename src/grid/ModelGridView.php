@@ -31,11 +31,38 @@ class ModelGridView extends BoxedGridView
                 'enableSorting' => false,
                 'filterAttribute' => 'descr_like',
             ],
+            'dtg' => [
+                'enableSorting' => false,
+                'filter' => false,
+                'format' => 'raw',
+                'value' => function($model) {
+                    // $out .= Html::tag('span', sprintf('%s: %s', $k, $v), ['class' => 'btn btn-info btn-xs']) . '&nbsp;';
+                    return $model->getDcs('dtg');
+                }
+            ],
+            'sdg' => [
+                'enableSorting' => false,
+                'filter' => false,
+                'format' => 'raw',
+                'value' => function($model) {
+                    // $out .= Html::tag('span', sprintf('%s: %s', $k, $v), ['class' => 'btn btn-info btn-xs']) . '&nbsp;';
+                    return $model->getDcs('sdg');
+                }
+            ],
+            'm3' => [
+                'enableSorting' => false,
+                'filter' => false,
+                'format' => 'raw',
+                'value' => function($model) {
+                    // $out .= Html::tag('span', sprintf('%s: %s', $k, $v), ['class' => 'btn btn-info btn-xs']) . '&nbsp;';
+                    return $model->getDcs('m3');
+                }
+            ],
             'last_prices' => [
                 'enableSorting' => false,
                 'filter' => false,
                 'value' => function($model) {
-                    return 1;
+                    return $model->showModelPrices($model->last_prices);
                 }
             ],
 

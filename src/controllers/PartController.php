@@ -50,12 +50,26 @@ class PartController extends CrudController
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => Yii::t('app', 'Parts was reserved'),
             ],
+            'unreserve' => [
+                'class' => 'hipanel\actions\SmartPerformAction',
+                'success' => Yii::t('app', 'Parts was unreserved'),
+            ],
             'move' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => Yii::t('app', 'Parts was moved'),
                 'data' => function ($action) {
                     return [
                         'moveTypes' => $action->controller->getMoveTypes(),
+                    ];
+                },
+            ],
+            'bulk-move' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
+                'success' => Yii::t('app', 'Parts was moved'),
+                'data' => function ($action) {
+                    return [
+                        'types' => $action->controller->getMoveTypes(),
+                        'remotehands' => $action->controller->getRemotehands(),
                     ];
                 },
             ],
@@ -98,5 +112,10 @@ class PartController extends CrudController
     public function getCurrencyTypes()
     {
         return Ref::getList('type,currency', ['orderby' => 'name_asc']);
+    }
+
+    public function getRemotehands()
+    {
+        return Ref::getList('destination,remotehands', ['orderby' => 'name_asc']);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 use hipanel\widgets\Box;
-use wbraganca\dynamicform\DynamicFormWidget;
+use hipanel\widgets\DynamicFormWidget;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;

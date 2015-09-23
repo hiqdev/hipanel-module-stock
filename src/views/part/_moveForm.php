@@ -1,10 +1,14 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\modules\stock\widgets\combo\DestinationCombo;
+use hipanel\modules\stock\widgets\combo\PartnoCombo;
+use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hipanel\widgets\Box;
-use wbraganca\dynamicform\DynamicFormWidget;
+use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+
 $scenario = $this->context->action->scenario;
 ?>
 <?php $form = ActiveForm::begin([
@@ -40,12 +44,66 @@ $scenario = $this->context->action->scenario;
             <?php Box::begin() ?>
             <div class="row">
                 <div class="col-md-12">
-                    <?= $form->field($model, "[$i]partno")->textInput(['readonly' => true]) ?>
-                    <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
-                    <?= $form->field($model, "[$i]dst_id")->textInput(['readonly' => true]) ?>
-                    <?= $form->field($model, "[$i]type")->dropDownList($moveTypes) ?>
-                    <?= $form->field($model, "[$i]remote_ticket")->textInput(['readonly' => true]) ?>
-                    <?= $form->field($model, "[$i]hm_ticket")->textInput(['readonly' => true]) ?>
+                    <?php if ($scenario == 'bulk-move') : ?>
+                        <?php if (is_array($model->parts) || $model->parts instanceof Traversable) : ?>
+                            <?php foreach ($model->parts as $part_id => $part) : ?>
+                                <?php $ids[] = $part_id; ?>
+                                <div><?= $part['partno'] ?> : <?= $part['serial'] ?></div>
+                            <?php endforeach; ?>
+                            <?= Html::activeHiddenInput($model, "[$i]ids", ['value' => $ids]); ?>
+                        <?php endif; ?>
+                    <?php else : ?>
+                        <?= Html::activeHiddenInput($model, "[$i]ids", ['value' => $model->id]); ?>
+                        <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::className(), [
+                            'inputOptions' => [
+                                'disabled' => true,
+                                'readonly' => true
+                            ]
+                        ]) ?>
+                        <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true, 'disabled' => 'disabled']) ?>
+                    <?php endif; ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::className(), [
+                                'inputOptions' => [
+                                    'disabled' => true,
+                                    'readonly' => true
+                                ]
+                            ]) ?>
+                        </div>
+                        <!-- /.col-md-6 -->
+                        <div class="col-md-6">
+                            <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::className()) ?>
+                        </div>
+                        <!-- /.col-md-6 -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($model, "[$i]type")->dropDownList($types) ?>
+                        </div>
+                        <!-- /.col-md-6 -->
+                        <div class="col-md-6">
+                            <?= $form->field($model, "[$i]remotehands")->dropDownList($remotehands) ?>
+                        </div>
+                        <!-- /.col-md-6 -->
+                    </div>
+                    <!-- /.row -->
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($model, "[$i]remote_ticket")->textInput() ?>
+                        </div>
+                        <!-- /.col-md-6 -->
+                        <div class="col-md-6">
+                            <?= $form->field($model, "[$i]hm_ticket")->textInput() ?>
+                        </div>
+                        <!-- /.col-md-6 -->
+                    </div>
+                    <!-- /.row -->
+
+                    <?= $form->field($model, "[$i]descr")->textarea() ?>
                 </div>
                 <!-- /.col-md-12 -->
             </div>

@@ -3,7 +3,7 @@ use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hipanel\widgets\Box;
-use wbraganca\dynamicform\DynamicFormWidget;
+use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -55,10 +55,8 @@ use yii\helpers\Url;
                 <div class="col-lg-offset-10 col-sm-2 text-right">
                     <?php if ($model->isNewRecord) : ?>
                         <div class="btn-group">
-                            <button type="button" class="add-item btn btn-default btn-sm"><i
-                                    class="glyphicon glyphicon-plus"></i></button>
-                            <button type="button" class="remove-item btn btn-default btn-sm"><i
-                                    class="glyphicon glyphicon-minus"></i></button>
+                            <button type="button" class="add-item btn btn-default btn-sm"><i class="glyphicon glyphicon-plus"></i></button>
+                            <button type="button" class="remove-item btn btn-default btn-sm"><i class="glyphicon glyphicon-minus"></i></button>
                         </div>
                         <!-- /.btn-group -->
                     <?php endif; ?>

@@ -88,13 +88,19 @@ class Part extends Model
                 'remotehands',
                 'remote_ticket',
                 'hm_ticket',
+                'parts',
             ], 'safe', 'on' => ['move', 'bulk-move']],
+            [[
+                'src_id',
+                'dst_id',
+                'type',
+            ], 'required', 'on' => ['move']],
             // Reserve / Unreserve
             [[
                 'id',
                 'reserve',
                 'descr',
-            ], 'safe', 'on' => ['reserve', 'un-reserve']],
+            ], 'safe', 'on' => ['reserve', 'unreserve']],
         ];
     }
 

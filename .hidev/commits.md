@@ -4,6 +4,7 @@ hiqdev/hipanel-module-stock commits history
 ## Under development
 
 - Added basics
+    - 4748e2d 2015-09-23 Change class for move action (andreyklochok@gmail.com)
     - 5a3d49b 2015-09-23 fixed un-reserve <- UnReserve (sol@hiqdev.com)
     - cc7129e 2015-09-23 Fix bulk actions, add iCheck shiw hidden button (andreyklochok@gmail.com)
     - a49b3da 2015-09-22 Try to fix SmartPerformAction (andreyklochok@gmail.com)

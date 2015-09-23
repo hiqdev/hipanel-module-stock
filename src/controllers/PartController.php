@@ -59,7 +59,8 @@ class PartController extends CrudController
                 'success' => Yii::t('app', 'Parts was moved'),
                 'data' => function ($action) {
                     return [
-                        'moveTypes' => $action->controller->getMoveTypes(),
+                        'types' => $action->controller->getMoveTypes(),
+                        'remotehands' => $action->controller->getRemotehands(),
                     ];
                 },
             ],

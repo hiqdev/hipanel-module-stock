@@ -2,7 +2,6 @@
 
 namespace hipanel\modules\stock\widgets\combo;
 
-use common\components\Lang;
 use hiqdev\combo\Combo;
 
 class SourceCombo extends Combo

@@ -109,7 +109,7 @@ class Model extends YiiModel
                 'partno',
             ], 'required', 'on' => ['update']],
             // Hide & Show
-            ['id', 'required', 'on' => ['mark-hidden-from-user', 'un-mark-hidden-from-user']],
+            ['id', 'required', 'on' => ['mark-hidden-from-user', 'unmark-hidden-from-user']],
         ];
     }
 

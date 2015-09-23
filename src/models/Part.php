@@ -100,7 +100,7 @@ class Part extends Model
                 'id',
                 'reserve',
                 'descr',
-            ], 'safe', 'on' => ['reserve', 'UnReserve']],
+            ], 'safe', 'on' => ['reserve', 'un-reserve']],
         ];
     }
 

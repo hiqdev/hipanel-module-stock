@@ -50,7 +50,7 @@ class PartController extends CrudController
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => Yii::t('app', 'Parts was reserved'),
             ],
-            'un-reserve' => [
+            'unreserve' => [
                 'class' => 'hipanel\actions\SmartPerformAction',
                 'success' => Yii::t('app', 'Parts was unreserved'),
             ],

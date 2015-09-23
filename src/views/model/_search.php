@@ -1,6 +1,17 @@
 <?php
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
+use hiqdev\assets\icheck\iCheckAsset;
 use hiqdev\combo\StaticCombo;
+
+iCheckAsset::register($this);
+
+$this->registerJs("jQuery('.field-modelsearch-show_hidden_from_user input[type=checkbox]').iCheck({
+    checkboxClass: 'icheckbox_minimal-blue',
+    radioClass: 'iradio_flat',
+    increaseArea: '20%' // optional
+});");
+
+$this->registerCss('.field-modelsearch-show_hidden_from_user { margin-top: 45px; }');
 ?>
 
 <div class="col-md-3">
@@ -36,7 +47,7 @@ use hiqdev\combo\StaticCombo;
 <!-- /.col-md-3 -->
 <div class="col-md-3">
     <?= $search->field('group_like') ?>
-    <?= $search->field('show_hidden_from_user')->widget(StaticCombo::classname(), [
+    <?php /* = $search->field('show_hidden_from_user')->widget(StaticCombo::classname(), [
         'data' => [
             '0' => Yii::t('app', 'Hide hidden'),
             '1' => Yii::t('app', 'Show hidden'),
@@ -47,6 +58,8 @@ use hiqdev\combo\StaticCombo;
                 'multiple' => false,
             ],
         ],
-    ]) ?>
+    ]) */ ?>
+
+    <?= $search->field('show_hidden_from_user')->checkbox(); ?>
 </div>
 <!-- /.col-md-3 -->

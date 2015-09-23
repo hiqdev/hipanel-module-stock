@@ -64,7 +64,7 @@ class PartController extends CrudController
                 },
             ],
             'bulk-move' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => 'hipanel\actions\SmartCreateAction',
                 'success' => Yii::t('app', 'Parts was moved'),
                 'data' => function ($action) {
                     return [

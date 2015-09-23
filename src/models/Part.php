@@ -4,6 +4,7 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\Model;
 use hipanel\base\ModelTrait;
+use hipanel\helpers\ArrayHelper;
 use hipanel\helpers\StringHelper;
 use Yii;
 
@@ -137,5 +138,29 @@ class Part extends Model
             $result[] = StringHelper::getCurrencySymbol($code);
         }
         return $result;
+    }
+
+    /**
+     * Group all results by dst_id
+     *
+     * @param array $models
+     * @return array
+     */
+    public static function groupMoveBulkElements(array $models = [])
+    {
+        $grouped_models = [];
+//        foreach ($models as $k => $model) {
+//            if (!$model->dst_id) {
+//                $model->dst_id = ArrayHelper::getValues($model, ['src_id', 'dst_id', 'src_name', 'dst_name']);
+//            }
+//            $grouped_models[$model['dst_id']]['parts'][$model->id] = [
+//                'id'        => $model->id,
+//                'serial'    => $model['serial'],
+//                'partno'    => $model['partno']
+//            ];
+//            $grouped_models[$k] = $model;
+//        }
+
+        return $grouped_models;
     }
 }

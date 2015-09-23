@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
@@ -10,6 +11,9 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 $scenario = $this->context->action->scenario;
+//$models = ($scenario == 'bulk-move') ? Part::groupMoveBulkElements($models) : $models;
+
+
 ?>
 <?php $form = ActiveForm::begin([
     'id' => 'dynamic-form',
@@ -30,7 +34,14 @@ $scenario = $this->context->action->scenario;
     'model' => reset($models),
     'formId' => 'dynamic-form',
     'formFields' => [
-        'part'
+        'ids',
+        'src_id',
+        'dst_id',
+        'type',
+        'descr',
+        'remotehands',
+        'remote_ticket',
+        'hm_ticket',
     ],
 ]) ?>
 <div class="container-items">
@@ -38,7 +49,9 @@ $scenario = $this->context->action->scenario;
         <?php
         // necessary for update action.
         $model->scenario = $scenario;
-        print Html::activeHiddenInput($model, "[$i]id");
+        if ($scenario == 'update' || $scenario == 'move') {
+            print Html::activeHiddenInput($model, "[$i]id");
+        }
         ?>
         <div class="item">
             <?php Box::begin() ?>

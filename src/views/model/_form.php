@@ -7,17 +7,20 @@ use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\web\JsExpression;
+use yii\web\View;
 
 if (reset($models)->isNewRecord) {
     $dynamicUrl = Url::to('@model/subform');
     $this->registerJs(<<< JS
         // Ajax form by type
-        jQuery('[data-field=type]').change(function() {
-            var subFornName = jQuery(this).val(), itemNumber = jQuery(this).data('number');
-            var loading = '<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>';
-            jQuery('.l-box').append(loading);
-            jQuery( ".my-dynamic-content" ).load( '{$dynamicUrl}', {'subFormName': subFornName, 'itemNumber': itemNumber}, function (response, status, xhr) {
-                jQuery('.overlay').remove();
+        jQuery( document ).on('change', 'input.type-element', function(event) {
+            var anchorItem = jQuery(this).closest('.item');
+            var subFornName = jQuery(this).val();
+            var itemNumber = jQuery(this).attr('id').charAt(6);
+            var loadingHtml = '<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>';
+            anchorItem.find('.l-box').append(loadingHtml);
+            anchorItem.find( ".my-dynamic-content" ).load( '{$dynamicUrl}', {'subFormName': subFornName, 'itemNumber': itemNumber}, function (response, status, xhr) {
+                anchorItem.find('.overlay').remove();
                 if ( status == "error" ) {
                     var msg = "Sorry but there was an error";
                     console.log(msg);
@@ -25,8 +28,9 @@ if (reset($models)->isNewRecord) {
             });
         });
 JS
-    );
+, View::POS_READY);
 }
+
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -89,7 +93,7 @@ JS
                                         'hasId' => true,
                                         'data' => $types,
                                         'inputOptions' => array_merge(
-                                            ['data-field' => 'type', 'data-number' => $i],
+                                            ['class' => 'type-element'],
                                             (!$model->isNewRecord) ? ['readonly' => 'readonly'] : []),
                                     ]) ?>
                                 </div>

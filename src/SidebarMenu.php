@@ -43,8 +43,9 @@ class SidebarMenu extends \hiqdev\menumanager\Menu
                         'url'   => ['/stock/move/index'],
                     ],
                     'hwconfig' => [
-                        'label' => Yii::t('app', 'Config Templates'),
-                        'url'   => ['/stock/hwconfig'],
+                        'label'   => Yii::t('app', 'Config Templates'),
+                        'url'     => ['/stock/hwconfig'],
+                        'visible' => false,
                     ],
                 ],
             ],

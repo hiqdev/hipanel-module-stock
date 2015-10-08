@@ -12,10 +12,14 @@ class MoveGridView extends BoxedGridView
     public static function defaultColumns()
     {
         return [
+            'date' => [
+                'attribute'     => 'time',
+                'filter'        => false,
+                'format'        => 'date',
+            ],
             'time' => [
-                'filter' => false,
-                'format' => ['date', 'php:medium'],
-                'sortAttribute' => 'time',
+                'filter'        => false,
+                'format'        => 'datetime',
             ],
             'move' => [
                 'format' => 'html',

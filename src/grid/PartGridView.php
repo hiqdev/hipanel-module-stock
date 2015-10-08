@@ -50,7 +50,13 @@ class PartGridView extends BoxedGridView
             ],
             'move_time'         => [
                 'filter'            => false,
-                'format'            => ['date', 'php:medium'],
+                'format'            => 'datetime',
+                'sortAttribute'     => 'time',
+            ],
+            'move_date'         => [
+                'attribute'         => 'move_time',
+                'filter'            => false,
+                'format'            => 'date',
                 'sortAttribute'     => 'time',
             ],
             'order_data'        => [

@@ -52,7 +52,7 @@ $this->breadcrumbs->setItems([
         'last_move',
         'move_type_label',
 
-        'move_time',
+        'move_date',
         'order_data',
         'DC_ticket_ID',
 

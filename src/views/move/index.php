@@ -36,7 +36,7 @@ $this->breadcrumbs->setItems([
     'columns' => [
         'checkbox',
         'client',
-        'time',
+        'date',
         'move',
         'descr',
         'data',

@@ -33,7 +33,7 @@ class PartController extends CrudController
             ],
             'create' => [
                 'class' => 'hipanel\actions\SmartCreateAction',
-                'success' => Yii::t('app', 'Part was created'),
+                'success' => Yii::t('app', 'Part were created'),
                 'data' => function ($action) {
                     return [
                         'moveTypes' => $action->controller->getMoveTypes(),
@@ -44,19 +44,19 @@ class PartController extends CrudController
             ],
             'update' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
-                'success' => Yii::t('app', 'Part was updated'),
+                'success' => Yii::t('app', 'Part were updated'),
             ],
             'reserve' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
-                'success' => Yii::t('app', 'Parts was reserved'),
+                'success' => Yii::t('app', 'Parts were reserved'),
             ],
             'unreserve' => [
                 'class' => 'hipanel\actions\SmartPerformAction',
-                'success' => Yii::t('app', 'Parts was unreserved'),
+                'success' => Yii::t('app', 'Parts were unreserved'),
             ],
             'move' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
-                'success' => Yii::t('app', 'Parts was moved'),
+                'success' => Yii::t('app', 'Parts were moved'),
                 'data' => function ($action) {
                     return [
                         'types' => $action->controller->getMoveTypes(),
@@ -66,7 +66,7 @@ class PartController extends CrudController
             ],
             'bulk-move' => [
                 'class' => 'hipanel\actions\SmartCreateAction',
-                'success' => Yii::t('app', 'Parts was moved'),
+                'success' => Yii::t('app', 'Parts were moved'),
                 'data' => function ($action) {
                     return [
                         'types' => $action->controller->getMoveTypes(),

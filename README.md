@@ -1,10 +1,10 @@
 Stock Module for Hipanel
-------------------------
+========================
 
 Stock Module for Hipanel
 
-[![Latest Stable Version](https://poser.pugx.org/hiqdev/hipanel-module-stock/v/stable.png)](https://packagist.org/packages/hiqdev/hipanel-module-stock)
-[![Total Downloads](https://poser.pugx.org/hiqdev/hipanel-module-stock/downloads.png)](https://packagist.org/packages/hiqdev/hipanel-module-stock)
+[![Latest Stable Version](https://poser.pugx.org/hiqdev/hipanel-module-stock/v/stable)](//packagist.org/packages/hiqdev/hipanel-module-stock)
+[![Total Downloads](https://poser.pugx.org/hiqdev/hipanel-module-stock/downloads)](//packagist.org/packages/hiqdev/hipanel-module-stock)
 
 ## Installation
 
@@ -24,8 +24,9 @@ or add
 
 to the require section of your composer.json.
 
-## Licence
+## License
 
-[BSD-3-Clause](http://choosealicense.com/licenses/bsd-3-clause)
+This project is released under the terms of the BSD-3-Clause [license](https://github.com/hiqdev/hipanel-module-stock/blob/master/LICENSE).
+Read more [here](http://choosealicense.com/licenses/bsd-3-clause).
 
-Copyright © 2015, HiQDev (https://hiqdev.com/)
+Copyright © 2015, HiQDev (http://hiqdev.com/)

@@ -4,6 +4,11 @@ hiqdev/hipanel-module-stock commits history
 ## Under development
 
 - Added basics
+    - ac54fa2 2015-10-09 Fixed spelling (d.naumenko.a@gmail.com)
+    - 395d708 2015-10-08 improved date/time displaying for parts and moves (sol@hiqdev.com)
+    - 8dbb05d 2015-10-08 hidden HwConfig menu item (sol@hiqdev.com)
+    - a28e1cd 2015-09-24 Fix JS in Model form (andreyklochok@gmail.com)
+    - dc36cb5 2015-09-23 Fix move action (andreyklochok@gmail.com)
     - 4748e2d 2015-09-23 Change class for move action (andreyklochok@gmail.com)
     - 5a3d49b 2015-09-23 fixed un-reserve <- UnReserve (sol@hiqdev.com)
     - cc7129e 2015-09-23 Fix bulk actions, add iCheck shiw hidden button (andreyklochok@gmail.com)

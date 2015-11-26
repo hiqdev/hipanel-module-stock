@@ -160,7 +160,7 @@ JS
 <?php Box::begin(['options' => ['class' => 'box-solid']]) ?>
     <div class="row">
         <div class="col-md-12 no">
-            <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-default']) ?>
+            <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
             &nbsp;
             <?= Html::button(Yii::t('app', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
         </div>

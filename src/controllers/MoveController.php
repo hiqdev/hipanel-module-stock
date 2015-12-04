@@ -1,6 +1,8 @@
 <?php
 namespace hipanel\modules\stock\controllers;
 
+use hipanel\actions\IndexAction;
+use hipanel\actions\SmartPerformAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
 use Yii;
@@ -11,7 +13,7 @@ class MoveController extends CrudController
     {
         return [
             'index' => [
-                'class' => 'hipanel\actions\IndexAction',
+                'class' => IndexAction::class,
                 'data' => function ($action) {
                     return [
                         'types' => $action->controller->getTypes(),
@@ -20,7 +22,7 @@ class MoveController extends CrudController
                 },
             ],
             'delete' => [
-                'class' => 'hipanel\actions\SmartPerformAction',
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t('app', 'Deleted'),
             ],
         ];

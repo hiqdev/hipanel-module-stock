@@ -1,6 +1,12 @@
 <?php
 namespace hipanel\modules\stock\controllers;
 
+use hipanel\actions\IndexAction;
+use hipanel\actions\SmartCreateAction;
+use hipanel\actions\SmartPerformAction;
+use hipanel\actions\SmartUpdateAction;
+use hipanel\actions\ValidateFormAction;
+use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
 use hipanel\modules\stock\models\Model;
@@ -12,7 +18,7 @@ class ModelController extends CrudController
     {
         return [
             'index' => [
-                'class' => 'hipanel\actions\IndexAction', // with_counters
+                'class' => IndexAction::class, // with_counters
                 'findOptions' => ['with_counters' => 1],
                 'data' => function ($action) {
                     return [
@@ -22,11 +28,11 @@ class ModelController extends CrudController
                 },
             ],
             'view' => [
-                'class' => 'hipanel\actions\ViewAction',
+                'class' => ViewAction::class,
                 'findOptions' => ['with_counters' => 1],
             ],
             'create' => [
-                'class' => 'hipanel\actions\SmartCreateAction',
+                'class' => SmartCreateAction::class,
                 'success' => Yii::t('app', 'Model was created'),
                 'data' => function ($action) {
                     return [
@@ -36,7 +42,7 @@ class ModelController extends CrudController
                 },
             ],
             'update' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => Yii::t('app', 'Model was updated'),
                 'data' => function ($action) {
                     return [
@@ -46,15 +52,15 @@ class ModelController extends CrudController
                 },
             ],
             'mark-hidden-from-user' => [
-                'class' => 'hipanel\actions\SmartPerformAction',
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t('app', 'Models marked'),
             ],
             'unmark-hidden-from-user' => [
-                'class' => 'hipanel\actions\SmartPerformAction',
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t('app', 'Models marked'),
             ],
             'validate-form' => [
-                'class' => 'hipanel\actions\ValidateFormAction',
+                'class' => ValidateFormAction::class,
             ],
         ];
     }

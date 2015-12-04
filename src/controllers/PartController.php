@@ -2,6 +2,12 @@
 
 namespace hipanel\modules\stock\controllers;
 
+use hipanel\actions\IndexAction;
+use hipanel\actions\SmartCreateAction;
+use hipanel\actions\SmartPerformAction;
+use hipanel\actions\SmartUpdateAction;
+use hipanel\actions\ValidateFormAction;
+use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
 use Yii;
@@ -12,7 +18,7 @@ class PartController extends CrudController
     {
         return [
             'index' => [
-                'class' => 'hipanel\actions\IndexAction',
+                'class' => IndexAction::class,
                 'data' => function ($action) {
                     return [
                         'types' => $action->controller->getTypes(),
@@ -22,7 +28,7 @@ class PartController extends CrudController
                 },
             ],
             'view' => [
-                'class' => 'hipanel\actions\ViewAction',
+                'class' => ViewAction::class,
 //                'findOptions' => ['with_dns' => 1],
 //                'data' => function ($action) {
 //                    return [
@@ -32,7 +38,7 @@ class PartController extends CrudController
 //                },
             ],
             'create' => [
-                'class' => 'hipanel\actions\SmartCreateAction',
+                'class' => SmartCreateAction::class,
                 'success' => Yii::t('app', 'Part were created'),
                 'data' => function ($action) {
                     return [
@@ -43,19 +49,19 @@ class PartController extends CrudController
                 },
             ],
             'update' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => Yii::t('app', 'Part were updated'),
             ],
             'reserve' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => Yii::t('app', 'Parts were reserved'),
             ],
             'unreserve' => [
-                'class' => 'hipanel\actions\SmartPerformAction',
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t('app', 'Parts were unreserved'),
             ],
             'move' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => Yii::t('app', 'Parts were moved'),
                 'data' => function ($action) {
                     return [
@@ -65,7 +71,7 @@ class PartController extends CrudController
                 },
             ],
             'bulk-move' => [
-                'class' => 'hipanel\actions\SmartCreateAction',
+                'class' => SmartCreateAction::class,
                 'success' => Yii::t('app', 'Parts were moved'),
                 'data' => function ($action) {
                     return [
@@ -75,7 +81,7 @@ class PartController extends CrudController
                 },
             ],
             'validate-form' => [
-                'class' => 'hipanel\actions\ValidateFormAction',
+                'class' => ValidateFormAction::class,
             ],
         ];
     }

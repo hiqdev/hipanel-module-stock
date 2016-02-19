@@ -1,11 +1,20 @@
 package:
-    name:           hipanel-module-stock
-    label:          Hipanel StockModule
-    title:          Stock Module for Hipanel
     type:           yii2-extension
+    name:           hipanel-module-stock
+    title:          Stock Module for Hipanel
+    headline:       HiPanel Stock Module
     keywords:       stock, hipanel, plugin
-    year:           2015
+    namespace:      hipanel\modules\stock
+    description:    |
+        [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
+
+        [HiPanel](http://hipanel.com) is next generation control panel for hosting, domains and more.
+
+        This package provides stock management for HiPanel:
+
+        - models and details
+        - history of orders and movements
 
 require:
-    hiqdev/hidev-config:        "*"
-    hiqdev/hidev-config-php:    "*"
+    hiqdev/hidev-php:    "*"
+    hiqdev/hidev-vendor: "*"

@@ -3,6 +3,9 @@ hiqdev/hipanel-module-stock commits history
 
 ## Under development
 
+    - 9a1d5eb 2016-02-11 Minor fix. Add space between create and advanced search buttons (andreyklochok@gmail.com)
+    - 9c767a1 2015-12-04 Classes notation changed from pathtoClassName to PHP 5.6 ClassName::class (d.naumenko.a@gmail.com)
+    - a174dc1 2015-11-26 Change Save button color (andreyklochok@gmail.com)
 - Added basics
     - ac54fa2 2015-10-09 Fixed spelling (d.naumenko.a@gmail.com)
     - 395d708 2015-10-08 improved date/time displaying for parts and moves (sol@hiqdev.com)

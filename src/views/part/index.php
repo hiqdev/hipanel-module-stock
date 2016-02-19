@@ -1,8 +1,8 @@
 <?php
 use hipanel\helpers\Url;
 use hipanel\modules\stock\grid\PartGridView;
-use hipanel\widgets\Pjax;
 use hipanel\widgets\ActionBox;
+use hipanel\widgets\Pjax;
 
 $this->title = Yii::t('app', 'Parts');
 $this->subtitle = Yii::t('app', array_filter(Yii::$app->request->get($model->formName(), [])) ? 'filtered list' : 'full list');
@@ -25,7 +25,7 @@ $this->breadcrumbs->setItems([
         'partno',
         'model',
         'serial',
-        'time'
+        'time',
     ],
 ]) ?>
 <?= $box->renderPerPage() ?>

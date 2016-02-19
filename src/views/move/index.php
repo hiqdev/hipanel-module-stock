@@ -17,7 +17,7 @@ $this->breadcrumbs->setItems([
 <?= $box->renderSorter([
     'attributes' => [
         'time',
-        'client'
+        'client',
     ],
 ]) ?>
 <?= $box->renderPerPage() ?>

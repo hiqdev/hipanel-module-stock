@@ -46,7 +46,7 @@ use yii\helpers\Url;
         // necessary for update action.
         if (!$model->isNewRecord) {
             $model->setScenario('update');
-            print Html::activeHiddenInput($model, "[$i]id");
+            echo Html::activeHiddenInput($model, "[$i]id");
         }
         ?>
         <div class="item">

@@ -22,7 +22,7 @@ use yii\web\JsExpression;
                 'format' => new JsExpression('function (id, text, field) {
                                             return "type,model,cpu";
                                         }'),
-            ]
+            ],
         ],
     ]) ?>
 </div>

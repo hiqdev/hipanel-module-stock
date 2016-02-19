@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * Stock Module for Hipanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-stock
+ * @package   hipanel-module-stock
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\modules\stock\grid;
 
 use hipanel\grid\ActionColumn;
@@ -27,7 +36,7 @@ class MoveGridView extends BoxedGridView
                 'filter' => false,
                 'value' => function ($model) {
                     return sprintf('%s&nbsp;←&nbsp;%s', $model->dst_name, $model->src_name);
-                }
+                },
             ],
             'descr' => [
                 'format' => 'html',
@@ -35,7 +44,7 @@ class MoveGridView extends BoxedGridView
                 'filter' => false,
                 'value' => function ($model) {
                     return sprintf('<b>%s</b><br>%s', $model->type_label, $model->descr);
-                }
+                },
             ],
             'data' => [
                 'enableSorting' => false,
@@ -52,7 +61,7 @@ class MoveGridView extends BoxedGridView
                         }
                     }
                     return $out;
-                }
+                },
             ],
             'actions' => [
                 'class' => ActionColumn::className(),

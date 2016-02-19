@@ -72,7 +72,7 @@ JS
                             // necessary for update action.
                             if (!$model->isNewRecord) {
                                 $model->setScenario('update');
-                                print Html::activeHiddenInput($model, "[$i]id");
+                                echo Html::activeHiddenInput($model, "[$i]id");
                             }
                             ?>
                             <?php if ($model->isNewRecord) : ?>
@@ -119,7 +119,7 @@ JS
                                         'format' => new JsExpression('function (id, text, field) {
                                             return "type,model," + id;
                                         }'),
-                                    ]
+                                    ],
                                 ],
                             ]) ?>
                             <?= $form->field($model, "[$i]profile")->widget(ModelProfileCombo::className()) ?>
@@ -144,7 +144,7 @@ JS
                         <!-- /.col-md-4 -->
                         <div class="col-md-4 my-dynamic-content">
                             <?php if (!$model->isNewRecord) : ?>
-                                <?= $this->render('_' . $model->type, ['model' => $model, 'i' => (int)$i]) ?>
+                                <?= $this->render('_' . $model->type, ['model' => $model, 'i' => (int) $i]) ?>
                             <?php endif; ?>
                         </div>
                         <!-- /.col-md-4 -->

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * Stock Module for Hipanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-stock
+ * @package   hipanel-module-stock
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\modules\stock\grid;
 
 use hipanel\grid\ActionColumn;
@@ -14,7 +23,7 @@ class PartGridView extends BoxedGridView
         return [
             'main'              => [
                 'label'             => Yii::t('app', 'Type') . ' / ' . Yii::t('app', 'Manufacturer'),
-                'value'             => function($model) {
+                'value'             => function ($model) {
                     return $model->model_type_label . ' ' . $model->model_brand_label;
                 },
             ],
@@ -27,16 +36,16 @@ class PartGridView extends BoxedGridView
                         'attribute'           => $attribute,
                         'formElementSelector' => 'td',
                     ]);
-                }
+                },
             ],
             'serial'            => [
-                'filterAttribute'   => 'serial_like'
+                'filterAttribute'   => 'serial_like',
             ],
             'last_move'         => [
                 'label'             => Yii::t('app', 'Last move'),
                 'filter'            => false,
                 'format'            => 'html',
-                'value'             => function($model) {
+                'value'             => function ($model) {
                     return Yii::t('app', '{0} &nbsp;←&nbsp; {1}', [$model->dst_name, $model->src_name]);
                 },
             ],
@@ -44,7 +53,7 @@ class PartGridView extends BoxedGridView
                 'filter'            => false,
                 'enableSorting'     => false,
                 'format'            => 'html',
-                'value'             => function($model) {
+                'value'             => function ($model) {
                     return $model->move_type_label;
                 },
             ],
@@ -67,19 +76,19 @@ class PartGridView extends BoxedGridView
                 'label'             => Yii::t('app', 'DC ticket ID'),
                 'filter'            => false,
                 'enableSorting'     => false,
-                'value'             => function($model) {
+                'value'             => function ($model) {
                     $out = '';
                     if ($model['move_remote_ticket']) {
-                        $out .= $model['move_remote_ticket'] . "<br>";
+                        $out .= $model['move_remote_ticket'] . '<br>';
                     }
                     if ($model['move_hm_ticket']) {
-                        $out .= $model['move_hm_ticket'] . "<br>";
+                        $out .= $model['move_hm_ticket'] . '<br>';
                     }
                     if ($model['move_remotehands_label']) {
-                        $out .= $model['move_remotehands_label'] . "<br>";
+                        $out .= $model['move_remotehands_label'] . '<br>';
                     }
                     return $out;
-                }
+                },
             ],
             'actions'           => [
                 'class'             => ActionColumn::className(),

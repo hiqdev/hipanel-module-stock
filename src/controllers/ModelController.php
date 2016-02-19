@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * Stock Module for Hipanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-stock
+ * @package   hipanel-module-stock
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\modules\stock\controllers;
 
 use hipanel\actions\IndexAction;
@@ -71,13 +81,14 @@ class ModelController extends CrudController
         $itemNumber = Yii::$app->request->post('itemNumber');
         if ($subFormName) {
             $validFormNames = $this->getCustomType();
-            if (in_array($subFormName, $validFormNames)) {
+            if (in_array($subFormName, $validFormNames, true)) {
                 return $this->renderAjax('_' . $subFormName, ['model' => new Model(), 'i' => $itemNumber]);
-            } else
+            } else {
                 return '';
-        } else
+            }
+        } else {
             return '';
-
+        }
     }
 
     public function getTypes()

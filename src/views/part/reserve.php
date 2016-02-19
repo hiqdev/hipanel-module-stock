@@ -30,7 +30,7 @@ $scenario = $this->context->action->scenario;
     'model' => reset($models),
     'formId' => 'dynamic-form',
     'formFields' => [
-        'part'
+        'part',
     ],
 ]) ?>
 
@@ -39,7 +39,7 @@ $scenario = $this->context->action->scenario;
         <?php
         // necessary for update action.
         $model->scenario = $scenario;
-        print Html::activeHiddenInput($model, "[$i]id");
+        echo Html::activeHiddenInput($model, "[$i]id");
         ?>
         <div class="item">
             <?php Box::begin() ?>

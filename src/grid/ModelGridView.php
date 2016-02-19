@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * Stock Module for Hipanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-stock
+ * @package   hipanel-module-stock
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\modules\stock\grid;
 
 use hipanel\grid\ActionColumn;
@@ -35,35 +45,35 @@ class ModelGridView extends BoxedGridView
                 'enableSorting' => false,
                 'filter' => false,
                 'format' => 'raw',
-                'value' => function($model) {
+                'value' => function ($model) {
                     // $out .= Html::tag('span', sprintf('%s: %s', $k, $v), ['class' => 'btn btn-info btn-xs']) . '&nbsp;';
                     return $model->getDcs('dtg');
-                }
+                },
             ],
             'sdg' => [
                 'enableSorting' => false,
                 'filter' => false,
                 'format' => 'raw',
-                'value' => function($model) {
+                'value' => function ($model) {
                     // $out .= Html::tag('span', sprintf('%s: %s', $k, $v), ['class' => 'btn btn-info btn-xs']) . '&nbsp;';
                     return $model->getDcs('sdg');
-                }
+                },
             ],
             'm3' => [
                 'enableSorting' => false,
                 'filter' => false,
                 'format' => 'raw',
-                'value' => function($model) {
+                'value' => function ($model) {
                     // $out .= Html::tag('span', sprintf('%s: %s', $k, $v), ['class' => 'btn btn-info btn-xs']) . '&nbsp;';
                     return $model->getDcs('m3');
-                }
+                },
             ],
             'last_prices' => [
                 'enableSorting' => false,
                 'filter' => false,
-                'value' => function($model) {
+                'value' => function ($model) {
                     return $model->showModelPrices($model->last_prices);
-                }
+                },
             ],
 
             'actions' => [

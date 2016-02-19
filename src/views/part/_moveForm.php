@@ -13,7 +13,6 @@ use yii\helpers\Html;
 $scenario = $this->context->action->scenario;
 //$models = ($scenario == 'bulk-move') ? Part::groupMoveBulkElements($models) : $models;
 
-
 ?>
 <?php $form = ActiveForm::begin([
     'id' => 'dynamic-form',
@@ -49,15 +48,15 @@ $scenario = $this->context->action->scenario;
         <?php
         // necessary for update action.
         $model->scenario = $scenario;
-        if ($scenario == 'update' || $scenario == 'move') {
-            print Html::activeHiddenInput($model, "[$i]id");
+        if ($scenario === 'update' || $scenario === 'move') {
+            echo Html::activeHiddenInput($model, "[$i]id");
         }
         ?>
         <div class="item">
             <?php Box::begin() ?>
             <div class="row">
                 <div class="col-md-12">
-                    <?php if ($scenario == 'bulk-move') : ?>
+                    <?php if ($scenario === 'bulk-move') : ?>
                         <?php if (is_array($model->parts) || $model->parts instanceof Traversable) : ?>
                             <?php foreach ($model->parts as $part_id => $part) : ?>
                                 <?php $ids[] = $part_id; ?>
@@ -70,8 +69,8 @@ $scenario = $this->context->action->scenario;
                         <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::className(), [
                             'inputOptions' => [
                                 'disabled' => true,
-                                'readonly' => true
-                            ]
+                                'readonly' => true,
+                            ],
                         ]) ?>
                         <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true, 'disabled' => 'disabled']) ?>
                     <?php endif; ?>
@@ -80,8 +79,8 @@ $scenario = $this->context->action->scenario;
                             <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::className(), [
                                 'inputOptions' => [
                                     'disabled' => true,
-                                    'readonly' => true
-                                ]
+                                    'readonly' => true,
+                                ],
                             ]) ?>
                         </div>
                         <!-- /.col-md-6 -->

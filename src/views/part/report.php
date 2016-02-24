@@ -6,7 +6,7 @@ use hipanel\widgets\ActionBox;
 use hipanel\widgets\Pjax;
 
 $this->title = Yii::t('app', 'Parts');
-$this->subtitle = Yii::t('app', array_filter(Yii::$app->request->get($model->formName(), [])) ? 'filtered list' : 'full list');
+$this->subtitle = Yii::t('app', 'Report');
 $this->breadcrumbs->setItems([
     $this->title,
 ]); ?>
@@ -19,24 +19,17 @@ $this->breadcrumbs->setItems([
             <?= $box->renderSorter([
                 'attributes' => [
                     'id',
-                    'type', 'brand',
-                    'model', 'partno', 'serial',
-                    'move_time', 'create_time',
+                    'type',
+                    'brand',
+                    'partno',
+                    'model',
+                    'serial',
+                    'create_time',
+                    'move_time',
                 ],
             ]) ?>
             <?= $box->renderPerPage() ?>
         <?php $box->endActions() ?>
-        <?php $box->renderBulkActions([
-            'items' => [
-                $box->renderBulkButton(Yii::t('app', 'Update'), Url::to('@part/update')),
-                $box->renderBulkButton(Yii::t('app', 'Move'), Url::to('@part/bulk-move')),
-                $box->renderBulkButton(Yii::t('app', 'To move by one'), Url::to('@part/move')),
-                $box->renderBulkButton(Yii::t('app', 'Reserve'), Url::to('@part/reserve')),
-                $box->renderBulkButton(Yii::t('app', 'Unreserve'), Url::to('@part/unreserve')),
-        //        $box->renderBulkButton(Yii::t('app', 'RMA'), Url::to('@part/rma')),
-            ],
-        ]) ?>
-        <?= $box->renderSearchForm(compact(['types', 'locations', 'brands'])) ?>
     <?php $box->end() ?>
     <?php $box->beginBulkForm() ?>
         <?= PartGridView::widget([
@@ -47,14 +40,9 @@ $this->breadcrumbs->setItems([
                 'main',
                 'partno',
                 'serial',
-                'last_move',
-                'move_type_label',
-
-                'move_date',
-                'order_data',
-                'DC_ticket_ID',
-
-                'actions',
+                'create_date',
+                'price',
+                'place',
             ],
         ]) ?>
     <?php $box->endBulkForm() ?>

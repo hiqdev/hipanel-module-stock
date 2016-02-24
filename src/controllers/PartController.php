@@ -36,6 +36,9 @@ class PartController extends CrudController
                     ];
                 },
             ],
+            'report' => [
+                'class' => IndexAction::class,
+            ],
             'view' => [
                 'class' => ViewAction::class,
 //                'findOptions' => ['with_dns' => 1],

@@ -12,6 +12,7 @@
 namespace hipanel\modules\stock\grid;
 
 use hipanel\grid\ActionColumn;
+use hipanel\grid\CurrencyColumn;
 use hipanel\grid\BoxedGridView;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
@@ -60,13 +61,21 @@ class PartGridView extends BoxedGridView
             'move_time'         => [
                 'filter'            => false,
                 'format'            => 'datetime',
-                'sortAttribute'     => 'time',
             ],
             'move_date'         => [
                 'attribute'         => 'move_time',
                 'filter'            => false,
                 'format'            => 'date',
-                'sortAttribute'     => 'time',
+                'sortAttribute'     => 'move_time',
+            ],
+            'create_time' => [
+                'filter'            => false,
+                'format'            => 'datetime',
+            ],
+            'create_date' => [
+                'attribute'         => 'create_time',
+                'filter'            => false,
+                'format'            => 'date',
             ],
             'order_data'        => [
                 'filter'            => false,
@@ -89,6 +98,10 @@ class PartGridView extends BoxedGridView
                     }
                     return $out;
                 },
+            ],
+            'price'        => [
+                'class'             => CurrencyColumn::className(),
+                'filter'            => false,
             ],
             'actions'           => [
                 'class'             => ActionColumn::className(),

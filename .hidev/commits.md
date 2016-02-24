@@ -4,6 +4,8 @@ hiqdev/hipanel-module-stock commits history
 ## Under development
 
 - Added basics
+    - 3b0add2 2016-02-24 added part report (sol@hiqdev.com)
+    - 539d7e6 2016-02-24 minor:retabed (sol@hiqdev.com)
     - 19a6d88 2016-02-19 inited tests (sol@hiqdev.com)
     - c5ac5ae 2016-02-19 phpcsfixed (sol@hiqdev.com)
     - c71cd0c 2016-02-19 rehideved (sol@hiqdev.com)

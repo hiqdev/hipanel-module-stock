@@ -19,10 +19,9 @@ $this->breadcrumbs->setItems([
             <?= $box->renderSorter([
                 'attributes' => [
                     'id',
-                    'type',
-                    'brand',
+                    'model_type',
+                    'model_brand',
                     'partno',
-                    'model',
                     'serial',
                     'create_time',
                     'move_time',
@@ -37,7 +36,7 @@ $this->breadcrumbs->setItems([
             'filterModel' => $model,
             'columns' => [
                 'checkbox',
-                'main',
+                'model_type', 'model_brand',
                 'partno',
                 'serial',
                 'create_date',

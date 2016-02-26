@@ -22,6 +22,22 @@ class PartSearch extends Part
 
     public function searchAttributes()
     {
-        return ArrayHelper::merge($this->defaultSearchAttributes(), []);
+        return ArrayHelper::merge($this->defaultSearchAttributes(), [
+            'partno_like', 'serial_like',
+            'order_data_like', 'move_descr_like',
+            'src_name_like', 'dst_name_like',
+        ]);
+    }
+
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(), [
+            'partno_like'       => Yii::t('app', 'Part No.'),
+            'serial_like'       => Yii::t('app', 'Serial'),
+            'order_data_like'   => Yii::t('app', 'Order'),
+            'move_descr_like'   => Yii::t('app', 'Move description'),
+            'src_name_like'     => Yii::t('app', 'Source'),
+            'dst_name_like'     => Yii::t('app', 'Destination'),
+        ]);
     }
 }

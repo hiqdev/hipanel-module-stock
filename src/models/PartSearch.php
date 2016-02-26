@@ -13,6 +13,7 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\SearchModelTrait;
 use hipanel\helpers\ArrayHelper;
+use Yii;
 
 class PartSearch extends Part
 {
@@ -23,6 +24,7 @@ class PartSearch extends Part
     public function searchAttributes()
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
+            'model_types', 'model_brands',
             'partno_like', 'serial_like',
             'order_data_like', 'move_descr_like',
             'src_name_like', 'dst_name_like',

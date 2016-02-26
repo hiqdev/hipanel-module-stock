@@ -19,8 +19,8 @@ $this->breadcrumbs->setItems([
             <?= $box->renderSorter([
                 'attributes' => [
                     'id',
-                    'type', 'brand',
-                    'model', 'partno', 'serial',
+                    'model_type', 'model_brand',
+                    'partno', 'serial',
                     'move_time', 'create_time',
                 ],
             ]) ?>

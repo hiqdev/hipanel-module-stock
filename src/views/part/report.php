@@ -19,16 +19,14 @@ $this->breadcrumbs->setItems([
             <?= $box->renderSorter([
                 'attributes' => [
                     'id',
-                    'model_type',
-                    'model_brand',
-                    'partno',
-                    'serial',
-                    'create_time',
-                    'move_time',
+                    'model_type', 'model_brand',
+                    'partno', 'serial',
+                    'create_time', 'move_time',
                 ],
             ]) ?>
             <?= $box->renderPerPage() ?>
         <?php $box->endActions() ?>
+        <?= $box->renderSearchForm(compact(['types', 'locations', 'brands'])) ?>
     <?php $box->end() ?>
     <?php $box->beginBulkForm() ?>
         <?= PartGridView::widget([

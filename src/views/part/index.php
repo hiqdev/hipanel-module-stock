@@ -21,7 +21,7 @@ $this->breadcrumbs->setItems([
                     'id',
                     'model_type', 'model_brand',
                     'partno', 'serial',
-                    'move_time', 'create_time',
+                    'create_time', 'move_time',
                 ],
             ]) ?>
             <?= $box->renderPerPage() ?>
@@ -30,10 +30,10 @@ $this->breadcrumbs->setItems([
             'items' => [
                 $box->renderBulkButton(Yii::t('app', 'Update'), Url::to('@part/update')),
                 $box->renderBulkButton(Yii::t('app', 'Move'), Url::to('@part/bulk-move')),
-                $box->renderBulkButton(Yii::t('app', 'To move by one'), Url::to('@part/move')),
+                $box->renderBulkButton(Yii::t('app', 'Move by one'), Url::to('@part/move')),
                 $box->renderBulkButton(Yii::t('app', 'Reserve'), Url::to('@part/reserve')),
                 $box->renderBulkButton(Yii::t('app', 'Unreserve'), Url::to('@part/unreserve')),
-        //        $box->renderBulkButton(Yii::t('app', 'RMA'), Url::to('@part/rma')),
+            //  $box->renderBulkButton(Yii::t('app', 'RMA'), Url::to('@part/rma')),
             ],
         ]) ?>
         <?= $box->renderSearchForm(compact(['types', 'locations', 'brands'])) ?>

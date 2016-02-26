@@ -16,6 +16,7 @@ use hipanel\grid\CurrencyColumn;
 use hipanel\grid\BoxedGridView;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
+use yii\helpers\Html;
 
 class PartGridView extends BoxedGridView
 {
@@ -38,6 +39,12 @@ class PartGridView extends BoxedGridView
                         'formElementSelector' => 'td',
                     ]);
                 },
+            ],
+            'model_type_label' => [
+                'filterAttribute'   => 'model_type_like',
+            ],
+            'model_brand_label' => [
+                'filterAttribute'   => 'model_brand_like',
             ],
             'serial'            => [
                 'filterAttribute'   => 'serial_like',
@@ -101,7 +108,14 @@ class PartGridView extends BoxedGridView
             ],
             'price'        => [
                 'class'             => CurrencyColumn::className(),
-                'filter'            => false,
+                'filterAttribute'   => 'currency',
+                'filter'            => function ($column, $model, $attribute) {
+                    $values = ['usd' => 'USD', 'eur' => 'EUR'];
+                    return Html::activeDropDownList($model, 'currency', $values, [
+                        'class'     => 'form-control',
+                        'prompt'    => Yii::t('app', '----------'),
+                    ]);
+                },
             ],
             'actions'           => [
                 'class'             => ActionColumn::className(),

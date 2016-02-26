@@ -33,7 +33,6 @@ class Part extends Model
                 'src_name',
                 'dst_name',
                 'order_data',
-                'currency_label',
 
                 'id',
                 'dst_ids',

@@ -25,6 +25,7 @@ $this->breadcrumbs->setItems([
                 ],
             ]) ?>
             <?= $box->renderPerPage() ?>
+            <?= $box->renderRepresentation() ?>
         <?php $box->endActions() ?>
         <?php $box->renderBulkActions([
             'items' => [
@@ -42,18 +43,16 @@ $this->breadcrumbs->setItems([
         <?= PartGridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $model,
-            'columns' => [
+            'columns' => $representation=='report' ? [
                 'checkbox',
-                'main',
-                'partno',
-                'serial',
-                'last_move',
-                'move_type_label',
-
-                'move_date',
-                'order_data',
-                'DC_ticket_ID',
-
+                'model_type_label', 'model_brand_label',
+                'partno', 'serial',
+                'create_date', 'price', 'place',
+            ] : [
+                'checkbox',
+                'main', 'partno', 'serial',
+                'last_move', 'move_type_label',
+                'move_date', 'order_data', 'DC_ticket_ID',
                 'actions',
             ],
         ]) ?>

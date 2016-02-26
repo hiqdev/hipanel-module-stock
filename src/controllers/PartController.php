@@ -23,27 +23,21 @@ use Yii;
 
 class PartController extends CrudController
 {
-    public function prepareIndexAction($mode = 'index')
-    {
-    dIe('sdfs');
-        return [
-            'class' => IndexAction::class,
-            'view'  => 'index', 'data'  => function ($action) use ($mode) {
-                return [
-                    'mode' => $mode,
-                    'types' => $action->controller->getTypes(),
-                    'brands' => $action->controller->getBrands(),
-                    'locations' => $action->controller->getLocations(),
-                ];
-            },
-        ];
-    }
-
     public function actions()
     {
         return [
-            'index'  => $this->prepareIndexAction('index'),
-            'report' => $this->prepareIndexAction('report'),
+            'index' => [
+                'class' => IndexAction::class,
+                'view'  => 'index',
+                'data'  => function ($action) {
+                    return [
+                        'types' => $action->controller->getTypes(),
+                        'brands' => $action->controller->getBrands(),
+                        'locations' => $action->controller->getLocations(),
+                        'representation' => Yii::$app->request->get('representation'),
+                    ];
+                },
+            ],
             'view' => [
                 'class' => ViewAction::class,
 //                'findOptions' => ['with_dns' => 1],

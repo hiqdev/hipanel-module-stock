@@ -25,9 +25,11 @@ class PartSearch extends Part
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
             'model_types', 'model_brands',
+            'model_type_like', 'model_brand_like',
             'partno_like', 'serial_like',
             'order_data_like', 'move_descr_like',
             'src_name_like', 'dst_name_like',
+            'create_time_from', 'create_time_till',
         ]);
     }
 

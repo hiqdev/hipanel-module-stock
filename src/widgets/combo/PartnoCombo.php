@@ -22,7 +22,7 @@ class PartnoCombo extends Combo
     public $name = 'partno';
 
     /** {@inheritdoc} */
-    public $url = '/stock/part/index';
+    public $url = '/stock/model/index';
 
     /** {@inheritdoc} */
     public $_return = ['id'];

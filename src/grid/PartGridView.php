@@ -15,6 +15,7 @@ use hipanel\grid\ActionColumn;
 use hipanel\grid\CurrencyColumn;
 use hipanel\grid\BoxedGridView;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
+use hipanel\grid\DataColumn;
 use Yii;
 use yii\helpers\Html;
 
@@ -23,14 +24,14 @@ class PartGridView extends BoxedGridView
     public static function defaultColumns()
     {
         return [
-            'main'              => [
+            'main' => [
                 'label'             => Yii::t('app', 'Type') . ' / ' . Yii::t('app', 'Manufacturer'),
                 'value'             => function ($model) {
                     return $model->model_type_label . ' ' . $model->model_brand_label;
                 },
             ],
-            'partno'            => [
-                'class'             => \hipanel\grid\DataColumn::className(),
+            'partno' => [
+                'class'             => DataColumn::class,
                 'filterAttribute'   => 'partno_like',
                 'filter'            => function ($column, $model, $attribute) {
                     return PartnoCombo::widget([
@@ -46,10 +47,10 @@ class PartGridView extends BoxedGridView
             'model_brand_label' => [
                 'filterAttribute'   => 'model_brand_like',
             ],
-            'serial'            => [
+            'serial' => [
                 'filterAttribute'   => 'serial_like',
             ],
-            'last_move'         => [
+            'last_move' => [
                 'label'             => Yii::t('app', 'Last move'),
                 'filter'            => false,
                 'format'            => 'html',
@@ -57,7 +58,7 @@ class PartGridView extends BoxedGridView
                     return Yii::t('app', '{0} &nbsp;←&nbsp; {1}', [$model->dst_name, $model->src_name]);
                 },
             ],
-            'move_type_label'   => [
+            'move_type_label' => [
                 'filter'            => false,
                 'enableSorting'     => false,
                 'format'            => 'html',
@@ -65,11 +66,11 @@ class PartGridView extends BoxedGridView
                     return $model->move_type_label;
                 },
             ],
-            'move_time'         => [
+            'move_time' => [
                 'filter'            => false,
                 'format'            => 'datetime',
             ],
-            'move_date'         => [
+            'move_date' => [
                 'attribute'         => 'move_time',
                 'filter'            => false,
                 'format'            => 'date',
@@ -84,11 +85,11 @@ class PartGridView extends BoxedGridView
                 'filter'            => false,
                 'format'            => 'date',
             ],
-            'order_data'        => [
+            'order_data' => [
                 'filter'            => false,
                 'enableSorting'     => false,
             ],
-            'DC_ticket_ID'      => [
+            'DC_ticket_ID' => [
                 'label'             => Yii::t('app', 'DC ticket ID'),
                 'filter'            => false,
                 'enableSorting'     => false,
@@ -106,8 +107,8 @@ class PartGridView extends BoxedGridView
                     return $out;
                 },
             ],
-            'price'        => [
-                'class'             => CurrencyColumn::className(),
+            'price' => [
+                'class'             => CurrencyColumn::class,
                 'filterAttribute'   => 'currency',
                 'filter'            => function ($column, $model, $attribute) {
                     $values = ['usd' => 'USD', 'eur' => 'EUR'];
@@ -117,8 +118,8 @@ class PartGridView extends BoxedGridView
                     ]);
                 },
             ],
-            'actions'           => [
-                'class'             => ActionColumn::className(),
+            'actions' => [
+                'class'             => ActionColumn::class,
                 'template'          => '{view} {update}',
                 'header'            => Yii::t('app', 'Actions'),
             ],

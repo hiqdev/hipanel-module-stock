@@ -36,7 +36,7 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
                         'basePath' => '@hipanel/modules/stock/messages',
                         'fileMap' => [
                             'hipanel/stock' => 'stock.php',
-                            'hipanel/model-types' => 'model-types.php',
+                            'hipanel/stock/model-types' => 'model-types.php',
                         ],
                     ],
                 ]

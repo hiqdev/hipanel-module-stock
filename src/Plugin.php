@@ -28,5 +28,18 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
                 'class' => 'hipanel\modules\stock\Module',
             ],
         ],
+        'components' => [
+            'i18n' => [
+                'translations' => [
+                    'hipanel/stock' => [
+                        'class' => 'yii\i18n\PhpMessageSource',
+                        'basePath' => '@hipanel/modules/stock/messages',
+                        'fileMap' => [
+                            'hipanel/stock' => 'stock.php',
+                        ],
+                    ],
+                ],
+            ],
+        ],
     ];
 }

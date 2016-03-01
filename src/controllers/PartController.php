@@ -19,7 +19,11 @@ use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
+use hipanel\modules\stock\models\Part;
+use hipanel\modules\stock\models\PartSearch;
 use Yii;
+use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 class PartController extends CrudController
 {
@@ -95,6 +99,17 @@ class PartController extends CrudController
                 'class' => ValidateFormAction::class,
             ],
         ];
+    }
+
+    /**
+     * @param integer $id
+     * @return string
+     */
+    public function actionRenderObjectParts($id)
+    {
+        $parts = Part::find(['dst_id' => $id])->all();
+        $data = ArrayHelper::index($parts, 'id', ['model_type_label', 'model_id']);
+        return $this->renderAjax('_objectParts', ['data' => $data]);
     }
 
     public function getTypes()

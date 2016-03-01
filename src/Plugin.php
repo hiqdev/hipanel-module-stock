@@ -15,9 +15,9 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
 {
     protected $_items = [
         'aliases' => [
-            '@model'    => '/stock/model',
-            '@part'     => '/stock/part',
-            '@move'     => '/stock/move',
+            '@model' => '/stock/model',
+            '@part' => '/stock/part',
+            '@move' => '/stock/move',
             '@hwconfig' => '/stock/hwconfig',
         ],
         'menus' => [
@@ -27,6 +27,20 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
             'stock' => [
                 'class' => 'hipanel\modules\stock\Module',
             ],
+        ],
+        'components' => [
+            'i18n' => [
+                'translations' => [
+                    'hipanel/stock*' => [
+                        'class' => 'yii\i18n\PhpMessageSource',
+                        'basePath' => '@hipanel/modules/stock/messages',
+                        'fileMap' => [
+                            'hipanel/stock' => 'stock.php',
+                            'hipanel/model-types' => 'model-types.php',
+                        ],
+                    ],
+                ]
+            ]
         ],
     ];
 }

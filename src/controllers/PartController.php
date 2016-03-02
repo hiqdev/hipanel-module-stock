@@ -33,8 +33,12 @@ class PartController extends CrudController
             'index' => [
                 'class' => IndexAction::class,
                 'view'  => 'index',
-                'data'  => function ($action) {
+                'data'  => function ($action, $data) {
+                    foreach ($data['dataProvider']->getModels() as $model) {
+                        $sums[$model->currency] += $model->price;
+                    }
                     return [
+                        'sums' => $sums,
                         'types' => $action->controller->getTypes(),
                         'brands' => $action->controller->getBrands(),
                         'locations' => $action->controller->getLocations(),

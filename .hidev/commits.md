@@ -3,8 +3,18 @@ hiqdev/hipanel-module-stock commits history
 
 ## Under development
 
-- Added basics
+- Added parts reporting
+    - fe412cc 2016-03-09 added better filters for part report (sol@hiqdev.com)
+    - ddb1118 2016-03-09 + total/local sums at parts report (sol@hiqdev.com)
+    - 28de869 2016-03-02 + Total price at parts report (sol@hiqdev.com)
+    - a5f4d8e 2016-03-01 + `hipanel/stock` translation file (sol@hiqdev.com)
+    - 0f26fb3 2016-02-26 doing part report (sol@hiqdev.com)
+    - 155b933 2016-02-26 doing parts report (sol@hiqdev.com)
+    - 2a005c0 2016-02-26 doing parts report (sol@hiqdev.com)
+    - e8fc796 2016-02-26 doing part report for kovax NOT FINISHED (sol@hiqdev.com)
     - 3b0add2 2016-02-24 added part report (sol@hiqdev.com)
+- Added basics
+    - 15c2371 2016-03-01 Added model-type dict, added objectParts action (d.naumenko.a@gmail.com)
     - 539d7e6 2016-02-24 minor:retabed (sol@hiqdev.com)
     - 19a6d88 2016-02-19 inited tests (sol@hiqdev.com)
     - c5ac5ae 2016-02-19 phpcsfixed (sol@hiqdev.com)

@@ -35,10 +35,16 @@ class PartController extends CrudController
                 'view'  => 'index',
                 'data'  => function ($action, $data) {
                     foreach ($data['dataProvider']->getModels() as $model) {
-                        $sums[$model->currency] += $model->price;
+                        $local_sums[$model->currency] += $model->price;
+                    }
+                    $query = $action->parent->dataProvider->query;
+                    $query->andWhere(['groupby' => 'total_price']);
+                    foreach ($query->all() as $model) {
+                        $total_sums[$model->currency] += $model->price;
                     }
                     return [
-                        'sums' => $sums,
+                        'total_sums' => $total_sums,
+                        'local_sums' => $local_sums,
                         'types' => $action->controller->getTypes(),
                         'brands' => $action->controller->getBrands(),
                         'locations' => $action->controller->getLocations(),

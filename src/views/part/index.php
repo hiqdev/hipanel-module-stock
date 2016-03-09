@@ -43,14 +43,22 @@ $this->breadcrumbs->setItems([
         <?= PartGridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $model,
-            'summaryRenderer' => function ($grid) use ($sums) {
-                foreach ($sums as $cur => $sum) {
+            'summaryRenderer' => function ($grid) use ($local_sums, $total_sums) {
+                foreach ($total_sums as $cur => $sum) {
                     if ($sum>0) {
-                        $res .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
+                        $totals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
+                    }
+                }
+                foreach ($local_sums as $cur => $sum) {
+                    if ($sum>0) {
+                        $locals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
                     }
                 }
 
-                return $grid->parentSummary() . ($res ? Yii::t('app', 'TOTAL') . ':' . $res : null);
+                return $grid->parentSummary() .
+                    ($totals ? Yii::t('app', 'TOTAL') . ':' . $totals : null) .
+                    ($locals ? '<br><span class="text-muted">' . Yii::t('app', 'on screen') . ':' . $locals . '</span>' : null)
+                ;
             },
             'columns' => $representation=='report' ? [
                 'checkbox',

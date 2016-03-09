@@ -14,6 +14,7 @@ namespace hipanel\modules\stock\grid;
 use hipanel\grid\ActionColumn;
 use hipanel\grid\CurrencyColumn;
 use hipanel\grid\BoxedGridView;
+use hipanel\grid\RefColumn;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\grid\DataColumn;
 use Yii;
@@ -21,6 +22,16 @@ use yii\helpers\Html;
 
 class PartGridView extends BoxedGridView
 {
+    protected static $_locations;
+
+    public function setLocations($value) {
+        self::$_locations = $value;
+    }
+
+    public static function getLocations() {
+        return self::$_locations;
+    }
+
     public static function defaultColumns()
     {
         return [
@@ -41,11 +52,19 @@ class PartGridView extends BoxedGridView
                     ]);
                 },
             ],
-            'model_type_label' => [
-                'filterAttribute'   => 'model_type_like',
+            'model_type' => [
+                'class'  => RefColumn::className(),
+                'gtype'  => 'type,model',
+                'value'  => function ($model) {
+                    return $model->model_type_label;
+                },
             ],
-            'model_brand_label' => [
-                'filterAttribute'   => 'model_brand_like',
+            'model_brand' => [
+                'class'  => RefColumn::className(),
+                'gtype'  => 'type,brand',
+                'value'  => function ($model) {
+                    return $model->model_brand_label;
+                },
             ],
             'serial' => [
                 'filterAttribute'   => 'serial_like',
@@ -113,6 +132,14 @@ class PartGridView extends BoxedGridView
                 'filter'            => function ($column, $model, $attribute) {
                     $values = ['usd' => 'USD', 'eur' => 'EUR'];
                     return Html::activeDropDownList($model, 'currency', $values, [
+                        'class'     => 'form-control',
+                        'prompt'    => Yii::t('app', '----------'),
+                    ]);
+                },
+            ],
+            'place' => [
+                'filter'            => function ($column, $model, $attribute) {
+                    return Html::activeDropDownList($model, 'place', self::getLocations(), [
                         'class'     => 'form-control',
                         'prompt'    => Yii::t('app', '----------'),
                     ]);

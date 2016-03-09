@@ -43,15 +43,20 @@ $this->breadcrumbs->setItems([
         <?= PartGridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $model,
+            'locations' => $locations,
             'summaryRenderer' => function ($grid) use ($local_sums, $total_sums) {
-                foreach ($total_sums as $cur => $sum) {
-                    if ($sum>0) {
-                        $totals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
+                if (is_array($total_sums)) {
+                    foreach ($total_sums as $cur => $sum) {
+                        if ($sum>0) {
+                            $totals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
+                        }
                     }
                 }
-                foreach ($local_sums as $cur => $sum) {
-                    if ($sum>0) {
-                        $locals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
+                if (is_array($local_sums)) {
+                    foreach ($local_sums as $cur => $sum) {
+                        if ($sum>0) {
+                            $locals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
+                        }
                     }
                 }
 
@@ -62,7 +67,7 @@ $this->breadcrumbs->setItems([
             },
             'columns' => $representation=='report' ? [
                 'checkbox',
-                'model_type_label', 'model_brand_label',
+                'model_type', 'model_brand',
                 'partno', 'serial',
                 'create_date', 'price', 'place',
             ] : [

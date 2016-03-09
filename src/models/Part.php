@@ -43,6 +43,7 @@ class Part extends Model
                 'model',
                 'create_time',
                 'place',
+                'count',
                 'move_type',
                 'move_type_label',
                 'move_time',

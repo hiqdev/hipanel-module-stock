@@ -34,21 +34,25 @@ class PartController extends CrudController
                 'class' => IndexAction::class,
                 'view'  => 'index',
                 'data'  => function ($action, $data) {
-                    foreach ($data['dataProvider']->getModels() as $model) {
-                        $local_sums[$model->currency] += $model->price;
+                    $representation = Yii::$app->request->get('representation');
+                    if ($representation === 'report') {
+                        foreach ($data['dataProvider']->getModels() as $model) {
+                            $local_sums[$model->currency] += $model->price;
+                        }
+                        $query = $action->parent->dataProvider->query;
+                        $query->andWhere(['groupby' => 'total_price']);
+                        foreach ($query->all() as $model) {
+                            $total_sums[$model->currency] += $model->price;
+                        }
                     }
-                    $query = $action->parent->dataProvider->query;
-                    $query->andWhere(['groupby' => 'total_price']);
-                    foreach ($query->all() as $model) {
-                        $total_sums[$model->currency] += $model->price;
-                    }
+
                     return [
-                        'total_sums' => $total_sums,
-                        'local_sums' => $local_sums,
-                        'types' => $action->controller->getTypes(),
-                        'brands' => $action->controller->getBrands(),
-                        'locations' => $action->controller->getLocations(),
-                        'representation' => Yii::$app->request->get('representation'),
+                        'total_sums'        => $total_sums,
+                        'local_sums'        => $local_sums,
+                        'representation'    => $representation,
+                        'types'             => $action->controller->getTypes(),
+                        'brands'            => $action->controller->getBrands(),
+                        'locations'         => $action->controller->getLocations(),
                     ];
                 },
             ],
@@ -134,12 +138,11 @@ class PartController extends CrudController
 
     public function getLocations()
     {
-        return [
-            'reserve' => Yii::t('app', 'Reserve'),
-            'stock' => Yii::t('app', 'Stock'),
-            'rma' => Yii::t('app', 'RMA'),
-            'trash' => Yii::t('app', 'Trash'),
-        ];
+        $q = $this->searchModel()->search([])->query->andWhere(['groupby' => 'place']);
+        foreach ($q->all() as $model) {
+            $res[$model->place] = $model->place . '   - ' . Yii::t('app', '{0, plural, one{# item} other{# items}}', $model->count);
+        }
+        return $res;
     }
 
     public function getMoveTypes()

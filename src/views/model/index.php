@@ -15,6 +15,7 @@ $this->breadcrumbs->setItems([
 <?php $box = ActionBox::begin(['model' => $model, 'dataProvider' => $dataProvider]) ?>
 <?php $box->beginActions() ?>
 <?= $box->renderCreateButton(Yii::t('app', 'Create model')) ?>
+
 <?= $box->renderSearchButton() ?>
 <?= $box->renderSorter([
     'attributes' => [

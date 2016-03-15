@@ -80,6 +80,11 @@ class PartController extends CrudController
             'update' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('app', 'Part were updated'),
+                'data' => function ($action) {
+                    return [
+                        'currencyTypes' => $action->controller->getCurrencyTypes(),
+                    ];
+                },
             ],
             'reserve' => [
                 'class' => SmartUpdateAction::class,

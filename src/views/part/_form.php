@@ -112,12 +112,12 @@ use yii\helpers\Url;
                     </div>
                     <!-- /.col-md-4 -->
                     <div class="col-md-4">
-                        <?= Html::activeLabel($model, "[$i]pirce") ?>
-                        <div class="input-group">
-                            <div
-                                class="input-group-addon"><?= \hipanel\helpers\StringHelper::getCurrencySymbol($model->currency) ?></div>
-                            <?= Html::activeTextInput($model, "[$i]price", ['class' => 'form-control']) ?>
-                        </div>
+                        <?= \hipanel\widgets\AmountWithCurrencyWidget::widget([
+                            'model' => $model,
+                            'inputAttribute' => "[$i]price",
+                            'selectAttribute' => "[$i]currency",
+                            'selectAttributeOptions' => $currencyTypes,
+                        ]) ?>
                     </div>
                     <!-- /.col-md-4 -->
                 <?php endif; ?>

@@ -76,6 +76,7 @@ class Part extends Model
                 'id',
                 'serial',
                 'price',
+                'currency',
             ], 'safe', 'on' => ['update']],
             // Move / Bulk-move
             [[

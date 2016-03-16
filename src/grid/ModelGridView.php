@@ -69,6 +69,7 @@ class ModelGridView extends BoxedGridView
                 },
             ],
             'last_prices' => [
+                'label' => Yii::t('hipanel/stock', 'Last price'),
                 'enableSorting' => false,
                 'filter' => false,
                 'value' => function ($model) {

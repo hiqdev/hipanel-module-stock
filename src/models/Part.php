@@ -11,13 +11,11 @@
 
 namespace hipanel\modules\stock\models;
 
-use hipanel\base\Model;
 use hipanel\base\ModelTrait;
-use hipanel\helpers\ArrayHelper;
 use hipanel\helpers\StringHelper;
 use Yii;
 
-class Part extends Model
+class Part extends \hipanel\base\Model
 {
     use ModelTrait;
 
@@ -40,7 +38,6 @@ class Part extends Model
                 'serial',
                 'serials',
                 'partno',
-                'model',
                 'create_time',
                 'place',
                 'count',
@@ -138,6 +135,11 @@ class Part extends Model
             $result[] = StringHelper::getCurrencySymbol($code);
         }
         return $result;
+    }
+
+    public function getModel()
+    {
+        return $this->hasOne(Model::class, ['id' => 'model_id']);
     }
 
     /**

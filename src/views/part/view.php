@@ -56,6 +56,7 @@ $this->breadcrumbs->setItems([
                     'model' => $model,
                     'columns' => [
                         'main',
+                        'model',
                         'partno',
                         'last_move',
                         'move_type_label',

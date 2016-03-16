@@ -13,7 +13,6 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\Model as YiiModel;
 use hipanel\base\ModelTrait;
-use hipanel\models\Ref;
 use Yii;
 use yii\helpers\Html;
 

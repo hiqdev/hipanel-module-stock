@@ -52,6 +52,14 @@ class PartGridView extends BoxedGridView
                     ]);
                 },
             ],
+            'model' => [
+                'attribute' => 'model',
+                'format' => 'raw',
+                'label' => Yii::t('hipanel/stock', 'Model'),
+                'value' => function ($model) {
+                    return Html::a($model->model->model, ['@model/view', 'id' => $model->model_id]);
+                }
+            ],
             'model_type' => [
                 'class'  => RefColumn::className(),
                 'gtype'  => 'type,model',

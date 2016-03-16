@@ -31,6 +31,7 @@ class MoveGridView extends BoxedGridView
                 'format'        => 'datetime',
             ],
             'move' => [
+                'label' => Yii::t('hipanel/stock', 'Move'),
                 'format' => 'html',
                 'enableSorting' => false,
                 'filter' => false,

@@ -77,7 +77,6 @@ class Move extends Model
             'dst_name_like' => Yii::t('app', 'Destination'),
             'serial_like' => Yii::t('app', 'Serial'),
             'descr_like' => Yii::t('app', 'Move description'),
-
         ]);
     }
 }

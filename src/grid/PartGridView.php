@@ -156,7 +156,7 @@ class PartGridView extends BoxedGridView
             'actions' => [
                 'class'             => ActionColumn::class,
                 'template'          => '{view} {update}',
-                'header'            => Yii::t('app', 'Actions'),
+                'header'            => Yii::t('hipanel', 'Actions'),
             ],
         ];
     }

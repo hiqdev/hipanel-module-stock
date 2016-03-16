@@ -22,6 +22,7 @@ use hipanel\models\Ref;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\models\PartSearch;
 use Yii;
+use yii\base\Event;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
@@ -34,6 +35,8 @@ class PartController extends CrudController
                 'class' => IndexAction::class,
                 'view'  => 'index',
                 'data'  => function ($action, $data) {
+                    $local_sums = [];
+                    $total_sums = [];
                     $representation = Yii::$app->request->get('representation');
                     if ($representation === 'report') {
                         foreach ($data['dataProvider']->getModels() as $model) {
@@ -58,13 +61,12 @@ class PartController extends CrudController
             ],
             'view' => [
                 'class' => ViewAction::class,
-//                'findOptions' => ['with_dns' => 1],
-//                'data' => function ($action) {
-//                    return [
-//                        'domainContactInfo' => Domain::perform('GetContactsInfo', ['id' => $action->getId()]),
-//                        'pincodeModel' => new DynamicModel(['pincode']),
-//                    ];
-//                },
+                'on beforePerform' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->joinWith('model');
+                }
             ],
             'create' => [
                 'class' => SmartCreateAction::class,

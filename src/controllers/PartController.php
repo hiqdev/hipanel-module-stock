@@ -12,6 +12,7 @@
 namespace hipanel\modules\stock\controllers;
 
 use hipanel\actions\IndexAction;
+use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
@@ -31,6 +32,18 @@ class PartController extends CrudController
     public function actions()
     {
         return [
+            'set-price' => [
+                'class' => PrepareBulkAction::class,
+                'view' => '_setPrice',
+                'on beforePerform' => function ($event) {
+                    /** @var Action $action */
+                    $action = $event->sender;
+//                    $pincodeData = Client::perform('HasPincode', ['id' => Yii::$app->user->id]);
+//                    $hasPincode = $pincodeData['pincode_enabled'];
+//                    $action->data['hasPincode'] = $hasPincode;
+//                    $action->setScenario($hasPincode ? 'push-with-pincode' : 'push');
+                },
+            ],
             'index' => [
                 'class' => IndexAction::class,
                 'view'  => 'index',

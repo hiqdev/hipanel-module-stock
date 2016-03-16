@@ -98,6 +98,12 @@ class Part extends \hipanel\base\Model
                 'reserve',
                 'descr',
             ], 'safe', 'on' => ['reserve', 'unreserve']],
+            // Bulck set price
+            [[
+                'id',
+                'price',
+                'currency',
+            ], 'safe', 'on' => ['set-price']],
         ];
     }
 

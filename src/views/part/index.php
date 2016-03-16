@@ -3,7 +3,11 @@
 use hipanel\helpers\Url;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\widgets\ActionBox;
+use hipanel\widgets\AjaxModal;
 use hipanel\widgets\Pjax;
+use yii\bootstrap\Dropdown;
+use yii\bootstrap\Modal;
+use yii\helpers\Html;
 
 $this->title = Yii::t('app', 'Parts');
 $this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
@@ -27,16 +31,35 @@ $this->breadcrumbs->setItems([
             <?= $box->renderPerPage() ?>
             <?= $box->renderRepresentation() ?>
         <?php $box->endActions() ?>
-        <?php $box->renderBulkActions([
-            'items' => [
-                $box->renderBulkButton(Yii::t('app', 'Update'), Url::to('@part/update')),
-                $box->renderBulkButton(Yii::t('app', 'Move'), Url::to('@part/bulk-move')),
-                $box->renderBulkButton(Yii::t('app', 'Move by one'), Url::to('@part/move')),
-                $box->renderBulkButton(Yii::t('app', 'Reserve'), Url::to('@part/reserve')),
-                $box->renderBulkButton(Yii::t('app', 'Unreserve'), Url::to('@part/unreserve')),
-            //  $box->renderBulkButton(Yii::t('app', 'RMA'), Url::to('@part/rma')),
-            ],
+
+        <?php $box->beginBulkActions() ?>
+
+        <div class="dropdown" style="display: inline-block">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <?= Yii::t('app', 'Bulk actions') ?>&nbsp;
+                <span class="caret"></span>
+            </button>
+            <?= Dropdown::widget([
+                'encodeLabels' => false,
+                'items' => [
+                    ['label' => Yii::t('app', 'Reserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'reserve']],
+                    ['label' => Yii::t('app', 'Unreserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'unreserve']],
+                    ['label' => Yii::t('app', 'RMA'), 'url' => '#', 'linkOptions' => ['data-action' => 'rma']],
+                ],
+            ]); ?>
+        </div>
+        <?= AjaxModal::widget([
+            'bulkPage' => true,
+            'header' => Html::tag('h4', Yii::t('app', 'Set price'), ['class' => 'modal-title']),
+            'scenario' => 'set-price',
+            'actionUrl' => ['set-price'],
+            'size' => Modal::SIZE_LARGE,
+            'toggleButton' => ['label' => Yii::t('app', 'Set price'), 'class' => 'btn btn-default'],
         ]) ?>
+        <?= $box->renderBulkButton(Yii::t('app', 'Update'), Url::to('@part/update')); ?>
+        <?= $box->renderBulkButton(Yii::t('app', 'Move by one'), Url::to('@part/move')) ?>
+
+        <?php $box->endBulkActions() ?>
         <?= $box->renderSearchForm(compact(['types', 'locations', 'brands'])) ?>
     <?php $box->end() ?>
     <?php $box->beginBulkForm() ?>

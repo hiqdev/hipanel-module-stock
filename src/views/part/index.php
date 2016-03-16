@@ -45,6 +45,9 @@ $this->breadcrumbs->setItems([
                     ['label' => Yii::t('app', 'Reserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'reserve']],
                     ['label' => Yii::t('app', 'Unreserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'unreserve']],
                     ['label' => Yii::t('app', 'RMA'), 'url' => '#', 'linkOptions' => ['data-action' => 'rma']],
+                    '<li role="presentation" class="divider"></li>',
+                    ['label' => Yii::t('app', 'Update'), 'url' => '#', 'linkOptions' => ['data-action' => 'update']],
+                    ['label' => Yii::t('app', 'Move by one'), 'url' => '#', 'linkOptions' => ['data-action' => 'move']],
                 ],
             ]); ?>
         </div>
@@ -56,8 +59,6 @@ $this->breadcrumbs->setItems([
             'size' => Modal::SIZE_LARGE,
             'toggleButton' => ['label' => Yii::t('app', 'Set price'), 'class' => 'btn btn-default'],
         ]) ?>
-        <?= $box->renderBulkButton(Yii::t('app', 'Update'), Url::to('@part/update')); ?>
-        <?= $box->renderBulkButton(Yii::t('app', 'Move by one'), Url::to('@part/move')) ?>
 
         <?php $box->endBulkActions() ?>
         <?= $box->renderSearchForm(compact(['types', 'locations', 'brands'])) ?>

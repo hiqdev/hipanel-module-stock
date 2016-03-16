@@ -6,7 +6,7 @@ use hipanel\widgets\ActionBox;
 use hipanel\widgets\Pjax;
 
 $this->title = Yii::t('app', 'Parts');
-$this->subtitle = Yii::t('app', array_filter(Yii::$app->request->get($model->formName(), [])) ? 'filtered list' : 'full list');
+$this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->breadcrumbs->setItems([
     $this->title,
 ]); ?>

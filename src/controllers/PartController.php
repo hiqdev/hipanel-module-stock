@@ -13,6 +13,7 @@ namespace hipanel\modules\stock\controllers;
 
 use hipanel\actions\IndexAction;
 use hipanel\actions\PrepareBulkAction;
+use hipanel\actions\RedirectAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
@@ -32,16 +33,29 @@ class PartController extends CrudController
     public function actions()
     {
         return [
-            'set-price' => [
+            'bulk-set-price' => [
                 'class' => PrepareBulkAction::class,
+                'scenario' => 'set-price',
                 'view' => '_setPrice',
-                'on beforePerform' => function ($event) {
-                    /** @var Action $action */
+            ],
+            'set-price' => [
+                'class' => SmartUpdateAction::class,
+                'scenario' => 'update',
+                'success' => Yii::t('app', 'Price changed'),
+                'error' => Yii::t('app', 'Failed change price'),
+                'POST html' => [
+                    'save'    => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                    ],
+                ],
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
                     $action = $event->sender;
-//                    $pincodeData = Client::perform('HasPincode', ['id' => Yii::$app->user->id]);
-//                    $hasPincode = $pincodeData['pincode_enabled'];
-//                    $action->data['hasPincode'] = $hasPincode;
-//                    $action->setScenario($hasPincode ? 'push-with-pincode' : 'push');
+                    $bulkPrice = Yii::$app->request->post('Part')['price'];
+                    foreach ($action->collection->models as $model) {
+                        $model->price = $bulkPrice;
+                    }
                 },
             ],
             'index' => [

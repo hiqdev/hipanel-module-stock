@@ -9,7 +9,8 @@ use yii\helpers\Html;
 
 <?php $form = ActiveForm::begin([
     'id' => 'set-price-form',
-    'action' => Url::toRoute('update'),
+    'action' => Url::toRoute('set-price'),
+    'validateOnBlur' => true,
     'enableAjaxValidation' => true,
     'validationUrl' => Url::toRoute(['validate-form', 'scenario' => 'set-price']),
 ]) ?>
@@ -31,10 +32,7 @@ use yii\helpers\Html;
 <?php foreach ($models as $model) : ?>
     <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
 <?php endforeach; ?>
-
-<?= $form->field($model, 'price') ?>
-
+<?= $form->field($model, 'price')->textInput(['value' => '', 'placeholder' => '0.00']) ?>
 <hr>
-<?= Html::submitButton(Yii::t('app', 'Push'), ['class' => 'btn btn-success']) ?>
-
+<?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-success']) ?>
 <?php ActiveForm::end() ?>

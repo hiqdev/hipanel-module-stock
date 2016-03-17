@@ -92,18 +92,17 @@ class Part extends \hipanel\base\Model
                 'dst_id',
                 'type',
             ], 'required', 'on' => ['move']],
+
             // Reserve / Unreserve
             [[
                 'id',
                 'reserve',
                 'descr',
             ], 'safe', 'on' => ['reserve', 'unreserve']],
-            // Bulck set price
-            [[
-                'id',
-                'price',
-                'currency',
-            ], 'safe', 'on' => ['set-price']],
+
+            // Bulk set price
+            [['id', 'price'], 'required', 'on' => ['set-price']],
+            [['currency'], 'safe', 'on' => ['set-price']],
         ];
     }
 

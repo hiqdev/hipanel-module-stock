@@ -53,10 +53,11 @@ $this->breadcrumbs->setItems([
         </div>
         <?= AjaxModal::widget([
             'bulkPage' => true,
-            'header' => Html::tag('h4', Yii::t('app', 'Set price'), ['class' => 'modal-title']),
-            'scenario' => 'set-price',
-            'actionUrl' => ['set-price'],
+            'id' => 'bulk-set-price-modal',
+            'scenario' => 'bulk-set-price',
+            'actionUrl' => ['bulk-set-price'],
             'size' => Modal::SIZE_LARGE,
+            'header' => Html::tag('h4', Yii::t('app', 'Set price'), ['class' => 'modal-title']),
             'toggleButton' => ['label' => Yii::t('app', 'Set price'), 'class' => 'btn btn-default'],
         ]) ?>
 

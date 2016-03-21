@@ -32,7 +32,7 @@ use yii\helpers\Html;
 <?php foreach ($models as $model) : ?>
     <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
 <?php endforeach; ?>
-<?= $form->field($model, 'price')->textInput(['value' => '', 'placeholder' => '0.00']) ?>
+<?= $form->field($model, 'price')->textInput(['value' => '', 'placeholder' => '0.00', 'name' => 'price']) ?>
 <hr>
 <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-success']) ?>
 <?php ActiveForm::end() ?>

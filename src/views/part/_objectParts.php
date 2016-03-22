@@ -5,7 +5,6 @@
  */
 
 
-use hipanel\base\Lang;
 use yii\helpers\Html;
 
 echo \hipanel\grid\GridView::widget([
@@ -24,7 +23,7 @@ echo \hipanel\grid\GridView::widget([
                 'style' => 'width: 20%',
             ],
             'value' => function ($models, $key) {
-                return Html::tag('strong', Yii::t('hipanel/stock', Lang::lang($key)));
+                return Html::tag('strong', Yii::t('hipanel/stock', $key));
             }
         ],
         [

@@ -8,9 +8,10 @@ use kartik\widgets\DatePicker;
 use yii\helpers\Html;
 
 ?>
-
-<div class="col-md-4">
+<div class="col-lg-6 col-md-12">
     <?= $search->field('partno_like')->widget(PartnoCombo::classname()) ?>
+</div>
+<div class="col-lg-6 col-md-12">
     <?= $search->field('model_types')->widget(StaticCombo::classname(), [
         'data'  => $types,
         'hasId' => true,
@@ -20,6 +21,9 @@ use yii\helpers\Html;
             ],
         ],
     ]) ?>
+</div>
+<div class="col-md-12">
+
     <?= $search->field('model_brands')->widget(StaticCombo::classname(), [
         'data'  => $brands,
         'hasId' => true,
@@ -44,7 +48,7 @@ use yii\helpers\Html;
     </div>
 </div>
 
-<div class="col-md-4">
+<div class="col-md-12">
     <?= $search->field('place')->widget(StaticCombo::classname(), [
         'data'  => $locations,
         'hasId' => true,
@@ -67,7 +71,7 @@ use yii\helpers\Html;
     ]) ?>
 </div>
 
-<div class="col-md-4">
+<div class="col-md-12">
     <?= $search->field('serial_like') ?>
     <?= $search->field('move_descr_like') ?>
     <?= $search->field('order_data_like') ?>

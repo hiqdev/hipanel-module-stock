@@ -206,7 +206,7 @@ class PartController extends CrudController
 
     public function getCurrencyTypes()
     {
-        return Ref::getList('type,currency', ['orderby' => 'name_asc']);
+        return Ref::getList('type,currency', ['orderby' => 'no_asc']);
     }
 
     public function getRemotehands()

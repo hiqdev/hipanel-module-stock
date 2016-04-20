@@ -1,10 +1,17 @@
 <?php
 
-/**
- * @var array $data
+/*
+ * Stock Module for Hipanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-stock
+ * @package   hipanel-module-stock
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
  */
 
-
+/**
+ * @var array
+ */
 use yii\helpers\Html;
 
 echo \hipanel\grid\GridView::widget([
@@ -24,7 +31,7 @@ echo \hipanel\grid\GridView::widget([
             ],
             'value' => function ($models, $key) {
                 return Html::tag('strong', Yii::t('hipanel/stock', $key));
-            }
+            },
         ],
         [
             'label' => Yii::t('hipanel/stock', 'Model'),
@@ -41,7 +48,7 @@ echo \hipanel\grid\GridView::widget([
                 }
 
                 return implode(', ', $models_partno);
-            }
+            },
         ],
         [
             'attribute' => 'serials',
@@ -57,7 +64,7 @@ echo \hipanel\grid\GridView::widget([
                 }
 
                 return implode(', ', $serials);
-            }
-        ]
-    ]
+            },
+        ],
+    ],
 ]);

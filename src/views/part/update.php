@@ -5,5 +5,5 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?= $this->render('_form', [
     'models' => $models,
-    'currencyTypes' => reset($models)->scenario == 'update' ? $currencyTypes : null,
+    'currencyTypes' => reset($models)->scenario === 'update' ? $currencyTypes : null,
 ]); ?>

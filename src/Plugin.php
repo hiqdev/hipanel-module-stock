@@ -39,8 +39,8 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
                             'hipanel/stock/model-types' => 'model-types.php',
                         ],
                     ],
-                ]
-            ]
+                ],
+            ],
         ],
     ];
 }

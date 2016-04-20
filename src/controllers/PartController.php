@@ -22,10 +22,8 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
 use hipanel\modules\stock\models\Part;
-use hipanel\modules\stock\models\PartSearch;
 use Yii;
 use yii\base\Event;
-use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 
 class PartController extends CrudController
@@ -103,7 +101,7 @@ class PartController extends CrudController
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
                     $dataProvider->query->joinWith('model');
-                }
+                },
             ],
             'create' => [
                 'class' => SmartCreateAction::class,

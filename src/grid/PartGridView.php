@@ -12,11 +12,11 @@
 namespace hipanel\modules\stock\grid;
 
 use hipanel\grid\ActionColumn;
-use hipanel\grid\CurrencyColumn;
 use hipanel\grid\BoxedGridView;
+use hipanel\grid\CurrencyColumn;
+use hipanel\grid\DataColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
-use hipanel\grid\DataColumn;
 use Yii;
 use yii\helpers\Html;
 
@@ -24,11 +24,13 @@ class PartGridView extends BoxedGridView
 {
     protected static $_locations;
 
-    public function setLocations($value) {
+    public function setLocations($value)
+    {
         self::$_locations = $value;
     }
 
-    public static function getLocations() {
+    public static function getLocations()
+    {
         return self::$_locations;
     }
 
@@ -58,7 +60,7 @@ class PartGridView extends BoxedGridView
                 'label' => Yii::t('hipanel/stock', 'Model'),
                 'value' => function ($model) {
                     return Html::a($model->model->model, ['@model/view', 'id' => $model->model_id]);
-                }
+                },
             ],
             'model_type' => [
                 'class'  => RefColumn::className(),

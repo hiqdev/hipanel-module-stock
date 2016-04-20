@@ -72,14 +72,14 @@ $this->breadcrumbs->setItems([
             'summaryRenderer' => function ($grid) use ($local_sums, $total_sums) {
                 if (is_array($total_sums)) {
                     foreach ($total_sums as $cur => $sum) {
-                        if ($cur && $sum>0) {
+                        if ($cur && $sum > 0) {
                             $totals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
                         }
                     }
                 }
                 if (is_array($local_sums)) {
                     foreach ($local_sums as $cur => $sum) {
-                        if ($cur && $sum>0) {
+                        if ($cur && $sum > 0) {
                             $locals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
                         }
                     }
@@ -87,10 +87,9 @@ $this->breadcrumbs->setItems([
 
                 return $grid->parentSummary() .
                     ($totals ? Yii::t('app', 'TOTAL') . ':' . $totals : null) .
-                    ($locals ? '<br><span class="text-muted">' . Yii::t('app', 'on screen') . ':' . $locals . '</span>' : null)
-                ;
+                    ($locals ? '<br><span class="text-muted">' . Yii::t('app', 'on screen') . ':' . $locals . '</span>' : null);
             },
-            'columns' => $representation=='report' ? [
+            'columns' => $representation === 'report' ? [
                 'checkbox',
                 'model_type', 'model_brand',
                 'partno', 'serial',

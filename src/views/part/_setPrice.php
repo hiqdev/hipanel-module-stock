@@ -35,10 +35,10 @@ use yii\helpers\Html;
 <?php ///= $form->field($model, 'price')->textInput(['value' => '', 'placeholder' => '0.00', 'name' => 'price']) ?>
 <?= $form->field($model, 'price')->widget(\hipanel\widgets\AmountWithCurrencyWidget::class, [
     'inputOptions' => ['value' => '', 'placeholder' => '0.00', 'name' => 'price'],
-    'selectAttribute' => "currency",
+    'selectAttribute' => 'currency',
     'selectAttributeOptions' => [
         'items' => $currencyTypes,
-        'name' => 'currency'
+        'name' => 'currency',
     ],
 ])->label(false) ?>
 <hr>

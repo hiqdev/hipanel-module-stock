@@ -3,6 +3,8 @@ hiqdev/hipanel-module-stock commits history
 
 ## Under development
 
+    - 94bba5f 2016-04-20 phpcsfixed (sol@hiqdev.com)
+    - 5eed70a 2016-04-20 rehideved (sol@hiqdev.com)
     - 236ec7f 2016-04-20 fixed minor (sol@hiqdev.com)
     - 0823841 2016-04-12 Add currency change in bulk set price (andreyklochok@gmail.com)
     - fa9db93 2016-03-21 Fix bulk set price (andreyklochok@gmail.com)

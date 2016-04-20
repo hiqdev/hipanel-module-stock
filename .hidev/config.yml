@@ -6,7 +6,7 @@ package:
     keywords:       stock, hipanel, plugin
     namespace:      hipanel\modules\stock
     description:    |
-        [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
+        [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](http://hipanel.com/)
 
         [HiPanel](http://hipanel.com) is next generation control panel for hosting, domains and more.
 
@@ -14,7 +14,3 @@ package:
 
         - models and details
         - history of orders and movements
-
-require:
-    hiqdev/hidev-php:    "*"
-    hiqdev/hidev-vendor: "*"

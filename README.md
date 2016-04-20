@@ -6,10 +6,10 @@ HiPanel Stock Module
 [![Latest Stable Version](https://poser.pugx.org/hiqdev/hipanel-module-stock/v/stable)](https://packagist.org/packages/hiqdev/hipanel-module-stock)
 [![Total Downloads](https://poser.pugx.org/hiqdev/hipanel-module-stock/downloads)](https://packagist.org/packages/hiqdev/hipanel-module-stock)
 [![Build Status](https://img.shields.io/travis/hiqdev/hipanel-module-stock.svg)](https://travis-ci.org/hiqdev/hipanel-module-stock)
-[![Code Coverage](https://scrutinizer-ci.com/g/hiqdev/hipanel-module-stock/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/hiqdev/hipanel-module-stock/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/hiqdev/hipanel-module-stock/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/hiqdev/hipanel-module-stock/?branch=master)
+[![Scrutinizer Code Coverage](https://img.shields.io/scrutinizer/coverage/g/hiqdev/hipanel-module-stock.svg)](https://scrutinizer-ci.com/g/hiqdev/hipanel-module-stock/)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/hiqdev/hipanel-module-stock.svg)](https://scrutinizer-ci.com/g/hiqdev/hipanel-module-stock/)
 
-[![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
+[![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](http://hipanel.com/)
 
 [HiPanel](http://hipanel.com) is next generation control panel for hosting, domains and more.
 

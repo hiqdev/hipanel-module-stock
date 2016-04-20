@@ -3,6 +3,16 @@ hiqdev/hipanel-module-stock commits history
 
 ## Under development
 
+    - 236ec7f 2016-04-20 fixed minor (sol@hiqdev.com)
+    - 0823841 2016-04-12 Add currency change in bulk set price (andreyklochok@gmail.com)
+    - fa9db93 2016-03-21 Fix bulk set price (andreyklochok@gmail.com)
+    - b674941 2016-03-16 Translations update (d.naumenko.a@gmail.com)
+    - b970125 2016-03-16 Group bulk actions. Add Set Price button (andreyklochok@gmail.com)
+    - f88e0f7 2016-03-16 Added missing translation (d.naumenko.a@gmail.com)
+    - 787dbcb 2016-03-16 Updated translations (d.naumenko.a@gmail.com)
+    - 13ba192 2016-03-16 Object parts view redone with GridView (d.naumenko.a@gmail.com)
+    - 28a1051 2016-03-16 PartController::view added joining on Model (d.naumenko.a@gmail.com)
+    - 96a4a44 2016-03-15 Use AmountWithCurrencyWidget (andreyklochok@gmail.com)
 - Added parts reporting
     - fe412cc 2016-03-09 added better filters for part report (sol@hiqdev.com)
     - ddb1118 2016-03-09 + total/local sums at parts report (sol@hiqdev.com)

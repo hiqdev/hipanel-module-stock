@@ -42,9 +42,20 @@
             "homepage": "http://hiqdev.com/"
         }
     ],
+    "require-dev": {
+        "hiqdev/hidev-php": "dev-master",
+        "hiqdev/hidev-vendor": "dev-master",
+        "hiqdev/hidev": "dev-master"
+    },
     "autoload": {
         "psr-4": {
             "hipanel\\modules\\stock\\": "src"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.hiqdev.com"
+        }
+    ]
 }

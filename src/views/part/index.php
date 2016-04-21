@@ -21,6 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('show-actions') ?>
+            <?= \hipanel\widgets\IndexLayoutSwitcher::widget() ?>
             <?= $page->renderSorter([
                 'attributes' => [
                     'id',
@@ -35,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?php $page->beginContent('bulk-actions') ?>
             <div class="dropdown" style="display: inline-block">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                     <?= Yii::t('app', 'Bulk actions') ?>&nbsp;
                     <span class="caret"></span>
@@ -59,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'actionUrl' => ['bulk-set-price'],
                 'size' => Modal::SIZE_LARGE,
                 'header' => Html::tag('h4', Yii::t('app', 'Set price'), ['class' => 'modal-title']),
-                'toggleButton' => ['label' => Yii::t('app', 'Set price'), 'class' => 'btn btn-default'],
+                'toggleButton' => ['label' => Yii::t('app', 'Set price'), 'class' => 'btn btn-default btn-sm'],
             ]) ?>
         <?php $page->endContent('bulk-actions') ?>
 

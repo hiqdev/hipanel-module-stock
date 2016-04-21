@@ -1,6 +1,5 @@
 <?php
 
-use hipanel\helpers\Url;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\AjaxModal;
@@ -17,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
     <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
         <?php $page->beginContent('search-form') ?>
-            <?= $page->renderSearchForm(compact(['types', 'locations', 'brands'])) ?>
+            <?= $page->renderSearchForm(compact(['types', 'locations', 'brands']), ['options' => ['displayNone' => false]]) ?>
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('show-actions') ?>

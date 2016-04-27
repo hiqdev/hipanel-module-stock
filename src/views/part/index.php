@@ -15,10 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
     <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
-        <?php $page->beginContent('search-form') ?>
-            <?= $page->renderSearchForm(compact(['types', 'locations', 'brands']), ['options' => ['displayNone' => false]]) ?>
-        <?php $page->endContent() ?>
-
+        <?= $page->setSearchFormData(compact(['types', 'locations', 'brands'])) ?>
         <?php $page->beginContent('show-actions') ?>
             <?= \hipanel\widgets\IndexLayoutSwitcher::widget() ?>
             <?= $page->renderSorter([

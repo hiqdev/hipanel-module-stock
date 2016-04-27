@@ -12,6 +12,7 @@
 namespace hipanel\modules\stock\controllers;
 
 use hipanel\actions\IndexAction;
+use hipanel\actions\OrientationAction;
 use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\RedirectAction;
 use hipanel\actions\SmartCreateAction;
@@ -154,6 +155,12 @@ class PartController extends CrudController
             'validate-form' => [
                 'class' => ValidateFormAction::class,
             ],
+            'set-orientation' => [
+                'class' => OrientationAction::class,
+                'allowedRoutes' => [
+                    '@part/index'
+                ]
+            ]
         ];
     }
 

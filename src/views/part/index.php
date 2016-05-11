@@ -61,6 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $page->endContent('bulk-actions') ?>
 
         <?php $page->beginContent('table') ?>
+        <?php $page->beginBulkForm() ?>
             <?= PartGridView::widget([
                 'boxed' => false,
                 'dataProvider' => $dataProvider,
@@ -99,6 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'actions',
                 ],
             ]) ?>
+        <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>
     <?php $page->end() ?>
 <?php Pjax::end() ?>

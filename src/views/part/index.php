@@ -35,8 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?php $page->beginContent('bulk-actions') ?>
             <div class="dropdown" style="display: inline-block">
-                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
+                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <?= Yii::t('app', 'Bulk actions') ?>&nbsp;
                     <span class="caret"></span>
                 </button>

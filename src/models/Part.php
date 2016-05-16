@@ -19,6 +19,9 @@ class Part extends \hipanel\base\Model
 {
     use ModelTrait;
 
+    /** @inheritdoc */
+    public static $i18nDictionary = 'hipanel/stock';
+
     public function rules()
     {
         return [

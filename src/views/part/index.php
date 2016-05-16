@@ -68,6 +68,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $model,
                 'locations' => $locations,
                 'summaryRenderer' => function ($grid) use ($local_sums, $total_sums) {
+                    $locals = '';
+                    $totals = '';
                     if (is_array($total_sums)) {
                         foreach ($total_sums as $cur => $sum) {
                             if ($sum > 0) {

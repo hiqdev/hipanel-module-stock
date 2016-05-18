@@ -43,8 +43,8 @@
         }
     ],
     "require-dev": {
-        "hiqdev/hidev-php": "dev-master",
-        "hiqdev/hidev-vendor": "dev-master",
+        "hiqdev/hidev-php": "<2.0",
+        "hiqdev/hidev-vendor": "<2.0",
         "hiqdev/hidev": "dev-master"
     },
     "autoload": {
@@ -52,10 +52,17 @@
             "hipanel\\modules\\stock\\": "src"
         }
     },
+    "extra": {
+        "config-plugin": {
+            "hisite": "src/config/hisite.php",
+            "hidev": "src/config/hidev.php"
+        }
+    },
+    "minimum-stability": "dev",
     "repositories": [
         {
             "type": "composer",
-            "url": "https://asset-packagist.hiqdev.com"
+            "url": "https://asset-packagist.org"
         }
     ]
 }

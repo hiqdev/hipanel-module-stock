@@ -74,14 +74,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     $totals = '';
                     if (is_array($total_sums)) {
                         foreach ($total_sums as $cur => $sum) {
-                            if ($sum > 0) {
+                            if ($cur && $sum > 0) {
                                 $totals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
                             }
                         }
                     }
                     if (is_array($local_sums)) {
                         foreach ($local_sums as $cur => $sum) {
-                            if ($sum > 0) {
+                            if ($cur && $sum > 0) {
                                 $locals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
                             }
                         }

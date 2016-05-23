@@ -14,8 +14,10 @@ $this->registerJs("jQuery('.field-modelsearch-show_hidden_from_user input[type=c
 $this->registerCss('.field-modelsearch-show_hidden_from_user { margin-top: 45px; }');
 ?>
 
-<div class="col-md-3">
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('partno_like')->widget(PartnoCombo::classname()) ?>
+</div>
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('type')->widget(StaticCombo::classname(), [
         'data' => $types,
         'hasId' => true,
@@ -26,8 +28,7 @@ $this->registerCss('.field-modelsearch-show_hidden_from_user { margin-top: 45px;
         ],
     ]) ?>
 </div>
-<!-- /.col-md-3 -->
-<div class="col-md-3">
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('brand')->widget(StaticCombo::classname(), [
         'data' => $brands,
         'hasId' => true,
@@ -37,29 +38,19 @@ $this->registerCss('.field-modelsearch-show_hidden_from_user { margin-top: 45px;
             ],
         ],
     ]) ?>
+</div>
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('model_like') ?>
 </div>
-<!-- /.col-md-3 -->
-<div class="col-md-3">
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('short_like') ?>
+</div>
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('descr_like') ?>
 </div>
-<!-- /.col-md-3 -->
-<div class="col-md-3">
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('group_like') ?>
-    <?php /* = $search->field('show_hidden_from_user')->widget(StaticCombo::classname(), [
-        'data' => [
-            '0' => Yii::t('app', 'Hide hidden'),
-            '1' => Yii::t('app', 'Show hidden'),
-        ],
-        'hasId' => true,
-        'pluginOptions' => [
-            'select2Options' => [
-                'multiple' => false,
-            ],
-        ],
-    ]) */ ?>
-
+</div>
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('show_hidden_from_user')->checkbox(); ?>
 </div>
-<!-- /.col-md-3 -->

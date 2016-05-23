@@ -8,10 +8,10 @@ use kartik\widgets\DatePicker;
 use yii\helpers\Html;
 
 ?>
-<div class="col-md-6 col-sm-12">
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('partno_like')->widget(PartnoCombo::classname()) ?>
 </div>
-<div class="col-md-6 col-sm-12">
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('model_types')->widget(StaticCombo::classname(), [
         'data'  => $types,
         'hasId' => true,
@@ -22,7 +22,7 @@ use yii\helpers\Html;
         ],
     ]) ?>
 </div>
-<div class="col-md-6 col-sm-12">
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('model_brands')->widget(StaticCombo::classname(), [
         'data'  => $brands,
         'hasId' => true,
@@ -34,7 +34,7 @@ use yii\helpers\Html;
     ]) ?>
 
 </div>
-<div class="col-md-6 col-sm-12">
+<div class="col-md-4 col-sm-6 col-xs-12">
     <div class="form-group">
         <?= Html::tag('label', 'Created range', ['class' => 'control-label']); ?>
         <?= DatePicker::widget([
@@ -50,7 +50,7 @@ use yii\helpers\Html;
     </div>
 </div>
 
-<div class="col-md-6 col-sm-12">
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('place')->widget(StaticCombo::classname(), [
         'data'  => $locations,
         'hasId' => true,
@@ -63,13 +63,13 @@ use yii\helpers\Html;
 
 
 </div>
-<div class="col-md-6 col-sm-12">
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('src_name_like')->widget(SourceCombo::classname()) ?>
 </div>
-<div class="col-md-6 col-sm-12">
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('dst_name_like')->widget(DestinationCombo::classname()) ?>
 </div>
-<div class="col-md-6 col-sm-12">
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('currency')->widget(StaticCombo::classname(), [
         'data' => ['usd' => 'USD', 'eur' => 'EUR'],
         'hasId' => true,
@@ -80,9 +80,9 @@ use yii\helpers\Html;
         ],
     ]) ?>
 </div>
-<div class="col-md-6 col-sm-12"><?= $search->field('serial_like') ?></div>
-<div class="col-md-6 col-sm-12"><?= $search->field('move_descr_like') ?></div>
-<div class="col-md-6 col-sm-12"><?= $search->field('order_data_like') ?></div>
+<div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('serial_like') ?></div>
+<div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('move_descr_like') ?></div>
+<div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('order_data_like') ?></div>
 
 
 

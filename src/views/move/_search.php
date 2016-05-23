@@ -4,7 +4,9 @@ use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hiqdev\combo\StaticCombo;
-
+/**
+ * @var \hipanel\widgets\AdvancedSearch $search
+ */
 ?>
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('partno_like')->widget(PartnoCombo::classname()) ?>

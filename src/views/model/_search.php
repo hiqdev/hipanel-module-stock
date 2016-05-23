@@ -2,7 +2,9 @@
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hiqdev\assets\icheck\iCheckAsset;
 use hiqdev\combo\StaticCombo;
-
+/**
+ * @var \hipanel\widgets\AdvancedSearch $search
+ */
 iCheckAsset::register($this);
 
 $this->registerJs("jQuery('.field-modelsearch-show_hidden_from_user input[type=checkbox]').iCheck({

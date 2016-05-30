@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\modules\stock\grid\PartGridView;
+use hipanel\widgets\IndexLayoutSwitcher;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\Pjax;
@@ -20,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('hipanel', 'Create'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
         <?php $page->endContent() ?>
         <?php $page->beginContent('show-actions') ?>
-            <?= \hipanel\widgets\IndexLayoutSwitcher::widget() ?>
+            <?= IndexLayoutSwitcher::widget() ?>
             <?= $page->renderSorter([
                 'attributes' => [
                     'id',

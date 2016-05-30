@@ -1,6 +1,7 @@
 <?php
 use hipanel\modules\stock\grid\MoveGridView;
-use hipanel\widgets\ActionBox;
+use hipanel\widgets\IndexLayoutSwitcher;
+use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 
 $this->title = Yii::t('app', 'Moves');
@@ -11,38 +12,44 @@ $this->breadcrumbs->setItems([
 ?>
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
-<?php $box = ActionBox::begin(['model' => $model, 'dataProvider' => $dataProvider]) ?>
-<?php $box->beginActions() ?>
-<?= $box->renderSearchButton() ?>
-<?= $box->renderSorter([
-    'attributes' => [
-        'time',
-        'client',
-    ],
-]) ?>
-<?= $box->renderPerPage() ?>
-<?php $box->endActions() ?>
-<?php $box->renderBulkActions([
-    'items' => [
-        $box->renderDeleteButton(Yii::t('app', 'Delete')), // , Url::to('@move/delete')
-    ],
-]) ?>
-<?= $box->renderSearchForm(compact(['types'])) ?>
-<?php $box->end() ?>
-<?php $box->beginBulkForm() ?>
-<?= MoveGridView::widget([
-    'dataProvider' => $dataProvider,
-    'filterModel' => $model,
-    'columns' => [
-        'checkbox',
-        'client',
-        'date',
-        'move',
-        'descr',
-        'data',
-        'parts',
-        'actions',
-    ],
-]) ?>
-<?php $box->endBulkForm() ?>
+    <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
+        <?= $page->setSearchFormData(compact(['types'])) ?>
+
+        <?php $page->beginContent('show-actions') ?>
+        <?= IndexLayoutSwitcher::widget() ?>
+        <?= $page->renderSorter([
+            'attributes' => [
+                'time',
+                'client',
+            ],
+        ]) ?>
+        <?= $page->renderPerPage() ?>
+        <?= $page->renderRepresentation() ?>
+        <?php $page->endContent() ?>
+
+        <?php $page->beginContent('bulk-actions') ?>
+            <?= $page->renderBulkButton(Yii::t('app', 'Delete'), ['delete'], 'danger') ?>
+        <?php $page->endContent('bulk-actions') ?>
+
+        <?php $page->beginContent('table') ?>
+        <?php $page->beginBulkForm() ?>
+        <?= MoveGridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $model,
+            'boxed' => false,
+            'columns' => [
+                'checkbox',
+                'client',
+                'date',
+                'move',
+                'descr',
+                'data',
+                'parts',
+                'actions',
+            ],
+        ]) ?>
+        <?php $page->endBulkForm() ?>
+        <?php $page->endContent() ?>
+
+    <?php $page->end() ?>
 <?php Pjax::end() ?>

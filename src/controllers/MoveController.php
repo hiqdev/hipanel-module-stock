@@ -12,6 +12,7 @@
 namespace hipanel\modules\stock\controllers;
 
 use hipanel\actions\IndexAction;
+use hipanel\actions\OrientationAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
@@ -22,6 +23,12 @@ class MoveController extends CrudController
     public function actions()
     {
         return [
+            'set-orientation' => [
+                'class' => OrientationAction::class,
+                'allowedRoutes' => [
+                    '@move/index'
+                ]
+            ],
             'index' => [
                 'class' => IndexAction::class,
                 'data' => function ($action) {

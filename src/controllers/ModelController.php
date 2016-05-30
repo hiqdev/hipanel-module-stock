@@ -12,6 +12,7 @@
 namespace hipanel\modules\stock\controllers;
 
 use hipanel\actions\IndexAction;
+use hipanel\actions\OrientationAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
@@ -27,6 +28,12 @@ class ModelController extends CrudController
     public function actions()
     {
         return [
+            'set-orientation' => [
+                'class' => OrientationAction::class,
+                'allowedRoutes' => [
+                    '@model/index'
+                ]
+            ],
             'index' => [
                 'class' => IndexAction::class, // with_counters
                 'findOptions' => ['with_counters' => 1],

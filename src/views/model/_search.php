@@ -13,7 +13,6 @@ $this->registerJs("jQuery('.field-modelsearch-show_hidden_from_user input[type=c
     increaseArea: '20%' // optional
 });");
 
-$this->registerCss('.field-modelsearch-show_hidden_from_user { margin-top: 45px; }');
 ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">

@@ -16,10 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
     <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
+
         <?= $page->setSearchFormData(compact(['types', 'locations', 'brands'])) ?>
+
         <?php $page->beginContent('main-actions') ?>
         <?= Html::a(Yii::t('hipanel', 'Create'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
         <?php $page->endContent() ?>
+
         <?php $page->beginContent('show-actions') ?>
             <?= IndexLayoutSwitcher::widget() ?>
             <?= $page->renderSorter([
@@ -61,7 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => Html::tag('h4', Yii::t('app', 'Set price'), ['class' => 'modal-title']),
                 'toggleButton' => ['label' => Yii::t('app', 'Set price'), 'class' => 'btn btn-default btn-sm'],
             ]) ?>
-        <?php $page->endContent('bulk-actions') ?>
+        <?php $page->endContent() ?>
 
         <?php $page->beginContent('table') ?>
         <?php $page->beginBulkForm() ?>

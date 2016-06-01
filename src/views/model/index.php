@@ -39,7 +39,6 @@ $this->breadcrumbs->setItems([
         ],
     ]) ?>
     <?= $page->renderPerPage() ?>
-    <?= $page->renderRepresentation() ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('table') ?>

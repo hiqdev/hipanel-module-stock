@@ -12,6 +12,34 @@ use yii\helpers\Html;
 $this->title = Yii::t('app', 'Parts');
 $this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
+
+$representations = [
+    'common' => [
+        'label'   => Yii::t('hipanel', 'common'),
+        'columns' => [
+            'checkbox',
+            'main', 'partno', 'serial',
+            'last_move', 'move_type_label',
+            'move_date', 'order_data', 'DC_ticket_ID',
+            'actions',
+        ],
+    ],
+    'report' => [
+        'label'   => Yii::t('hipanel', 'report'),
+        'columns' => [
+            'checkbox',
+            'model_type', 'model_brand',
+            'partno', 'serial',
+            'create_date', 'price', 'place',
+        ],
+    ],
+];
+
+$representation = Yii::$app->request->get('representation');
+if (!isset($representations[$representation])) {
+    $representation = key($representations);
+}
+
 ?>
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
@@ -34,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]) ?>
             <?= $page->renderPerPage() ?>
-            <?= $page->renderRepresentation() ?>
+            <?= $page->renderRepresentations($representations, $representation) ?>
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('bulk-actions') ?>
@@ -91,22 +119,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                     }
 
-                    return $grid->parentSummary() .
-                    ($totals ? Yii::t('app', 'TOTAL') . ':' . $totals : null) .
-                    ($locals ? '<br><span class="text-muted">' . Yii::t('app', 'on screen') . ':' . $locals . '</span>' : null);
+                    return $grid->parentSummary() . '<div class="summary">' .
+                        ($totals ? Yii::t('app', 'TOTAL') . ':' . $totals : null) .
+                        ($locals ? '<br><span class="text-muted">' . Yii::t('hipanel', 'on screen') . ':' . $locals . '</span>' : null) .
+                    '</div>';
                 },
-                'columns' => $representation == 'report' ? [
-                    'checkbox',
-                    'model_type', 'model_brand',
-                    'partno', 'serial',
-                    'create_date', 'price', 'place',
-                ] : [
-                    'checkbox',
-                    'main', 'partno', 'serial',
-                    'last_move', 'move_type_label',
-                    'move_date', 'order_data', 'DC_ticket_ID',
-                    'actions',
-                ],
+                'columns' => $representations[$representation]['columns'],
             ]) ?>
         <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>

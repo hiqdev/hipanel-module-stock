@@ -21,4 +21,6 @@ return [
     'Place' => 'Позиция',
     'Model brands' => 'Бренды моделей',
     'Model types' => 'Типы моделей',
+    'Source' => 'Откуда',
+    'Destination' => 'Куда',
 ];

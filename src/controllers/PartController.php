@@ -187,10 +187,12 @@ class PartController extends CrudController
 
     public function getLocations()
     {
-        $q = $this->searchModel()->search([])->query->andWhere(['groupby' => 'place']);
-        foreach ($q->all() as $model) {
+        $query = $this->searchModel()->search([])->query->andWhere(['groupby' => 'place']);
+        $res = [];
+        foreach ($query->all() as $model) {
             $res[$model->place] = $model->place . '   - ' . Yii::t('app', '{0, plural, one{# item} other{# items}}', $model->count);
         }
+
         return $res;
     }
 

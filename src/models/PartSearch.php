@@ -40,8 +40,8 @@ class PartSearch extends Part
             'serial_like'       => Yii::t('app', 'Serial'),
             'order_data_like'   => Yii::t('app', 'Order'),
             'move_descr_like'   => Yii::t('app', 'Move description'),
-            'src_name_like'     => Yii::t('app', 'Source'),
-            'dst_name_like'     => Yii::t('app', 'Destination'),
+            'src_name_like'     => Yii::t('hipanel/stock', 'Source'),
+            'dst_name_like'     => Yii::t('hipanel/stock', 'Destination'),
         ]);
     }
 }

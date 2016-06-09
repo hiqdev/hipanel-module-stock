@@ -129,10 +129,10 @@ class Part extends \hipanel\base\Model
             'move_type'         => Yii::t('app', 'Type'),
             'order_data'        => Yii::t('app', 'Order'),
             'order_no'          => Yii::t('app', 'Order No.'),
-            'src_id'            => Yii::t('app', 'Source'),
-            'dst_id'            => Yii::t('app', 'Destination'),
-            'src_name'          => Yii::t('app', 'Source'),
-            'dst_name'          => Yii::t('app', 'Destination'),
+            'src_id'            => Yii::t('hipanel/stock', 'Source'),
+            'src_name'          => Yii::t('hipanel/stock', 'Source'),
+            'dst_id'            => Yii::t('hipanel/stock', 'Destination'),
+            'dst_name'          => Yii::t('hipanel/stock', 'Destination'),
         ]);
     }
 

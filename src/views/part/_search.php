@@ -48,19 +48,19 @@ use yii\helpers\Html;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('place')->widget(StaticCombo::class, [
-        'data'     => $locations,
-        'hasId'    => true,
-        'multiple' => true,
-    ]) ?>
-</div>
-
-<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('src_name_like')->widget(SourceCombo::class) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('dst_name_like')->widget(DestinationCombo::class) ?>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field('place_in')->widget(StaticCombo::class, [
+        'data'     => $locations,
+        'hasId'    => true,
+        'multiple' => true,
+    ]) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">

@@ -13,88 +13,62 @@ $this->title = Yii::t('app', 'Parts');
 $this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
 
-$representations = [
-    'common' => [
-        'label'   => Yii::t('hipanel', 'common'),
-        'columns' => [
-            'checkbox',
-            'main', 'partno', 'serial',
-            'last_move', 'move_type_label',
-            'move_date', 'order_data', 'DC_ticket_ID',
-            'actions',
-        ],
-    ],
-    'report' => [
-        'label'   => Yii::t('hipanel', 'report'),
-        'columns' => [
-            'checkbox',
-            'model_type', 'model_brand',
-            'partno', 'serial',
-            'create_date', 'price', 'place',
-        ],
-    ],
-];
-
 $representation = Yii::$app->request->get('representation');
-if (!isset($representations[$representation])) {
-    $representation = key($representations);
-}
 
 ?>
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
-    <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
+<?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
+    <?php $page->setSearchFormData(compact(['types', 'locations', 'brands'])) ?>
 
-        <?= $page->setSearchFormData(compact(['types', 'locations', 'brands'])) ?>
-
-        <?php $page->beginContent('main-actions') ?>
+    <?php $page->beginContent('main-actions') ?>
         <?= Html::a(Yii::t('hipanel', 'Create'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
-        <?php $page->endContent() ?>
+    <?php $page->endContent() ?>
 
-        <?php $page->beginContent('show-actions') ?>
-            <?= IndexLayoutSwitcher::widget() ?>
-            <?= $page->renderSorter([
-                'attributes' => [
-                    'id',
-                    'model_type', 'model_brand',
-                    'partno', 'serial',
-                    'create_time', 'move_time',
+    <?php $page->beginContent('show-actions') ?>
+        <?= IndexLayoutSwitcher::widget() ?>
+        <?= $page->renderSorter([
+            'attributes' => [
+                'id',
+                'model_type', 'model_brand',
+                'partno', 'serial',
+                'create_time', 'move_time',
+            ],
+        ]) ?>
+        <?= $page->renderPerPage() ?>
+        <?= $page->renderRepresentations(PartGridView::class, $representation) ?>
+    <?php $page->endContent() ?>
+
+    <?php $page->beginContent('bulk-actions') ?>
+        <div class="dropdown" style="display: inline-block">
+            <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <?= Yii::t('app', 'Bulk actions') ?>&nbsp;
+                <span class="caret"></span>
+            </button>
+            <?= Dropdown::widget([
+                'encodeLabels' => false,
+                'items' => [
+                    ['label' => Yii::t('app', 'Reserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'reserve']],
+                    ['label' => Yii::t('app', 'Unreserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'unreserve']],
+                    ['label' => Yii::t('app', 'RMA'), 'url' => '#', 'linkOptions' => ['data-action' => 'rma']],
+                    '<li role="presentation" class="divider"></li>',
+                    ['label' => Yii::t('app', 'Update'), 'url' => '#', 'linkOptions' => ['data-action' => 'update']],
+                    ['label' => Yii::t('app', 'Move by one'), 'url' => '#', 'linkOptions' => ['data-action' => 'move']],
                 ],
-            ]) ?>
-            <?= $page->renderPerPage() ?>
-            <?= $page->renderRepresentations($representations, $representation) ?>
-        <?php $page->endContent() ?>
+            ]); ?>
+        </div>
+        <?= AjaxModal::widget([
+            'bulkPage' => true,
+            'id' => 'bulk-set-price-modal',
+            'scenario' => 'bulk-set-price',
+            'actionUrl' => ['bulk-set-price'],
+            'size' => Modal::SIZE_LARGE,
+            'header' => Html::tag('h4', Yii::t('app', 'Set price'), ['class' => 'modal-title']),
+            'toggleButton' => ['label' => Yii::t('app', 'Set price'), 'class' => 'btn btn-default btn-sm'],
+        ]) ?>
+    <?php $page->endContent() ?>
 
-        <?php $page->beginContent('bulk-actions') ?>
-            <div class="dropdown" style="display: inline-block">
-                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <?= Yii::t('app', 'Bulk actions') ?>&nbsp;
-                    <span class="caret"></span>
-                </button>
-                <?= Dropdown::widget([
-                    'encodeLabels' => false,
-                    'items' => [
-                        ['label' => Yii::t('app', 'Reserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'reserve']],
-                        ['label' => Yii::t('app', 'Unreserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'unreserve']],
-                        ['label' => Yii::t('app', 'RMA'), 'url' => '#', 'linkOptions' => ['data-action' => 'rma']],
-                        '<li role="presentation" class="divider"></li>',
-                        ['label' => Yii::t('app', 'Update'), 'url' => '#', 'linkOptions' => ['data-action' => 'update']],
-                        ['label' => Yii::t('app', 'Move by one'), 'url' => '#', 'linkOptions' => ['data-action' => 'move']],
-                    ],
-                ]); ?>
-            </div>
-            <?= AjaxModal::widget([
-                'bulkPage' => true,
-                'id' => 'bulk-set-price-modal',
-                'scenario' => 'bulk-set-price',
-                'actionUrl' => ['bulk-set-price'],
-                'size' => Modal::SIZE_LARGE,
-                'header' => Html::tag('h4', Yii::t('app', 'Set price'), ['class' => 'modal-title']),
-                'toggleButton' => ['label' => Yii::t('app', 'Set price'), 'class' => 'btn btn-default btn-sm'],
-            ]) ?>
-        <?php $page->endContent() ?>
-
-        <?php $page->beginContent('table') ?>
+    <?php $page->beginContent('table') ?>
         <?php $page->beginBulkForm() ?>
             <?= PartGridView::widget([
                 'boxed' => false,
@@ -124,9 +98,9 @@ if (!isset($representations[$representation])) {
                         ($locals ? '<br><span class="text-muted">' . Yii::t('hipanel', 'on screen') . ':' . $locals . '</span>' : null) .
                     '</div>';
                 },
-                'columns' => $representations[$representation]['columns'],
+                'representation' => $representation,
             ]) ?>
         <?php $page->endBulkForm() ?>
-        <?php $page->endContent() ?>
-    <?php $page->end() ?>
+    <?php $page->endContent() ?>
+<?php $page->end() ?>
 <?php Pjax::end() ?>

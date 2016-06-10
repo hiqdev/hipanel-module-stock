@@ -39,6 +39,7 @@ class PartGridView extends BoxedGridView
         return [
             'main' => [
                 'label'             => Yii::t('app', 'Type') . ' / ' . Yii::t('app', 'Manufacturer'),
+                'sortAttribute'     => 'model_type',
                 'value'             => function ($model) {
                     return $model->model_type_label . ' ' . $model->model_brand_label;
                 },
@@ -63,14 +64,14 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'model_type' => [
-                'class'  => RefColumn::className(),
+                'class'  => RefColumn::class,
                 'gtype'  => 'type,model',
                 'value'  => function ($model) {
                     return $model->model_type_label;
                 },
             ],
             'model_brand' => [
-                'class'  => RefColumn::className(),
+                'class'  => RefColumn::class,
                 'gtype'  => 'type,brand',
                 'value'  => function ($model) {
                     return $model->model_brand_label;
@@ -81,10 +82,19 @@ class PartGridView extends BoxedGridView
             ],
             'last_move' => [
                 'label'             => Yii::t('app', 'Last move'),
-                'filter'            => false,
+                'sortAttribute'     => 'dst_name',
                 'format'            => 'html',
                 'value'             => function ($model) {
-                    return Yii::t('app', '{0} &nbsp;←&nbsp; {1}', [$model->dst_name, $model->src_name]);
+                    #return Yii::t('app', '{0} &nbsp;←&nbsp; {1}', [$model->dst_name, $model->src_name]);
+                    return Html::tag('b', $model->dst_name) . '&nbsp;←&nbsp;' . $model->src_name;
+                },
+            ],
+            'move_type_and_date' => [
+                'label'             => Yii::t('app', 'Type') . ' / ' . Yii::t('app', 'Date'),
+                'sortAttribute'     => 'move_time',
+                'format'            => 'raw',
+                'value'             => function ($model) {
+                    return $model->move_type_label . '<br>' . Html::tag('nobr', Yii::$app->formatter->asDate($model->move_time));
                 },
             ],
             'move_type_label' => [
@@ -112,7 +122,10 @@ class PartGridView extends BoxedGridView
             'create_date' => [
                 'attribute'         => 'create_time',
                 'filter'            => false,
-                'format'            => 'date',
+                'format'            => 'raw',
+                'value' => function ($model) {
+                    return Html::tag('nobr', Yii::$app->formatter->asDate($model->create_time));
+                },
             ],
             'order_data' => [
                 'filter'            => false,
@@ -160,6 +173,37 @@ class PartGridView extends BoxedGridView
                 'template'          => '{view} {update}',
                 'header'            => Yii::t('hipanel', 'Actions'),
             ],
+        ];
+    }
+    public static function defaultRepresentations()
+    {
+        return [
+            'common' => [
+                'label'   => Yii::t('hipanel', 'common'),
+                'columns' => [
+                    'checkbox',
+                    'model_type', 'model_brand', 'partno', 'serial',
+                    'last_move', 'move_type_and_date', 'move_descr',
+                ],
+            ],
+            'report' => [
+                'label'   => Yii::t('hipanel', 'report'),
+                'columns' => [
+                    'checkbox',
+                    'model_type', 'model_brand', 'partno', 'serial',
+                    'create_date', 'price', 'place',
+                ],
+            ],
+            'detailed' => Yii::$app->user->can('tmp disabled') ? [
+                'label'   => Yii::t('hipanel', 'detailed'),
+                'columns' => [
+                    'checkbox',
+                    'model_type', 'model_brand',
+                    'partno', 'serial',
+                    'last_move', 'move_type_and_date',
+                    'move_descr', 'order_data', 'DC_ticket_ID',
+                ],
+            ] : '',
         ];
     }
 }

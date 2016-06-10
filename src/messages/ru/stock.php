@@ -23,4 +23,5 @@ return [
     'Model types' => 'Типы моделей',
     'Source' => 'Откуда',
     'Destination' => 'Куда',
+    'Location' => 'Позиция',
 ];

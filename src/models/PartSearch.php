@@ -36,6 +36,7 @@ class PartSearch extends Part
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
+            'place_in'          => Yii::t('hipanel/stock', 'Location'),
             'partno_like'       => Yii::t('app', 'Part No.'),
             'serial_like'       => Yii::t('app', 'Serial'),
             'order_data_like'   => Yii::t('app', 'Order'),

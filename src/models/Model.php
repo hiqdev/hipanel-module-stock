@@ -39,7 +39,6 @@ class Model extends YiiModel
                 'profile_id',
                 'last_prices',
                 'model',
-                'model_like',
                 'type',
                 'types',
                 'state',
@@ -53,12 +52,6 @@ class Model extends YiiModel
                 'prop_tags',
                 'prop_tags_all',
                 'partno',
-                'url_like',
-                'partno_like',
-                'descr_like',
-                'short_like',
-                'brand_like',
-                'group_like',
                 'with_counters',
                 'with_prices',
                 'tariff_id',
@@ -127,14 +120,8 @@ class Model extends YiiModel
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
-            'partno_like' => Yii::t('app', 'Part No.'),
             'partno' => Yii::t('app', 'Part No.'),
-            'brand_like' => Yii::t('app', 'Brand'),
-            'show_hidden_from_user' => Yii::t('app', 'Show hidden'),
-            'descr_like' => Yii::t('app', 'Description'),
-            'short_like' => Yii::t('app', 'Short'),
-            'group_like' => Yii::t('app', 'Group'),
-            'model_like' => Yii::t('app', 'Model'),
+            'show_hidden_from_user' => Yii::t('hipanel/stock', 'Show hidden'),
             'profile' => Yii::t('app', 'Group'),
             // Chassis
             'UNITS_QTY' => Yii::t('app', 'Units'),

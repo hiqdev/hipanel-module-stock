@@ -5,9 +5,9 @@ use hipanel\widgets\Box;
 use yii\helpers\Html;
 
 $this->title = Html::encode(sprintf('%s %s %s', $model->type, $model->brand_label, $model->model));
-$this->subtitle = Yii::t('app', 'Model details') . ' ' . $this->title;
+$this->subtitle = Yii::t('hipanel/stock', 'Model details') . ' ' . $this->title;
 $this->breadcrumbs->setItems([
-    ['label' => Yii::t('app', 'Models'), 'url' => ['index']],
+    ['label' => Yii::t('hipanel/stock', 'Models'), 'url' => ['index']],
     $this->title,
 ]);
 ?>
@@ -46,7 +46,7 @@ $this->breadcrumbs->setItems([
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                 $box->beginHeader();
-                echo $box->renderTitle(Yii::t('app', 'Information'));
+                echo $box->renderTitle(Yii::t('hipanel', 'Information'));
                 $box->endHeader();
                 $box->beginBody();
                 echo ModelGridView::detailView([

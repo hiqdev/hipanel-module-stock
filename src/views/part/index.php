@@ -1,5 +1,6 @@
 <?php
 
+use hipanel\helpers\Url;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\widgets\IndexLayoutSwitcher;
 use hipanel\widgets\IndexPage;
@@ -68,7 +69,8 @@ $representation = Yii::$app->request->get('representation');
             'bulkPage' => true,
             'id' => 'update-serial-modal',
             'scenario' => 'update-serial',
-            'actionUrl' => ['update-serial'],
+            'actionUrl' => ['bulk-update-serial'],
+            'handleSubmit' => Url::toRoute('update-serial'),
             'size' => Modal::SIZE_LARGE,
             'header' => Html::tag('h4', Yii::t('hipanel/stock', 'Set serial'), ['class' => 'modal-title']),
             'toggleButton' => ['label' => Yii::t('hipanel/stock', 'Set serial'), 'class' => 'btn btn-default btn-sm'],

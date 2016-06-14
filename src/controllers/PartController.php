@@ -14,6 +14,7 @@ namespace hipanel\modules\stock\controllers;
 use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
 use hipanel\actions\PrepareBulkAction;
+use hipanel\actions\ProxyAction;
 use hipanel\actions\RedirectAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartPerformAction;
@@ -32,8 +33,23 @@ class PartController extends CrudController
     public function actions()
     {
         return [
-            'update-serial' => [
+            'bulk-update-serial' => [
+                'class' => PrepareBulkAction::class,
+                'view' => '_updateSerial',
                 'scenario' => 'update-serial',
+            ],
+            'update-serial' => [
+                'class' => SmartPerformAction::class,
+                'scenario' => 'update-serial',
+                'success' => Yii::t('hipanel/stock', 'Serial updated.'),
+                'error' => Yii::t('hipanel/stock', 'Failed update serial'),
+                'POST html' => [
+                    'save'    => true,
+                    'success' => [
+                        'class' => ProxyAction::class,
+                        'action' => 'index'
+                    ]
+                ],
             ],
             'bulk-set-price' => [
                 'class' => PrepareBulkAction::class,

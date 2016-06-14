@@ -32,7 +32,6 @@ use yii\helpers\Html;
 <?php foreach ($models as $model) : ?>
     <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
 <?php endforeach; ?>
-<?php ///= $form->field($model, 'price')->textInput(['value' => '', 'placeholder' => '0.00', 'name' => 'price']) ?>
 <?= $form->field($model, 'price')->widget(\hipanel\widgets\AmountWithCurrencyWidget::class, [
     'inputOptions' => ['value' => '', 'placeholder' => '0.00', 'name' => 'price'],
     'selectAttribute' => 'currency',

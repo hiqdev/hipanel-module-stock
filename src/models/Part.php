@@ -107,6 +107,10 @@ class Part extends \hipanel\base\Model
             // Bulk set price
             [['id', 'price'], 'required', 'on' => ['set-price']],
             [['currency'], 'safe', 'on' => ['set-price']],
+
+            // Update serial
+            [['id', 'serial'], 'required', 'on' => ['update-serial']],
+            [['serial'], 'filter', 'filter' => 'trim'],
         ];
     }
 

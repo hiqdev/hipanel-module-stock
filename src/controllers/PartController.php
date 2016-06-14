@@ -32,6 +32,9 @@ class PartController extends CrudController
     public function actions()
     {
         return [
+            'update-serial' => [
+                'scenario' => 'update-serial',
+            ],
             'bulk-set-price' => [
                 'class' => PrepareBulkAction::class,
                 'scenario' => 'set-price',

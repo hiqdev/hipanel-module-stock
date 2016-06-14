@@ -19,14 +19,14 @@ class SourceCombo extends Combo
     public $type = 'stock/src_name';
 
     /** {@inheritdoc} */
-    public $name = 'src_name';
+    public $name = 'name';
 
     /** {@inheritdoc} */
-    public $url = '/stock/move/index';
+    public $url = '/stock/move/directions-list';
 
     /** {@inheritdoc} */
     public $_return = ['id'];
 
     /** {@inheritdoc} */
-    public $_rename = ['text' => 'src_name'];
+    public $_rename = ['text' => 'name'];
 }

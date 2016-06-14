@@ -11,8 +11,10 @@
 
 namespace hipanel\modules\stock\controllers;
 
+use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
+use hipanel\actions\SearchAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
@@ -36,6 +38,14 @@ class MoveController extends CrudController
                         'types' => $action->controller->getTypes(),
                         'moveTypes' => $action->controller->getMoveTypes(),
                     ];
+                },
+            ],
+            'directions-list' => [
+                'class' => SearchAction::class,
+                'on beforeSave' => function ($event) {
+                    /** @var Action $action */
+                    $action = $event->sender;
+                    $action->dataProvider->query->options['scenario'] = 'get-directions';
                 },
             ],
             'delete' => [

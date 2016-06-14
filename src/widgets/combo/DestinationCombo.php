@@ -19,14 +19,14 @@ class DestinationCombo extends Combo
     public $type = 'stock/dst_name';
 
     /** {@inheritdoc} */
-    public $name = 'dst_name';
+    public $name = 'name';
 
     /** {@inheritdoc} */
-    public $url = '/stock/move/index';
+    public $url = '/stock/move/directions-list';
 
     /** {@inheritdoc} */
     public $_return = ['id'];
 
     /** {@inheritdoc} */
-    public $_rename = ['text' => 'dst_name'];
+    public $_rename = ['text' => 'name'];
 }

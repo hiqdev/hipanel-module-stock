@@ -58,6 +58,7 @@ class Move extends Model
                 'data_like',
                 'descr_like',
                 'with_parts',
+                'name',
             ], 'safe'],
         ];
     }

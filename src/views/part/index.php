@@ -48,15 +48,31 @@ $representation = Yii::$app->request->get('representation');
             <?= Dropdown::widget([
                 'encodeLabels' => false,
                 'items' => [
+                    ['label' => Yii::t('hipanel/stock', 'Repair'), 'url' => '#', 'linkOptions' => ['data-action' => 'repair']],
+                    ['label' => Yii::t('hipanel/stock', 'Copy'), 'url' => '#', 'linkOptions' => ['data-action' => 'copy']],
+
+
                     ['label' => Yii::t('app', 'Reserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'reserve']],
                     ['label' => Yii::t('app', 'Unreserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'unreserve']],
                     ['label' => Yii::t('app', 'RMA'), 'url' => '#', 'linkOptions' => ['data-action' => 'rma']],
+
                     '<li role="presentation" class="divider"></li>',
+
                     ['label' => Yii::t('app', 'Update'), 'url' => '#', 'linkOptions' => ['data-action' => 'update']],
+                    ['label' => Yii::t('hipanel/stock', 'Move'), 'url' => '#', 'linkOptions' => ['data-action' => 'move']],
                     ['label' => Yii::t('app', 'Move by one'), 'url' => '#', 'linkOptions' => ['data-action' => 'move']],
                 ],
             ]); ?>
         </div>
+        <?= AjaxModal::widget([
+            'bulkPage' => true,
+            'id' => 'update-serial-modal',
+            'scenario' => 'update-serial',
+            'actionUrl' => ['update-serial'],
+            'size' => Modal::SIZE_LARGE,
+            'header' => Html::tag('h4', Yii::t('hipanel/stock', 'Set serial'), ['class' => 'modal-title']),
+            'toggleButton' => ['label' => Yii::t('hipanel/stock', 'Set serial'), 'class' => 'btn btn-default btn-sm'],
+        ]) ?>
         <?= AjaxModal::widget([
             'bulkPage' => true,
             'id' => 'bulk-set-price-modal',

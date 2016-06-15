@@ -5,7 +5,7 @@ use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hiqdev\combo\StaticCombo;
 use hipanel\widgets\RefCombo;
-use kartik\widgets\DatePicker;
+use hipanel\widgets\DatePicker;
 use yii\helpers\Html;
 
 /**

@@ -6,9 +6,9 @@ use yii\bootstrap\Html;
 ?>
 
 <?php $form = ActiveForm::begin([
-    'id' => 'update-serial-form',
-    'action' => Url::toRoute('update-serial'),
-    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => 'update-serial']),
+    'id' => 'set-serial-form',
+    'action' => Url::toRoute('set-serial'),
+    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => 'set-serial']),
 ]) ?>
 
 <?php foreach ($models as $model) : ?>

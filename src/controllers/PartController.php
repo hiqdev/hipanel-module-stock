@@ -33,21 +33,20 @@ class PartController extends CrudController
     public function actions()
     {
         return [
-            'bulk-update-serial' => [
+            'bulk-set-serial' => [
                 'class' => PrepareBulkAction::class,
-                'view' => '_updateSerial',
-                'scenario' => 'update-serial',
+                'view' => '_setSerial',
+                'scenario' => 'set-serial',
             ],
-            'update-serial' => [
+            'set-serial' => [
                 'class' => SmartPerformAction::class,
-                'scenario' => 'update-serial',
+                'scenario' => 'set-serial',
                 'success' => Yii::t('hipanel/stock', 'Serial updated.'),
-                'error' => Yii::t('hipanel/stock', 'Failed update serial'),
+                'error' => Yii::t('hipanel/stock', 'Failed set serial'),
                 'POST html' => [
-                    'save'    => true,
+                    'save' => true,
                     'success' => [
-                        'class' => ProxyAction::class,
-                        'action' => 'index'
+                        'class' => ProxyAction::class
                     ]
                 ],
             ],
@@ -67,7 +66,7 @@ class PartController extends CrudController
                 'success' => Yii::t('app', 'Price changed'),
                 'error' => Yii::t('app', 'Failed change price'),
                 'POST html' => [
-                    'save'    => true,
+                    'save' => true,
                     'success' => [
                         'class' => RedirectAction::class,
                     ],
@@ -88,8 +87,8 @@ class PartController extends CrudController
             ],
             'index' => [
                 'class' => IndexAction::class,
-                'view'  => 'index',
-                'data'  => function ($action, $data) {
+                'view' => 'index',
+                'data' => function ($action, $data) {
                     $local_sums = [];
                     $total_sums = [];
                     $representation = Yii::$app->request->get('representation');
@@ -105,12 +104,12 @@ class PartController extends CrudController
                     }
 
                     return [
-                        'total_sums'        => $total_sums,
-                        'local_sums'        => $local_sums,
-                        'representation'    => $representation,
-                        'types'             => $action->controller->getTypes(),
-                        'brands'            => $action->controller->getBrands(),
-                        'locations'         => $action->controller->getLocations(),
+                        'total_sums' => $total_sums,
+                        'local_sums' => $local_sums,
+                        'representation' => $representation,
+                        'types' => $action->controller->getTypes(),
+                        'brands' => $action->controller->getBrands(),
+                        'locations' => $action->controller->getLocations(),
                     ];
                 },
             ],

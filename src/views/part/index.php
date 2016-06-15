@@ -67,10 +67,10 @@ $representation = Yii::$app->request->get('representation');
         </div>
         <?= AjaxModal::widget([
             'bulkPage' => true,
-            'id' => 'update-serial-modal',
-            'scenario' => 'update-serial',
-            'actionUrl' => ['bulk-update-serial'],
-            'handleSubmit' => Url::toRoute('update-serial'),
+            'id' => 'set-serial-modal',
+            'scenario' => 'set-serial',
+            'actionUrl' => ['bulk-set-serial'],
+            'handleSubmit' => Url::toRoute('set-serial'),
             'size' => Modal::SIZE_LARGE,
             'header' => Html::tag('h4', Yii::t('hipanel/stock', 'Set serial'), ['class' => 'modal-title']),
             'toggleButton' => ['label' => Yii::t('hipanel/stock', 'Set serial'), 'class' => 'btn btn-default btn-sm'],

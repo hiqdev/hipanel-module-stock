@@ -41,12 +41,12 @@ class PartController extends CrudController
             'set-serial' => [
                 'class' => SmartPerformAction::class,
                 'scenario' => 'set-serial',
-                'success' => Yii::t('hipanel/stock', 'Serial updated.'),
+                'success' => Yii::t('hipanel/stock', 'Serial updated'),
                 'error' => Yii::t('hipanel/stock', 'Failed set serial'),
-                'POST html' => [
+                'POST html | POST ajax' => [
                     'save' => true,
                     'success' => [
-                        'class' => ProxyAction::class
+                        'class' => RedirectAction::class
                     ]
                 ],
             ],

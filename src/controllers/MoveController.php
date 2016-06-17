@@ -17,7 +17,6 @@ use hipanel\actions\OrientationAction;
 use hipanel\actions\SearchAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\base\CrudController;
-use hipanel\models\Ref;
 use Yii;
 
 class MoveController extends CrudController
@@ -57,11 +56,11 @@ class MoveController extends CrudController
 
     public function getTypes()
     {
-        return Ref::getList('type,model');
+        return $this->getRefs('type,model', 'hipanel/stock');
     }
 
     public function getMoveTypes()
     {
-        return Ref::getList('type,move', ['orderby' => 'no_asc', 'with_recursive' => true]);
+        return $this->getRefs('type,move', 'hipanel/stock', ['orderby' => 'no_asc', 'with_recursive' => true]);
     }
 }

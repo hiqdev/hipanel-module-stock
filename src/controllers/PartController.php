@@ -14,7 +14,6 @@ namespace hipanel\modules\stock\controllers;
 use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
 use hipanel\actions\PrepareBulkAction;
-use hipanel\actions\ProxyAction;
 use hipanel\actions\RedirectAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartPerformAction;
@@ -22,7 +21,6 @@ use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
-use hipanel\models\Ref;
 use hipanel\modules\stock\models\Part;
 use Yii;
 use yii\base\Event;
@@ -195,12 +193,12 @@ class PartController extends CrudController
 
     public function getTypes()
     {
-        return Ref::getList('type,model');
+        return $this->getRefs('type,model', 'hipanel/stock');
     }
 
     public function getBrands()
     {
-        return Ref::getList('type,brand');
+        return $this->getRefs('type,brand', 'hipanel/stock');
     }
 
     public function getLocations()
@@ -216,21 +214,21 @@ class PartController extends CrudController
 
     public function getMoveTypes()
     {
-        return Ref::getList('type,move', ['orderby' => 'no_asc', 'with_recursive' => true]);
+        return $this->getRefs('type,move', 'hipanel/stock', ['orderby' => 'no_asc', 'with_recursive' => true]);
     }
 
     public function getSuppliers()
     {
-        return Ref::getList('destination,supplier', ['orderby' => 'name_asc']);
+        return $this->getRefs('destination,supplier', 'hipanel/stock', ['orderby' => 'name_asc']);
     }
 
     public function getCurrencyTypes()
     {
-        return Ref::getList('type,currency', ['orderby' => 'no_asc']);
+        return $this->getRefs('type,currency', 'hipanel', ['orderby' => 'no_asc']);
     }
 
     public function getRemotehands()
     {
-        return Ref::getList('destination,remotehands', ['orderby' => 'name_asc']);
+        return $this->getRefs('destination,remotehands', 'hipanel/stock', ['orderby' => 'name_asc']);
     }
 }

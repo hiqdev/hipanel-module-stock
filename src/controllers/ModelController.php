@@ -19,7 +19,6 @@ use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
-use hipanel\models\Ref;
 use hipanel\modules\stock\models\Model;
 use Yii;
 
@@ -100,17 +99,17 @@ class ModelController extends CrudController
 
     public function getTypes()
     {
-        return Ref::getList('type,model');
+        return $this->getRefs('type,model', 'hipanel/stock');
     }
 
     public function getDcs()
     {
-        return Ref::getList('type,dc');
+        return $this->getRefs('type,dc', 'hipanel/stock');
     }
 
     public function getBrands()
     {
-        return Ref::getList('type,brand');
+        return $this->getRefs('type,brand', 'hipanel/stock');
     }
 
     public function getCustomType()

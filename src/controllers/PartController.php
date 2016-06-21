@@ -15,6 +15,7 @@ use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
 use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\RedirectAction;
+use hipanel\actions\RenderAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
@@ -127,6 +128,34 @@ class PartController extends CrudController
                     return [
                         'moveTypes' => $action->controller->getMoveTypes(),
                         'suppliers' => $action->controller->getSuppliers(),
+                        'currencyTypes' => $action->controller->getCurrencyTypes(),
+                    ];
+                },
+            ],
+            'copy' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('app', 'Parts were copied'),
+                'GET html | POST selection' => [
+                    'class'  => RenderAction::class,
+                    'data' => function ($action, $originalData) {
+                        return call_user_func($action->parent->data, $action, $originalData);
+                    },
+                    'view'   => 'copy',
+                    'params' => function ($action) {
+                        $models = $action->parent->fetchModels();
+                        foreach ($models as $model) {
+                            $model->scenario = 'copy';
+                            $model->serial = $model->id = null;
+                        }
+                        return [
+                            'models' => $models,
+                            'model' => reset($models),
+                        ];
+                    },
+                ],
+                'data' => function ($action) {
+                    return [
+                        'moveTypes' => $action->controller->getMoveTypes(),
                         'currencyTypes' => $action->controller->getCurrencyTypes(),
                     ];
                 },

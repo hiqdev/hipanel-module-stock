@@ -66,7 +66,7 @@ class Part extends \hipanel\base\Model
                 'client_id',
                 'supplier',
                 'order_no',
-            ], 'safe', 'on' => ['create']],
+            ], 'safe', 'on' => ['create', 'copy']],
             [[
                 'src_id',
                 'dst_id',

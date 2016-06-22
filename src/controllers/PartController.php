@@ -140,7 +140,7 @@ class PartController extends CrudController
                     'data' => function ($action, $originalData) {
                         return call_user_func($action->parent->data, $action, $originalData);
                     },
-                    'view'   => 'copy',
+                    'view'   => 'create',
                     'params' => function ($action) {
                         $models = $action->parent->fetchModels();
                         foreach ($models as $model) {
@@ -156,6 +156,7 @@ class PartController extends CrudController
                 'data' => function ($action) {
                     return [
                         'moveTypes' => $action->controller->getMoveTypes(),
+                        'suppliers' => $action->controller->getSuppliers(),
                         'currencyTypes' => $action->controller->getCurrencyTypes(),
                     ];
                 },

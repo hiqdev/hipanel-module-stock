@@ -11,6 +11,7 @@ use yii\bootstrap\Html;
 $this->title = Yii::t('hipanel/stock', 'Copy');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$model->scenario = $scenario = 'copy';
 ?>
 
 
@@ -19,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'enableClientValidation' => true,
     'validateOnBlur' => true,
     'enableAjaxValidation' => true,
-    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $scenario]),
+    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
     'action' => '@part/create'
 ]) ?>
 

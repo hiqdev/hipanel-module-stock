@@ -59,7 +59,7 @@ class Part extends \hipanel\base\Model
                 'partno',
                 'model_id',
                 'serials',
-                'descr',
+                'move_descr',
                 'price',
                 'currency',
                 'client',

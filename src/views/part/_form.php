@@ -44,7 +44,7 @@ use yii\helpers\Url;
     <?php foreach ($models as $i => $model) : ?>
         <?php
         // necessary for update action.
-        if (!$model->isNewRecord) {
+        if ($model->scenario == 'update') {
             $model->setScenario('update');
             echo Html::activeHiddenInput($model, "[$i]id");
         }
@@ -87,7 +87,7 @@ use yii\helpers\Url;
                         <!-- /.row -->
                         <div class="row">
                             <div class="col-md-8">
-                                <?= $form->field($model, "[$i]descr") ?>
+                                <?= $form->field($model, "[$i]move_descr") ?>
                             </div>
                             <!-- /.col-md-8 -->
                             <div class="col-md-2">

@@ -134,6 +134,7 @@ class PartController extends CrudController
             ],
             'copy' => [
                 'class' => SmartUpdateAction::class,
+                'scenario' => 'create',
                 'success' => Yii::t('app', 'Parts were copied'),
                 'GET html | POST selection' => [
                     'class'  => RenderAction::class,
@@ -144,7 +145,7 @@ class PartController extends CrudController
                     'params' => function ($action) {
                         $models = $action->parent->fetchModels();
                         foreach ($models as $model) {
-                            $model->scenario = 'copy';
+                            $model->scenario = 'create';
                             $model->serial = $model->id = null;
                         }
                         return [

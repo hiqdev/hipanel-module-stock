@@ -91,6 +91,9 @@ $representation = Yii::$app->request->get('representation');
             <?= PartGridView::widget([
                 'boxed' => false,
                 'dataProvider' => $dataProvider,
+                'tableOptions' => [
+                    'class' => 'table table-striped table-bordered table-condensed'
+                ],
                 'filterModel' => $model,
                 'locations' => $locations,
                 'summaryRenderer' => function ($grid) use ($local_sums, $total_sums) {

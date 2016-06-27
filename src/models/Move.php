@@ -60,6 +60,7 @@ class Move extends Model
                 'with_parts',
                 'name',
             ], 'safe'],
+            [['id'], 'required', 'on' => 'delete'],
         ];
     }
 

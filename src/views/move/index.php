@@ -27,7 +27,7 @@ $this->breadcrumbs->setItems([
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('bulk-actions') ?>
-            <?= $page->renderBulkButton(Yii::t('app', 'Delete'), ['delete'], 'danger') ?>
+            <?= $page->renderBulkButton(Yii::t('app', 'Delete'), 'delete', 'danger') ?>
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('table') ?>

@@ -132,9 +132,39 @@ class PartController extends CrudController
                     ];
                 },
             ],
+            'repair' => [
+                'class' => SmartUpdateAction::class,
+                'scenario' => 'repair',
+                'success' => Yii::t('hipanel/stock', 'Parts was repaired'),
+                'GET html | POST selection' => [
+                    'class'  => RenderAction::class,
+                    'data' => function ($action, $originalData) {
+                        return call_user_func($action->parent->data, $action, $originalData);
+                    },
+                    'view'   => 'repair',
+                    'params' => function ($action) {
+                        $models = $action->parent->fetchModels();
+                        foreach ($models as $model) {
+                            $model->scenario = 'repair';
+                            $model->serial = $model->id = null;
+                        }
+                        return [
+                            'models' => $models,
+                            'model' => reset($models),
+                        ];
+                    },
+                ],
+                'data' => function ($action) {
+                    return [
+                        'moveTypes' => $action->controller->getMoveTypes(),
+                        'suppliers' => $action->controller->getSuppliers(),
+                        'currencyTypes' => $action->controller->getCurrencyTypes(),
+                    ];
+                },
+            ],
             'copy' => [
                 'class' => SmartUpdateAction::class,
-                'scenario' => 'create',
+                'scenario' => 'copy',
                 'success' => Yii::t('app', 'Parts were copied'),
                 'GET html | POST selection' => [
                     'class'  => RenderAction::class,
@@ -145,7 +175,7 @@ class PartController extends CrudController
                     'params' => function ($action) {
                         $models = $action->parent->fetchModels();
                         foreach ($models as $model) {
-                            $model->scenario = 'create';
+                            $model->scenario = 'copy';
                             $model->serial = $model->id = null;
                         }
                         return [

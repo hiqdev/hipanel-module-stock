@@ -67,6 +67,10 @@ class Part extends \hipanel\base\Model
                 'supplier',
                 'order_no',
             ], 'safe', 'on' => ['create', 'copy']],
+            // Repair
+            [['move_descr', 'model_type', 'supplier', 'order_no', 'dst_ids'], 'safe', 'on' => 'repair'],
+            // Copy
+            [['partno', 'model_id', 'serial', 'move_descr', 'model_type', 'supplier', 'order_no'], 'safe', 'on' => 'copy'],
             [[
                 'src_id',
                 'dst_id',
@@ -177,5 +181,30 @@ class Part extends \hipanel\base\Model
 //        }
 
         return $grouped_models;
+    }
+
+    /**
+     * @param $types array
+     * @param $scenario string
+     * @return array
+     */
+    public function filterTypes($types, $scenario)
+    {
+        $result = [];
+        $matches = [
+           'repair' => ['repair', 'replace'],
+        ];
+        
+        if (key_exists($scenario, $matches)) {
+            foreach ($types as $k => $label) {
+               if (in_array($k, $matches[$scenario])) {
+                   $result[$k] = $label;
+               } 
+            }
+        } else {
+            $result = $types;
+        }
+        
+        return $result;
     }
 }

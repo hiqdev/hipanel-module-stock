@@ -7,7 +7,6 @@ use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
-
 ?>
 <?php $form = ActiveForm::begin([
     'id' => 'dynamic-form',
@@ -63,7 +62,12 @@ use yii\helpers\Url;
                 </div>
                 <?php if ($model->isNewRecord) : ?>
                     <div class="col-md-6">
-                        <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::className()) ?>
+                        <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::className(), [
+                            'inputOptions' => [
+                                'disabled' => true,
+                                'readonly' => true,
+                            ],
+                        ]) ?>
                         <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::className()) ?>
                         <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::className()) ?>
                     </div>

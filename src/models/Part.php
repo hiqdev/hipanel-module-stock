@@ -66,11 +66,23 @@ class Part extends \hipanel\base\Model
                 'client_id',
                 'supplier',
                 'order_no',
+                'move_type',
+                'src_id',
+                'dst_id',
             ], 'safe', 'on' => ['create', 'copy']],
             // Repair
-            [['move_descr', 'model_type', 'supplier', 'order_no', 'dst_ids'], 'safe', 'on' => 'repair'],
-            // Copy
-            [['partno', 'model_id', 'serial', 'move_descr', 'model_type', 'supplier', 'order_no'], 'safe', 'on' => 'copy'],
+            [[
+                'id',
+                'move_descr',
+                'model_type',
+                'supplier',
+                'order_no',
+                'dst_id',
+                'src_id',
+                'serial',
+                'move_type',
+            ], 'safe', 'on' => 'repair'],
+            [['id'], 'required', 'on' => 'repair'],
             [[
                 'src_id',
                 'dst_id',
@@ -183,6 +195,14 @@ class Part extends \hipanel\base\Model
         return $grouped_models;
     }
 
+    public function scenarioCommands()
+    {
+        return [
+            'repair' => 'move',
+            'copy' => 'create',
+        ];
+    }
+
     /**
      * @param $types array
      * @param $scenario string
@@ -192,7 +212,8 @@ class Part extends \hipanel\base\Model
     {
         $result = [];
         $matches = [
-           'repair' => ['repair', 'replace'],
+            'repair' => ['repair', 'replace'],
+            'copy' => ['order', 'direct', 'outdated'],
         ];
         
         if (key_exists($scenario, $matches)) {

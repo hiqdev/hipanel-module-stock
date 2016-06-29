@@ -2,6 +2,7 @@
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
+use hipanel\widgets\AmountWithCurrencyWidget;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
@@ -62,12 +63,7 @@ use yii\helpers\Url;
                 </div>
                 <?php if ($model->isNewRecord) : ?>
                     <div class="col-md-6">
-                        <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::className(), [
-                            'inputOptions' => [
-                                'disabled' => true,
-                                'readonly' => true,
-                            ],
-                        ]) ?>
+                        <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::className()) ?>
                         <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::className()) ?>
                         <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::className()) ?>
                     </div>
@@ -106,7 +102,7 @@ use yii\helpers\Url;
                         <!-- /.row -->
                     </div>
                     <!-- /.col-md-6 -->
-                    <?php else : ?>
+                <?php else : ?>
                     <div class="col-md-4">
                         <?= $form->field($model, "[$i]partno")->textInput(['readonly' => true]) ?>
                     </div>
@@ -116,7 +112,7 @@ use yii\helpers\Url;
                     </div>
                     <!-- /.col-md-4 -->
                     <div class="col-md-4">
-                        <?= \hipanel\widgets\AmountWithCurrencyWidget::widget([
+                        <?= AmountWithCurrencyWidget::widget([
                             'model' => $model,
                             'inputAttribute' => "[$i]price",
                             'selectAttribute' => "[$i]currency",

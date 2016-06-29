@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php $form = ActiveForm::begin([
-    'id' => 'dynamic-form',
+    'id' => 'repair-form',
     'enableClientValidation' => true,
     'validateOnBlur' => true,
     'enableAjaxValidation' => true,
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'currency',
     ],
 ]) ?>
-<div class="container-items"><!-- widgetContainer -->
+<div class="container-items">
     <?php foreach ($models as $i => $model) : ?>
         <?= Html::activeHiddenInput($model, "[$i]id") ?>
         <div class="item">
@@ -54,20 +54,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="col-md-6">
                         <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::className(), [
                             'inputOptions' => [
-                                'disabled' => true,
                                 'readonly' => true,
                             ],
                         ]) ?>
                         <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::className(), [
                             'inputOptions' => [
-                                'disabled' => true,
                                 'readonly' => true,
                             ],
                         ]) ?>
                         <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::className()) ?>
                     </div>
                     <div class="col-md-6">
-                        <?= $form->field($model, "[$i]serial")->textInput(['disabled' => true]) ?>
+                        <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
                         <div class="row">
                             <div class="col-md-4">
                                 <?= $form->field($model, "[$i]move_type")->dropDownList($model->filterTypes($moveTypes, $model->scenario)) ?>

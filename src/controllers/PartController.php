@@ -134,26 +134,7 @@ class PartController extends CrudController
             ],
             'repair' => [
                 'class' => SmartUpdateAction::class,
-                'scenario' => 'repair',
                 'success' => Yii::t('hipanel/stock', 'Parts was repaired'),
-                'GET html | POST selection' => [
-                    'class'  => RenderAction::class,
-                    'data' => function ($action, $originalData) {
-                        return call_user_func($action->parent->data, $action, $originalData);
-                    },
-                    'view'   => 'repair',
-                    'params' => function ($action) {
-                        $models = $action->parent->fetchModels();
-                        foreach ($models as $model) {
-                            $model->scenario = 'repair';
-                            $model->serial = $model->id = null;
-                        }
-                        return [
-                            'models' => $models,
-                            'model' => reset($models),
-                        ];
-                    },
-                ],
                 'data' => function ($action) {
                     return [
                         'moveTypes' => $action->controller->getMoveTypes(),
@@ -171,7 +152,6 @@ class PartController extends CrudController
                     'data' => function ($action, $originalData) {
                         return call_user_func($action->parent->data, $action, $originalData);
                     },
-                    'view'   => 'create',
                     'params' => function ($action) {
                         $models = $action->parent->fetchModels();
                         foreach ($models as $model) {

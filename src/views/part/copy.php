@@ -4,5 +4,4 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Parts'), 'url' => ['
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-
 <?= $this->render('_form', compact(['models', 'moveTypes', 'suppliers', 'currencyTypes'])) ?>

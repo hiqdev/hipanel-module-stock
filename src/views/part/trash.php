@@ -1,5 +1,6 @@
 <?php
-use hipanel\helpers\Url;
+
+
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
@@ -7,8 +8,9 @@ use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
-$this->title = Yii::t('app', 'Repair parts');
+$this->title = Yii::t('app', 'Trash');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -39,10 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'move_type',
         'supplier',
         'order_no',
-        'order_no',
-        'descr',
-        'price',
-        'currency',
+        'move_descr',
     ],
 ]) ?>
 <div class="container-items">
@@ -51,44 +50,44 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="item">
             <?php Box::begin() ?>
             <div class="row input-row margin-bottom">
-                    <div class="col-md-6">
-                        <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class, [
-                            'inputOptions' => [
-                                'readonly' => true,
-                            ],
-                        ]) ?>
-                        <?php $model->src_id = $model->dst_id ?>
-                        <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class, [
-                            'inputOptions' => [
-                                'readonly' => true,
-                            ],
-                        ]) ?>
-                        <?php $model->dst_id = '' ?>
-                        <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class, [
-                            'inputOptions' => [
-                                'readonly' => true,
-                            ],
-                        ]) ?>
-                    </div>
-                    <div class="col-md-6">
-                        <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <?= $form->field($model, "[$i]move_type")->dropDownList($model->filterTypes($moveTypes, $model->scenario)) ?>
-                            </div>
-                            <div class="col-md-4">
-                                <?= $form->field($model, "[$i]supplier")->dropDownList($suppliers) ?>
-                            </div>
-                            <div class="col-md-4">
-                                <?= $form->field($model, "[$i]order_no") ?>
-                            </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class, [
+                        'inputOptions' => [
+                            'readonly' => true,
+                        ],
+                    ]) ?>
+                    <?php $model->src_id = $model->dst_id ?>
+                    <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class, [
+                        'inputOptions' => [
+                            'readonly' => true,
+                        ],
+                    ]) ?>
+                    <?php $model->dst_id = 6133726 ?>
+                    <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class, [
+                        'inputOptions' => [
+                            'readonly' => true,
+                        ],
+                    ]) ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <?= $form->field($model, "[$i]move_type")->dropDownList($model->filterTypes($moveTypes, $model->scenario)) ?>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <?= $form->field($model, "[$i]move_descr") ?>
-                            </div>
+                        <div class="col-md-4">
+                            <?= $form->field($model, "[$i]supplier")->dropDownList($suppliers) ?>
+                        </div>
+                        <div class="col-md-4">
+                            <?= $form->field($model, "[$i]order_no") ?>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?= $form->field($model, "[$i]move_descr") ?>
+                        </div>
+                    </div>
+                </div>
             </div>
             <?php Box::end() ?>
         </div>

@@ -172,6 +172,21 @@ class PartController extends CrudController
                     ];
                 },
             ],
+            'trash' => [
+                'class' => SmartUpdateAction::class,
+                'scenario' => 'trash',
+                'success' => Yii::t('hipanel/stock', 'Parts have benn moved to trash'),
+                'data' => function ($action) {
+                    return [
+                        'moveTypes' => $action->controller->getMoveTypes(),
+                        'suppliers' => $action->controller->getSuppliers(),
+                        'currencyTypes' => $action->controller->getCurrencyTypes(),
+                    ];
+                },
+            ],
+            'replace' => [
+                'class' => SmartUpdateAction::class,
+            ],
             'update' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('app', 'Part were updated'),

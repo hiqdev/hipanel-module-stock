@@ -70,6 +70,17 @@ class Part extends \hipanel\base\Model
                 'src_id',
                 'dst_id',
             ], 'safe', 'on' => ['create', 'copy']],
+            [['serials', 'src_id'], 'required', 'on' => 'copy'],
+            // Trash
+            [[
+                'id',
+                'src_id',
+                'dst_id',
+                'serial',
+                'partno',
+                'move_type',
+                'move_descr',
+            ], 'safe', 'on' => 'trash'],
             // Repair
             [[
                 'id',
@@ -200,6 +211,7 @@ class Part extends \hipanel\base\Model
         return [
             'repair' => 'move',
             'copy' => 'create',
+            'trash' => 'move',
         ];
     }
 
@@ -214,6 +226,7 @@ class Part extends \hipanel\base\Model
         $matches = [
             'repair' => ['repair', 'replace'],
             'copy' => ['order', 'direct', 'outdated'],
+            'trash' => ['died', 'outdated'],
         ];
         
         if (key_exists($scenario, $matches)) {

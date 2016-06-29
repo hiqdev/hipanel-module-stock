@@ -84,6 +84,7 @@ $representation = Yii::$app->request->get('representation');
             'header' => Html::tag('h4', Yii::t('app', 'Set price'), ['class' => 'modal-title']),
             'toggleButton' => ['label' => Yii::t('app', 'Set price'), 'class' => 'btn btn-default btn-sm'],
         ]) ?>
+        <?= $page->renderBulkButton(Yii::t('hipanel/stock', 'Trash'), 'trash', 'danger') ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('table') ?>

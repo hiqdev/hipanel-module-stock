@@ -22,6 +22,7 @@ use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
+use hipanel\models\Ref;
 use hipanel\modules\stock\models\Part;
 use Yii;
 use yii\base\Event;
@@ -181,6 +182,7 @@ class PartController extends CrudController
                         'moveTypes' => $action->controller->getMoveTypes(),
                         'suppliers' => $action->controller->getSuppliers(),
                         'currencyTypes' => $action->controller->getCurrencyTypes(),
+                        'trashId' => $action->controller->getTrashId(),
                     ];
                 },
             ],
@@ -286,5 +288,20 @@ class PartController extends CrudController
     public function getRemotehands()
     {
         return $this->getRefs('destination,remotehands', 'hipanel/stock', ['orderby' => 'name_asc']);
+    }
+
+    /**
+     * @return null|integer
+     */
+    public function getTrashId()
+    {
+        $resultId = null;
+        $ids = Ref::find(['gtype' => 'destination,trash', 'select' => 'full'])->all();
+        foreach ($ids as $model) {
+            if ($model->name === 'main')
+                $resultId = $model->id;
+        }
+
+        return $resultId;
     }
 }

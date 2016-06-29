@@ -62,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'readonly' => true,
                         ],
                     ]) ?>
-                    <?php $model->dst_id = 6133726 ?>
+                    <?php $model->dst_id = $trashId ?>
                     <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class, [
                         'inputOptions' => [
                             'readonly' => true,

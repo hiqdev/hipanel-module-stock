@@ -225,6 +225,7 @@ class Part extends \hipanel\base\Model
         $result = [];
         $matches = [
             'repair' => ['repair', 'replace'],
+            'replace' => ['repair', 'replace'],
             'copy' => ['order', 'direct', 'outdated'],
             'trash' => ['died', 'outdated'],
         ];

@@ -37,6 +37,13 @@ class PartGridView extends BoxedGridView
     public static function defaultColumns()
     {
         return [
+            'serial' => [
+                'filterAttribute'   => 'serial_like',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->serial, ['@move/index', 'MoveSearch' => ['serial_like' => $model->serial]], ['class' => 'text-bold']);
+                }
+            ],
             'main' => [
                 'label'             => Yii::t('app', 'Type') . ' / ' . Yii::t('app', 'Manufacturer'),
                 'sortAttribute'     => 'model_type',
@@ -76,9 +83,6 @@ class PartGridView extends BoxedGridView
                 'value'  => function ($model) {
                     return $model->model_brand_label;
                 },
-            ],
-            'serial' => [
-                'filterAttribute'   => 'serial_like',
             ],
             'last_move' => [
                 'label'             => Yii::t('app', 'Last move'),

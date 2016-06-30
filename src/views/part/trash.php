@@ -1,6 +1,5 @@
 <?php
 
-
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;

@@ -81,6 +81,24 @@ class Part extends \hipanel\base\Model
                 'move_type',
                 'move_descr',
             ], 'safe', 'on' => 'trash'],
+            // Replace
+            [[
+                'id',
+                'move_descr',
+                'model_type',
+                'supplier',
+                'order_no',
+                'dst_id',
+                'src_id',
+                'serial',
+                'move_type',
+            ], 'safe', 'on' => 'replace'],
+            [['id'], 'required', 'on' => 'replace'],
+            [[
+                'src_id',
+                'dst_id',
+                'move_type',
+            ], 'required', 'on' => ['replace']],
             // Repair
             [[
                 'id',
@@ -165,6 +183,7 @@ class Part extends \hipanel\base\Model
             'src_name'          => Yii::t('hipanel/stock', 'Source'),
             'dst_id'            => Yii::t('hipanel/stock', 'Destination'),
             'dst_name'          => Yii::t('hipanel/stock', 'Destination'),
+            'supplier'          => Yii::t('hipanel/stock', 'Supplier'),
         ]);
     }
 
@@ -212,6 +231,7 @@ class Part extends \hipanel\base\Model
             'repair' => 'move',
             'copy' => 'create',
             'trash' => 'move',
+            'replace' => 'move',
         ];
     }
 
@@ -225,16 +245,14 @@ class Part extends \hipanel\base\Model
         $result = [];
         $matches = [
             'repair' => ['repair', 'replace'],
-            'replace' => ['repair', 'replace'],
+            'replace' => ['replace', 'repair'],
             'copy' => ['order', 'direct', 'outdated'],
             'trash' => ['died', 'outdated'],
         ];
         
         if (key_exists($scenario, $matches)) {
-            foreach ($types as $k => $label) {
-               if (in_array($k, $matches[$scenario])) {
-                   $result[$k] = $label;
-               } 
+            foreach ($matches[$scenario] as $key) {
+                $result[$key] = $types[$key];
             }
         } else {
             $result = $types;

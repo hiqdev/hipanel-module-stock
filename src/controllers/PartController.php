@@ -188,6 +188,15 @@ class PartController extends CrudController
             ],
             'replace' => [
                 'class' => SmartUpdateAction::class,
+                'scenario' => 'replace',
+                'success' => Yii::t('hipanel/stock', 'Parts was repaired'),
+                'data' => function ($action) {
+                    return [
+                        'moveTypes' => $action->controller->getMoveTypes(),
+                        'suppliers' => $action->controller->getSuppliers(),
+                        'currencyTypes' => $action->controller->getCurrencyTypes(),
+                    ];
+                },
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,

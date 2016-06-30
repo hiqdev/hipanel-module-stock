@@ -51,6 +51,7 @@ $representation = Yii::$app->request->get('representation');
                 'items' => [
                     ['label' => Yii::t('hipanel/stock', 'Repair'), 'url' => '#', 'linkOptions' => ['data-action' => 'repair']],
                     ['label' => Yii::t('hipanel/stock', 'Copy'), 'url' => '#', 'linkOptions' => ['data-action' => 'copy']],
+                    ['label' => Yii::t('hipanel/stock', 'Replace'), 'url' => '#', 'linkOptions' => ['data-action' => 'replace']],
 
 
                     ['label' => Yii::t('app', 'Reserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'reserve']],

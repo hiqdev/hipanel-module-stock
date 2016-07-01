@@ -54,6 +54,17 @@ class Part extends \hipanel\base\Model
                 'show_deleted',
                 'show_groups',
             ], 'safe', 'on' => 'search'],
+            // Move by one
+            [[
+                'id',
+                'move_type',
+                'src_id',
+                'dst_id',
+                'descr',
+                'remotehands',
+                'remote_ticket',
+                'hm_ticket',
+            ], 'safe', 'on' => 'move-by-one'],
             // Create
             [[
                 'partno',

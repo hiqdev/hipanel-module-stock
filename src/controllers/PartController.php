@@ -217,6 +217,7 @@ class PartController extends CrudController
             ],
             'move-by-one' => [
                 'class' => SmartUpdateAction::class,
+                'scenario' => 'move-by-on',
                 'success' => Yii::t('app', 'Parts were moved'),
                 'view' => 'moveByOne',
                 'data' => function ($action) {

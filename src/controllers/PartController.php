@@ -215,6 +215,17 @@ class PartController extends CrudController
                 'class' => SmartPerformAction::class,
                 'success' => Yii::t('app', 'Parts were unreserved'),
             ],
+            'move-by-one' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('app', 'Parts were moved'),
+                'view' => 'moveByOne',
+                'data' => function ($action) {
+                    return [
+                        'types' => $action->controller->getMoveTypes(),
+                        'remotehands' => $action->controller->getRemotehands(),
+                    ];
+                },
+            ],
             'move' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('app', 'Parts were moved'),

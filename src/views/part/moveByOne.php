@@ -1,7 +1,6 @@
 <?php
 
 use hipanel\helpers\Url;
-use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
@@ -11,8 +10,9 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 $scenario = $this->context->action->scenario;
-//$models = ($scenario == 'bulk-move') ? Part::groupMoveBulkElements($models) : $models;
-
+$this->title = Yii::t('app', 'Move by one');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Parts'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php $form = ActiveForm::begin([
     'id' => 'dynamic-form',
@@ -37,7 +37,7 @@ $scenario = $this->context->action->scenario;
         'src_id',
         'dst_id',
         'type',
-        'descr',
+        'move_descr',
         'remotehands',
         'remote_ticket',
         'hm_ticket',
@@ -83,49 +83,36 @@ $scenario = $this->context->action->scenario;
                                 ],
                             ]) ?>
                         </div>
-                        <!-- /.col-md-6 -->
                         <div class="col-md-6">
                             <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::className()) ?>
                         </div>
-                        <!-- /.col-md-6 -->
                     </div>
-                    <!-- /.row -->
 
                     <div class="row">
                         <div class="col-md-6">
                             <?= $form->field($model, "[$i]type")->dropDownList($types) ?>
                         </div>
-                        <!-- /.col-md-6 -->
                         <div class="col-md-6">
                             <?= $form->field($model, "[$i]remotehands")->dropDownList($remotehands) ?>
                         </div>
-                        <!-- /.col-md-6 -->
                     </div>
-                    <!-- /.row -->
 
                     <div class="row">
                         <div class="col-md-6">
                             <?= $form->field($model, "[$i]remote_ticket")->textInput() ?>
                         </div>
-                        <!-- /.col-md-6 -->
                         <div class="col-md-6">
                             <?= $form->field($model, "[$i]hm_ticket")->textInput() ?>
                         </div>
-                        <!-- /.col-md-6 -->
                     </div>
-                    <!-- /.row -->
 
-                    <?= $form->field($model, "[$i]descr")->textarea() ?>
+                    <?= $form->field($model, "[$i]move_descr")->textarea() ?>
                 </div>
-                <!-- /.col-md-12 -->
             </div>
-            <!-- /.row -->
             <?php Box::end() ?>
         </div>
-        <!-- /.item -->
     <?php endforeach; ?>
 </div>
-<!-- /.container-items -->
 
 <?php DynamicFormWidget::end() ?>
 <?php Box::begin(['options' => ['class' => 'box-solid']]) ?>
@@ -135,8 +122,6 @@ $scenario = $this->context->action->scenario;
         &nbsp;
         <?= Html::button(Yii::t('app', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
-    <!-- /.col-md-12 -->
 </div>
-<!-- /.row -->
 <?php Box::end() ?>
 <?php ActiveForm::end() ?>

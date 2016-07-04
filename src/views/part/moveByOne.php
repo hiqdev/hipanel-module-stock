@@ -62,35 +62,35 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?php $ids[] = $part_id; ?>
                                 <div><?= $part['partno'] ?> : <?= $part['serial'] ?></div>
                             <?php endforeach; ?>
-                            <?= Html::activeHiddenInput($model, "[$i]ids", ['value' => $ids]); ?>
+                            <?= Html::activeHiddenInput($model, "[$i]id", ['value' => $ids]); ?>
                         <?php endif; ?>
                     <?php else : ?>
-                        <?= Html::activeHiddenInput($model, "[$i]ids", ['value' => $model->id]); ?>
+                        <?= Html::activeHiddenInput($model, "[$i]id", ['value' => $model->id]); ?>
                         <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::className(), [
                             'inputOptions' => [
-                                'disabled' => true,
                                 'readonly' => true,
                             ],
                         ]) ?>
-                        <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true, 'disabled' => 'disabled']) ?>
+                        <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
                     <?php endif; ?>
                     <div class="row">
                         <div class="col-md-6">
+                            <?php $model->src_id = $model->dst_id ?>
                             <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::className(), [
                                 'inputOptions' => [
-                                    'disabled' => true,
                                     'readonly' => true,
                                 ],
                             ]) ?>
                         </div>
                         <div class="col-md-6">
+                            <?php $model->dst_id = null ?>
                             <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::className()) ?>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6">
-                            <?= $form->field($model, "[$i]type")->dropDownList($types) ?>
+                            <?= $form->field($model, "[$i]move_type")->dropDownList($types) ?>
                         </div>
                         <div class="col-md-6">
                             <?= $form->field($model, "[$i]remotehands")->dropDownList($remotehands) ?>
@@ -106,7 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                     </div>
 
-                    <?= $form->field($model, "[$i]move_descr")->textarea() ?>
+                    <?= $form->field($model, "[$i]descr")->textarea() ?>
                 </div>
             </div>
             <?php Box::end() ?>

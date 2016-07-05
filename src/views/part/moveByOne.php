@@ -10,7 +10,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 $scenario = $this->context->action->scenario;
-$this->title = Yii::t('app', 'Move by one');
+$this->title = Yii::t('hipanel/stock', 'Move by one');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

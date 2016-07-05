@@ -146,7 +146,7 @@ class Part extends \hipanel\base\Model
                 'remote_ticket',
                 'hm_ticket',
                 'parts',
-            ], 'safe', 'on' => ['move', 'bulk-move']],
+            ], 'safe', 'on' => ['move']],
             [[
                 'src_id',
                 'dst_id',

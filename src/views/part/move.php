@@ -1,94 +1,82 @@
 <?php
+
+use hipanel\helpers\Url;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
-use hipanel\modules\stock\widgets\combo\PartnoCombo;
-use hipanel\modules\stock\widgets\combo\SourceCombo;
+use hipanel\widgets\ArraySpoiler;
 use hipanel\widgets\Box;
-use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
-$this->title = Yii::t('app', 'Move');
+$scenario = $this->context->action->scenario;
+$this->title = Yii::t('hipanel/stock', 'Bulk move');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-
-<?= $this->render('_moveForm', compact(['models', 'types', 'remotehands'])); ?>
-
-
 <?php $form = ActiveForm::begin([
-    'id' => 'repair-form',
+    'id' => 'dynamic-form',
     'enableClientValidation' => true,
     'validateOnBlur' => true,
     'enableAjaxValidation' => true,
-    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => reset($models)->scenario]),
+    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => reset($models)->isNewRecord ? 'create' : 'update']),
 ]) ?>
 
-<?php DynamicFormWidget::begin([
-    'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
-    'widgetBody' => '.container-items', // required: css class selector
-    'widgetItem' => '.item', // required: css class
-    'limit' => count($models), // the maximum times, an element can be cloned (default 999)
-    'min' => count($models), // 0 or 1 (default 1)
-    'insertButton' => '.add-item', // css class
-    'deleteButton' => '.remove-item', // css class
-    'model' => reset($models),
-    'formId' => 'dynamic-form',
-    'formFields' => [
-        'partno',
-        'src_id',
-        'dst_id',
-        'serials',
-        'move_type',
-        'supplier',
-        'order_no',
-        'move_descr',
-    ],
-]) ?>
 <div class="container-items">
     <?php foreach ($models as $i => $model) : ?>
-        <?= Html::activeHiddenInput($model, "[$i]id") ?>
-        <div class="item">
-            <?php Box::begin() ?>
-            <div class="row input-row margin-bottom">
-                <div class="col-md-6">
-                    <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class, [
-                        'inputOptions' => [
-                            'readonly' => true,
-                        ],
-                    ]) ?>
-                    <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class, [
-                        'inputOptions' => [
-                            'readonly' => true,
-                        ],
-                    ]) ?>
-                    <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
-                </div>
-                <div class="col-md-6">
-                    <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <?= $form->field($model, "[$i]move_type")->dropDownList($model->filterTypes($moveTypes, $model->scenario)) ?>
-                        </div>
-                        <div class="col-md-4">
-                            <?= $form->field($model, "[$i]supplier")->dropDownList($suppliers) ?>
-                        </div>
-                        <div class="col-md-4">
-                            <?= $form->field($model, "[$i]order_no") ?>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?= $form->field($model, "[$i]move_descr") ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php Box::end() ?>
-        </div>
+        <?= Html::activeHiddenInput($model, "[$i]id"); ?>
     <?php endforeach; ?>
+        <?php Box::begin() ?>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                         <div class="well well-sm">
+                             <h4><?= Yii::t('hipanel/stock', 'Parts in move')?>:</h4>
+                             <br>
+                             <?= ArraySpoiler::widget([
+                                'data' => $models,
+                                'visibleCount' => count($models),
+                                'formatter' => function ($model) {
+                                    return $model->partno . sprintf(' (%s)', $model->serial);
+                                },
+                                'delimiter' => ',&nbsp; ',
+                            ]); ?>
+                         <div>
+                        <?php foreach ($models as $model) : ?>
+                            <?= Html::activeHiddenInput($model, "[$i]id", ['value' => $ids]); ?>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <?php $model->dst_id = null; ?>
+                        <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::className()) ?>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <?= $form->field($model, "[$i]move_type")->dropDownList($types) ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $form->field($model, "[$i]remotehands")->dropDownList($remotehands) ?>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <?= $form->field($model, "[$i]remote_ticket")->textInput() ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $form->field($model, "[$i]hm_ticket")->textInput() ?>
+                    </div>
+                </div>
+
+                <?= $form->field($model, "[$i]descr")->textarea() ?>
+            </div>
+        </div>
+        <?php Box::end() ?>
 </div>
 
-<?php DynamicFormWidget::end() ?>
 <?php Box::begin(['options' => ['class' => 'box-solid']]) ?>
 <div class="row">
     <div class="col-md-12 no">
@@ -99,3 +87,4 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <?php Box::end() ?>
 <?php ActiveForm::end() ?>
+

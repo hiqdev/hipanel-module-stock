@@ -237,16 +237,6 @@ class PartController extends CrudController
                     ];
                 },
             ],
-            'bulk-move' => [
-                'class' => SmartCreateAction::class,
-                'success' => Yii::t('app', 'Parts were moved'),
-                'data' => function ($action) {
-                    return [
-                        'types' => $action->controller->getMoveTypes(),
-                        'remotehands' => $action->controller->getRemotehands(),
-                    ];
-                },
-            ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,
             ],

@@ -62,7 +62,7 @@ $representation = Yii::$app->request->get('representation');
 
                     ['label' => Yii::t('app', 'Update'), 'url' => '#', 'linkOptions' => ['data-action' => 'update']],
                     ['label' => Yii::t('hipanel/stock', 'Move'), 'url' => '#', 'linkOptions' => ['data-action' => 'move']],
-                    ['label' => Yii::t('app', 'Move by one'), 'url' => '#', 'linkOptions' => ['data-action' => 'move-by-one']],
+                    ['label' => Yii::t('hipanel/stock', 'Move by one'), 'url' => '#', 'linkOptions' => ['data-action' => 'move-by-one']],
                 ],
             ]); ?>
         </div>

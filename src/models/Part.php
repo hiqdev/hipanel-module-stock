@@ -148,7 +148,6 @@ class Part extends \hipanel\base\Model
                 'parts',
             ], 'safe', 'on' => ['move']],
             [[
-                'src_id',
                 'dst_id',
                 'type',
             ], 'required', 'on' => ['move']],

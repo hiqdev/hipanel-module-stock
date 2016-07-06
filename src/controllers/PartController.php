@@ -236,6 +236,28 @@ class PartController extends CrudController
                         'remotehands' => $action->controller->getRemotehands(),
                     ];
                 },
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
+                    $action = $event->sender;
+                    $part = Yii::$app->request->post('Part');
+                    $dst_id = $part['dst_id'];
+                    $move_type = $part['move_type'];
+                    $descr = $part['descr'];
+                    $remotehands = $part['remotehands'];
+                    $remote_ticket= $part['remote_ticket'];
+                    $hm_ticket = $part['hm_ticket'];
+                    $ids = ArrayHelper::remove($_POST['Part'], 'id');
+                    $action->collection->set(Part::find()->where(['id' => $ids])->all());
+                    foreach ($action->collection->models as $model) {
+                        $model->scenario = 'move';
+                        $model->dst_id = $dst_id;
+                        $model->move_type = $move_type;
+                        $model->remotehands = $remotehands;
+                        $model->remote_ticket = $remote_ticket;
+                        $model->hm_ticket = $hm_ticket;
+                        $model->descr = $descr;
+                    }
+                }
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,

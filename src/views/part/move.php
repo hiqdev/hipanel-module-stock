@@ -21,9 +21,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ]) ?>
 
 <div class="container-items">
-    <?php foreach ($models as $i => $model) : ?>
-        <?= Html::activeHiddenInput($model, "[$i]id"); ?>
-    <?php endforeach; ?>
         <?php Box::begin() ?>
         <div class="row">
             <div class="col-lg-12">
@@ -42,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]); ?>
                          <div>
                         <?php foreach ($models as $model) : ?>
-                            <?= Html::activeHiddenInput($model, "[$i]id", ['value' => $ids]); ?>
+                            <?= Html::activeHiddenInput($model, "id[]", ['value' => $model->id]); ?>
                         <?php endforeach; ?>
                     </div>
                 </div>
@@ -50,28 +47,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="row">
                     <div class="col-lg-12">
                         <?php $model->dst_id = null; ?>
-                        <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::className()) ?>
+                        <?= $form->field($model, "dst_id")->widget(DestinationCombo::className()) ?>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6">
-                        <?= $form->field($model, "[$i]move_type")->dropDownList($types) ?>
+                        <?= $form->field($model, "type")->dropDownList($types) ?>
                     </div>
                     <div class="col-md-6">
-                        <?= $form->field($model, "[$i]remotehands")->dropDownList($remotehands) ?>
+                        <?= $form->field($model, "remotehands")->dropDownList($remotehands) ?>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-6">
-                        <?= $form->field($model, "[$i]remote_ticket")->textInput() ?>
+                        <?= $form->field($model, "remote_ticket")->textInput() ?>
                     </div>
                     <div class="col-md-6">
-                        <?= $form->field($model, "[$i]hm_ticket")->textInput() ?>
+                        <?= $form->field($model, "hm_ticket")->textInput() ?>
                     </div>
                 </div>
 
-                <?= $form->field($model, "[$i]descr")->textarea() ?>
+                <?= $form->field($model, "descr")->textarea() ?>
             </div>
         </div>
         <?php Box::end() ?>

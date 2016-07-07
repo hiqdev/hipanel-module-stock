@@ -230,6 +230,24 @@ class PartController extends CrudController
             'move' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('app', 'Parts were moved'),
+                'GET html | POST selection' => [
+                    'class'  => RenderAction::class,
+                    'data' => function ($action, $originalData) {
+                        return call_user_func($action->parent->data, $action, $originalData);
+                    },
+                    'params' => function ($action) {
+                        $models = $action->parent->fetchModels();
+                        foreach ($models as $model) {
+                            $model->scenario = 'move';
+                            $model->src_id = $model->dst_id;
+                            $model->dst_id = null;
+                        }
+                        $models = ArrayHelper::index($models, 'id', ['src_id']);
+                        return [
+                            'models' => $models,
+                        ];
+                    },
+                ],
                 'data' => function ($action) {
                     return [
                         'types' => $action->controller->getMoveTypes(),
@@ -239,24 +257,17 @@ class PartController extends CrudController
                 'on beforeSave' => function (Event $event) {
                     /** @var \hipanel\actions\Action $action */
                     $action = $event->sender;
-                    $part = Yii::$app->request->post('Part');
-                    $dst_id = $part['dst_id'];
-                    $move_type = $part['move_type'];
-                    $descr = $part['descr'];
-                    $remotehands = $part['remotehands'];
-                    $remote_ticket= $part['remote_ticket'];
-                    $hm_ticket = $part['hm_ticket'];
-                    $ids = ArrayHelper::remove($_POST['Part'], 'id');
-                    $action->collection->set(Part::find()->where(['id' => $ids])->all());
-                    foreach ($action->collection->models as $model) {
-                        $model->scenario = 'move';
-                        $model->dst_id = $dst_id;
-                        $model->move_type = $move_type;
-                        $model->remotehands = $remotehands;
-                        $model->remote_ticket = $remote_ticket;
-                        $model->hm_ticket = $hm_ticket;
-                        $model->descr = $descr;
+                    $data = [];
+                    $partGroups = Yii::$app->request->post('Part');
+                    foreach ($partGroups as $src_id => $partGroup) {
+                        $groupIds = ArrayHelper::remove($partGroup, 'id');
+                        foreach ($groupIds as $id) {
+                            $partGroup['id'] = $id;
+                            $data[$id] = $partGroup;                            
+                        }
                     }
+                    $action->collection->setModel($this->newModel(['scenario' => 'move']));
+                    $action->collection->load($data);
                 }
             ],
             'validate-form' => [

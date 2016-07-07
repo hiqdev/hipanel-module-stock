@@ -2,6 +2,7 @@
 
 use hipanel\helpers\Url;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
+use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hipanel\widgets\ArraySpoiler;
 use hipanel\widgets\Box;
 use yii\bootstrap\ActiveForm;
@@ -17,71 +18,77 @@ $this->params['breadcrumbs'][] = $this->title;
     'enableClientValidation' => true,
     'validateOnBlur' => true,
     'enableAjaxValidation' => true,
-    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => reset($models)->isNewRecord ? 'create' : 'update']),
+    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => 'move']),
 ]) ?>
 
 <div class="container-items">
+    <?php foreach ($models as $src_id => $group) { ?>
         <?php Box::begin() ?>
+        <?php $model = reset($group); ?>
         <div class="row">
             <div class="col-lg-12">
                 <div class="row">
-                    <div class="col-lg-12">
-                         <div class="well well-sm">
-                             <h4><?= Yii::t('hipanel/stock', 'Parts in move')?>:</h4>
-                             <br>
-                             <?= ArraySpoiler::widget([
-                                'data' => $models,
-                                'visibleCount' => count($models),
+                    <div class="col-lg-2">
+                        <label><?= Yii::t('hipanel/stock', 'Parts in move') ?>:</label>
+                        <div class="well well-sm">
+                            <?= ArraySpoiler::widget([
+                                'data' => $group,
+                                'visibleCount' => count($group),
                                 'formatter' => function ($model) {
                                     return $model->partno . sprintf(' (%s)', $model->serial);
                                 },
                                 'delimiter' => ',&nbsp; ',
                             ]); ?>
-                         <div>
-                        <?php foreach ($models as $model) : ?>
-                            <?= Html::activeHiddenInput($model, "id[]", ['value' => $model->id]); ?>
-                        <?php endforeach; ?>
+                            <div>
+                                <?php foreach ($group as $model) { ?>
+                                    <?= Html::activeHiddenInput($model, "[$src_id]id[]", ['value' => $model->id]); ?>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-10">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <?= $form->field($model, "[$src_id]src_id")->widget(SourceCombo::className(), [
+                                    'inputOptions' => [
+                                        'readonly' => true
+                                    ],
+                                ]) ?>
+                            </div>
+                            <div class="col-lg-4">
+                                <?= $form->field($model, "[$src_id]dst_id")->widget(DestinationCombo::className()) ?>
+                            </div>
+                            <div class="col-lg-4">
+                                <?= $form->field($model, "[$src_id]type")->dropDownList($types) ?>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <?= $form->field($model, "[$src_id]remotehands")->dropDownList($remotehands) ?>
+                            </div>
+                            <div class="col-lg-4">
+                                <?= $form->field($model, "[$src_id]remote_ticket")->textInput() ?>
+                            </div>
+                            <div class="col-lg-4">
+                                <?= $form->field($model, "[$src_id]hm_ticket")->textInput() ?>
+                            </div>
+                        </div>
+                        <?= $form->field($model, "[$src_id]descr")->textarea() ?>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-lg-12">
-                        <?php $model->dst_id = null; ?>
-                        <?= $form->field($model, "dst_id")->widget(DestinationCombo::className()) ?>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <?= $form->field($model, "type")->dropDownList($types) ?>
-                    </div>
-                    <div class="col-md-6">
-                        <?= $form->field($model, "remotehands")->dropDownList($remotehands) ?>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <?= $form->field($model, "remote_ticket")->textInput() ?>
-                    </div>
-                    <div class="col-md-6">
-                        <?= $form->field($model, "hm_ticket")->textInput() ?>
-                    </div>
-                </div>
-
-                <?= $form->field($model, "descr")->textarea() ?>
             </div>
         </div>
         <?php Box::end() ?>
-</div>
+    <?php } ?>
 
-<?php Box::begin(['options' => ['class' => 'box-solid']]) ?>
-<div class="row">
-    <div class="col-md-12 no">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
-        &nbsp;
-        <?= Html::button(Yii::t('app', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
+    <?php Box::begin(['options' => ['class' => 'box-solid']]) ?>
+    <div class="row">
+        <div class="col-md-12 no">
+            <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+            &nbsp;
+            <?= Html::button(Yii::t('app', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
+        </div>
     </div>
+    <?php Box::end() ?>
+    <?php ActiveForm::end() ?>
 </div>
-<?php Box::end() ?>
-<?php ActiveForm::end() ?>
-

@@ -54,11 +54,6 @@ class PartController extends CrudController
                 'class' => PrepareBulkAction::class,
                 'scenario' => 'set-price',
                 'view' => '_setPrice',
-                'data' => function ($action) {
-                    return [
-                        'currencyTypes' => $action->controller->getCurrencyTypes(),
-                    ];
-                },
             ],
             'set-price' => [
                 'class' => SmartUpdateAction::class,
@@ -322,11 +317,6 @@ class PartController extends CrudController
     public function getSuppliers()
     {
         return $this->getRefs('destination,supplier', 'hipanel/stock', ['orderby' => 'name_asc']);
-    }
-
-    public function getCurrencyTypes()
-    {
-        return $this->getRefs('type,currency', 'hipanel', ['orderby' => 'no_asc']);
     }
 
     public function getRemotehands()

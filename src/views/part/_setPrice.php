@@ -2,6 +2,7 @@
 
 use hipanel\helpers\Url;
 use hipanel\widgets\ArraySpoiler;
+use hipanel\widgets\AmountWithCurrencyWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
@@ -25,21 +26,21 @@ use yii\helpers\Html;
                     return $model->partno . sprintf(' (%s)', $model->serial);
                 },
                 'delimiter' => ',&nbsp; ',
-            ]); ?>
+            ]) ?>
         </div>
     </div>
 
-<?php foreach ($models as $model) : ?>
-    <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
-<?php endforeach; ?>
-<?= $form->field($model, 'price')->widget(\hipanel\widgets\AmountWithCurrencyWidget::class, [
-    'inputOptions' => ['value' => '', 'placeholder' => '0.00', 'name' => 'price'],
-    'selectAttribute' => 'currency',
-    'selectAttributeOptions' => [
-        'items' => $currencyTypes,
-        'name' => 'currency',
-    ],
-])->label(false) ?>
-<hr>
-<?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-success']) ?>
+    <?php foreach ($models as $model) : ?>
+        <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
+    <?php endforeach ?>
+    <?= $form->field($model, 'price')->widget(AmountWithCurrencyWidget::class, [
+        'inputOptions' => ['placeholder' => '0.00'],
+        'selectAttribute' => 'currency',
+        'selectAttributeOptions' => [
+            'items' => $this->context->getCurrencyTypes(),
+        ],
+    ]) ?>
+    <hr>
+    <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-success']) ?>
+
 <?php ActiveForm::end() ?>

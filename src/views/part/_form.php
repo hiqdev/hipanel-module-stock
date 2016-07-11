@@ -1,4 +1,5 @@
 <?php
+
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
@@ -8,6 +9,7 @@ use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+
 ?>
 <?php $form = ActiveForm::begin([
     'id' => 'dynamic-form',
@@ -63,9 +65,9 @@ use yii\helpers\Url;
                 </div>
                 <?php if ($model->isNewRecord) : ?>
                     <div class="col-md-6">
-                        <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::className()) ?>
-                        <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::className()) ?>
-                        <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::className()) ?>
+                        <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class) ?>
+                        <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class) ?>
+                        <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
                     </div>
                     <!-- /.col-md-6 -->
                     <div class="col-md-6">
@@ -112,11 +114,12 @@ use yii\helpers\Url;
                     </div>
                     <!-- /.col-md-4 -->
                     <div class="col-md-4">
-                        <?= AmountWithCurrencyWidget::widget([
-                            'model' => $model,
-                            'inputAttribute' => "[$i]price",
+                        <?= $form->field($model, "[$i]price")->widget(AmountWithCurrencyWidget::class, [
+                            'inputOptions' => ['placeholder' => '0.00'],
                             'selectAttribute' => "[$i]currency",
-                            'selectAttributeOptions' => $currencyTypes,
+                            'selectAttributeOptions' => [
+                                'items' => $this->context->getCurrencyTypes(),
+                            ],
                         ]) ?>
                     </div>
                     <!-- /.col-md-4 -->

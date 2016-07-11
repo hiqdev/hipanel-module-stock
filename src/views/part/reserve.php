@@ -47,19 +47,15 @@ $scenario = $this->context->action->scenario;
                 <div class="col-md-3">
                     <?= $form->field($model, "[$i]partno")->textInput(['readonly' => true]) ?>
                 </div>
-                <!-- /.col-md-3 -->
                 <div class="col-md-3">
                     <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
                 </div>
-                <!-- /.col-md-3 -->
                 <div class="col-md-3">
-                    <?= $form->field($model, "[$i]reserve")->textInput([]) ?>
+                    <?= $form->field($model, "[$i]reserve")->textInput(['readonly' => $scenario === 'unreserve']) ?>
                 </div>
-                <!-- /.col-md-3 -->
                 <div class="col-md-3">
                     <?= $form->field($model, "[$i]descr")->textInput([]) ?>
                 </div>
-                <!-- /.col-md-3 -->
             </div>
             <!-- /.row -->
             <?php Box::end() ?>

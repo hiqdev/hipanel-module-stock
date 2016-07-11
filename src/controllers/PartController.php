@@ -207,7 +207,8 @@ class PartController extends CrudController
                 'success' => Yii::t('app', 'Parts were reserved'),
             ],
             'unreserve' => [
-                'class' => SmartPerformAction::class,
+                'class' => SmartUpdateAction::class,
+                'view' => 'reserve',
                 'success' => Yii::t('app', 'Parts were unreserved'),
             ],
             'move-by-one' => [

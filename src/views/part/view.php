@@ -34,9 +34,16 @@ $this->breadcrumbs->setItems([
         </p>
         <div class="profile-usermenu">
             <ul class="nav">
-                <li><?= Html::a('Some action 1', '#') ?></li>
-                <li><?= Html::a('Some action 2', '#') ?></li>
-                <li><?= Html::a('Some action 3', '#') ?></li>
+                <?php if ($model->reserve) : ?>
+                    <li><?= Html::a('<i class="fa fa-history"></i>&nbsp;' . Yii::t('hipanel/stock', 'Unreserve'), ['@part/unreserve', 'id' => $model->id]) ?></li>
+                <?php else : ?>
+                    <li><?= Html::a('<i class="fa fa-history"></i>&nbsp;' . Yii::t('hipanel/stock', 'Reserve'), ['@part/reserve', 'id' => $model->id]) ?></li>
+                <?php endif; ?>
+                <li><?= Html::a('<i class="fa fa-repeat"></i>&nbsp;' . Yii::t('hipanel/stock', 'Replace'), ['@part/replace', 'id' => $model->id]) ?></li>
+                <li><?= Html::a('<i class="fa fa-files-o"></i>&nbsp;' . Yii::t('hipanel/stock', 'Copy'), ['@part/copy', 'id' => $model->id]) ?></li>
+                <li><?= Html::a('<i class="fa fa-arrows-h"></i>&nbsp;' . Yii::t('hipanel/stock', 'Move by one'), ['@part/move-by-one', 'id' => $model->id]) ?></li>
+                <li><?= Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('app', 'Update'), ['@part/update', 'id' => $model->id]) ?></li>
+                <li><?= Html::a('<i class="fa fa-trash-o"></i>&nbsp;' . Yii::t('hipanel/stock', 'Trash'), ['@part/trash', 'id' => $model->id]) ?></li>
             </ul>
         </div>
         <?php Box::end() ?>

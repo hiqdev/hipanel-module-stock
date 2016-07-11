@@ -38,6 +38,7 @@ class Part extends \hipanel\base\Model
                 'id',
                 'dst_ids',
                 'model_ids',
+                'reserve',
                 'serial',
                 'serials',
                 'partno',
@@ -158,6 +159,7 @@ class Part extends \hipanel\base\Model
                 'reserve',
                 'descr',
             ], 'safe', 'on' => ['reserve', 'unreserve']],
+            [['reserve'], 'required', 'on' => ['reserve']],
 
             // Bulk set price
             [['id', 'price'], 'required', 'on' => ['set-price']],

@@ -5,7 +5,7 @@ use hipanel\widgets\Box;
 use yii\helpers\Html;
 
 $this->title    = Html::encode(sprintf('%s %s %s #%s', $model->model_type_label, $model->model_brand_label, $model->partno, $model->serial));
-$this->subtitle = Yii::t('app', 'Part details') . ' ' . $this->title;
+$this->subtitle = Yii::t('hipanel', 'detailed information');
 $this->breadcrumbs->setItems([
     ['label' => Yii::t('app', 'Parts'), 'url' => ['index']],
     $this->title,
@@ -21,7 +21,7 @@ $this->breadcrumbs->setItems([
             'bodyOptions' => [
                 'class' => 'no-padding',
             ],
-        ]); ?>
+        ]) ?>
         <div class="profile-user-img text-center">
             <i class="fa fa-cubes fa-5x"></i>
         </div>
@@ -29,7 +29,7 @@ $this->breadcrumbs->setItems([
             <span class="profile-user-role"><?= $model->type ?></span>
             <br>
             <span class="profile-user-name">
-                <?= $model->model_type_label . ' ' . $model->model_brand_label . '<br>' . $model->partno . ' ' . $model->serial; ?>
+                <?= $model->model_type_label . ' ' . $model->model_brand_label . '<br>' . $model->partno . ' #' . $model->serial ?>
             </span>
         </p>
         <div class="profile-usermenu">
@@ -39,35 +39,29 @@ $this->breadcrumbs->setItems([
                 <li><?= Html::a('Some action 3', '#') ?></li>
             </ul>
         </div>
-        <?php Box::end(); ?>
+        <?php Box::end() ?>
     </div>
 
     <div class="col-md-9">
         <div class="row">
             <div class="col-md-6">
-                <?php
-                $box = Box::begin(['renderBody' => false]);
-                $box->beginHeader();
-                echo $box->renderTitle(Yii::t('app', 'Information'));
-                $box->endHeader();
-                $box->beginBody();
-                echo PartGridView::detailView([
-                    'boxed' => false,
-                    'model' => $model,
-                    'columns' => [
-                        'main',
-                        'model',
-                        'partno',
-                        'last_move',
-                        'move_type_label',
-                        'move_time',
-                        'order_data',
-                        'DC_ticket_ID',
-                    ],
-                ]);
-                $box->endBody();
-                $box->end();
-                ?>
+                <?php $box = Box::begin(['renderBody' => false]) ?>
+                <?php $box->beginHeader() ?>
+                    <?= $box->renderTitle(Yii::t('app', 'Information')) ?>
+                <?php $box->endHeader() ?>
+                <?php $box->beginBody() ?>
+                    <?= PartGridView::detailView([
+                        'boxed' => false,
+                        'model' => $model,
+                        'columns' => [
+                            'model_type_label', 'model_brand_label', 'model', ['attribute' => 'serial'],
+                            'last_move', 'move_type_label', 'move_time',
+                            'order_data', 'DC_ticket_ID',
+                            'price', 'place',
+                        ],
+                    ]) ?>
+                <?php $box->endBody() ?>
+                <?php $box->end() ?>
             </div>
         </div>
     </div>

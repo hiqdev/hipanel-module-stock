@@ -15,6 +15,7 @@ use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\CurrencyColumn;
 use hipanel\grid\DataColumn;
+use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
@@ -38,26 +39,24 @@ class PartGridView extends BoxedGridView
     {
         return [
             'serial' => [
-                'filterAttribute'   => 'serial_like',
+                'class' => MainColumn::class,
+                'filterAttribute' => 'serial_like',
                 'format' => 'html',
-                'value' => function ($model) {
-                    return Html::a($model->serial, ['@move/index', 'MoveSearch' => ['serial_like' => $model->serial]], ['class' => 'text-bold']);
-                }
             ],
             'main' => [
-                'label'             => Yii::t('app', 'Type') . ' / ' . Yii::t('app', 'Manufacturer'),
-                'sortAttribute'     => 'model_type',
-                'value'             => function ($model) {
+                'label' => Yii::t('app', 'Type') . ' / ' . Yii::t('app', 'Manufacturer'),
+                'sortAttribute' => 'model_type',
+                'value' => function ($model) {
                     return $model->model_type_label . ' ' . $model->model_brand_label;
                 },
             ],
             'partno' => [
-                'class'             => DataColumn::class,
-                'filterAttribute'   => 'partno_like',
-                'filter'            => function ($column, $model, $attribute) {
+                'class' => DataColumn::class,
+                'filterAttribute' => 'partno_like',
+                'filter' => function ($column, $model, $attribute) {
                     return PartnoCombo::widget([
-                        'model'               => $model,
-                        'attribute'           => $attribute,
+                        'model' => $model,
+                        'attribute' => $attribute,
                         'formElementSelector' => 'td',
                     ]);
                 },
@@ -71,75 +70,75 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'model_type' => [
-                'class'  => RefColumn::class,
-                'gtype'  => 'type,model',
-                'value'  => function ($model) {
+                'class' => RefColumn::class,
+                'gtype' => 'type,model',
+                'value' => function ($model) {
                     return $model->model_type_label;
                 },
             ],
             'model_brand' => [
-                'class'  => RefColumn::class,
-                'gtype'  => 'type,brand',
-                'value'  => function ($model) {
+                'class' => RefColumn::class,
+                'gtype' => 'type,brand',
+                'value' => function ($model) {
                     return $model->model_brand_label;
                 },
             ],
             'last_move' => [
-                'label'             => Yii::t('app', 'Last move'),
-                'sortAttribute'     => 'dst_name',
-                'format'            => 'html',
-                'value'             => function ($model) {
-                    #return Yii::t('app', '{0} &nbsp;←&nbsp; {1}', [$model->dst_name, $model->src_name]);
+                'label' => Yii::t('app', 'Last move'),
+                'sortAttribute' => 'dst_name',
+                'format' => 'html',
+                'value' => function ($model) {
                     return Html::tag('b', $model->dst_name) . '&nbsp;←&nbsp;' . $model->src_name;
                 },
             ],
             'move_type_and_date' => [
-                'label'             => Yii::t('app', 'Type') . ' / ' . Yii::t('app', 'Date'),
-                'sortAttribute'     => 'move_time',
-                'format'            => 'raw',
-                'value'             => function ($model) {
-                    return $model->move_type_label . '<br>' . Html::tag('nobr', Yii::$app->formatter->asDate($model->move_time));
+                'label' => Yii::t('app', 'Type') . ' / ' . Yii::t('app', 'Date'),
+                'sortAttribute' => 'move_time',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $linkToMove = Html::a($model->move_type_label, ['@move/index', 'MoveSearch' => ['serial_like' => $model->serial]], ['class' => 'text-bold']);
+                    return $linkToMove . '<br>' . Html::tag('nobr', Yii::$app->formatter->asDate($model->move_time));
                 },
             ],
             'move_type_label' => [
-                'filter'            => false,
-                'enableSorting'     => false,
-                'format'            => 'html',
-                'value'             => function ($model) {
+                'filter' => false,
+                'enableSorting' => false,
+                'format' => 'html',
+                'value' => function ($model) {
                     return $model->move_type_label;
                 },
             ],
             'move_time' => [
-                'filter'            => false,
-                'format'            => 'datetime',
+                'filter' => false,
+                'format' => 'datetime',
             ],
             'move_date' => [
-                'attribute'         => 'move_time',
-                'filter'            => false,
-                'format'            => 'date',
-                'sortAttribute'     => 'move_time',
+                'attribute' => 'move_time',
+                'filter' => false,
+                'format' => 'date',
+                'sortAttribute' => 'move_time',
             ],
             'create_time' => [
-                'filter'            => false,
-                'format'            => 'datetime',
+                'filter' => false,
+                'format' => 'datetime',
             ],
             'create_date' => [
-                'attribute'         => 'create_time',
-                'filter'            => false,
-                'format'            => 'raw',
+                'attribute' => 'create_time',
+                'filter' => false,
+                'format' => 'raw',
                 'value' => function ($model) {
                     return Html::tag('nobr', Yii::$app->formatter->asDate($model->create_time));
                 },
             ],
             'order_data' => [
-                'filter'            => false,
-                'enableSorting'     => false,
+                'filter' => false,
+                'enableSorting' => false,
             ],
             'DC_ticket_ID' => [
-                'label'             => Yii::t('app', 'DC ticket ID'),
-                'filter'            => false,
-                'enableSorting'     => false,
-                'value'             => function ($model) {
+                'label' => Yii::t('app', 'DC ticket ID'),
+                'filter' => false,
+                'enableSorting' => false,
+                'value' => function ($model) {
                     $out = '';
                     if ($model['move_remote_ticket']) {
                         $out .= $model['move_remote_ticket'] . '<br>';
@@ -154,36 +153,37 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'price' => [
-                'class'             => CurrencyColumn::class,
-                'filterAttribute'   => 'currency',
-                'filter'            => function ($column, $model, $attribute) {
+                'class' => CurrencyColumn::class,
+                'filterAttribute' => 'currency',
+                'filter' => function ($column, $model, $attribute) {
                     $values = ['usd' => 'USD', 'eur' => 'EUR'];
                     return Html::activeDropDownList($model, 'currency', $values, [
-                        'class'     => 'form-control',
-                        'prompt'    => Yii::t('app', '----------'),
+                        'class' => 'form-control',
+                        'prompt' => Yii::t('app', '----------'),
                     ]);
                 },
             ],
             'place' => [
-                'filter'            => function ($column, $model, $attribute) {
+                'filter' => function ($column, $model, $attribute) {
                     return Html::activeDropDownList($model, 'place', self::getLocations(), [
-                        'class'     => 'form-control',
-                        'prompt'    => Yii::t('app', '----------'),
+                        'class' => 'form-control',
+                        'prompt' => Yii::t('app', '----------'),
                     ]);
                 },
             ],
             'actions' => [
-                'class'             => ActionColumn::class,
-                'template'          => '{view} {update}',
-                'header'            => Yii::t('hipanel', 'Actions'),
+                'class' => ActionColumn::class,
+                'template' => '{view} {update}',
+                'header' => Yii::t('hipanel', 'Actions'),
             ],
         ];
     }
+
     public static function defaultRepresentations()
     {
         return [
             'common' => [
-                'label'   => Yii::t('hipanel', 'common'),
+                'label' => Yii::t('hipanel', 'common'),
                 'columns' => [
                     'checkbox',
                     'model_type', 'model_brand', 'partno', 'serial',
@@ -191,7 +191,7 @@ class PartGridView extends BoxedGridView
                 ],
             ],
             'report' => [
-                'label'   => Yii::t('hipanel', 'report'),
+                'label' => Yii::t('hipanel', 'report'),
                 'columns' => [
                     'checkbox',
                     'model_type', 'model_brand', 'partno', 'serial',
@@ -199,7 +199,7 @@ class PartGridView extends BoxedGridView
                 ],
             ],
             'detailed' => Yii::$app->user->can('tmp disabled') ? [
-                'label'   => Yii::t('hipanel', 'detailed'),
+                'label' => Yii::t('hipanel', 'detailed'),
                 'columns' => [
                     'checkbox',
                     'model_type', 'model_brand',

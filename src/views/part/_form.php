@@ -84,22 +84,20 @@ use yii\helpers\Url;
                             <div class="col-md-4">
                                 <?= $form->field($model, "[$i]order_no") ?>
                             </div>
-                            <!-- /.col-md-4 -->
                         </div>
-                        <!-- /.row -->
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <?= $form->field($model, "[$i]move_descr") ?>
                             </div>
-                            <!-- /.col-md-8 -->
-                            <div class="col-md-2">
-                                <?= $form->field($model, "[$i]price") ?>
+                            <div class="col-md-6">
+                                <?= $form->field($model, "[$i]price")->widget(AmountWithCurrencyWidget::class, [
+                                    'inputOptions' => ['placeholder' => '0.00'],
+                                    'selectAttribute' => "[$i]currency",
+                                    'selectAttributeOptions' => [
+                                        'items' => $this->context->getCurrencyTypes(),
+                                    ],
+                                ]) ?>
                             </div>
-                            <!-- /.col-md-2 -->
-                            <div class="col-md-2">
-                                <?= $form->field($model, "[$i]currency")->dropDownList($model->transformToSymbols(array_keys($currencyTypes))) ?>
-                            </div>
-                            <!-- /.col-md-2 -->
                         </div>
                         <!-- /.row -->
                     </div>

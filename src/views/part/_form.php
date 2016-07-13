@@ -3,7 +3,7 @@
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
-use hipanel\widgets\AmountWithCurrencyWidget;
+use hipanel\widgets\AmountWithCurrency;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
@@ -91,7 +91,7 @@ use yii\helpers\Url;
                                 <?= $form->field($model, "[$i]move_descr") ?>
                             </div>
                             <div class="col-md-6">
-                                <?= $form->field($model, "[$i]price")->widget(AmountWithCurrencyWidget::class, [
+                                <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
                                     'inputOptions' => ['placeholder' => '0.00'],
                                     'selectAttribute' => "[$i]currency",
                                     'selectAttributeOptions' => [
@@ -113,7 +113,7 @@ use yii\helpers\Url;
                     </div>
                     <!-- /.col-md-4 -->
                     <div class="col-md-4">
-                        <?= $form->field($model, "[$i]price")->widget(AmountWithCurrencyWidget::class, [
+                        <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
                             'inputOptions' => ['placeholder' => '0.00'],
                             'selectAttribute' => "[$i]currency",
                             'selectAttributeOptions' => [

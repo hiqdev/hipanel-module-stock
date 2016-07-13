@@ -24,9 +24,9 @@ $this->breadcrumbs->setItems([
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
-        <?= $page->renderBulkButton(Yii::t('app', 'Show for users'), Url::to('@model/unmark-hidden-from-user')) ?>
-        <?= $page->renderBulkButton(Yii::t('app', 'Hide from users'), Url::to('@model/mark-hidden-from-user')) ?>
-        <?= $page->renderBulkButton(Yii::t('app', 'Update'), Url::to('@model/update')) ?>
+        <?= $page->renderBulkButton(Yii::t('hipanel/stock', 'Show for users'), 'unmark-hidden-from-user') ?>
+        <?= $page->renderBulkButton(Yii::t('hipanel/stock', 'Hide from users'), 'mark-hidden-from-user') ?>
+        <?= $page->renderBulkButton(Yii::t('hipanel/stock', 'Update'), 'update') ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('show-actions') ?>

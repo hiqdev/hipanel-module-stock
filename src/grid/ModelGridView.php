@@ -13,6 +13,7 @@ namespace hipanel\modules\stock\grid;
 
 use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
+use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use Yii;
 use yii\helpers\Html;
@@ -34,6 +35,7 @@ class ModelGridView extends BoxedGridView
                 'filterAttribute' => 'model_like',
             ],
             'partno' => [
+                'class' => MainColumn::class,
                 'enableSorting' => false,
                 'filterAttribute' => 'partno_like',
             ],

@@ -32,9 +32,7 @@ $this->breadcrumbs->setItems([
         </p>
         <div class="profile-usermenu">
             <ul class="nav">
-                <li><?= Html::a('Some action 1', '#') ?></li>
-                <li><?= Html::a('Some action 2', '#') ?></li>
-                <li><?= Html::a('Some action 3', '#') ?></li>
+                <li><?= Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('hipanel/stock', 'Update'), ['@model/update', 'id' => $model->id]) ?></li>
             </ul>
         </div>
         <?php Box::end(); ?>

@@ -13,6 +13,7 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\ModelTrait;
 use Yii;
+use yii\helpers\Html;
 
 class Move extends \hipanel\base\Model
 {
@@ -70,15 +71,26 @@ class Move extends \hipanel\base\Model
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
-            'id' => Yii::t('app', 'ID'),
-            'partno' => Yii::t('app', 'Part No.'),
-            'partno_like' => Yii::t('app', 'Part No.'),
-            'src_id' => Yii::t('app', 'Source'),
-            'dst_id' => Yii::t('app', 'Destination'),
-            'src_name_like' => Yii::t('app', 'Source'),
-            'dst_name_like' => Yii::t('app', 'Destination'),
-            'serial_like' => Yii::t('app', 'Serial'),
-            'descr_like' => Yii::t('app', 'Move description'),
+            'id'        => Yii::t('app', 'ID'),
+            'partno'    => Yii::t('app', 'Part No.'),
+            'src_id'    => Yii::t('app', 'Source'),
+            'dst_id'    => Yii::t('app', 'Destination'),
+            'src_name'  => Yii::t('app', 'Source'),
+            'dst_name'  => Yii::t('app', 'Destination'),
+            'serial'    => Yii::t('app', 'Serial'),
+            'descr'     => Yii::t('app', 'Move description'),
         ]);
+    }
+
+    public function getDescription()
+    {
+        return static::prepareDescr($this->descr);
+    }
+
+    public static function prepareDescr($descr)
+    {
+        return preg_replace_callback('#https://\S+/(\d+)/?#', function ($m) {
+            return Html::a('HM4::' . $m[1], $m[0]);
+        }, $descr);
     }
 }

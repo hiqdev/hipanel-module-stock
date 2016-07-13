@@ -58,7 +58,7 @@ class MoveGridView extends BoxedGridView
                     $out = '';
                     if (is_array($model->parts)) {
                         foreach ($model->parts as $part) {
-                            $out .= Html::tag('div', sprintf("%s : %s\n", $part['partno'], $part['serial']));
+                            $out .= Html::tag('div', sprintf("%s:%s\n", $part['partno'], $part['serial']));
                         }
                     }
                     return $out;

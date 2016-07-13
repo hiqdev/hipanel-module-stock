@@ -32,6 +32,7 @@ class MoveController extends CrudController
             ],
             'index' => [
                 'class' => IndexAction::class,
+                'findOptions' => ['with_parts' => 1],
                 'data' => function ($action) {
                     return [
                         'types' => $action->controller->getTypes(),

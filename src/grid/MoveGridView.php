@@ -21,13 +21,15 @@ class MoveGridView extends BoxedGridView
     {
         return [
             'date' => [
-                'attribute'     => 'time',
-                'filter'        => false,
-                'format'        => 'date',
+                'attribute' => 'time',
+                'filter'    => false,
+                'format'    => 'date',
+                'contentOptions' => ['style' => 'white-space:nowrap'],
             ],
             'time' => [
-                'filter'        => false,
-                'format'        => 'datetime',
+                'filter'    => false,
+                'format'    => 'datetime',
+                'contentOptions' => ['style' => 'white-space:nowrap'],
             ],
             'move' => [
                 'label' => Yii::t('hipanel/stock', 'Move'),
@@ -35,7 +37,7 @@ class MoveGridView extends BoxedGridView
                 'enableSorting' => false,
                 'filter' => false,
                 'value' => function ($model) {
-                    return sprintf('%s&nbsp;←&nbsp;%s', $model->dst_name, $model->src_name);
+                    return sprintf('<b>%s</b>&nbsp;←&nbsp;%s', $model->dst_name, $model->src_name);
                 },
             ],
             'descr' => [

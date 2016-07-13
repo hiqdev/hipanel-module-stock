@@ -58,8 +58,8 @@ use yii\helpers\Url;
                 <div class="col-lg-offset-10 col-sm-2 text-right">
                     <?php if ($model->isNewRecord) : ?>
                         <div class="btn-group">
-                            <button type="button" class="add-item btn btn-default btn-sm"><i class="glyphicon glyphicon-plus"></i></button>
-                            <button type="button" class="remove-item btn btn-default btn-sm"><i class="glyphicon glyphicon-minus"></i></button>
+                            <button type="button" class="add-item btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i></button>
+                            <button type="button" class="remove-item btn btn-danger btn-sm"><i class="glyphicon glyphicon-minus"></i></button>
                         </div>
                         <!-- /.btn-group -->
                     <?php endif ?>

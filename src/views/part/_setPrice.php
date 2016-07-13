@@ -2,7 +2,7 @@
 
 use hipanel\helpers\Url;
 use hipanel\widgets\ArraySpoiler;
-use hipanel\widgets\AmountWithCurrencyWidget;
+use hipanel\widgets\AmountWithCurrency;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
@@ -33,7 +33,7 @@ use yii\helpers\Html;
     <?php foreach ($models as $model) : ?>
         <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
     <?php endforeach ?>
-    <?= $form->field($model, 'price')->widget(AmountWithCurrencyWidget::class, [
+    <?= $form->field($model, 'price')->widget(AmountWithCurrency::class, [
         'inputOptions' => ['placeholder' => '0.00'],
         'selectAttribute' => 'currency',
         'selectAttributeOptions' => [

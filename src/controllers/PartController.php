@@ -119,7 +119,7 @@ class PartController extends CrudController
                 },
                 'data' => function ($action) {
                     $moveSearch = new MoveSearch();
-                    $moveDataProvider = $moveSearch->search([$moveSearch->formName() => ['object_id' => $action->getId()]]);
+                    $moveDataProvider = $moveSearch->search([$moveSearch->formName() => ['part_ids' => $action->getId()]]);
                     
                     return [
                         'moveDataProvider' => $moveDataProvider

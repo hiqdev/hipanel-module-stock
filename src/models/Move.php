@@ -11,11 +11,10 @@
 
 namespace hipanel\modules\stock\models;
 
-use hipanel\base\Model;
 use hipanel\base\ModelTrait;
 use Yii;
 
-class Move extends Model
+class Move extends \hipanel\base\Model
 {
     use ModelTrait;
 
@@ -28,6 +27,7 @@ class Move extends Model
             // Search
             [[
                 'id',
+                'part_ids',
                 'client_id',
                 'parts',
                 'client',

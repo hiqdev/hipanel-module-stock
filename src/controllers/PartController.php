@@ -23,6 +23,7 @@ use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
+use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
 use Yii;
 use yii\base\Event;
@@ -115,6 +116,14 @@ class PartController extends CrudController
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
                     $dataProvider->query->joinWith('model');
+                },
+                'data' => function ($action) {
+                    $moveSearch = new MoveSearch();
+                    $moveDataProvider = $moveSearch->search([$moveSearch->formName() => ['object_id' => $action->getId()]]);
+                    
+                    return [
+                        'moveDataProvider' => $moveDataProvider
+                    ];    
                 },
             ],
             'create' => [

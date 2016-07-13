@@ -42,6 +42,7 @@ use yii\helpers\Url;
         'currency',
     ],
 ]) ?>
+
 <div class="container-items"><!-- widgetContainer -->
     <?php foreach ($models as $i => $model) : ?>
         <?php
@@ -61,7 +62,7 @@ use yii\helpers\Url;
                             <button type="button" class="remove-item btn btn-default btn-sm"><i class="glyphicon glyphicon-minus"></i></button>
                         </div>
                         <!-- /.btn-group -->
-                    <?php endif; ?>
+                    <?php endif ?>
                 </div>
                 <?php if ($model->isNewRecord) : ?>
                     <div class="col-md-6">
@@ -121,13 +122,13 @@ use yii\helpers\Url;
                         ]) ?>
                     </div>
                     <!-- /.col-md-4 -->
-                <?php endif; ?>
+                <?php endif ?>
             </div>
             <!-- /.row input-row margin-bottom -->
             <?php Box::end() ?>
         </div>
         <!-- /.item -->
-    <?php endforeach; ?>
+    <?php endforeach ?>
 </div>
 
 <?php DynamicFormWidget::end() ?>

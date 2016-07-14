@@ -9,10 +9,11 @@ use hiqdev\combo\StaticCombo;
  */
 ?>
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('partno_like')->widget(PartnoCombo::classname()) ?>
+    <?= $search->field('partno_like')->widget(PartnoCombo::class) ?>
 </div>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('type')->widget(StaticCombo::classname(), [
+    <?= $search->field('type')->widget(StaticCombo::class, [
         'data' => $types,
         'hasId' => true,
         'pluginOptions' => [
@@ -22,18 +23,19 @@ use hiqdev\combo\StaticCombo;
         ],
     ]) ?>
 </div>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('src_name_like')->widget(SourceCombo::classname()) ?>
+    <?= $search->field('src_name_like')->widget(SourceCombo::class) ?>
 </div>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('dst_name_like')->widget(DestinationCombo::classname()) ?>
+    <?= $search->field('dst_name_like')->widget(DestinationCombo::class) ?>
 </div>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('serial_like') ?>
 </div>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('descr_like') ?>
 </div>
-
-
-

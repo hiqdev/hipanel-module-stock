@@ -1,4 +1,5 @@
 <?php
+
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hiqdev\assets\icheck\iCheckAsset;
 use hiqdev\combo\StaticCombo;
@@ -16,42 +17,41 @@ $this->registerJs("jQuery('.field-modelsearch-show_hidden_from_user input[type=c
 ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('partno_like')->widget(PartnoCombo::classname()) ?>
+    <?= $search->field('partno_like')->widget(PartnoCombo::class) ?>
 </div>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('type')->widget(StaticCombo::classname(), [
+    <?= $search->field('type')->widget(StaticCombo::class, [
         'data' => $types,
         'hasId' => true,
-        'pluginOptions' => [
-            'select2Options' => [
-                'multiple' => false,
-            ],
-        ],
+        'multiple' => false,
     ]) ?>
 </div>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('brand')->widget(StaticCombo::classname(), [
+    <?= $search->field('brand')->widget(StaticCombo::class, [
         'data' => $brands,
         'hasId' => true,
-        'pluginOptions' => [
-            'select2Options' => [
-                'multiple' => false,
-            ],
-        ],
+        'multiple' => false,
     ]) ?>
 </div>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('model_like') ?>
 </div>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('short_like') ?>
 </div>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('descr_like') ?>
 </div>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('group_like') ?>
 </div>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('show_hidden_from_user')->checkbox(); ?>
+    <?= $search->field('show_hidden_from_user')->checkbox() ?>
 </div>

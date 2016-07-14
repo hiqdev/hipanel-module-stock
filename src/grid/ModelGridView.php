@@ -24,11 +24,11 @@ class ModelGridView extends BoxedGridView
     {
         return [
             'type' => [
-                'class' => RefColumn::className(),
+                'class' => RefColumn::class,
                 'gtype' => 'type,model',
             ],
             'brand' => [
-                'class' => RefColumn::className(),
+                'class' => RefColumn::class,
                 'gtype' => 'type,brand',
             ],
             'model' => [
@@ -80,7 +80,7 @@ class ModelGridView extends BoxedGridView
             ],
 
             'actions' => [
-                'class' => ActionColumn::className(),
+                'class' => ActionColumn::class,
                 'template' => '{view} {update}',
                 'header' => Yii::t('hipanel', 'Actions'),
             ],

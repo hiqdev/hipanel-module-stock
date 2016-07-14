@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php endif; ?>
                     <?php else : ?>
                         <?= Html::activeHiddenInput($model, "[$i]id", ['value' => $model->id]); ?>
-                        <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::className(), [
+                        <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class, [
                             'inputOptions' => [
                                 'readonly' => true,
                             ],
@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="row">
                         <div class="col-md-6">
                             <?php $model->src_id = $model->dst_id ?>
-                            <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::className(), [
+                            <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class, [
                                 'inputOptions' => [
                                     'readonly' => true,
                                 ],
@@ -84,7 +84,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                         <div class="col-md-6">
                             <?php $model->dst_id = null ?>
-                            <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::className()) ?>
+                            <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
                         </div>
                     </div>
 

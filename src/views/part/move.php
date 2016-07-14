@@ -49,14 +49,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="col-lg-10">
                         <div class="row">
                             <div class="col-lg-4">
-                                <?= $form->field($model, "[$src_id]src_id")->widget(SourceCombo::className(), [
+                                <?= $form->field($model, "[$src_id]src_id")->widget(SourceCombo::class, [
                                     'inputOptions' => [
                                         'readonly' => true
                                     ],
                                 ]) ?>
                             </div>
                             <div class="col-lg-4">
-                                <?= $form->field($model, "[$src_id]dst_id")->widget(DestinationCombo::className()) ?>
+                                <?= $form->field($model, "[$src_id]dst_id")->widget(DestinationCombo::class) ?>
                             </div>
                             <div class="col-lg-4">
                                 <?= $form->field($model, "[$src_id]type")->dropDownList($types) ?>

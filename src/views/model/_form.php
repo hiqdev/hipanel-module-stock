@@ -4,6 +4,7 @@ use hipanel\modules\stock\widgets\combo\ModelProfileCombo;
 use hipanel\modules\stock\widgets\combo\UsertagCombo;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
+use hiqdev\combo\StaticCombo;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\web\JsExpression;
@@ -88,7 +89,7 @@ JS
                         <div class="col-md-4">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <?= $form->field($model, "[$i]type")->widget(\hiqdev\combo\StaticCombo::className(), [
+                                    <?= $form->field($model, "[$i]type")->widget(StaticCombo::class, [
                                         'type' => 'model/type',
                                         'hasId' => true,
                                         'data' => $types,
@@ -106,7 +107,7 @@ JS
                             </div>
                             <!-- /.row -->
 
-                            <?= $form->field($model, "[$i]tags")->widget(UsertagCombo::className(), [
+                            <?= $form->field($model, "[$i]tags")->widget(UsertagCombo::class, [
                                 'pluginOptions' => [
                                     'clearWhen' => ['model/type'],
                                     'select2Options' => [
@@ -122,7 +123,7 @@ JS
                                     ],
                                 ],
                             ]) ?>
-                            <?= $form->field($model, "[$i]profile")->widget(ModelProfileCombo::className()) ?>
+                            <?= $form->field($model, "[$i]profile")->widget(ModelProfileCombo::class) ?>
                             <div class="row">
                                 <div class="col-md-6">
                                     <?= $form->field($model, "[$i]model") ?>

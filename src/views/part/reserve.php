@@ -1,12 +1,13 @@
 <?php
+
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
-$this->title = Yii::t('app', 'Reserve');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Parts'), 'url' => ['index']];
+$this->title = Yii::t('hipanel/stock', 'Reserve');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $scenario = $this->context->action->scenario;
 ?>
@@ -68,9 +69,9 @@ $scenario = $this->context->action->scenario;
 <?php Box::begin(['options' => ['class' => 'box-solid']]) ?>
 <div class="row">
     <div class="col-md-12 no">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-default']) ?>
         &nbsp;
-        <?= Html::button(Yii::t('app', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
+        <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
     <!-- /.col-md-12 -->
 </div>

@@ -50,7 +50,7 @@ class MoveController extends CrudController
             ],
             'delete' => [
                 'class' => SmartPerformAction::class,
-                'success' => Yii::t('app', 'Deleted'),
+                'success' => Yii::t('hipanel', 'Deleted'),
             ],
         ];
     }

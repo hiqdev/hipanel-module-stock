@@ -11,7 +11,7 @@ use yii\helpers\Html;
 
 $scenario = $this->context->action->scenario;
 $this->title = Yii::t('hipanel/stock', 'Move by one');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Parts'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php $form = ActiveForm::begin([
@@ -118,9 +118,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php Box::begin(['options' => ['class' => 'box-solid']]) ?>
 <div class="row">
     <div class="col-md-12 no">
-        <?= Html::submitButton(Yii::t('app', 'Save'), ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
         &nbsp;
-        <?= Html::button(Yii::t('app', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
+        <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
 </div>
 <?php Box::end() ?>

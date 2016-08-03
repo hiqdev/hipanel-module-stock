@@ -71,14 +71,13 @@ class Move extends \hipanel\base\Model
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
-            'id'        => Yii::t('app', 'ID'),
-            'partno'    => Yii::t('app', 'Part No.'),
-            'src_id'    => Yii::t('app', 'Source'),
-            'dst_id'    => Yii::t('app', 'Destination'),
-            'src_name'  => Yii::t('app', 'Source'),
-            'dst_name'  => Yii::t('app', 'Destination'),
-            'serial'    => Yii::t('app', 'Serial'),
-            'descr'     => Yii::t('app', 'Move description'),
+            'partno'    => Yii::t('hipanel/stock', 'Part No.'),
+            'src_id'    => Yii::t('hipanel/stock', 'Source'),
+            'dst_id'    => Yii::t('hipanel/stock', 'Destination'),
+            'src_name'  => Yii::t('hipanel/stock', 'Source'),
+            'dst_name'  => Yii::t('hipanel/stock', 'Destination'),
+            'serial'    => Yii::t('hipanel/stock', 'Serial'),
+            'descr'     => Yii::t('hipanel/stock', 'Move description'),
         ]);
     }
 

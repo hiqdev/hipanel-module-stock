@@ -44,7 +44,7 @@ class PartGridView extends BoxedGridView
                 'format' => 'html',
             ],
             'main' => [
-                'label' => Yii::t('app', 'Type') . ' / ' . Yii::t('app', 'Manufacturer'),
+                'label' => Yii::t('hipanel', 'Type') . ' / ' . Yii::t('hipanel/stock', 'Manufacturer'),
                 'sortAttribute' => 'model_type',
                 'value' => function ($model) {
                     return $model->model_type_label . ' ' . $model->model_brand_label;
@@ -84,7 +84,7 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'last_move' => [
-                'label' => Yii::t('app', 'Last move'),
+                'label' => Yii::t('hipanel/stock', 'Last move'),
                 'sortAttribute' => 'dst_name',
                 'format' => 'html',
                 'value' => function ($model) {
@@ -92,7 +92,7 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'move_type_and_date' => [
-                'label' => Yii::t('app', 'Type') . ' / ' . Yii::t('app', 'Date'),
+                'label' => Yii::t('hipanel', 'Type') . ' / ' . Yii::t('hipanel', 'Date'),
                 'sortAttribute' => 'move_time',
                 'format' => 'raw',
                 'value' => function ($model) {
@@ -135,7 +135,7 @@ class PartGridView extends BoxedGridView
                 'enableSorting' => false,
             ],
             'DC_ticket_ID' => [
-                'label' => Yii::t('app', 'DC ticket ID'),
+                'label' => Yii::t('hipanel/stock', 'DC ticket ID'),
                 'filter' => false,
                 'enableSorting' => false,
                 'value' => function ($model) {
@@ -159,7 +159,7 @@ class PartGridView extends BoxedGridView
                     $values = ['usd' => 'USD', 'eur' => 'EUR'];
                     return Html::activeDropDownList($model, 'currency', $values, [
                         'class' => 'form-control',
-                        'prompt' => Yii::t('app', '----------'),
+                        'prompt' => Yii::t('hipanel', '----------'),
                     ]);
                 },
             ],
@@ -167,7 +167,7 @@ class PartGridView extends BoxedGridView
                 'filter' => function ($column, $model, $attribute) {
                     return Html::activeDropDownList($model, 'place', self::getLocations(), [
                         'class' => 'form-control',
-                        'prompt' => Yii::t('app', '----------'),
+                        'prompt' => Yii::t('hipanel', '----------'),
                     ]);
                 },
             ],

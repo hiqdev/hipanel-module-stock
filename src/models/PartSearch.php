@@ -37,10 +37,10 @@ class PartSearch extends Part
     {
         return array_merge(parent::attributeLabels(), [
             'place_in'          => Yii::t('hipanel/stock', 'Location'),
-            'partno_like'       => Yii::t('app', 'Part No.'),
-            'serial_like'       => Yii::t('app', 'Serial'),
-            'order_data_like'   => Yii::t('app', 'Order'),
-            'move_descr_like'   => Yii::t('app', 'Move description'),
+            'partno_like'       => Yii::t('hipanel/stock', 'Part No.'),
+            'serial_like'       => Yii::t('hipanel/stock', 'Serial'),
+            'order_data_like'   => Yii::t('hipanel/stock', 'Order'),
+            'move_descr_like'   => Yii::t('hipanel/stock', 'Move description'),
             'src_name_like'     => Yii::t('hipanel/stock', 'Source'),
             'dst_name_like'     => Yii::t('hipanel/stock', 'Destination'),
         ]);

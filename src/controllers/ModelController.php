@@ -49,7 +49,7 @@ class ModelController extends CrudController
             ],
             'create' => [
                 'class' => SmartCreateAction::class,
-                'success' => Yii::t('app', 'Model was created'),
+                'success' => Yii::t('hipanel/stock', 'Model has been created'),
                 'data' => function ($action) {
                     return [
                         'types' => $action->controller->getTypes(),
@@ -59,7 +59,7 @@ class ModelController extends CrudController
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('app', 'Model was updated'),
+                'success' => Yii::t('hipanel/stock', 'Model has been updated'),
                 'data' => function ($action) {
                     return [
                         'types' => $action->controller->getTypes(),
@@ -69,11 +69,11 @@ class ModelController extends CrudController
             ],
             'mark-hidden-from-user' => [
                 'class' => SmartPerformAction::class,
-                'success' => Yii::t('app', 'Models marked'),
+                'success' => Yii::t('hipanel/stock', 'Models have been marked'),
             ],
             'unmark-hidden-from-user' => [
                 'class' => SmartPerformAction::class,
-                'success' => Yii::t('app', 'Models marked'),
+                'success' => Yii::t('hipanel/stock', 'Models have been marked'),
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,

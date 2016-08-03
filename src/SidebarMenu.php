@@ -25,25 +25,25 @@ class SidebarMenu extends \hiqdev\menumanager\Menu
     {
         return [
             'stock' => [
-                'label'   => Yii::t('app', 'Stock'),
+                'label'   => Yii::t('hipanel/stock', 'Stock'),
                 'url'     => ['/stock/model/index'],
                 'icon'    => 'fa-cubes',
                 'visible' => function () { return Yii::$app->user->can('support'); },
                 'items' => [
                     'model' => [
-                        'label' => Yii::t('app', 'Models'),
+                        'label' => Yii::t('hipanel/stock', 'Models'),
                         'url'   => ['/stock/model/index'],
                     ],
                     'part' => [
-                        'label' => Yii::t('app', 'Parts'),
+                        'label' => Yii::t('hipanel/stock', 'Parts'),
                         'url'   => ['/stock/part/index'],
                     ],
                     'move' => [
-                        'label' => Yii::t('app', 'History'),
+                        'label' => Yii::t('hipanel/stock', 'History'),
                         'url'   => ['/stock/move/index'],
                     ],
                     'hwconfig' => [
-                        'label'   => Yii::t('app', 'Config Templates'),
+                        'label'   => Yii::t('hipanel/stock', 'Config Templates'),
                         'url'     => ['/stock/hwconfig'],
                         'visible' => false,
                     ],

@@ -120,34 +120,34 @@ class Model extends YiiModel
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
-            'partno' => Yii::t('app', 'Part No.'),
+            'partno'                => Yii::t('hipanel/stock', 'Part No.'),
             'show_hidden_from_user' => Yii::t('hipanel/stock', 'Show hidden'),
-            'profile' => Yii::t('app', 'Group'),
+            'profile'               => Yii::t('hipanel/stock', 'Group'),
             // Chassis
-            'UNITS_QTY' => Yii::t('app', 'Units'),
-            '35_HDD_QTY' => Yii::t('app', '3.5" HDD'),
-            '25_HDD_QTY' => Yii::t('app', '2.5" HDD'),
+            'UNITS_QTY'             => Yii::t('hipanel/stock', 'Units'),
+            '35_HDD_QTY'            => Yii::t('hipanel/stock', '3.5" HDD'),
+            '25_HDD_QTY'            => Yii::t('hipanel/stock', '2.5" HDD'),
             // Server
-            'units_qty' => Yii::t('app', 'Units'),
-            '35_hdd_qty' => Yii::t('app', '3.5" HDD'),
-            '25_hdd_qty' => Yii::t('app', '2.5" HDD'),
-            'ram_qty' => Yii::t('app', 'RAM slots'),
-            'cpu_qty' => Yii::t('app', 'CPU quantity'),
+            'units_qty'             => Yii::t('hipanel/stock', 'Units'),
+            '35_hdd_qty'            => Yii::t('hipanel/stock', '3.5" HDD'),
+            '25_hdd_qty'            => Yii::t('hipanel/stock', '2.5" HDD'),
+            'ram_qty'               => Yii::t('hipanel/stock', 'RAM slots'),
+            'cpu_qty'               => Yii::t('hipanel/stock', 'CPU quantity'),
             // CPU
-            'prop_tags' => Yii::t('app', 'Prop tags'),
+            'prop_tags'             => Yii::t('hipanel/stock', 'Tags'),
             // HDD
-            'FORMFACTOR' => Yii::t('app', 'Form factor'),
+            'FORMFACTOR'            => Yii::t('hipanel/stock', 'Form factor'),
             // Motherboard
-            'RAM_AMOUNT' => Yii::t('app', 'Max RAM'),
-            'RAM_QTY' => Yii::t('app', 'RAM slots'),
-            'CPU_QTY' => Yii::t('app', 'CPU sockets'),
+            'RAM_AMOUNT'            => Yii::t('hipanel/stock', 'Max RAM'),
+            'RAM_QTY'               => Yii::t('hipanel/stock', 'RAM slots'),
+            'CPU_QTY'               => Yii::t('hipanel/stock', 'CPU sockets'),
             // RAM
-            'RAM_VOLUME' => Yii::t('app', 'RAM volume'),
-            'dcs' => 'DCS',
+            'RAM_VOLUME'            => Yii::t('hipanel/stock', 'RAM volume'),
+            'dcs'                   => Yii::t('hipanel/stock', 'DCS'),
             // ---
-            'dtg' => Yii::t('app', 'USA Equinix DC10'),
-            'sdg' => Yii::t('app', 'NL Amsterdam SDG'),
-            'm3' => Yii::t('app', 'NL Amsterdam M3'),
+            'dtg'                   => Yii::t('hipanel/stock', 'USA Equinix DC10'),
+            'sdg'                   => Yii::t('hipanel/stock', 'NL Amsterdam SDG'),
+            'm3'                    => Yii::t('hipanel/stock', 'NL Amsterdam M3'),
         ]);
     }
 

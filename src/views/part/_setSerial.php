@@ -23,5 +23,5 @@ use yii\bootstrap\Html;
     </div>
 <?php endforeach; ?>
 <hr>
-<?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-success']) ?>
+<?= Html::submitButton(Yii::t('hipanel', 'Submit'), ['class' => 'btn btn-success']) ?>
 <?php ActiveForm::end() ?>

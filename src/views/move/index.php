@@ -1,10 +1,11 @@
 <?php
+
 use hipanel\modules\stock\grid\MoveGridView;
 use hipanel\widgets\IndexLayoutSwitcher;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 
-$this->title = Yii::t('app', 'Moves');
+$this->title = Yii::t('hipanel/stock', 'Moves');
 $this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->breadcrumbs->setItems([
     $this->title,
@@ -27,7 +28,7 @@ $this->breadcrumbs->setItems([
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('bulk-actions') ?>
-            <?= $page->renderBulkButton(Yii::t('app', 'Delete'), 'delete', 'danger') ?>
+            <?= $page->renderBulkButton(Yii::t('hipanel', 'Delete'), 'delete', 'danger') ?>
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('table') ?>

@@ -17,7 +17,7 @@ use yii\helpers\Html;
 ]) ?>
 
     <div class="panel panel-default">
-        <div class="panel-heading"><?= Yii::t('app', 'Set price') ?></div>
+        <div class="panel-heading"><?= Yii::t('hipanel/stock', 'Set price') ?></div>
         <div class="panel-body">
             <?= ArraySpoiler::widget([
                 'data' => $models,
@@ -41,6 +41,6 @@ use yii\helpers\Html;
         ],
     ]) ?>
     <hr>
-    <?= Html::submitButton(Yii::t('app', 'Submit'), ['class' => 'btn btn-success']) ?>
+    <?= Html::submitButton(Yii::t('hipanel', 'Submit'), ['class' => 'btn btn-success']) ?>
 
 <?php ActiveForm::end() ?>

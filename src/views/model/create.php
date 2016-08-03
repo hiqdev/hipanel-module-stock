@@ -1,6 +1,7 @@
 <?php
-$this->title = Yii::t('app', 'Create');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Models'), 'url' => ['index']];
+
+$this->title = Yii::t('hipanel', 'Create');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/stock', 'Models'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

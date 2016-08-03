@@ -10,7 +10,7 @@ use yii\helpers\Url;
 $this->title = Html::encode(sprintf('%s %s %s #%s', $model->model_type_label, $model->model_brand_label, $model->partno, $model->serial));
 $this->subtitle = Yii::t('hipanel', 'detailed information');
 $this->breadcrumbs->setItems([
-    ['label' => Yii::t('app', 'Parts'), 'url' => ['index']],
+    ['label' => Yii::t('hipanel/stock', 'Parts'), 'url' => ['index']],
     $this->title,
 ]);
 ?>
@@ -47,7 +47,7 @@ $this->breadcrumbs->setItems([
                         <li><?= Html::a('<i class="fa fa-repeat"></i>&nbsp;' . Yii::t('hipanel/stock', 'Replace'), ['@part/replace', 'id' => $model->id]) ?></li>
                         <li><?= Html::a('<i class="fa fa-files-o"></i>&nbsp;' . Yii::t('hipanel/stock', 'Copy'), ['@part/copy', 'id' => $model->id]) ?></li>
                         <li><?= Html::a('<i class="fa fa-arrows-h"></i>&nbsp;' . Yii::t('hipanel/stock', 'Move by one'), ['@part/move-by-one', 'id' => $model->id]) ?></li>
-                        <li><?= Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('app', 'Update'), ['@part/update', 'id' => $model->id]) ?></li>
+                        <li><?= Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('hipanel', 'Update'), ['@part/update', 'id' => $model->id]) ?></li>
                         <li><?= Html::a('<i class="fa fa-trash-o"></i>&nbsp;' . Yii::t('hipanel/stock', 'Trash'), ['@part/trash', 'id' => $model->id]) ?></li>
                     </ul>
                 </div>
@@ -57,7 +57,7 @@ $this->breadcrumbs->setItems([
             <div class="col-lg-12">
                 <?php $box = Box::begin(['renderBody' => false]) ?>
                 <?php $box->beginHeader() ?>
-                <?= $box->renderTitle(Yii::t('app', 'Information')) ?>
+                <?= $box->renderTitle(Yii::t('hipanel', 'Detailed information')) ?>
                 <?php $box->endHeader() ?>
                 <?php $box->beginBody() ?>
                 <?= PartGridView::detailView([

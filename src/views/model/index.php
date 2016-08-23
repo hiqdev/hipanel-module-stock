@@ -1,4 +1,5 @@
 <?php
+
 use hipanel\helpers\Url;
 use hipanel\modules\stock\grid\ModelGridView;
 use hipanel\modules\stock\models\Model;
@@ -10,9 +11,7 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('hipanel/stock', 'Models');
 $this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
-$this->breadcrumbs->setItems([
-    $this->title,
-]); ?>
+$this->params['breadcrumbs'][] = $this->title;
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 

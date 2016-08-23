@@ -9,10 +9,9 @@ use yii\helpers\Url;
 
 $this->title = Html::encode(sprintf('%s %s %s #%s', $model->model_type_label, $model->model_brand_label, $model->partno, $model->serial));
 $this->subtitle = Yii::t('hipanel', 'detailed information');
-$this->breadcrumbs->setItems([
-    ['label' => Yii::t('hipanel/stock', 'Parts'), 'url' => ['index']],
-    $this->title,
-]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/stock', 'Parts'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <div class="row">

@@ -5,7 +5,7 @@ use hipanel\widgets\Box;
 use yii\helpers\Html;
 
 $this->title = Html::encode(sprintf('%s %s %s', $model->type, $model->brand_label, $model->model));
-$this->subtitle = Yii::t('hipanel/stock', 'Model details') . ' ' . $this->title;
+$this->params['subtitle'] = Yii::t('hipanel/stock', 'Model details') . ' ' . $this->title;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/stock', 'Models'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 

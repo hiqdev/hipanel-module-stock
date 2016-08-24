@@ -1,12 +1,11 @@
 <?php
 
 use hipanel\modules\stock\grid\MoveGridView;
-use hipanel\widgets\IndexLayoutSwitcher;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 
 $this->title = Yii::t('hipanel/stock', 'Moves');
-$this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
+$this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -16,14 +15,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $page->setSearchFormData(compact(['types'])) ?>
 
         <?php $page->beginContent('show-actions') ?>
-        <?= IndexLayoutSwitcher::widget() ?>
-        <?= $page->renderSorter([
-            'attributes' => [
-                'time',
-                'client',
-            ],
-        ]) ?>
-        <?= $page->renderPerPage() ?>
+            <?= $page->renderLayoutSwitcher() ?>
+            <?= $page->renderSorter([
+                'attributes' => [
+                    'time',
+                    'client',
+                ],
+            ]) ?>
+            <?= $page->renderPerPage() ?>
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('bulk-actions') ?>

@@ -2,16 +2,15 @@
 
 use hipanel\helpers\Url;
 use hipanel\modules\stock\grid\ModelGridView;
-use hipanel\modules\stock\models\Model;
-use hipanel\widgets\ActionBox;
-use hipanel\widgets\IndexLayoutSwitcher;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\helpers\Html;
 
 $this->title = Yii::t('hipanel/stock', 'Models');
-$this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
+$this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
+
+?>
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 
@@ -29,38 +28,31 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('show-actions') ?>
-    <?= IndexLayoutSwitcher::widget() ?>
-    <?= $page->renderSorter([
-        'attributes' => [
-            'type',
-            'brand',
-            'model',
-        ],
-    ]) ?>
-    <?= $page->renderPerPage() ?>
+        <?= $page->renderLayoutSwitcher() ?>
+        <?= $page->renderSorter([
+            'attributes' => [
+                'type', 'brand', 'model',
+            ],
+        ]) ?>
+        <?= $page->renderPerPage() ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('table') ?>
-    <?php $page->beginBulkForm() ?>
-    <?= ModelGridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $model,
-        'boxed' => false,
-        'columns' => [
-            'checkbox',
-            'type',
-            'brand',
-            'model',
-            'descr',
-            'partno',
-            'dtg',
-            'sdg',
-            'm3',
-            'last_prices',
-            'actions',
-        ],
-    ]) ?>
-    <?php $page->endBulkForm() ?>
+        <?php $page->beginBulkForm() ?>
+        <?= ModelGridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $model,
+            'boxed' => false,
+            'columns' => [
+                'checkbox',
+                'type', 'brand', 'model',
+                'descr', 'partno',
+                'dtg', 'sdg', 'm3',
+                'last_prices',
+                'actions',
+            ],
+        ]) ?>
+        <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>
 <?php $page->end() ?>
 <?php Pjax::end() ?>

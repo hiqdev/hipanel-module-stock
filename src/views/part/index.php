@@ -2,7 +2,6 @@
 
 use hipanel\helpers\Url;
 use hipanel\modules\stock\grid\PartGridView;
-use hipanel\widgets\IndexLayoutSwitcher;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\Pjax;
@@ -11,7 +10,7 @@ use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
 $this->title = Yii::t('hipanel/stock', 'Parts');
-$this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
+$this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
 
 $representation = Yii::$app->request->get('representation');
@@ -27,7 +26,7 @@ $representation = Yii::$app->request->get('representation');
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('show-actions') ?>
-        <?= IndexLayoutSwitcher::widget() ?>
+        <?= $page->renderLayoutSwitcher() ?>
         <?= $page->renderSorter([
             'attributes' => [
                 'id',

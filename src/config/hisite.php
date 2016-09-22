@@ -35,8 +35,17 @@ return [
             ],
         ],
         'menuManager' => [
-            'menus' => [
-                'stock' => \hipanel\modules\stock\SidebarMenu::class,
+            'items' => [
+                'sidebar' => [
+                    'add' => [
+                        'stock' => [
+                            'menu' => \hipanel\modules\stock\menus\SidebarMenu::class,
+                            'where' => [
+                                'after'  => ['hosting', 'servers', 'domains', 'tickets', 'finance', 'clients', 'dashboard'],
+                            ],
+                        ],
+                    ],
+                ],
             ],
         ],
     ],

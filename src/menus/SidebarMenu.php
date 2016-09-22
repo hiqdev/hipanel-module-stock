@@ -9,18 +9,12 @@
  * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
  */
 
-namespace hipanel\modules\stock;
+namespace hipanel\modules\stock\menus;
 
 use Yii;
 
 class SidebarMenu extends \hiqdev\menumanager\Menu
 {
-    protected $_addTo = 'sidebar';
-
-    protected $_where = [
-        'after'  => ['hosting', 'servers', 'domains', 'tickets', 'finance', 'clients', 'dashboard'],
-    ];
-
     public function items()
     {
         return [

@@ -43,7 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'descr',
                 'data',
                 'parts',
-                'actions',
             ],
         ]) ?>
         <?php $page->endBulkForm() ?>

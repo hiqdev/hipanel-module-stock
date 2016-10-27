@@ -65,11 +65,6 @@ class MoveGridView extends BoxedGridView
                     return $out;
                 },
             ],
-            'actions' => [
-                'class' => ActionColumn::class,
-                'template' => '{view} {delete}',
-                'header' => Yii::t('hipanel', 'Actions'),
-            ],
         ];
     }
 }

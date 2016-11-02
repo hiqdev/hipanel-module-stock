@@ -75,11 +75,11 @@ use yii\helpers\Url;
                         <?= $form->field($model, "[$i]serials") ?>
                         <div class="row">
                             <div class="col-md-4">
-                                <?= $form->field($model, "[$i]move_type")->dropDownList($moveTypes) ?>
+                                <?= $form->field($model, "[$i]move_type")->dropDownList($this->context->getMoveTypes()) ?>
                             </div>
                             <!-- /.col-md-4 -->
                             <div class="col-md-4">
-                                <?= $form->field($model, "[$i]supplier")->dropDownList($suppliers) ?>
+                                <?= $form->field($model, "[$i]supplier")->dropDownList($this->context->getSuppliers()) ?>
                             </div>
                             <!-- /.col-md-4 -->
                             <div class="col-md-4">
@@ -119,6 +119,7 @@ use yii\helpers\Url;
                                 'items' => $this->context->getCurrencyTypes(),
                             ],
                         ]) ?>
+                        <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput() ?>
                     </div>
                     <!-- /.col-md-4 -->
                 <?php endif ?>

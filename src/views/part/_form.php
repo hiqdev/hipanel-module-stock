@@ -90,14 +90,14 @@ use yii\helpers\Url;
                             <div class="col-md-6">
                                 <?= $form->field($model, "[$i]move_descr") ?>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-6 <?= AmountWithCurrency::$widgetClass ?>">
                                 <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
-                                    'inputOptions' => ['placeholder' => '0.00'],
-                                    'selectAttribute' => "[$i]currency",
-                                    'selectAttributeOptions' => [
+                                    'currencyAttributeName' => "[$i]currency",
+                                    'currencyAttributeOptions' => [
                                         'items' => $this->context->getCurrencyTypes(),
                                     ],
                                 ]) ?>
+                                <?= $form->field($model, 'currency', ['template' => '{input}{error}'])->hiddenInput() ?>
                             </div>
                         </div>
                         <!-- /.row -->
@@ -112,11 +112,10 @@ use yii\helpers\Url;
                         <?= $form->field($model, "[$i]serial") ?>
                     </div>
                     <!-- /.col-md-4 -->
-                    <div class="col-md-4">
+                    <div class="col-md-4 <?= AmountWithCurrency::$widgetClass ?>">
                         <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
-                            'inputOptions' => ['placeholder' => '0.00'],
-                            'selectAttribute' => "[$i]currency",
-                            'selectAttributeOptions' => [
+                            'currencyAttributeName' => "[$i]currency",
+                            'currencyAttributeOptions' => [
                                 'items' => $this->context->getCurrencyTypes(),
                             ],
                         ]) ?>

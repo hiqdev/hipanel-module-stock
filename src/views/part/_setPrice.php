@@ -16,31 +16,33 @@ use yii\helpers\Html;
     'validationUrl' => Url::toRoute(['validate-form', 'scenario' => 'set-price']),
 ]) ?>
 
-    <div class="panel panel-default">
-        <div class="panel-heading"><?= Yii::t('hipanel/stock', 'Set price') ?></div>
-        <div class="panel-body">
-            <?= ArraySpoiler::widget([
-                'data' => $models,
-                'visibleCount' => count($models),
-                'formatter' => function ($model) {
-                    return $model->partno . sprintf(' (%s)', $model->serial);
-                },
-                'delimiter' => ',&nbsp; ',
-            ]) ?>
-        </div>
+<div class="panel panel-default">
+    <div class="panel-heading"><?= Yii::t('hipanel/stock', 'Set price') ?></div>
+    <div class="panel-body">
+        <?= ArraySpoiler::widget([
+            'data' => $models,
+            'visibleCount' => count($models),
+            'formatter' => function ($model) {
+                return $model->partno . sprintf(' (%s)', $model->serial);
+            },
+            'delimiter' => ',&nbsp; ',
+        ]) ?>
     </div>
+</div>
 
-    <?php foreach ($models as $model) : ?>
-        <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
-    <?php endforeach ?>
+<?php foreach ($models as $model) : ?>
+    <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
+<?php endforeach ?>
+<div class="<?= AmountWithCurrency::$widgetClass ?>">
     <?= $form->field($model, 'price')->widget(AmountWithCurrency::class, [
-        'inputOptions' => ['placeholder' => '0.00'],
-        'selectAttribute' => 'currency',
-        'selectAttributeOptions' => [
+        'currencyAttributeName' => 'currency',
+        'currencyAttributeOptions' => [
             'items' => $this->context->getCurrencyTypes(),
         ],
     ]) ?>
-    <hr>
-    <?= Html::submitButton(Yii::t('hipanel', 'Submit'), ['class' => 'btn btn-success']) ?>
+    <?= $form->field($model, 'currency', ['template' => '{input}{error}'])->hiddenInput() ?>
+</div>
+<hr>
+<?= Html::submitButton(Yii::t('hipanel', 'Submit'), ['class' => 'btn btn-success']) ?>
 
 <?php ActiveForm::end() ?>

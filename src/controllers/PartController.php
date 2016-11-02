@@ -69,9 +69,11 @@ class PartController extends CrudController
                 'on beforeSave' => function (Event $event) {
                     /** @var \hipanel\actions\Action $action */
                     $action = $event->sender;
-                    $bulkPrice = Yii::$app->request->post('price');
-                    $bulkCurrency = Yii::$app->request->post('currency');
-                    $action->collection->set(Part::find()->where(['id' => ArrayHelper::getColumn($action->collection->models, 'id')])->all());
+                    $data = Yii::$app->request->post('Part');
+                    $bulkPrice = $data['price'];
+                    $bulkCurrency = $data['currency'];
+                    unset($data['price'], $data['currency']);
+                    $action->collection->set(Part::find()->where(['id' => ArrayHelper::getColumn($data, 'id')])->all());
                     // TODO: silverfire подумай как переделать
                     foreach ($action->collection->models as $model) {
                         $model->scenario = 'update';

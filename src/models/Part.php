@@ -66,7 +66,7 @@ class Part extends \hipanel\base\Model
                 'remote_ticket',
                 'hm_ticket',
             ], 'safe', 'on' => 'move-by-one'],
-            // Create
+            // Create and copy
             [[
                 'partno',
                 'model_id',
@@ -82,6 +82,7 @@ class Part extends \hipanel\base\Model
                 'src_id',
                 'dst_id',
             ], 'safe', 'on' => ['create', 'copy']],
+            [['price', 'currency'], 'required', 'on' => 'create'],
             [['serials', 'src_id'], 'required', 'on' => 'copy'],
             // Trash
             [[

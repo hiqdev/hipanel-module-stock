@@ -9,8 +9,8 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 $scenario = $this->context->action->scenario;
-$this->title = Yii::t('hipanel/stock', 'Bulk move');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/stock', 'Parts'), 'url' => ['index']];
+$this->title = Yii::t('hipanel:stock', 'Bulk move');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php $form = ActiveForm::begin([
@@ -29,7 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-lg-2">
-                        <label><?= Yii::t('hipanel/stock', 'Parts in move') ?>:</label>
+                        <label><?= Yii::t('hipanel:stock', 'Parts in move') ?>:</label>
                         <div class="well well-sm">
                             <?= ArraySpoiler::widget([
                                 'data' => $group,

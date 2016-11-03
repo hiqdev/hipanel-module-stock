@@ -6,8 +6,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
-$this->title = Yii::t('hipanel/stock', 'Reserve');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/stock', 'Parts'), 'url' => ['index']];
+$this->title = Yii::t('hipanel:stock', 'Reserve');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $scenario = $this->context->action->scenario;
 ?>

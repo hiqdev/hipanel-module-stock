@@ -42,8 +42,8 @@ class PartController extends CrudController
             'set-serial' => [
                 'class' => SmartPerformAction::class,
                 'scenario' => 'set-serial',
-                'success' => Yii::t('hipanel/stock', 'Serial updated'),
-                'error' => Yii::t('hipanel/stock', 'Failed set serial'),
+                'success' => Yii::t('hipanel:stock', 'Serial updated'),
+                'error' => Yii::t('hipanel:stock', 'Failed set serial'),
                 'POST html | POST ajax' => [
                     'save' => true,
                     'success' => [
@@ -59,7 +59,7 @@ class PartController extends CrudController
             'set-price' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'update',
-                'success' => Yii::t('hipanel/stock', 'Price changed'),
+                'success' => Yii::t('hipanel:stock', 'Price changed'),
                 'POST html' => [
                     'save' => true,
                     'success' => [
@@ -129,7 +129,7 @@ class PartController extends CrudController
             ],
             'create' => [
                 'class' => SmartCreateAction::class,
-                'success' => Yii::t('hipanel/stock', 'Part has been created'),
+                'success' => Yii::t('hipanel:stock', 'Part has been created'),
                 'data' => function ($action) {
                     return [
                         'moveTypes' => $action->controller->getMoveTypes(),
@@ -140,7 +140,7 @@ class PartController extends CrudController
             ],
             'repair' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel/stock', 'Parts have been moved'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'data' => function ($action) {
                     return [
                         'moveTypes' => $action->controller->getMoveTypes(),
@@ -181,7 +181,7 @@ class PartController extends CrudController
             'trash' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'trash',
-                'success' => Yii::t('hipanel/stock', 'Parts have been moved'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'data' => function ($action) {
                     return [
                         'moveTypes' => $action->controller->getMoveTypes(),
@@ -194,7 +194,7 @@ class PartController extends CrudController
             'replace' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'replace',
-                'success' => Yii::t('hipanel/stock', 'Parts have been moved'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'data' => function ($action) {
                     return [
                         'moveTypes' => $action->controller->getMoveTypes(),
@@ -205,7 +205,7 @@ class PartController extends CrudController
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel/stock', 'Part has been updated'),
+                'success' => Yii::t('hipanel:stock', 'Part has been updated'),
                 'data' => function ($action) {
                     return [
                         'currencyTypes' => $action->controller->getCurrencyTypes(),
@@ -214,17 +214,17 @@ class PartController extends CrudController
             ],
             'reserve' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel/stock', 'Parts have been updated'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been updated'),
             ],
             'unreserve' => [
                 'class' => SmartUpdateAction::class,
                 'view' => 'reserve',
-                'success' => Yii::t('hipanel/stock', 'Parts have been updated'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been updated'),
             ],
             'move-by-one' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'move-by-one',
-                'success' => Yii::t('hipanel/stock', 'Parts have been moved'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'view' => 'moveByOne',
                 'data' => function ($action) {
                     return [
@@ -235,7 +235,7 @@ class PartController extends CrudController
             ],
             'move' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel/stock', 'Parts have been moved'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'GET html | POST selection' => [
                     'class'  => RenderAction::class,
                     'data' => function ($action, $originalData) {
@@ -301,12 +301,12 @@ class PartController extends CrudController
 
     public function getTypes()
     {
-        return $this->getRefs('type,model', 'hipanel/stock');
+        return $this->getRefs('type,model', 'hipanel:stock');
     }
 
     public function getBrands()
     {
-        return $this->getRefs('type,brand', 'hipanel/stock');
+        return $this->getRefs('type,brand', 'hipanel:stock');
     }
 
     public function getLocations()
@@ -322,17 +322,17 @@ class PartController extends CrudController
 
     public function getMoveTypes()
     {
-        return $this->getRefs('type,move', 'hipanel/stock', ['orderby' => 'no_asc', 'with_recursive' => true]);
+        return $this->getRefs('type,move', 'hipanel:stock', ['orderby' => 'no_asc', 'with_recursive' => true]);
     }
 
     public function getSuppliers()
     {
-        return $this->getRefs('destination,supplier', 'hipanel/stock', ['orderby' => 'name_asc']);
+        return $this->getRefs('destination,supplier', 'hipanel:stock', ['orderby' => 'name_asc']);
     }
 
     public function getRemotehands()
     {
-        return $this->getRefs('destination,remotehands', 'hipanel/stock', ['orderby' => 'name_asc']);
+        return $this->getRefs('destination,remotehands', 'hipanel:stock', ['orderby' => 'name_asc']);
     }
 
     /**

@@ -57,11 +57,11 @@ class MoveController extends CrudController
 
     public function getTypes()
     {
-        return $this->getRefs('type,model', 'hipanel/stock');
+        return $this->getRefs('type,model', 'hipanel:stock');
     }
 
     public function getMoveTypes()
     {
-        return $this->getRefs('type,move', 'hipanel/stock', ['orderby' => 'no_asc', 'with_recursive' => true]);
+        return $this->getRefs('type,move', 'hipanel:stock', ['orderby' => 'no_asc', 'with_recursive' => true]);
     }
 }

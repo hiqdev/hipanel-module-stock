@@ -5,8 +5,8 @@ use hipanel\widgets\Box;
 use yii\helpers\Html;
 
 $this->title = Html::encode(sprintf('%s %s %s', $model->type, $model->brand_label, $model->model));
-$this->params['subtitle'] = Yii::t('hipanel/stock', 'Model details') . ' ' . $this->title;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/stock', 'Models'), 'url' => ['index']];
+$this->params['subtitle'] = Yii::t('hipanel:stock', 'Model details') . ' ' . $this->title;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Models'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </p>
         <div class="profile-usermenu">
             <ul class="nav">
-                <li><?= Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('hipanel/stock', 'Update'), ['@model/update', 'id' => $model->id]) ?></li>
+                <li><?= Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('hipanel:stock', 'Update'), ['@model/update', 'id' => $model->id]) ?></li>
             </ul>
         </div>
         <?php Box::end(); ?>

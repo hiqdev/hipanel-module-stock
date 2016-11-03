@@ -44,7 +44,7 @@ class PartGridView extends BoxedGridView
                 'format' => 'html',
             ],
             'main' => [
-                'label' => Yii::t('hipanel', 'Type') . ' / ' . Yii::t('hipanel/stock', 'Manufacturer'),
+                'label' => Yii::t('hipanel', 'Type') . ' / ' . Yii::t('hipanel:stock', 'Manufacturer'),
                 'sortAttribute' => 'model_type',
                 'value' => function ($model) {
                     return $model->model_type_label . ' ' . $model->model_brand_label;
@@ -64,7 +64,7 @@ class PartGridView extends BoxedGridView
             'model' => [
                 'attribute' => 'model',
                 'format' => 'raw',
-                'label' => Yii::t('hipanel/stock', 'Model'),
+                'label' => Yii::t('hipanel:stock', 'Model'),
                 'value' => function ($model) {
                     return Html::a($model->model->model, ['@model/view', 'id' => $model->model_id]);
                 },
@@ -84,7 +84,7 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'last_move' => [
-                'label' => Yii::t('hipanel/stock', 'Last move'),
+                'label' => Yii::t('hipanel:stock', 'Last move'),
                 'sortAttribute' => 'dst_name',
                 'format' => 'html',
                 'value' => function ($model) {
@@ -135,7 +135,7 @@ class PartGridView extends BoxedGridView
                 'enableSorting' => false,
             ],
             'DC_ticket_ID' => [
-                'label' => Yii::t('hipanel/stock', 'DC ticket ID'),
+                'label' => Yii::t('hipanel:stock', 'DC ticket ID'),
                 'filter' => false,
                 'enableSorting' => false,
                 'value' => function ($model) {

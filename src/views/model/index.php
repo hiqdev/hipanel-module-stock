@@ -1,12 +1,11 @@
 <?php
 
-use hipanel\helpers\Url;
 use hipanel\modules\stock\grid\ModelGridView;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\helpers\Html;
 
-$this->title = Yii::t('hipanel/stock', 'Models');
+$this->title = Yii::t('hipanel:stock', 'Models');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -22,9 +21,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
-        <?= $page->renderBulkButton(Yii::t('hipanel/stock', 'Show for users'), 'unmark-hidden-from-user') ?>
-        <?= $page->renderBulkButton(Yii::t('hipanel/stock', 'Hide from users'), 'mark-hidden-from-user') ?>
-        <?= $page->renderBulkButton(Yii::t('hipanel/stock', 'Update'), 'update') ?>
+        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Show for users'), 'unmark-hidden-from-user') ?>
+        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Hide from users'), 'mark-hidden-from-user') ?>
+        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Update'), 'update') ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('show-actions') ?>
@@ -49,7 +48,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'descr', 'partno',
                 'dtg', 'sdg', 'm3',
                 'last_prices',
-                'actions',
             ],
         ]) ?>
         <?php $page->endBulkForm() ?>

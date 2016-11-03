@@ -32,7 +32,7 @@ class MoveGridView extends BoxedGridView
                 'contentOptions' => ['style' => 'white-space:nowrap'],
             ],
             'move' => [
-                'label' => Yii::t('hipanel/stock', 'Move'),
+                'label' => Yii::t('hipanel:stock', 'Move'),
                 'format' => 'html',
                 'enableSorting' => false,
                 'filter' => false,
@@ -53,6 +53,7 @@ class MoveGridView extends BoxedGridView
                 'filter' => false,
             ],
             'parts' => [
+                'label' => Yii::t('hipanel:stock', 'Parts'),
                 'enableSorting' => false,
                 'filter' => false,
                 'value' => function ($model) {

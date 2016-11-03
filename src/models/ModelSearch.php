@@ -32,12 +32,12 @@ class ModelSearch extends Model
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'partno_like' => Yii::t('hipanel/stock', 'Part No.'),
-            'descr_like' => Yii::t('hipanel/stock', 'Description'),
-            'short_like' => Yii::t('hipanel/stock', 'Short'),
-            'group_like' => Yii::t('hipanel/stock', 'Group'),
-            'model_like' => Yii::t('hipanel/stock', 'Model'),
-            'brand_like' => Yii::t('hipanel/stock', 'Brand'),
+            'partno_like' => Yii::t('hipanel:stock', 'Part No.'),
+            'descr_like' => Yii::t('hipanel:stock', 'Description'),
+            'short_like' => Yii::t('hipanel:stock', 'Short'),
+            'group_like' => Yii::t('hipanel:stock', 'Group'),
+            'model_like' => Yii::t('hipanel:stock', 'Model'),
+            'brand_like' => Yii::t('hipanel:stock', 'Brand'),
         ]);
     }
 }

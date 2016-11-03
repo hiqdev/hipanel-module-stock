@@ -25,16 +25,16 @@ echo \hipanel\grid\GridView::widget([
         [
             'attribute' => 'type',
             'format' => 'html',
-            'label' => Yii::t('hipanel/stock', 'Type'),
+            'label' => Yii::t('hipanel:stock', 'Type'),
             'options' => [
                 'style' => 'width: 20%',
             ],
             'value' => function ($models, $key) {
-                return Html::tag('strong', Yii::t('hipanel/stock', $key));
+                return Html::tag('strong', Yii::t('hipanel:stock', $key));
             },
         ],
         [
-            'label' => Yii::t('hipanel/stock', 'Model'),
+            'label' => Yii::t('hipanel:stock', 'Model'),
             'attribute' => 'model',
             'options' => [
                 'style' => 'width: 40%',
@@ -53,7 +53,7 @@ echo \hipanel\grid\GridView::widget([
         [
             'attribute' => 'serials',
             'format' => 'html',
-            'label' => Yii::t('hipanel/stock', 'Serials'),
+            'label' => Yii::t('hipanel:stock', 'Serials'),
             'value' => function ($models) {
                 $serials = [];
 

@@ -4,7 +4,7 @@ use hipanel\modules\stock\grid\MoveGridView;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 
-$this->title = Yii::t('hipanel/stock', 'Moves');
+$this->title = Yii::t('hipanel:stock', 'Moves');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
 

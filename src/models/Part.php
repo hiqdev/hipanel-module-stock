@@ -20,7 +20,7 @@ class Part extends \hipanel\base\Model
     use ModelTrait;
 
     /** @inheritdoc */
-    public static $i18nDictionary = 'hipanel/stock';
+    public static $i18nDictionary = 'hipanel:stock';
 
     public function rules()
     {
@@ -178,25 +178,28 @@ class Part extends \hipanel\base\Model
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
-            'partno'            => Yii::t('hipanel/stock', 'Part No.'),
-            'model_brand'       => Yii::t('hipanel/stock', 'Manufacturer'),
-            'model_brand_label' => Yii::t('hipanel/stock', 'Manufacturer'),
-            'model_type'        => Yii::t('hipanel', 'Type'),
-            'model_type_label'  => Yii::t('hipanel', 'Type'),
-            'create_time'       => Yii::t('hipanel', 'Created'),
-            'create_date'       => Yii::t('hipanel', 'Created'),
-            'move_date'         => Yii::t('hipanel', 'Moved'),
-            'move_time'         => Yii::t('hipanel', 'Moved'),
-            'move_type_label'   => Yii::t('hipanel/stock', 'Move type'),
-            'move_descr'        => Yii::t('hipanel/stock', 'Move description'),
-            'move_type'         => Yii::t('hipanel/stock', 'Type'),
-            'order_data'        => Yii::t('hipanel/stock', 'Order'),
-            'order_no'          => Yii::t('hipanel/stock', 'Order No.'),
-            'src_id'            => Yii::t('hipanel/stock', 'Source'),
-            'src_name'          => Yii::t('hipanel/stock', 'Source'),
-            'dst_id'            => Yii::t('hipanel/stock', 'Destination'),
-            'dst_name'          => Yii::t('hipanel/stock', 'Destination'),
-            'supplier'          => Yii::t('hipanel/stock', 'Supplier'),
+            'partno' => Yii::t('hipanel:stock', 'Part No.'),
+            'model_brand' => Yii::t('hipanel:stock', 'Manufacturer'),
+            'model_brands' => Yii::t('hipanel:stock', 'Manufacturers'),
+            'model_brand_label' => Yii::t('hipanel:stock', 'Manufacturer'),
+            'model_type' => Yii::t('hipanel', 'Type'),
+            'model_types' => Yii::t('hipanel', 'Types'),
+            'model_type_label' => Yii::t('hipanel', 'Type'),
+            'create_time' => Yii::t('hipanel', 'Created'),
+            'create_date' => Yii::t('hipanel', 'Created'),
+            'move_date' => Yii::t('hipanel', 'Moved'),
+            'move_time' => Yii::t('hipanel', 'Moved'),
+            'move_type_label' => Yii::t('hipanel:stock', 'Move type'),
+            'move_descr' => Yii::t('hipanel:stock', 'Move description'),
+            'move_type' => Yii::t('hipanel:stock', 'Type'),
+            'order_data' => Yii::t('hipanel:stock', 'Order'),
+            'order_no' => Yii::t('hipanel:stock', 'Order No.'),
+            'src_id' => Yii::t('hipanel:stock', 'Source'),
+            'src_name' => Yii::t('hipanel:stock', 'Source'),
+            'dst_id' => Yii::t('hipanel:stock', 'Destination'),
+            'dst_name' => Yii::t('hipanel:stock', 'Destination'),
+            'supplier' => Yii::t('hipanel:stock', 'Supplier'),
+            'currency' => Yii::t('hipanel:stock', 'Валюта'),
         ]);
     }
 
@@ -263,7 +266,7 @@ class Part extends \hipanel\base\Model
             'copy' => ['order', 'direct', 'outdated'],
             'trash' => ['died', 'outdated'],
         ];
-        
+
         if (key_exists($scenario, $matches)) {
             foreach ($matches[$scenario] as $key) {
                 $result[$key] = $types[$key];
@@ -271,7 +274,7 @@ class Part extends \hipanel\base\Model
         } else {
             $result = $types;
         }
-        
+
         return $result;
     }
 }

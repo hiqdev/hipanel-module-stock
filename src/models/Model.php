@@ -120,34 +120,38 @@ class Model extends YiiModel
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
-            'partno'                => Yii::t('hipanel/stock', 'Part No.'),
-            'show_hidden_from_user' => Yii::t('hipanel/stock', 'Show hidden'),
-            'profile'               => Yii::t('hipanel/stock', 'Group'),
+            'partno' => Yii::t('hipanel:stock', 'Part No.'),
+            'show_hidden_from_user' => Yii::t('hipanel:stock', 'Show hidden'),
+            'profile' => Yii::t('hipanel:stock', 'Group'),
             // Chassis
-            'UNITS_QTY'             => Yii::t('hipanel/stock', 'Units'),
-            '35_HDD_QTY'            => Yii::t('hipanel/stock', '3.5" HDD'),
-            '25_HDD_QTY'            => Yii::t('hipanel/stock', '2.5" HDD'),
+            'UNITS_QTY' => Yii::t('hipanel:stock', 'Units'),
+            '35_HDD_QTY' => Yii::t('hipanel:stock', '3.5" HDD'),
+            '25_HDD_QTY' => Yii::t('hipanel:stock', '2.5" HDD'),
             // Server
-            'units_qty'             => Yii::t('hipanel/stock', 'Units'),
-            '35_hdd_qty'            => Yii::t('hipanel/stock', '3.5" HDD'),
-            '25_hdd_qty'            => Yii::t('hipanel/stock', '2.5" HDD'),
-            'ram_qty'               => Yii::t('hipanel/stock', 'RAM slots'),
-            'cpu_qty'               => Yii::t('hipanel/stock', 'CPU quantity'),
+            'units_qty' => Yii::t('hipanel:stock', 'Units'),
+            '35_hdd_qty' => Yii::t('hipanel:stock', '3.5" HDD'),
+            '25_hdd_qty' => Yii::t('hipanel:stock', '2.5" HDD'),
+            'ram_qty' => Yii::t('hipanel:stock', 'RAM slots'),
+            'cpu_qty' => Yii::t('hipanel:stock', 'CPU quantity'),
             // CPU
-            'prop_tags'             => Yii::t('hipanel/stock', 'Tags'),
+            'prop_tags' => Yii::t('hipanel:stock', 'Tags'),
             // HDD
-            'FORMFACTOR'            => Yii::t('hipanel/stock', 'Form factor'),
+            'FORMFACTOR' => Yii::t('hipanel:stock', 'Form factor'),
             // Motherboard
-            'RAM_AMOUNT'            => Yii::t('hipanel/stock', 'Max RAM'),
-            'RAM_QTY'               => Yii::t('hipanel/stock', 'RAM slots'),
-            'CPU_QTY'               => Yii::t('hipanel/stock', 'CPU sockets'),
+            'RAM_AMOUNT' => Yii::t('hipanel:stock', 'Max RAM'),
+            'RAM_QTY' => Yii::t('hipanel:stock', 'RAM slots'),
+            'CPU_QTY' => Yii::t('hipanel:stock', 'CPU sockets'),
             // RAM
-            'RAM_VOLUME'            => Yii::t('hipanel/stock', 'RAM volume'),
-            'dcs'                   => Yii::t('hipanel/stock', 'DCS'),
+            'RAM_VOLUME' => Yii::t('hipanel:stock', 'RAM volume'),
+            'dcs' => Yii::t('hipanel:stock', 'DCS'),
             // ---
-            'dtg'                   => Yii::t('hipanel/stock', 'USA Equinix DC10'),
-            'sdg'                   => Yii::t('hipanel/stock', 'NL Amsterdam SDG'),
-            'm3'                    => Yii::t('hipanel/stock', 'NL Amsterdam M3'),
+            'dtg' => Yii::t('hipanel:stock', 'USA Equinix DC10'),
+            'sdg' => Yii::t('hipanel:stock', 'NL Amsterdam SDG'),
+            'm3' => Yii::t('hipanel:stock', 'NL Amsterdam M3'),
+            'brand' => Yii::t('hipanel:stock', 'Brand'),
+            'model' => Yii::t('hipanel:stock', 'Модель'),
+            'model_types' => Yii::t('hipanel:stock', 'Model types'),
+            'model_' => Yii::t('hipanel:stock', 'Model types'),
         ]);
     }
 

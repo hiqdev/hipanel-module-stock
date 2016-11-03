@@ -24,13 +24,9 @@ return [
     'components' => [
         'i18n' => [
             'translations' => [
-                'hipanel/stock*' => [
+                'hipanel:stock' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => '@hipanel/modules/stock/messages',
-                    'fileMap' => [
-                        'hipanel/stock' => 'stock.php',
-                        'hipanel/stock/model-types' => 'model-types.php',
-                    ],
                 ],
             ],
         ],

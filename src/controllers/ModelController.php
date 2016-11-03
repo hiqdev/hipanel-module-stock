@@ -49,7 +49,7 @@ class ModelController extends CrudController
             ],
             'create' => [
                 'class' => SmartCreateAction::class,
-                'success' => Yii::t('hipanel/stock', 'Model has been created'),
+                'success' => Yii::t('hipanel:stock', 'Model has been created'),
                 'data' => function ($action) {
                     return [
                         'types' => $action->controller->getTypes(),
@@ -59,7 +59,7 @@ class ModelController extends CrudController
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel/stock', 'Model has been updated'),
+                'success' => Yii::t('hipanel:stock', 'Model has been updated'),
                 'data' => function ($action) {
                     return [
                         'types' => $action->controller->getTypes(),
@@ -69,11 +69,11 @@ class ModelController extends CrudController
             ],
             'mark-hidden-from-user' => [
                 'class' => SmartPerformAction::class,
-                'success' => Yii::t('hipanel/stock', 'Models have been marked'),
+                'success' => Yii::t('hipanel:stock', 'Models have been marked'),
             ],
             'unmark-hidden-from-user' => [
                 'class' => SmartPerformAction::class,
-                'success' => Yii::t('hipanel/stock', 'Models have been marked'),
+                'success' => Yii::t('hipanel:stock', 'Models have been marked'),
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,
@@ -99,17 +99,17 @@ class ModelController extends CrudController
 
     public function getTypes()
     {
-        return $this->getRefs('type,model', 'hipanel/stock');
+        return $this->getRefs('type,model', 'hipanel:stock');
     }
 
     public function getDcs()
     {
-        return $this->getRefs('type,dc', 'hipanel/stock');
+        return $this->getRefs('type,dc', 'hipanel:stock');
     }
 
     public function getBrands()
     {
-        return $this->getRefs('type,brand', 'hipanel/stock');
+        return $this->getRefs('type,brand', 'hipanel:stock');
     }
 
     public function getCustomType()

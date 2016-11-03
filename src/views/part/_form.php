@@ -97,7 +97,7 @@ use yii\helpers\Url;
                                         'items' => $this->context->getCurrencyTypes(),
                                     ],
                                 ]) ?>
-                                <?= $form->field($model, 'currency', ['template' => '{input}{error}'])->hiddenInput() ?>
+                                <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput() ?>
                             </div>
                         </div>
                         <!-- /.row -->

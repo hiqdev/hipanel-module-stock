@@ -17,6 +17,7 @@ use hipanel\grid\CurrencyColumn;
 use hipanel\grid\DataColumn;
 use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
+use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
 use yii\helpers\Html;
@@ -175,6 +176,12 @@ class PartGridView extends BoxedGridView
                 'class' => ActionColumn::class,
                 'template' => '{view} {update}',
                 'header' => Yii::t('hipanel', 'Actions'),
+            ],
+            'move_descr' => [
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Move::prepareDescr($model->move_descr);
+                },
             ],
         ];
     }

@@ -41,7 +41,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'date',
                 'move',
                 'descr',
-                'data',
                 'parts',
             ],
         ]) ?>

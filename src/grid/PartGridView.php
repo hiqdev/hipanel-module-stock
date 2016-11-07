@@ -18,6 +18,7 @@ use hipanel\grid\DataColumn;
 use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\stock\models\Move;
+use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
 use yii\helpers\Html;
@@ -135,8 +136,7 @@ class PartGridView extends BoxedGridView
                 'filter' => false,
                 'enableSorting' => false,
             ],
-            'DC_ticket_ID' => [
-                'label' => Yii::t('hipanel:stock', 'DC ticket ID'),
+            'dc_ticket' => [
                 'filter' => false,
                 'enableSorting' => false,
                 'value' => function ($model) {
@@ -212,7 +212,7 @@ class PartGridView extends BoxedGridView
                     'model_type', 'model_brand',
                     'partno', 'serial',
                     'last_move', 'move_type_and_date',
-                    'move_descr', 'order_data', 'DC_ticket_ID',
+                    'move_descr', 'order_data', 'dc_ticket',
                 ],
             ] : '',
         ];

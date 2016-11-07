@@ -71,6 +71,7 @@ class Move extends \hipanel\base\Model
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
+            'parts' => Yii::t('hipanel:stock', 'Parts'),
             'partno' => Yii::t('hipanel:stock', 'Part No.'),
             'src_id' => Yii::t('hipanel:stock', 'Source'),
             'dst_id' => Yii::t('hipanel:stock', 'Destination'),
@@ -89,7 +90,7 @@ class Move extends \hipanel\base\Model
 
     public static function prepareDescr($descr)
     {
-        return preg_replace_callback('#https://\S+/(\d+)/?#', function ($m) {
+        return preg_replace_callback('@https://\S+/(\d+)/?(#\S+)?@', function ($m) {
             return Html::a('HM4::' . $m[1], $m[0]);
         }, $descr);
     }

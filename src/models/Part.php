@@ -187,8 +187,8 @@ class Part extends \hipanel\base\Model
             'model_type_label' => Yii::t('hipanel', 'Type'),
             'create_time' => Yii::t('hipanel', 'Created'),
             'create_date' => Yii::t('hipanel', 'Created'),
-            'move_date' => Yii::t('hipanel', 'Moved'),
-            'move_time' => Yii::t('hipanel', 'Moved'),
+            'move_date' => Yii::t('hipanel:stock', 'Moved'),
+            'move_time' => Yii::t('hipanel:stock', 'Moved'),
             'move_type_label' => Yii::t('hipanel:stock', 'Move type'),
             'move_descr' => Yii::t('hipanel:stock', 'Move description'),
             'move_type' => Yii::t('hipanel:stock', 'Type'),
@@ -200,6 +200,7 @@ class Part extends \hipanel\base\Model
             'dst_name' => Yii::t('hipanel:stock', 'Destination'),
             'supplier' => Yii::t('hipanel:stock', 'Supplier'),
             'currency' => Yii::t('hipanel:stock', 'Валюта'),
+            'dc_ticket' => Yii::t('hipanel:stock', 'DC ticket'),
         ]);
     }
 

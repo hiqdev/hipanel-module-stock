@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php endif; ?>
                         <li><?= Html::a('<i class="fa fa-repeat"></i>&nbsp;' . Yii::t('hipanel:stock', 'Replace'), ['@part/replace', 'id' => $model->id]) ?></li>
                         <li><?= Html::a('<i class="fa fa-files-o"></i>&nbsp;' . Yii::t('hipanel:stock', 'Copy'), ['@part/copy', 'id' => $model->id]) ?></li>
-                        <li><?= Html::a('<i class="fa fa-arrows-h"></i>&nbsp;' . Yii::t('hipanel:stock', 'Move by one'), ['@part/move-by-one', 'id' => $model->id]) ?></li>
+                        <li><?= Html::a('<i class="fa fa-arrows-h"></i>&nbsp;' . Yii::t('hipanel:stock', 'Move'), ['@part/move-by-one', 'id' => $model->id]) ?></li>
                         <li><?= Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('hipanel', 'Update'), ['@part/update', 'id' => $model->id]) ?></li>
                         <li><?= Html::a('<i class="fa fa-trash-o"></i>&nbsp;' . Yii::t('hipanel:stock', 'Trash'), ['@part/trash', 'id' => $model->id]) ?></li>
                     </ul>
@@ -63,9 +63,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     'boxed' => false,
                     'model' => $model,
                     'columns' => [
-                        'model_type_label', 'model_brand_label', 'model', ['attribute' => 'serial'],
+                        'model_type_label', 'model_brand_label',
+                        'partno', 'model', ['attribute' => 'serial'],
                         'last_move', 'move_type_label', 'move_time',
-                        'order_data', 'DC_ticket_ID',
+                        'order_data', 'dc_ticket',
                         'price', 'place',
                     ],
                 ]) ?>
@@ -94,13 +95,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'filterRowOptions' => ['style' => 'display: none;'],
             'columns' => [
-                'checkbox',
-                'client',
-                'date',
-                'move',
-                'descr',
-                'data',
-                'parts',
+                'checkbox', 'client', 'date',
+                'move', 'descr', 'parts',
             ],
         ]) ?>
         <?php $page->endBulkForm() ?>

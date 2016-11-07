@@ -13,7 +13,9 @@ namespace hipanel\modules\stock\grid;
 
 use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
+use hipanel\widgets\ArraySpoiler;
 use Yii;
+use yii\helpers\Html;
 
 class MoveGridView extends BoxedGridView
 {
@@ -53,17 +55,35 @@ class MoveGridView extends BoxedGridView
                 'filter' => false,
             ],
             'parts' => [
-                'label' => Yii::t('hipanel:stock', 'Parts'),
-                'enableSorting' => false,
-                'filter' => false,
                 'value' => function ($model) {
                     $out = '';
                     if (is_array($model->parts)) {
                         foreach ($model->parts as $part) {
-                            $out .= $part['partno'] . ':' . $part['serial'] . ' ';
                         }
                     }
                     return $out;
+                },
+            ],
+            'parts' => [
+                'format' => 'raw',
+                'filter' => false,
+                'enableSorting' => false,
+                'value' => function ($model) {
+                    /** @var Part $model */
+                    return ArraySpoiler::widget([
+                        'data' => $model->parts,
+                        'visibleCount' => 2,
+                        'button' => [
+                            'label' => '+' . (count($model->parts) - 2),
+                            'popoverOptions' => [
+                                'html' => true,
+                                'placement' => 'bottom',
+                            ],
+                        ],
+                        'formatter' => function ($item) {
+                            return Html::a($item['partno'] . ':' . $item['serial'], ['@part/view', 'id' => $item['part_id']], ['class' => 'text-nowrap']);
+                        },
+                    ]);
                 },
             ],
         ];

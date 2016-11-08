@@ -17,10 +17,6 @@ $this->registerJs("jQuery('.field-modelsearch-show_hidden_from_user input[type=c
 ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('partno_like') ?>
-</div>
-
-<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('type')->widget(StaticCombo::class, [
         'data' => $types,
         'hasId' => true,
@@ -41,11 +37,11 @@ $this->registerJs("jQuery('.field-modelsearch-show_hidden_from_user input[type=c
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('short_like') ?>
+    <?= $search->field('descr_like') ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('descr_like') ?>
+    <?= $search->field('partno_like') ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">

@@ -29,8 +29,6 @@ class Model extends YiiModel
             // Search
             [[
                 'id',
-                'state_label',
-                'brand_label',
                 'url',
                 'descr',
                 'short',
@@ -41,10 +39,13 @@ class Model extends YiiModel
                 'model',
                 'type',
                 'types',
+                'type_label',
                 'state',
                 'states',
+                'state_label',
                 'brand',
                 'brands',
+                'brand_label',
                 'tag',
                 'tags',
                 'tags_all',

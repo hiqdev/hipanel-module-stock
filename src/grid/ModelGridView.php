@@ -26,10 +26,16 @@ class ModelGridView extends BoxedGridView
             'type' => [
                 'class' => RefColumn::class,
                 'gtype' => 'type,model',
+                'value' => function ($model) {
+                    return $model->type_label;
+                },
             ],
             'brand' => [
                 'class' => RefColumn::class,
                 'gtype' => 'type,brand',
+                'value' => function ($model) {
+                    return $model->brand_label;
+                },
             ],
             'model' => [
                 'filterAttribute' => 'model_like',

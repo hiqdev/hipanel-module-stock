@@ -153,6 +153,7 @@ class Model extends YiiModel
             'model' => Yii::t('hipanel:stock', 'Model'),
             'model_types' => Yii::t('hipanel:stock', 'Model types'),
             'model_' => Yii::t('hipanel:stock', 'Model types'),
+            'short' => Yii::t('hipanel:stock', 'Short'),
         ]);
     }
 

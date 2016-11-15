@@ -150,7 +150,7 @@ class Model extends YiiModel
             'sdg' => Yii::t('hipanel:stock', 'NL Amsterdam SDG'),
             'm3' => Yii::t('hipanel:stock', 'NL Amsterdam M3'),
             'brand' => Yii::t('hipanel:stock', 'Brand'),
-            'model' => Yii::t('hipanel:stock', 'Модель'),
+            'model' => Yii::t('hipanel:stock', 'Model'),
             'model_types' => Yii::t('hipanel:stock', 'Model types'),
             'model_' => Yii::t('hipanel:stock', 'Model types'),
         ]);

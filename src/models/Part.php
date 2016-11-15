@@ -199,7 +199,7 @@ class Part extends \hipanel\base\Model
             'dst_id' => Yii::t('hipanel:stock', 'Destination'),
             'dst_name' => Yii::t('hipanel:stock', 'Destination'),
             'supplier' => Yii::t('hipanel:stock', 'Supplier'),
-            'currency' => Yii::t('hipanel:stock', 'Валюта'),
+            'currency' => Yii::t('hipanel:stock', 'Currency'),
             'dc_ticket' => Yii::t('hipanel:stock', 'DC ticket'),
         ]);
     }

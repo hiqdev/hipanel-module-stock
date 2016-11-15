@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $page->setSearchFormData(compact(['types', 'brands'])) ?>
     <?php $page->beginContent('main-actions') ?>
-        <?= Html::a(Yii::t('hipanel', 'Create model'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
+        <?= Html::a(Yii::t('hipanel:stock', 'Create model'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>

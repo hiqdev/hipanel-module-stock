@@ -107,22 +107,24 @@ JS
                             </div>
                             <!-- /.row -->
 
-                            <?= $form->field($model, "[$i]tags")->widget(UsertagCombo::class, [
-                                'pluginOptions' => [
-                                    'clearWhen' => ['model/type'],
-                                    'select2Options' => [
-                                        'multiple' => true,
-                                    ],
-                                ],
-                                'filter' => [
-                                    'type' => [
-                                        'field' => 'model/type',
-                                        'format' => new JsExpression('function (id, text, field) {
-                                            return "type,model," + id;
-                                        }'),
-                                    ],
-                                ],
-                            ]) ?>
+                            <?php
+//                             $form->field($model, "[$i]tags")->widget(UsertagCombo::class, [
+//                                'pluginOptions' => [
+//                                    'clearWhen' => ['model/type'],
+//                                    'select2Options' => [
+//                                        'multiple' => true,
+//                                    ],
+//                                ],
+//                                'filter' => [
+//                                    'type' => [
+//                                        'field' => 'model/type',
+//                                        'format' => new JsExpression('function (id, text, field) {
+//                                            return "type,model," + id;
+//                                        }'),
+//                                    ],
+//                                ],
+//                            ])
+                            ?>
                             <?= $form->field($model, "[$i]profile")->widget(ModelProfileCombo::class) ?>
                             <div class="row">
                                 <div class="col-md-6">

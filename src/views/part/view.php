@@ -40,18 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 </p>
                 <div class="profile-usermenu">
                     <?= PartDetailMenu::create(['model' => $model])->render(DetailMenu::class) ?>
-                    <!--ul class="nav">
-                        <?php if ($model->reserve) : ?>
-                            <li><?= Html::a('<i class="fa fa-history"></i>&nbsp;' . Yii::t('hipanel:stock', 'Unreserve'), ['@part/unreserve', 'id' => $model->id]) ?></li>
-                        <?php else : ?>
-                            <li><?= Html::a('<i class="fa fa-history"></i>&nbsp;' . Yii::t('hipanel:stock', 'Reserve'), ['@part/reserve', 'id' => $model->id]) ?></li>
-                        <?php endif; ?>
-                        <li><?= Html::a('<i class="fa fa-repeat"></i>&nbsp;' . Yii::t('hipanel:stock', 'Replace'), ['@part/replace', 'id' => $model->id]) ?></li>
-                        <li><?= Html::a('<i class="fa fa-files-o"></i>&nbsp;' . Yii::t('hipanel:stock', 'Copy'), ['@part/copy', 'id' => $model->id]) ?></li>
-                        <li><?= Html::a('<i class="fa fa-arrows-h"></i>&nbsp;' . Yii::t('hipanel:stock', 'Move'), ['@part/move-by-one', 'id' => $model->id]) ?></li>
-                        <li><?= Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('hipanel', 'Update'), ['@part/update', 'id' => $model->id]) ?></li>
-                        <li><?= Html::a('<i class="fa fa-trash-o"></i>&nbsp;' . Yii::t('hipanel:stock', 'Trash'), ['@part/trash', 'id' => $model->id]) ?></li>
-                    </ul-->
                 </div>
                 <?php Box::end() ?>
 

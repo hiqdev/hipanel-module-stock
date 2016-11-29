@@ -1,7 +1,9 @@
 <?php
 
 use hipanel\modules\stock\grid\ModelGridView;
+use hipanel\modules\stock\menus\ModelDetailMenu;
 use hipanel\widgets\Box;
+use hiqdev\menumanager\widgets\DetailMenu;
 use yii\helpers\Html;
 
 $this->title = Html::encode(sprintf('%s %s %s', $model->type, $model->brand_label, $model->model));
@@ -30,9 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <span class="profile-user-name"><?= $model->brand_label . ' ' . $model->model; ?></span>
         </p>
         <div class="profile-usermenu">
-            <ul class="nav">
-                <li><?= Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('hipanel:stock', 'Update'), ['@model/update', 'id' => $model->id]) ?></li>
-            </ul>
+            <?= ModelDetailMenu::create(['model' => $model])->render(DetailMenu::class) ?>
         </div>
         <?php Box::end(); ?>
     </div>

@@ -2,8 +2,10 @@
 
 use hipanel\modules\stock\grid\MoveGridView;
 use hipanel\modules\stock\grid\PartGridView;
+use hipanel\modules\stock\menus\PartDetailMenu;
 use hipanel\widgets\Box;
 use hipanel\widgets\IndexPage;
+use hiqdev\menumanager\widgets\DetailMenu;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -37,7 +39,8 @@ $this->params['breadcrumbs'][] = $this->title;
             </span>
                 </p>
                 <div class="profile-usermenu">
-                    <ul class="nav">
+                    <?= PartDetailMenu::create(['model' => $model])->render(DetailMenu::class) ?>
+                    <!--ul class="nav">
                         <?php if ($model->reserve) : ?>
                             <li><?= Html::a('<i class="fa fa-history"></i>&nbsp;' . Yii::t('hipanel:stock', 'Unreserve'), ['@part/unreserve', 'id' => $model->id]) ?></li>
                         <?php else : ?>
@@ -48,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <li><?= Html::a('<i class="fa fa-arrows-h"></i>&nbsp;' . Yii::t('hipanel:stock', 'Move'), ['@part/move-by-one', 'id' => $model->id]) ?></li>
                         <li><?= Html::a('<i class="fa fa-pencil"></i>&nbsp;' . Yii::t('hipanel', 'Update'), ['@part/update', 'id' => $model->id]) ?></li>
                         <li><?= Html::a('<i class="fa fa-trash-o"></i>&nbsp;' . Yii::t('hipanel:stock', 'Trash'), ['@part/trash', 'id' => $model->id]) ?></li>
-                    </ul>
+                    </ul-->
                 </div>
                 <?php Box::end() ?>
 

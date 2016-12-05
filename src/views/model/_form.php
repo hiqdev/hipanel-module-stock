@@ -29,7 +29,7 @@ if (reset($models)->isNewRecord) {
             });
         });
 JS
-, View::POS_READY);
+        , View::POS_READY);
 }
 
 ?>
@@ -63,112 +63,98 @@ JS
         'url',
     ],
 ]) ?>
-    <div class="container-items"><!-- widgetContainer -->
-        <?php foreach ($models as $i => $model) : ?>
-            <div class="item">
-                <?php Box::begin(['options' => ['class' => 'l-box']]) ?>
+<div class="container-items"><!-- widgetContainer -->
+    <?php foreach ($models as $i => $model) : ?>
+        <div class="item">
+            <?php Box::begin(['options' => ['class' => 'l-box']]) ?>
+            <div class="row">
+                <div class="col-lg-offset-10 col-md-offset-10 col-sm-offset-10 col-xs-offset-6 col-sm-2 col-xs-6 text-right">
+                    <?php
+                    // necessary for update action.
+                    if (!$model->isNewRecord) {
+                        $model->setScenario('update');
+                        echo Html::activeHiddenInput($model, "[$i]id");
+                    }
+                    ?>
+                    <?php if ($model->isNewRecord) : ?>
+                        <div class="btn-group">
+                            <button type="button" class="add-item btn btn-success btn-sm"><i
+                                    class="glyphicon glyphicon-plus"></i></button>
+                            <button type="button" class="remove-item btn btn-danger btn-sm"><i
+                                    class="glyphicon glyphicon-minus"></i></button>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="col-md-4">
                     <div class="row">
-                        <div class="col-lg-offset-10 col-sm-2 text-right">
-                            <?php
-                            // necessary for update action.
-                            if (!$model->isNewRecord) {
-                                $model->setScenario('update');
-                                echo Html::activeHiddenInput($model, "[$i]id");
-                            }
-                            ?>
-                            <?php if ($model->isNewRecord) : ?>
-                                <div class="btn-group">
-                                    <button type="button" class="add-item btn btn-success btn-sm"><i
-                                            class="glyphicon glyphicon-plus"></i></button>
-                                    <button type="button" class="remove-item btn btn-danger btn-sm"><i
-                                            class="glyphicon glyphicon-minus"></i></button>
-                                </div>
-                                <!-- /.btn-group -->
-                            <?php endif; ?>
+                        <div class="col-md-6">
+                            <?= $form->field($model, "[$i]type")->widget(StaticCombo::class, [
+                                'type' => 'model/type',
+                                'hasId' => true,
+                                'data' => $types,
+                                'inputOptions' => array_merge(
+                                    ['class' => 'type-element'],
+                                    (!$model->isNewRecord) ? ['readonly' => 'readonly'] : []),
+                            ]) ?>
                         </div>
-                        <div class="col-md-4">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <?= $form->field($model, "[$i]type")->widget(StaticCombo::class, [
-                                        'type' => 'model/type',
-                                        'hasId' => true,
-                                        'data' => $types,
-                                        'inputOptions' => array_merge(
-                                            ['class' => 'type-element'],
-                                            (!$model->isNewRecord) ? ['readonly' => 'readonly'] : []),
-                                    ]) ?>
-                                </div>
-                                <!-- /.col-md-6 -->
-                                <div class="col-md-6">
-                                    <?= $form->field($model, "[$i]brand")->dropDownList($brands,
-                                        (!$model->isNewRecord) ? ['disabled' => 'disabled'] : []) ?>
-                                </div>
-                                <!-- /.col-md-6 -->
-                            </div>
-                            <!-- /.row -->
-
-                            <?php
-//                             $form->field($model, "[$i]tags")->widget(UsertagCombo::class, [
-//                                'pluginOptions' => [
-//                                    'clearWhen' => ['model/type'],
-//                                    'select2Options' => [
-//                                        'multiple' => true,
-//                                    ],
-//                                ],
-//                                'filter' => [
-//                                    'type' => [
-//                                        'field' => 'model/type',
-//                                        'format' => new JsExpression('function (id, text, field) {
-//                                            return "type,model," + id;
-//                                        }'),
-//                                    ],
-//                                ],
-//                            ])
-                            ?>
-                            <?= $form->field($model, "[$i]profile")->widget(ModelProfileCombo::class) ?>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <?= $form->field($model, "[$i]model") ?>
-                                </div>
-                                <!-- /.col-md-6 -->
-                                <div class="col-md-6">
-                                    <?= $form->field($model, "[$i]partno") ?>
-                                </div>
-                                <!-- /.col-md-6 -->
-                            </div>
-                            <!-- /.row -->
+                        <div class="col-md-6">
+                            <?= $form->field($model, "[$i]brand")->dropDownList($brands,
+                                (!$model->isNewRecord) ? ['disabled' => 'disabled'] : []) ?>
                         </div>
-                        <!-- /.col-md-4 -->
-                        <div class="col-md-4">
-                            <?= $form->field($model, "[$i]short")->textarea() ?>
-                            <?= $form->field($model, "[$i]descr")->textarea() ?>
-                            <?= $form->field($model, "[$i]url") ?>
-                        </div>
-                        <!-- /.col-md-4 -->
-                        <div class="col-md-4 my-dynamic-content">
-                            <?php if (!$model->isNewRecord) : ?>
-                                <?= $this->render('_' . $model->type, ['model' => $model, 'i' => (int) $i]) ?>
-                            <?php endif; ?>
-                        </div>
-                        <!-- /.col-md-4 -->
                     </div>
-                    <!-- /.row -->
-                <?php Box::end() ?>
+
+                    <?php
+                    //                             $form->field($model, "[$i]tags")->widget(UsertagCombo::class, [
+                    //                                'pluginOptions' => [
+                    //                                    'clearWhen' => ['model/type'],
+                    //                                    'select2Options' => [
+                    //                                        'multiple' => true,
+                    //                                    ],
+                    //                                ],
+                    //                                'filter' => [
+                    //                                    'type' => [
+                    //                                        'field' => 'model/type',
+                    //                                        'format' => new JsExpression('function (id, text, field) {
+                    //                                            return "type,model," + id;
+                    //                                        }'),
+                    //                                    ],
+                    //                                ],
+                    //                            ])
+                    ?>
+                    <?= $form->field($model, "[$i]profile")->widget(ModelProfileCombo::class) ?>
+                    <?= $form->field($model, "[$i]short")->textarea() ?>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($model, "[$i]model") ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field($model, "[$i]partno") ?>
+                        </div>
+                    </div>
+                    <?= $form->field($model, "[$i]url") ?>
+                    <?= $form->field($model, "[$i]descr")->textarea() ?>
+                </div>
+                <div class="col-md-4 my-dynamic-content">
+                    <?php if (!$model->isNewRecord) : ?>
+                        <?= $this->render('_' . $model->type, ['model' => $model, 'i' => (int)$i]) ?>
+                    <?php endif; ?>
+                </div>
             </div>
-            <!-- /.item -->
-        <?php endforeach; ?>
-    </div>
+            <?php Box::end() ?>
+        </div>
+    <?php endforeach; ?>
+</div>
 
 <?php DynamicFormWidget::end() ?>
 <?php Box::begin(['options' => ['class' => 'box-solid']]) ?>
-    <div class="row">
-        <div class="col-md-12 no">
-            <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
-            &nbsp;
-            <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
-        </div>
-        <!-- /.col-md-12 -->
+<div class="row">
+    <div class="col-md-12 no">
+        <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
+        &nbsp;
+        <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
-    <!-- /.row -->
+</div>
 <?php Box::end() ?>
 <?php ActiveForm::end() ?>

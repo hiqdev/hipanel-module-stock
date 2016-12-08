@@ -54,8 +54,7 @@ class ModelGridView extends BoxedGridView
                 'filter' => false,
                 'format' => 'raw',
                 'value' => function ($model) {
-                    // $out .= Html::tag('span', sprintf('%s: %s', $k, $v), ['class' => 'btn btn-info btn-xs']) . '&nbsp;';
-                    return $model->getDcs('dtg');
+                    return $model->renderReserves('dtg');
                 },
             ],
             'sdg' => [
@@ -63,8 +62,7 @@ class ModelGridView extends BoxedGridView
                 'filter' => false,
                 'format' => 'raw',
                 'value' => function ($model) {
-                    // $out .= Html::tag('span', sprintf('%s: %s', $k, $v), ['class' => 'btn btn-info btn-xs']) . '&nbsp;';
-                    return $model->getDcs('sdg');
+                    return $model->renderReserves('sdg');
                 },
             ],
             'm3' => [
@@ -72,8 +70,7 @@ class ModelGridView extends BoxedGridView
                 'filter' => false,
                 'format' => 'raw',
                 'value' => function ($model) {
-                    // $out .= Html::tag('span', sprintf('%s: %s', $k, $v), ['class' => 'btn btn-info btn-xs']) . '&nbsp;';
-                    return $model->getDcs('m3');
+                    return $model->renderReserves('m3');
                 },
             ],
             'last_prices' => [

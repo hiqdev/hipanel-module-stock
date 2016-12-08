@@ -145,37 +145,32 @@ class Model extends YiiModel
             // RAM
             'RAM_VOLUME' => Yii::t('hipanel:stock', 'RAM volume'),
             'dcs' => Yii::t('hipanel:stock', 'DCS'),
-            // ---
-            'dtg' => Yii::t('hipanel:stock', 'USA Equinix DC10'),
-            'sdg' => Yii::t('hipanel:stock', 'NL Amsterdam SDG'),
-            'm3' => Yii::t('hipanel:stock', 'NL Amsterdam M3'),
             'brand' => Yii::t('hipanel:stock', 'Brand'),
             'model' => Yii::t('hipanel:stock', 'Model'),
             'model_types' => Yii::t('hipanel:stock', 'Model types'),
             'model_' => Yii::t('hipanel:stock', 'Model types'),
             'short' => Yii::t('hipanel:stock', 'Short'),
             'tags' => Yii::t('hipanel:stock', 'Tags'),
+            /// STOCKS
+            'dtg' => Yii::t('hipanel:stock', 'DTG'),
+            'sdg' => Yii::t('hipanel:stock', 'SDG'),
+            'm3' => Yii::t('hipanel:stock', 'M3'),
         ]);
     }
 
-//    public static function getDcs()
-//    {
-//        return Ref::getList('type,dc');
-//    }
-
-    public function getDcs($dc)
+    public function renderReserves($dc)
     {
         $out = '';
-        if ($this['counters'][$dc]['rma']) {
-            $out .= Html::tag('span', $this['counters'][$dc]['rma'], ['class' => 'text-danger']);
-            // '<span style="color: red">' . $this['counters'][$dc]['rma'] . '</span>/';
+        if (!empty($this->counters[$dc]['stock'])) {
+            $out .= Html::tag('b', $this->counters[$dc]['stock']);
         }
-        $stock = $this['counters'][$dc]['stock'] - $this['counters'][$dc]['reserved'];
-        $out .= $stock >= 0 ? $stock : 0;
-        if ($this['counters'][$dc]['reserved']) {
-            $out .= Html::tag('span', '+ ' . $this['counters'][$dc]['reserved'], ['class' => 'text-info']);
-            //echo '+<span style="color: blue">' . $this['counters'][$dc]['reserved'] . '</span>';
+        if (!empty($this->counters[$dc]['reserved'])) {
+            $out .= '+' . Html::tag('b', $this->counters[$dc]['reserved'], ['class' => 'text-info']);
         }
+        if (!empty($this->counters[$dc]['rma'])) {
+            $out .= '/' . Html::tag('b', $this->counters[$dc]['rma'], ['class' => 'text-danger']);
+        }
+
         return $out;
     }
 

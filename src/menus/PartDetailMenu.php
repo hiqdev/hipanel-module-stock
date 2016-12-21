@@ -2,10 +2,9 @@
 
 namespace hipanel\modules\stock\menus;
 
-use hiqdev\menumanager\Menu;
 use Yii;
 
-class PartDetailMenu extends Menu
+class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
 {
     public $model;
 

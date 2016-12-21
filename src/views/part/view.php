@@ -5,7 +5,6 @@ use hipanel\modules\stock\grid\PartGridView;
 use hipanel\modules\stock\menus\PartDetailMenu;
 use hipanel\widgets\Box;
 use hipanel\widgets\IndexPage;
-use hiqdev\menumanager\widgets\DetailMenu;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -34,12 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <p class="text-center">
                     <span class="profile-user-role"><?= $model->type ?></span>
                     <br>
-            <span class="profile-user-name">
-                <?= $model->model_type_label . ' ' . $model->model_brand_label . '<br>' . $model->partno . ' #' . $model->serial ?>
-            </span>
+                    <span class="profile-user-name">
+                        <?= $model->model_type_label . ' ' . $model->model_brand_label . '<br>' . $model->partno . ' #' . $model->serial ?>
+                    </span>
                 </p>
                 <div class="profile-usermenu">
-                    <?= PartDetailMenu::create(['model' => $model])->render(DetailMenu::class) ?>
+                    <?= PartDetailMenu::widget(['model' => $model]) ?>
                 </div>
                 <?php Box::end() ?>
 

@@ -30,15 +30,15 @@ return [
                 ],
             ],
         ],
-        'menuManager' => [
-            'items' => [
-                'sidebar' => [
-                    'add' => [
-                        'stock' => [
-                            'menu' => \hipanel\modules\stock\menus\SidebarMenu::class,
-                            'where' => [
-                                'after'  => ['hosting', 'servers', 'domains', 'tickets', 'finance', 'clients', 'dashboard'],
-                            ],
+    ],
+    'container' => [
+        'definitions' => [
+            \hiqdev\thememanager\menus\AbstractSidebarMenu::class => [
+                'add' => [
+                    'stock' => [
+                        'menu' => \hipanel\modules\stock\menus\SidebarMenu::class,
+                        'where' => [
+                            'after'  => ['hosting', 'servers', 'domains', 'tickets', 'finance', 'clients', 'dashboard'],
                         ],
                     ],
                 ],

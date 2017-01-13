@@ -33,6 +33,7 @@ class Part extends \hipanel\base\Model
                 'model_brand_label',
                 'src_name',
                 'dst_name',
+                'order_no',
                 'order_data',
 
                 'id',

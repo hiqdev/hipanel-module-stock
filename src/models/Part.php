@@ -55,6 +55,8 @@ class Part extends \hipanel\base\Model
                 'move_remotehands_label',
                 'show_deleted',
                 'show_groups',
+
+                'limit',
             ], 'safe', 'on' => 'search'],
             // Move by one
             [[

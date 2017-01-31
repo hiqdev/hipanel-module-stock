@@ -245,7 +245,7 @@ class Part extends \hipanel\base\Model
         return $grouped_models;
     }
 
-    public function scenarioCommands()
+    public function scenarioActions()
     {
         return [
             'repair' => 'move',

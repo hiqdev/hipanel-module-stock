@@ -16,11 +16,7 @@ use hiqdev\combo\StaticCombo;
     <?= $search->field('type')->widget(StaticCombo::class, [
         'data' => $types,
         'hasId' => true,
-        'pluginOptions' => [
-            'select2Options' => [
-                'multiple' => false,
-            ],
-        ],
+        'multiple' => false,
     ]) ?>
 </div>
 

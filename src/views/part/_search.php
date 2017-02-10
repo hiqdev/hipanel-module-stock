@@ -67,11 +67,7 @@ use yii\helpers\Html;
     <?= $search->field('currency')->widget(StaticCombo::class, [
         'data' => ['usd' => 'USD', 'eur' => 'EUR'],
         'hasId' => true,
-        'pluginOptions' => [
-            'select2Options' => [
-                'multiple' => false,
-            ],
-        ],
+        'multiple' => false,
     ]) ?>
 </div>
 

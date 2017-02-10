@@ -29,12 +29,4 @@ class UsertagCombo extends Combo
 
     /** {@inheritdoc} */
     public $_return = ['id'];
-
-//    /** @inheritdoc */
-//    public function getFilter()
-//    {
-//        return ArrayHelper::merge(parent::getFilter(), [
-//            'type'   => ['format' => sprintf('type,model,%s', $this->profileType)],
-//        ]);
-//    }
 }

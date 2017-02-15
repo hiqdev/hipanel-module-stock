@@ -12,9 +12,9 @@
 namespace hipanel\modules\stock\controllers;
 
 use hipanel\actions\Action;
+use hipanel\actions\ComboSearchAction;
 use hipanel\actions\IndexAction;
 use hipanel\actions\OrientationAction;
-use hipanel\actions\SearchAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\base\CrudController;
 use Yii;
@@ -41,11 +41,11 @@ class MoveController extends CrudController
                 },
             ],
             'directions-list' => [
-                'class' => SearchAction::class,
+                'class' => ComboSearchAction::class,
                 'on beforeSave' => function ($event) {
                     /** @var Action $action */
                     $action = $event->sender;
-                    $action->dataProvider->query->options['scenario'] = 'get-directions';
+                    $action->dataProvider->query->action('get-directions');
                 },
             ],
             'delete' => [

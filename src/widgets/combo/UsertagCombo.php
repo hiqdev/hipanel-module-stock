@@ -12,7 +12,6 @@
 namespace hipanel\modules\stock\widgets\combo;
 
 use hiqdev\combo\Combo;
-use yii\helpers\ArrayHelper;
 
 class UsertagCombo extends Combo
 {

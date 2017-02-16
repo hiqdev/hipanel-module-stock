@@ -297,7 +297,7 @@ class PartController extends CrudController
      */
     public function actionRenderObjectParts($id)
     {
-        $parts = Part::find(['dst_id' => $id])->all();
+        $parts = Part::find()->where(['dst_id' => $id])->all();
         $data = ArrayHelper::index($parts, 'id', ['model_type_label', 'model_id']);
         return $this->renderAjax('_objectParts', ['data' => $data]);
     }
@@ -344,7 +344,7 @@ class PartController extends CrudController
     public function getTrashId()
     {
         $resultId = null;
-        $ids = Ref::find(['gtype' => 'destination,trash', 'select' => 'full'])->all();
+        $ids = Ref::find()->where(['gtype' => 'destination,trash', 'select' => 'full'])->all();
         foreach ($ids as $model) {
             if ($model->name === 'main')
                 $resultId = $model->id;

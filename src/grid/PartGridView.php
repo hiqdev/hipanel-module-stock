@@ -14,7 +14,6 @@ namespace hipanel\modules\stock\grid;
 use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\CurrencyColumn;
-use hipanel\grid\DataColumn;
 use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\stock\models\Move;
@@ -53,7 +52,6 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'partno' => [
-                'class' => DataColumn::class,
                 'filterAttribute' => 'partno_like',
                 'filter' => function ($column, $model, $attribute) {
                     return PartnoCombo::widget([

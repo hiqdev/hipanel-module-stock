@@ -136,6 +136,7 @@ class Part extends \hipanel\base\Model
             // Update
             [[
                 'id',
+                'model_id',
                 'serial',
                 'price',
                 'currency',
@@ -182,6 +183,7 @@ class Part extends \hipanel\base\Model
     {
         return $this->mergeAttributeLabels([
             'partno' => Yii::t('hipanel:stock', 'Part No.'),
+            'model_id' => Yii::t('hipanel:stock', 'Part No.'),
             'model_brand' => Yii::t('hipanel:stock', 'Manufacturer'),
             'model_brands' => Yii::t('hipanel:stock', 'Manufacturers'),
             'model_brand_label' => Yii::t('hipanel:stock', 'Manufacturer'),

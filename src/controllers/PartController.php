@@ -314,7 +314,7 @@ class PartController extends CrudController
 
     public function getLocations()
     {
-        $query = $this->searchModel()->search([])->query->andWhere(['groupby' => 'place']);
+        $query = $this->searchModel()->search([])->query->andWhere(['groupby' => 'place', 'limit' => ALL]);
         $res = [];
         foreach ($query->all() as $model) {
             $res[$model->place] = $model->place . '   - ' . Yii::t('hipanel', '{0, plural, one{# item} other{# items}}', $model->count);

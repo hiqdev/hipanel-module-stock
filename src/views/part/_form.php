@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
+use hipanel\modules\stock\widgets\combo\ModelCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hipanel\widgets\AmountWithCurrency;
@@ -58,8 +59,10 @@ use yii\helpers\Url;
                 <div class="col-lg-offset-10 col-sm-2 text-right">
                     <?php if ($model->isNewRecord) : ?>
                         <div class="btn-group">
-                            <button type="button" class="add-item btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i></button>
-                            <button type="button" class="remove-item btn btn-danger btn-sm"><i class="glyphicon glyphicon-minus"></i></button>
+                            <button type="button" class="add-item btn btn-success btn-sm"><i
+                                        class="glyphicon glyphicon-plus"></i></button>
+                            <button type="button" class="remove-item btn btn-danger btn-sm"><i
+                                        class="glyphicon glyphicon-minus"></i></button>
                         </div>
                         <!-- /.btn-group -->
                     <?php endif ?>
@@ -105,7 +108,7 @@ use yii\helpers\Url;
                     <!-- /.col-md-6 -->
                 <?php else : ?>
                     <div class="col-md-4">
-                        <?= $form->field($model, "[$i]partno")->textInput(['readonly' => true]) ?>
+                        <?= $form->field($model, "[$i]model_id")->widget(ModelCombo::class) ?>
                     </div>
                     <!-- /.col-md-4 -->
                     <div class="col-md-4">

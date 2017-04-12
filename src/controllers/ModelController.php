@@ -27,12 +27,6 @@ class ModelController extends CrudController
     public function actions()
     {
         return [
-            'set-orientation' => [
-                'class' => OrientationAction::class,
-                'allowedRoutes' => [
-                    '@model/index'
-                ]
-            ],
             'index' => [
                 'class' => IndexAction::class, // with_counters
                 'findOptions' => ['with_counters' => 1],

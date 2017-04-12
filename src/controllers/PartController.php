@@ -282,12 +282,6 @@ class PartController extends CrudController
             'validate-form' => [
                 'class' => ValidateFormAction::class,
             ],
-            'set-orientation' => [
-                'class' => OrientationAction::class,
-                'allowedRoutes' => [
-                    '@part/index'
-                ]
-            ]
         ];
     }
 

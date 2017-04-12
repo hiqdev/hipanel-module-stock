@@ -24,12 +24,6 @@ class MoveController extends CrudController
     public function actions()
     {
         return [
-            'set-orientation' => [
-                'class' => OrientationAction::class,
-                'allowedRoutes' => [
-                    '@move/index'
-                ]
-            ],
             'index' => [
                 'class' => IndexAction::class,
                 'findOptions' => ['with_parts' => 1],

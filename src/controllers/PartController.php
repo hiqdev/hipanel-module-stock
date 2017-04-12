@@ -88,7 +88,7 @@ class PartController extends CrudController
                 'data' => function ($action, $data) {
                     $local_sums = [];
                     $total_sums = [];
-                    $representation = Yii::$app->request->get('representation');
+                    $representation = $this->indexPageUiOptionsModel->representation;
                     if ($representation === 'report') {
                         foreach ($data['dataProvider']->getModels() as $model) {
                             $local_sums[$model->currency] += $model->price;

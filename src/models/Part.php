@@ -37,6 +37,7 @@ class Part extends \hipanel\base\Model
                 'order_data',
 
                 'id',
+                'company_id',
                 'dst_ids',
                 'model_ids',
                 'reserve',
@@ -206,6 +207,7 @@ class Part extends \hipanel\base\Model
             'supplier' => Yii::t('hipanel:stock', 'Supplier'),
             'currency' => Yii::t('hipanel:stock', 'Currency'),
             'dc_ticket' => Yii::t('hipanel:stock', 'DC ticket'),
+            'company_id' => Yii::t('hipanel:stock', 'Company'),
         ]);
     }
 

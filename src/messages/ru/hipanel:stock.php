@@ -99,4 +99,5 @@ return [
     'Update' => 'Редактировать',
     'Currency' => 'Валюта',
     'Create model' => 'Создать модель',
+    'Company' => 'Компания',
 ];

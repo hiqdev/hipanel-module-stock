@@ -181,6 +181,9 @@ class PartGridView extends BoxedGridView
                     return Move::prepareDescr($model->move_descr);
                 },
             ],
+//            'company_id' => [
+//                ''
+//            ]
         ];
     }
 

@@ -57,7 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'partno', 'model', ['attribute' => 'serial'],
                         'last_move', 'move_type_label', 'move_time',
                         'order_data', 'dc_ticket',
-                        'price', 'place',
+                        'price', 'place', 'company_id',
                     ],
                 ]) ?>
                 <?php $box->endBody() ?>

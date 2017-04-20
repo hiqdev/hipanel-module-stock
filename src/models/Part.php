@@ -37,7 +37,6 @@ class Part extends \hipanel\base\Model
                 'order_data',
 
                 'id',
-                'company_id',
                 'dst_ids',
                 'model_ids',
                 'reserve',
@@ -59,6 +58,7 @@ class Part extends \hipanel\base\Model
 
                 'limit',
             ], 'safe', 'on' => 'search'],
+            ['company_id', 'integer'],
             // Move by one
             [[
                 'id',
@@ -86,7 +86,7 @@ class Part extends \hipanel\base\Model
                 'src_id',
                 'dst_id',
             ], 'safe', 'on' => ['create', 'copy']],
-            [['price', 'currency'], 'required', 'on' => 'create'],
+            [['price', 'currency', 'company_id'], 'required', 'on' => 'create'],
             [['serials', 'src_id'], 'required', 'on' => 'copy'],
             // Trash
             [[
@@ -142,6 +142,7 @@ class Part extends \hipanel\base\Model
                 'price',
                 'currency',
             ], 'safe', 'on' => ['update']],
+            ['company_id', 'required', 'on' => 'create'],
             // Move / Bulk-move
             [[
                 'id',

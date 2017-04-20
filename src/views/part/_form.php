@@ -64,7 +64,6 @@ use yii\helpers\Url;
                             <button type="button" class="remove-item btn btn-danger btn-sm"><i
                                         class="glyphicon glyphicon-minus"></i></button>
                         </div>
-                        <!-- /.btn-group -->
                     <?php endif ?>
                 </div>
                 <?php if ($model->isNewRecord) : ?>
@@ -73,27 +72,29 @@ use yii\helpers\Url;
                         <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class) ?>
                         <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
                     </div>
-                    <!-- /.col-md-6 -->
                     <div class="col-md-6">
-                        <?= $form->field($model, "[$i]serials") ?>
                         <div class="row">
+                            <div class="col-md-8">
+                                <?= $form->field($model, "[$i]serials") ?>
+                            </div>
+                            <div class="col-md-4">
+                                <?= $form->field($model, "[$i]company_id")->dropDownList($this->context->getCompanies()) ?>
+                            </div>
                             <div class="col-md-4">
                                 <?= $form->field($model, "[$i]move_type")->dropDownList($this->context->getMoveTypes()) ?>
                             </div>
-                            <!-- /.col-md-4 -->
                             <div class="col-md-4">
                                 <?= $form->field($model, "[$i]supplier")->dropDownList($this->context->getSuppliers()) ?>
                             </div>
-                            <!-- /.col-md-4 -->
                             <div class="col-md-4">
                                 <?= $form->field($model, "[$i]order_no") ?>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                                 <?= $form->field($model, "[$i]move_descr") ?>
                             </div>
-                            <div class="col-md-6 <?= AmountWithCurrency::$widgetClass ?>">
+                            <div class="col-md-4 <?= AmountWithCurrency::$widgetClass ?>">
                                 <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
                                     'currencyAttributeName' => "[$i]currency",
                                     'currencyAttributeOptions' => [
@@ -103,19 +104,18 @@ use yii\helpers\Url;
                                 <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput() ?>
                             </div>
                         </div>
-                        <!-- /.row -->
                     </div>
-                    <!-- /.col-md-6 -->
                 <?php else : ?>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <?= $form->field($model, "[$i]model_id")->widget(ModelCombo::class) ?>
                     </div>
-                    <!-- /.col-md-4 -->
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <?= $form->field($model, "[$i]serial") ?>
                     </div>
-                    <!-- /.col-md-4 -->
-                    <div class="col-md-4 <?= AmountWithCurrency::$widgetClass ?>">
+                    <div class="col-md-3">
+                        <?= $form->field($model, "[$i]company_id")->dropDownList($this->context->getCompanies()) ?>
+                    </div>
+                    <div class="col-md-3 <?= AmountWithCurrency::$widgetClass ?>">
                         <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
                             'currencyAttributeName' => "[$i]currency",
                             'currencyAttributeOptions' => [
@@ -124,13 +124,10 @@ use yii\helpers\Url;
                         ]) ?>
                         <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput() ?>
                     </div>
-                    <!-- /.col-md-4 -->
                 <?php endif ?>
             </div>
-            <!-- /.row input-row margin-bottom -->
             <?php Box::end() ?>
         </div>
-        <!-- /.item -->
     <?php endforeach ?>
 </div>
 
@@ -142,8 +139,6 @@ use yii\helpers\Url;
         &nbsp;
         <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
-    <!-- /.col-md-12 -->
 </div>
-<!-- /.row -->
 <?php Box::end() ?>
 <?php ActiveForm::end() ?>

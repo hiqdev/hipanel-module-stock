@@ -124,10 +124,10 @@ class PartController extends CrudController
                         'part_ids' => $action->getId(),
                         'with_parts' => 1,
                     ]]);
-                    
+
                     return [
                         'moveDataProvider' => $moveDataProvider
-                    ];    
+                    ];
                 },
             ],
             'create' => [
@@ -157,7 +157,7 @@ class PartController extends CrudController
                 'scenario' => 'copy',
                 'success' => Yii::t('hipanel', 'Parts have been copied'),
                 'GET html | POST selection' => [
-                    'class'  => RenderAction::class,
+                    'class' => RenderAction::class,
                     'data' => function ($action, $originalData) {
                         return call_user_func($action->parent->data, $action, $originalData);
                     },
@@ -240,7 +240,7 @@ class PartController extends CrudController
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'GET html | POST selection' => [
-                    'class'  => RenderAction::class,
+                    'class' => RenderAction::class,
                     'data' => function ($action, $originalData) {
                         return call_user_func($action->parent->data, $action, $originalData);
                     },
@@ -272,7 +272,7 @@ class PartController extends CrudController
                         $groupIds = ArrayHelper::remove($partGroup, 'id');
                         foreach ($groupIds as $id) {
                             $partGroup['id'] = $id;
-                            $data[$id] = $partGroup;                            
+                            $data[$id] = $partGroup;
                         }
                     }
                     $action->collection->setModel($this->newModel(['scenario' => 'move']));
@@ -330,6 +330,19 @@ class PartController extends CrudController
     public function getRemotehands()
     {
         return $this->getRefs('destination,remotehands', 'hipanel:stock', ['orderby' => 'name_asc']);
+    }
+
+    public function getCompanies()
+    {
+        $companies = Yii::$app->get('cache')->getOrSet([__METHOD__], function () {
+            $result = ArrayHelper::map(Ref::find()->where(['gtype' => 'type,part_company', 'select' => 'full'])->all(), 'id', function ($model) {
+                return Yii::t('hipanel:stock', $model->label);
+            });
+
+            return $result;
+        }); // 3600
+
+        return $companies;
     }
 
     /**

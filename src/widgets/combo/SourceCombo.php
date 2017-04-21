@@ -29,4 +29,6 @@ class SourceCombo extends Combo
 
     /** {@inheritdoc} */
     public $_rename = ['text' => 'name'];
+
+    public $_primaryFilter = 'name_like';
 }

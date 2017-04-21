@@ -137,6 +137,7 @@ class PartGridView extends BoxedGridView
             'dc_ticket' => [
                 'filter' => false,
                 'enableSorting' => false,
+                'format' => 'html',
                 'value' => function ($model) {
                     $out = '';
                     if ($model['move_remote_ticket']) {

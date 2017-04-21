@@ -12,7 +12,6 @@
 namespace hipanel\modules\stock\controllers;
 
 use hipanel\actions\IndexAction;
-use hipanel\actions\OrientationAction;
 use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\RedirectAction;
 use hipanel\actions\RenderAction;

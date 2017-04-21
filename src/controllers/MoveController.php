@@ -14,7 +14,6 @@ namespace hipanel\modules\stock\controllers;
 use hipanel\actions\Action;
 use hipanel\actions\ComboSearchAction;
 use hipanel\actions\IndexAction;
-use hipanel\actions\OrientationAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\base\CrudController;
 use Yii;

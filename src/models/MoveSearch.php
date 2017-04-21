@@ -22,6 +22,8 @@ class MoveSearch extends Move
 
     public function searchAttributes()
     {
-        return ArrayHelper::merge($this->defaultSearchAttributes(), []);
+        return ArrayHelper::merge($this->defaultSearchAttributes(), [
+            'name_like' // -> server_like
+        ]);
     }
 }

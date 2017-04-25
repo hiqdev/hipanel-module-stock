@@ -344,19 +344,6 @@ class PartController extends CrudController
         return $this->getRefs('destination,remotehands', 'hipanel:stock', ['orderby' => 'name_asc']);
     }
 
-    public function getCompanies()
-    {
-        $companies = Yii::$app->get('cache')->getOrSet([__METHOD__], function () {
-            $result = ArrayHelper::map(Ref::find()->where(['gtype' => 'type,part_company', 'select' => 'full'])->all(), 'id', function ($model) {
-                return Yii::t('hipanel:stock', $model->label);
-            });
-
-            return $result;
-        }); // 3600
-
-        return $companies;
-    }
-
     /**
      * @return null|integer
      */

@@ -78,7 +78,7 @@ use yii\helpers\Url;
                                 <?= $form->field($model, "[$i]serials") ?>
                             </div>
                             <div class="col-md-4">
-                                <?= $form->field($model, "[$i]company_id")->dropDownList($this->context->getCompanies()) ?>
+                                <?= $form->field($model, "[$i]company_id")->dropDownList($model->companies) ?>
                             </div>
                             <div class="col-md-4">
                                 <?= $form->field($model, "[$i]move_type")->dropDownList($this->context->getMoveTypes()) ?>
@@ -113,7 +113,7 @@ use yii\helpers\Url;
                         <?= $form->field($model, "[$i]serial") ?>
                     </div>
                     <div class="col-md-3">
-                        <?= $form->field($model, "[$i]company_id")->dropDownList($this->context->getCompanies()) ?>
+                        <?= $form->field($model, "[$i]company_id")->dropDownList($model->companies) ?>
                     </div>
                     <div class="col-md-3 <?= AmountWithCurrency::$widgetClass ?>">
                         <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [

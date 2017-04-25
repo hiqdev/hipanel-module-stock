@@ -83,6 +83,11 @@ class PartGridView extends BoxedGridView
                     return $model->model_brand_label;
                 },
             ],
+            'company' => [
+                'value' => function ($model) {
+                    return $model->company;
+                },
+            ],
             'last_move' => [
                 'label' => Yii::t('hipanel:stock', 'Last move'),
                 'sortAttribute' => 'dst_name',

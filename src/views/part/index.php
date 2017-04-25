@@ -50,16 +50,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     ['label' => Yii::t('hipanel:stock', 'Copy'), 'url' => '#', 'linkOptions' => ['data-action' => 'copy']],
                     ['label' => Yii::t('hipanel:stock', 'Replace'), 'url' => '#', 'linkOptions' => ['data-action' => 'replace']],
 
-
                     ['label' => Yii::t('hipanel:stock', 'Reserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'reserve']],
                     ['label' => Yii::t('hipanel:stock', 'Unreserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'unreserve']],
                     ['label' => Yii::t('hipanel:stock', 'RMA'), 'url' => '#', 'linkOptions' => ['data-action' => 'rma']],
 
+                    ['label' => Yii::t('hipanel:stock', 'Update'), 'url' => '#', 'linkOptions' => ['data-action' => 'update']],
+
                     '<li role="presentation" class="divider"></li>',
 
-                    ['label' => Yii::t('hipanel:stock', 'Update'), 'url' => '#', 'linkOptions' => ['data-action' => 'update']],
-                    ['label' => Yii::t('hipanel:stock', 'Move'), 'url' => '#', 'linkOptions' => ['data-action' => 'move']],
                     ['label' => Yii::t('hipanel:stock', 'Move by one'), 'url' => '#', 'linkOptions' => ['data-action' => 'move-by-one']],
+                    ['label' => Yii::t('hipanel:stock', 'Move'), 'url' => '#', 'linkOptions' => ['data-action' => 'move']],
+                    ['label' => Yii::t('hipanel:stock', 'Move by {0}', 2), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=2']],
+                    ['label' => Yii::t('hipanel:stock', 'Move by {0}', 4), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=4']],
+                    ['label' => Yii::t('hipanel:stock', 'Move by {0}', 8), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=8']],
+                    ['label' => Yii::t('hipanel:stock', 'Move by {0}', 16), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=16']],
                 ],
             ]); ?>
         </div>

@@ -25,6 +25,7 @@ use hipanel\models\Ref;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
 use Yii;
+use yii\base\DynamicModel;
 use yii\base\Event;
 use yii\helpers\ArrayHelper;
 
@@ -244,15 +245,27 @@ class PartController extends CrudController
                         return call_user_func($action->parent->data, $action, $originalData);
                     },
                     'params' => function ($action) {
+                        $groupedModels = [];
                         $models = $action->parent->fetchModels();
+                        $groupBy = Yii::$app->request->get('groupBy');
+                        $groupModel = new DynamicModel(compact('groupBy'));
+                        $groupModel->addRule('groupBy', 'integer');
+                        $groupModel->addRule('groupBy', 'in', ['range' => [2, 4, 6, 8, 12]]);
                         foreach ($models as $model) {
                             $model->scenario = 'move';
                             $model->src_id = $model->dst_id;
                             $model->dst_id = null;
                         }
                         $models = ArrayHelper::index($models, 'id', ['src_id']);
+                        if ($groupBy !== null && $groupModel->validate()) {
+                            foreach ($models as $src_id => $group) {
+                                $groupedModels[$src_id] = array_chunk($group, $groupBy, true);
+                            }
+                        }
+
                         return [
                             'models' => $models,
+                            'groupedModels' => $groupedModels,
                         ];
                     },
                 ],

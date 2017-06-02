@@ -38,6 +38,7 @@ class Model extends YiiModel
                 'last_prices',
                 'model',
                 'type',
+                'type_id',
                 'types',
                 'type_label',
                 'state',

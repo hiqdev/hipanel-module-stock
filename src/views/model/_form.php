@@ -1,35 +1,34 @@
 <?php
+
 use hipanel\helpers\Url;
 use hipanel\modules\stock\widgets\combo\ModelProfileCombo;
-use hipanel\modules\stock\widgets\combo\UsertagCombo;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
 use hiqdev\combo\StaticCombo;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-use yii\web\JsExpression;
 use yii\web\View;
 
-if (reset($models)->isNewRecord) {
+if ($model->isNewRecord) {
     $dynamicUrl = Url::to('@model/subform');
     $this->registerJs(<<< JS
-        // Ajax form by type
-        jQuery( document ).on('change', 'input.type-element', function(event) {
-            var anchorItem = jQuery(this).closest('.item');
-            var subFornName = jQuery(this).val();
-            var itemNumber = jQuery(this).attr('id').charAt(6);
-            var loadingHtml = '<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>';
-            anchorItem.find('.l-box').append(loadingHtml);
-            anchorItem.find( ".my-dynamic-content" ).load( '{$dynamicUrl}', {'subFormName': subFornName, 'itemNumber': itemNumber}, function (response, status, xhr) {
-                anchorItem.find('.overlay').remove();
-                if ( status == "error" ) {
-                    var msg = "Sorry but there was an error";
-                    console.log(msg);
-                }
-            });
+    function getAdditionl(elem) {
+        var anchorItem = elem.closest('.item');
+        var subFornName = elem.val();
+        var itemNumber = elem.attr('id').charAt(6);
+        var loadingHtml = '<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>';
+        anchorItem.find('.l-box').append(loadingHtml);
+        anchorItem.find( ".my-dynamic-content" ).load( '{$dynamicUrl}', {'subFormName': subFornName, 'itemNumber': itemNumber}, function (response, status, xhr) {
+            anchorItem.find('.overlay').remove();
+            if ( status == "error" ) {
+                var msg = "Sorry but there was an error";
+                console.log(msg);
+            }
         });
+    }
 JS
         , View::POS_READY);
+    $this->registerJs('$( document ).on("select2:select", function(event) { getAdditionl($(event.target)) });', View::POS_READY);
 }
 
 ?>
@@ -79,9 +78,9 @@ JS
                     <?php if ($model->isNewRecord) : ?>
                         <div class="btn-group">
                             <button type="button" class="add-item btn btn-success btn-sm"><i
-                                    class="glyphicon glyphicon-plus"></i></button>
+                                        class="glyphicon glyphicon-plus"></i></button>
                             <button type="button" class="remove-item btn btn-danger btn-sm"><i
-                                    class="glyphicon glyphicon-minus"></i></button>
+                                        class="glyphicon glyphicon-minus"></i></button>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -137,9 +136,15 @@ JS
                     <?= $form->field($model, "[$i]descr")->textarea() ?>
                 </div>
                 <div class="col-md-4 my-dynamic-content">
-                    <?php if (!$model->isNewRecord) : ?>
-                        <?= $this->render('_' . $model->type, ['model' => $model, 'i' => (int)$i]) ?>
-                    <?php endif; ?>
+                    <?php
+                    if (!$model->isNewRecord) {
+                        $fileName = '_' . $model->type;
+                        $path = Yii::getAlias('@hipanel/modules/stock/views/model/' . $fileName . '.php');
+                        if (in_array($model->type, $this->context->getCustomType()) && is_file($path)) {
+                            echo $this->render('_' . $model->type, ['model' => $model, 'i' => (int)$i]);
+                        }
+                    }
+                    ?>
                 </div>
             </div>
             <?php Box::end() ?>

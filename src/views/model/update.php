@@ -5,4 +5,4 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Models'), 
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<?= $this->render('_form', compact(['models', 'tyepes', 'brands'])); ?>
+<?= $this->render('_form', compact(['model', 'models', 'types', 'brands'])); ?>

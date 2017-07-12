@@ -61,6 +61,13 @@ class PartGridView extends BoxedGridView
                     ]);
                 },
             ],
+            'reserve' => [
+                'attribute' => 'reserve',
+                'format' => 'text',
+                'contentOptions' => [
+                    'style' => 'word-break: break-all;',
+                ]
+            ],
             'model' => [
                 'attribute' => 'model',
                 'format' => 'raw',

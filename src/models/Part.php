@@ -15,6 +15,7 @@ use hipanel\base\ModelTrait;
 use hipanel\helpers\ArrayHelper;
 use hipanel\helpers\StringHelper;
 use hipanel\models\Ref;
+use hipanel\modules\finance\models\Purse;
 use Yii;
 
 class Part extends \hipanel\base\Model
@@ -310,5 +311,21 @@ class Part extends \hipanel\base\Model
         }
 
         return $company;
+    }
+
+    public function getPartRowClass()
+    {
+        if ($this->reserve) {
+            return 'info';
+        }
+        if (StringHelper::startsWith(mb_strtolower($this->dst_name), 'stock_') && empty($this->reserve)) {
+            return 'success';
+        }
+        if (StringHelper::startsWith(mb_strtolower($this->dst_name), 'rma_')) {
+            return 'danger';
+        }
+        if (in_array(mb_strtolower($this->dst_name), ['trash', 'trash_rma'])) {
+            return 'warning';
+        }
     }
 }

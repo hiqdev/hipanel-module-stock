@@ -304,7 +304,9 @@ class PartController extends CrudController
     public function actionRenderObjectParts($id)
     {
         $parts = Part::find()->where(['dst_id' => $id])->all();
+        ArrayHelper::multisort($parts, ['modelTypeNo'], [SORT_ASC]);
         $data = ArrayHelper::index($parts, 'id', ['model_type_label', 'model_id']);
+
         return $this->renderAjax('_objectParts', ['data' => $data]);
     }
 

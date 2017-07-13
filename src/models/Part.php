@@ -328,4 +328,29 @@ class Part extends \hipanel\base\Model
             return 'warning';
         }
     }
+
+    static $modelTypeNos = [
+        'server'        => 1,
+        'box'           => 2,
+        'mb'            => 3,
+        'cpu'           => 4,
+        'ram'           => 5,
+        'hdd'           => 6,
+        'ssd'           => 7,
+        'raid'          => 8,
+        'net'           => 9,
+        'monitor'       => 10,
+        'psu'           => 11,
+        'heatsink'      => 11,
+        'ipmi'          => 12,
+        'ups'           => 12,
+        'kvm'           => 13,
+        'optic_module'  => 13,
+        'other'         => 99,
+    ];
+
+    public function getModelTypeNo()
+    {
+        return isset(static::$modelTypeNos[$this->model_type]) ? static::$modelTypeNos[$this->model_type] : 99999;
+    }
 }

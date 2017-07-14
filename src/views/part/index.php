@@ -1,7 +1,9 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\stock\grid\PartGridView;
+use hipanel\modules\stock\widgets\PartLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\Pjax;
@@ -15,150 +17,132 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
-<div class="row">
-    <div class="col-md-3">
-        <ul class="well well-sm list-unstyled"
-            style="display: flex; justify-content: space-between; margin-bottom: .5em ; padding: .5em 1em">
-            <li>
-                <i class="fa fa-square"
-                   style="color: #fff; padding-right: 0.5rem;"></i> <?= Yii::t('hipanel:stock', 'Inuse') ?>
-            </li>
-            <li>
-                <i class="fa fa-square text-green"
-                   style="padding-right: 0.5rem;"></i> <?= Yii::t('hipanel:stock', 'Stock') ?>
-            </li>
-            <li>
-                <i class="fa fa-square text-info"
-                   style="padding-right: 0.5rem;"></i> <?= Yii::t('hipanel:stock', 'Reserve') ?>
-            </li>
-            <li>
-                <i class="fa fa-square text-danger"
-                   style="padding-right: 0.5rem;"></i> <?= Yii::t('hipanel:stock', 'RMA') ?>
-            </li>
-            <li>
-                <i class="fa fa-square text-warning"
-                   style="padding-right: 0.5rem;"></i> <?= Yii::t('hipanel:stock', 'TRASH') ?>
-            </li>
-        </ul>
-    </div>
-</div>
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
-<?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
-<?php $page->setSearchFormData(compact(['types', 'locations', 'brands'])) ?>
 
-<?php $page->beginContent('main-actions') ?>
-<?= Html::a(Yii::t('hipanel', 'Create'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
-<?php $page->endContent() ?>
+    <?php if ($this->context->indexPageUiOptionsModel->orientation === IndexPageUiOptions::ORIENTATION_VERTICAL) : ?>
+        <?= PartLegend::widget() ?>
+    <?php endif; ?>
 
-<?php $page->beginContent('show-actions') ?>
-<?= $page->renderLayoutSwitcher() ?>
-<?= $page->renderSorter([
-    'attributes' => [
-        'id',
-        'model_type', 'model_brand',
-        'partno', 'serial',
-        'create_time', 'move_time',
-    ],
-]) ?>
-<?= $page->renderPerPage() ?>
-<?= $page->renderRepresentations(PartGridView::class) ?>
-<?php $page->endContent() ?>
+    <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
+        <?php $page->setSearchFormData(compact(['types', 'locations', 'brands'])) ?>
 
-<?php $page->beginContent('bulk-actions') ?>
-<div class="dropdown" style="display: inline-block">
-    <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
-        <?= Yii::t('hipanel:stock', 'Bulk actions') ?>&nbsp;
-        <span class="caret"></span>
-    </button>
-    <?= Dropdown::widget([
-        'encodeLabels' => false,
-        'items' => [
-            ['label' => Yii::t('hipanel:stock', 'Repair'), 'url' => '#', 'linkOptions' => ['data-action' => 'repair']],
-            ['label' => Yii::t('hipanel:stock', 'Copy'), 'url' => '#', 'linkOptions' => ['data-action' => 'copy']],
-            ['label' => Yii::t('hipanel:stock', 'Replace'), 'url' => '#', 'linkOptions' => ['data-action' => 'replace']],
+        <?php $page->beginContent('main-actions') ?>
+            <?= Html::a(Yii::t('hipanel', 'Create'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
+            <?php if ($this->context->indexPageUiOptionsModel->orientation === IndexPageUiOptions::ORIENTATION_HORIZONTAL) : ?>
+                <?= PartLegend::widget(['colClass' => 'col-md-12']) ?>
+            <?php endif; ?>
+        <?php $page->endContent() ?>
 
-            ['label' => Yii::t('hipanel:stock', 'Reserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'reserve']],
-            ['label' => Yii::t('hipanel:stock', 'Unreserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'unreserve']],
-            ['label' => Yii::t('hipanel:stock', 'RMA'), 'url' => '#', 'linkOptions' => ['data-action' => 'rma']],
 
-            ['label' => Yii::t('hipanel:stock', 'Update'), 'url' => '#', 'linkOptions' => ['data-action' => 'update']],
+        <?php $page->beginContent('show-actions') ?>
+            <?= $page->renderLayoutSwitcher() ?>
+            <?= $page->renderSorter([
+                'attributes' => [
+                    'id',
+                    'model_type', 'model_brand',
+                    'partno', 'serial',
+                    'create_time', 'move_time',
+                ],
+            ]) ?>
+            <?= $page->renderPerPage() ?>
+            <?= $page->renderRepresentations(PartGridView::class) ?>
+        <?php $page->endContent() ?>
 
-            '<li role="presentation" class="divider"></li>',
+        <?php $page->beginContent('bulk-actions') ?>
+            <div class="dropdown" style="display: inline-block">
+                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                    <?= Yii::t('hipanel:stock', 'Bulk actions') ?>&nbsp;
+                    <span class="caret"></span>
+                </button>
+                <?= Dropdown::widget([
+                    'encodeLabels' => false,
+                    'items' => [
+                        ['label' => Yii::t('hipanel:stock', 'Repair'), 'url' => '#', 'linkOptions' => ['data-action' => 'repair']],
+                        ['label' => Yii::t('hipanel:stock', 'Copy'), 'url' => '#', 'linkOptions' => ['data-action' => 'copy']],
+                        ['label' => Yii::t('hipanel:stock', 'Replace'), 'url' => '#', 'linkOptions' => ['data-action' => 'replace']],
 
-            ['label' => Yii::t('hipanel:stock', 'Move by one'), 'url' => '#', 'linkOptions' => ['data-action' => 'move-by-one']],
-            ['label' => Yii::t('hipanel:stock', 'Move'), 'url' => '#', 'linkOptions' => ['data-action' => 'move']],
-            ['label' => Yii::t('hipanel:stock', 'Move by {0}', 2), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=2']],
-            ['label' => Yii::t('hipanel:stock', 'Move by {0}', 4), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=4']],
-            ['label' => Yii::t('hipanel:stock', 'Move by {0}', 8), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=8']],
-            ['label' => Yii::t('hipanel:stock', 'Move by {0}', 16), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=16']],
-        ],
-    ]); ?>
-</div>
-<?= AjaxModal::widget([
-    'bulkPage' => true,
-    'id' => 'set-serial-modal',
-    'scenario' => 'set-serial',
-    'actionUrl' => ['bulk-set-serial'],
-    'handleSubmit' => Url::toRoute('set-serial'),
-    'size' => Modal::SIZE_LARGE,
-    'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set serial'), ['class' => 'modal-title']),
-    'toggleButton' => ['label' => Yii::t('hipanel:stock', 'Set serial'), 'class' => 'btn btn-default btn-sm'],
-]) ?>
-<?= AjaxModal::widget([
-    'bulkPage' => true,
-    'id' => 'bulk-set-price-modal',
-    'scenario' => 'bulk-set-price',
-    'actionUrl' => ['bulk-set-price'],
-    'size' => Modal::SIZE_LARGE,
-    'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set price'), ['class' => 'modal-title']),
-    'toggleButton' => ['label' => Yii::t('hipanel:stock', 'Set price'), 'class' => 'btn btn-default btn-sm'],
-]) ?>
-<?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Trash'), 'trash', 'danger') ?>
-<?php $page->endContent() ?>
+                        ['label' => Yii::t('hipanel:stock', 'Reserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'reserve']],
+                        ['label' => Yii::t('hipanel:stock', 'Unreserve'), 'url' => '#', 'linkOptions' => ['data-action' => 'unreserve']],
+                        ['label' => Yii::t('hipanel:stock', 'RMA'), 'url' => '#', 'linkOptions' => ['data-action' => 'rma']],
 
-<?php $page->beginContent('table') ?>
-<?php $page->beginBulkForm() ?>
-<?= PartGridView::widget([
-    'boxed' => false,
-    'dataProvider' => $dataProvider,
-    'tableOptions' => [
-        'class' => 'table table-striped table-bordered table-condensed'
-    ],
-    'rowOptions' => function ($model) {
-        return [
-            'class' => $model->partRowClass,
-        ];
-    },
-    'filterModel' => $model,
-    'locations' => $locations,
-    'summaryRenderer' => function ($grid) use ($local_sums, $total_sums) {
-        $locals = '';
-        $totals = '';
-        if (is_array($total_sums)) {
-            foreach ($total_sums as $cur => $sum) {
-                if ($cur && $sum > 0) {
-                    $totals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
-                }
-            }
-        }
-        if (is_array($local_sums)) {
-            foreach ($local_sums as $cur => $sum) {
-                if ($cur && $sum > 0) {
-                    $locals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
-                }
-            }
-        }
+                        ['label' => Yii::t('hipanel:stock', 'Update'), 'url' => '#', 'linkOptions' => ['data-action' => 'update']],
 
-        return $grid->parentSummary() . '<div class="summary">' .
-            ($totals ? Yii::t('hipanel:stock', 'TOTAL') . ':' . $totals : null) .
-            ($locals ? '<br><span class="text-muted">' . Yii::t('hipanel', 'on screen') . ':' . $locals . '</span>' : null) .
-            '</div>';
-    },
-    'representation' => $representation,
-]) ?>
-<?php $page->endBulkForm() ?>
-<?php $page->endContent() ?>
-<?php $page->end() ?>
+                        '<li role="presentation" class="divider"></li>',
+
+                        ['label' => Yii::t('hipanel:stock', 'Move by one'), 'url' => '#', 'linkOptions' => ['data-action' => 'move-by-one']],
+                        ['label' => Yii::t('hipanel:stock', 'Move'), 'url' => '#', 'linkOptions' => ['data-action' => 'move']],
+                        ['label' => Yii::t('hipanel:stock', 'Move by {0}', 2), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=2']],
+                        ['label' => Yii::t('hipanel:stock', 'Move by {0}', 4), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=4']],
+                        ['label' => Yii::t('hipanel:stock', 'Move by {0}', 8), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=8']],
+                        ['label' => Yii::t('hipanel:stock', 'Move by {0}', 16), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=16']],
+                    ],
+                ]); ?>
+            </div>
+            <?= AjaxModal::widget([
+                'bulkPage' => true,
+                'id' => 'set-serial-modal',
+                'scenario' => 'set-serial',
+                'actionUrl' => ['bulk-set-serial'],
+                'handleSubmit' => Url::toRoute('set-serial'),
+                'size' => Modal::SIZE_LARGE,
+                'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set serial'), ['class' => 'modal-title']),
+                'toggleButton' => ['label' => Yii::t('hipanel:stock', 'Set serial'), 'class' => 'btn btn-default btn-sm'],
+            ]) ?>
+            <?= AjaxModal::widget([
+                'bulkPage' => true,
+                'id' => 'bulk-set-price-modal',
+                'scenario' => 'bulk-set-price',
+                'actionUrl' => ['bulk-set-price'],
+                'size' => Modal::SIZE_LARGE,
+                'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set price'), ['class' => 'modal-title']),
+                'toggleButton' => ['label' => Yii::t('hipanel:stock', 'Set price'), 'class' => 'btn btn-default btn-sm'],
+            ]) ?>
+            <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Trash'), 'trash', 'danger') ?>
+        <?php $page->endContent() ?>
+
+        <?php $page->beginContent('table') ?>
+            <?php $page->beginBulkForm() ?>
+            <?= PartGridView::widget([
+                'boxed' => false,
+                'dataProvider' => $dataProvider,
+                'tableOptions' => [
+                    'class' => 'table table-striped table-bordered table-condensed'
+                ],
+                'rowOptions' => function ($model) {
+                    return [
+                        'class' => $model->partRowClass,
+                    ];
+                },
+                'filterModel' => $model,
+                'locations' => $locations,
+                'summaryRenderer' => function ($grid) use ($local_sums, $total_sums) {
+                    $locals = '';
+                    $totals = '';
+                    if (is_array($total_sums)) {
+                        foreach ($total_sums as $cur => $sum) {
+                            if ($cur && $sum > 0) {
+                                $totals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
+                            }
+                        }
+                    }
+                    if (is_array($local_sums)) {
+                        foreach ($local_sums as $cur => $sum) {
+                            if ($cur && $sum > 0) {
+                                $locals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
+                            }
+                        }
+                    }
+
+                    return $grid->parentSummary() . '<div class="summary">' .
+                        ($totals ? Yii::t('hipanel:stock', 'TOTAL') . ':' . $totals : null) .
+                        ($locals ? '<br><span class="text-muted">' . Yii::t('hipanel', 'on screen') . ':' . $locals . '</span>' : null) .
+                        '</div>';
+                },
+                'representation' => $representation,
+            ]) ?>
+            <?php $page->endBulkForm() ?>
+        <?php $page->endContent() ?>
+    <?php $page->end() ?>
 <?php Pjax::end() ?>

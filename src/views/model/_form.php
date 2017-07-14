@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\modules\stock\models\Model;
 use hipanel\modules\stock\widgets\combo\ModelProfileCombo;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
@@ -9,7 +10,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\web\View;
 
-if ($model->isNewRecord) {
+if ($model->isNewRecord || $model->scenario == Model::SCENARIO_COPY) {
     $dynamicUrl = Url::to('@model/subform');
     $this->registerJs(<<< JS
     function getAdditionl(elem) {
@@ -35,10 +36,11 @@ JS
 
 <?php $form = ActiveForm::begin([
     'id' => 'dynamic-form',
+    'action' => $model->scenario === Model::SCENARIO_COPY ? ['@model/create'] : '',
     'enableClientValidation' => true,
     'validateOnBlur' => true,
     'enableAjaxValidation' => true,
-    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => reset($models)->isNewRecord ? 'create' : 'update']),
+    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => reset($models)->isNewRecord || reset($models)->scenario === Model::SCENARIO_COPY ? 'create' : 'update']),
 ]) ?>
 
 <?php DynamicFormWidget::begin([
@@ -70,7 +72,7 @@ JS
                 <div class="col-lg-offset-10 col-md-offset-10 col-sm-offset-10 col-xs-offset-6 col-sm-2 col-xs-6 text-right">
                     <?php
                     // necessary for update action.
-                    if (!$model->isNewRecord) {
+                    if (!$model->isNewRecord && $model->scenario != Model::SCENARIO_COPY) {
                         $model->setScenario('update');
                         echo Html::activeHiddenInput($model, "[$i]id");
                     }
@@ -93,12 +95,12 @@ JS
                                 'data' => $types,
                                 'inputOptions' => array_merge(
                                     ['class' => 'type-element'],
-                                    (!$model->isNewRecord) ? ['readonly' => 'readonly'] : []),
+                                    (!$model->isNewRecord && $model->scenario != Model::SCENARIO_COPY) ? ['readonly' => 'readonly'] : []),
                             ]) ?>
                         </div>
                         <div class="col-md-6">
                             <?= $form->field($model, "[$i]brand")->dropDownList($brands,
-                                (!$model->isNewRecord) ? ['disabled' => 'disabled'] : []) ?>
+                                (!$model->isNewRecord && $model->scenario != Model::SCENARIO_COPY) ? ['disabled' => 'disabled'] : []) ?>
                         </div>
                     </div>
 

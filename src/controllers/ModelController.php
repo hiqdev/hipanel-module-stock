@@ -60,6 +60,17 @@ class ModelController extends CrudController
                     ];
                 },
             ],
+            'copy' => [
+                'class' => SmartUpdateAction::class,
+                'scenario' => Model::SCENARIO_COPY,
+                'success' => Yii::t('hipanel:stock', 'Model has been updated'),
+                'data' => function ($action) {
+                    return [
+                        'types' => $action->controller->getTypes(),
+                        'brands' => $action->controller->getBrands(),
+                    ];
+                },
+            ],
             'mark-hidden-from-user' => [
                 'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel:stock', 'Models have been marked'),

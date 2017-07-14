@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Show for users'), 'unmark-hidden-from-user') ?>
         <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Hide from users'), 'mark-hidden-from-user') ?>
         <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Update'), 'update') ?>
+        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Copy'), 'copy') ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('show-actions') ?>

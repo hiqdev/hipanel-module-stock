@@ -20,6 +20,8 @@ class Model extends YiiModel
 {
     use ModelTrait;
 
+    const SCENARIO_COPY = 'copy';
+
     /**
      * {@inheritdoc}
      */
@@ -113,6 +115,9 @@ class Model extends YiiModel
             ], 'required', 'on' => ['update']],
             // Hide & Show
             ['id', 'required', 'on' => ['mark-hidden-from-user', 'unmark-hidden-from-user']],
+
+            // Copy
+
         ];
     }
 

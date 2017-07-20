@@ -6,7 +6,7 @@ use yii\web\JsExpression;
 ?>
 
 <div class="form-group">
-    <label><?= Html::activeLabel($model, 'prop_tags')?></label>
+    <label><?= Html::activeLabel($model, 'prop_tags') ?></label>
     <?= UsertagCombo::widget([
         'model' => $model,
         'attribute' => "[$i]prop_tags",
@@ -19,9 +19,7 @@ use yii\web\JsExpression;
         'filter' => [
             'type' => [
                 'field' => 'model/type',
-                'format' => new JsExpression('function (id, text, field) {
-                                            return "type,model,cpu";
-                                        }'),
+                'format' => new JsExpression('function (id, text, field) { return "type,model,cpu"; }'),
             ],
         ],
     ]) ?>

@@ -143,7 +143,7 @@ JS
                         $fileName = '_' . $model->type;
                         $path = Yii::getAlias('@hipanel/modules/stock/views/model/' . $fileName . '.php');
                         if (in_array($model->type, $this->context->getCustomType()) && is_file($path)) {
-                            echo $this->render('_' . $model->type, ['model' => $model, 'i' => (int)$i]);
+                            echo $this->render('_' . $model->type, ['form' => $form, 'model' => $model, 'i' => (int)$i]);
                         }
                     }
                     ?>

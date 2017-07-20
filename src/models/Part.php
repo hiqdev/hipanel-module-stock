@@ -329,24 +329,36 @@ class Part extends \hipanel\base\Model
         }
     }
 
+    public function getPartRowColor()
+    {
+        $colors = [
+            'info' => '#3c8dbc',
+            'success' => '#00a65a',
+            'danger' => '#dd4b39',
+            'warning' => '#f39c12',
+        ];
+
+        return $colors[$this->partRowClass];
+    }
+
     static $modelTypeNos = [
-        'server'        => 1,
-        'box'           => 2,
-        'mb'            => 3,
-        'cpu'           => 4,
-        'ram'           => 5,
-        'hdd'           => 6,
-        'ssd'           => 7,
-        'raid'          => 8,
-        'net'           => 9,
-        'monitor'       => 10,
-        'psu'           => 11,
-        'heatsink'      => 11,
-        'ipmi'          => 12,
-        'ups'           => 12,
-        'kvm'           => 13,
-        'optic_module'  => 13,
-        'other'         => 99,
+        'server' => 1,
+        'box' => 2,
+        'mb' => 3,
+        'cpu' => 4,
+        'ram' => 5,
+        'hdd' => 6,
+        'ssd' => 7,
+        'raid' => 8,
+        'net' => 9,
+        'monitor' => 10,
+        'psu' => 11,
+        'heatsink' => 11,
+        'ipmi' => 12,
+        'ups' => 12,
+        'kvm' => 13,
+        'optic_module' => 13,
+        'other' => 99,
     ];
 
     public function getModelTypeNo()

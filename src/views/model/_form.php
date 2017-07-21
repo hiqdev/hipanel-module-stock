@@ -103,25 +103,6 @@ JS
                                 (!$model->isNewRecord && $model->scenario != Model::SCENARIO_COPY) ? ['disabled' => 'disabled'] : []) ?>
                         </div>
                     </div>
-
-                    <?php
-                    //                             $form->field($model, "[$i]tags")->widget(UsertagCombo::class, [
-                    //                                'pluginOptions' => [
-                    //                                    'clearWhen' => ['model/type'],
-                    //                                    'select2Options' => [
-                    //                                        'multiple' => true,
-                    //                                    ],
-                    //                                ],
-                    //                                'filter' => [
-                    //                                    'type' => [
-                    //                                        'field' => 'model/type',
-                    //                                        'format' => new JsExpression('function (id, text, field) {
-                    //                                            return "type,model," + id;
-                    //                                        }'),
-                    //                                    ],
-                    //                                ],
-                    //                            ])
-                    ?>
                     <?= $form->field($model, "[$i]profile")->widget(ModelProfileCombo::class) ?>
                     <?= $form->field($model, "[$i]short")->textarea() ?>
                 </div>
@@ -155,7 +136,7 @@ JS
 </div>
 
 <?php DynamicFormWidget::end() ?>
-<?php Box::begin(['options' => ['class' => 'box-solid']]) ?>
+
 <div class="row">
     <div class="col-md-12 no">
         <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
@@ -163,5 +144,4 @@ JS
         <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
 </div>
-<?php Box::end() ?>
 <?php ActiveForm::end() ?>

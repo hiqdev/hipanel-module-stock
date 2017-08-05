@@ -114,7 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'filterModel' => $model,
                 'locations' => $locations,
-                'summaryRenderer' => function ($grid) use ($local_sums, $total_sums) {
+                'summaryRenderer' => function ($grid, $defaultSummaryCb) use ($local_sums, $total_sums) {
                     $locals = '';
                     $totals = '';
                     if (is_array($total_sums)) {
@@ -132,7 +132,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                     }
 
-                    return $grid->parentSummary() . '<div class="summary">' .
+                    return $defaultSummaryCb() . '<div class="summary">' .
                         ($totals ? Yii::t('hipanel:stock', 'TOTAL') . ':' . $totals : null) .
                         ($locals ? '<br><span class="text-muted">' . Yii::t('hipanel', 'on screen') . ':' . $locals . '</span>' : null) .
                         '</div>';

@@ -24,21 +24,11 @@ use yii\helpers\Html;
 
 class PartGridView extends BoxedGridView
 {
-    protected static $_locations;
+    public $locations;
 
-    public function setLocations($value)
+    public function columns()
     {
-        self::$_locations = $value;
-    }
-
-    public static function getLocations()
-    {
-        return self::$_locations;
-    }
-
-    public static function defaultColumns()
-    {
-        return [
+        return array_merge(parent::columns(), [
             'serial' => [
                 'class' => MainColumn::class,
                 'filterAttribute' => 'serial_like',
@@ -177,7 +167,7 @@ class PartGridView extends BoxedGridView
             ],
             'place' => [
                 'filter' => function ($column, $model, $attribute) {
-                    return Html::activeDropDownList($model, 'place', self::getLocations(), [
+                    return Html::activeDropDownList($model, 'place', $this->locations, [
                         'class' => 'form-control',
                         'prompt' => Yii::t('hipanel', '----------'),
                     ]);
@@ -194,7 +184,7 @@ class PartGridView extends BoxedGridView
                     return Move::prepareDescr($model->move_descr);
                 },
             ],
-        ];
+        ]);
     }
 
     public static function defaultRepresentations()

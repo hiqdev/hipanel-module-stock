@@ -2,8 +2,10 @@
 
 use hipanel\helpers\Url;
 use hipanel\models\IndexPageUiOptions;
+use hipanel\modules\stock\grid\PartGridLegend;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\modules\stock\widgets\PartLegend;
+use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\Pjax;
@@ -30,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $page->beginContent('main-actions') ?>
             <?= Html::a(Yii::t('hipanel', 'Create'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
             <?php if ($this->context->indexPageUiOptionsModel->orientation === IndexPageUiOptions::ORIENTATION_HORIZONTAL) : ?>
-                <?= PartLegend::widget(['colClass' => 'col-md-12']) ?>
+                <?= GridLegend::widget(['legendItem' => new PartGridLegend($model)]) ?>
             <?php endif; ?>
         <?php $page->endContent() ?>
 
@@ -111,9 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'table table-striped table-bordered table-condensed'
                 ],
                 'rowOptions' => function ($model) {
-                    return [
-                        'class' => $model->partRowClass,
-                    ];
+                    return GridLegend::create(new PartGridLegend($model))->gridRowOptions();
                 },
                 'filterModel' => $model,
                 'locations' => $locations,

@@ -313,34 +313,6 @@ class Part extends \hipanel\base\Model
         return $company;
     }
 
-    public function getPartRowClass()
-    {
-        if ($this->reserve) {
-            return 'info';
-        }
-        if (StringHelper::startsWith(mb_strtolower($this->dst_name), 'stock_') && empty($this->reserve)) {
-            return 'success';
-        }
-        if (StringHelper::startsWith(mb_strtolower($this->dst_name), 'rma_')) {
-            return 'danger';
-        }
-        if (in_array(mb_strtolower($this->dst_name), ['trash', 'trash_rma'])) {
-            return 'warning';
-        }
-    }
-
-    public function getPartRowColor()
-    {
-        $colors = [
-            'info' => '#3c8dbc',
-            'success' => '#00a65a',
-            'danger' => '#dd4b39',
-            'warning' => '#f39c12',
-        ];
-
-        return $colors[$this->partRowClass];
-    }
-
     static $modelTypeNos = [
         'server' => 1,
         'box' => 2,

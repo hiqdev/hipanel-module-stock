@@ -22,22 +22,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 
-    <?php if ($this->context->indexPageUiOptionsModel->orientation === IndexPageUiOptions::ORIENTATION_VERTICAL) : ?>
-        <div class="row">
-            <div class="col-md-4">
-                <?= GridLegend::widget(['legendItem' => new PartGridLegend($model)]) ?>
-            </div>
-        </div>
-    <?php endif; ?>
-
     <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
         <?php $page->setSearchFormData(compact(['types', 'locations', 'brands'])) ?>
 
+        <?php $page->beginContent('legend') ?>
+            <?= GridLegend::widget(['legendItem' => new PartGridLegend($model)]) ?>
+        <?php $page->endContent() ?>
+
         <?php $page->beginContent('main-actions') ?>
             <?= Html::a(Yii::t('hipanel', 'Create'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
-            <?php if ($this->context->indexPageUiOptionsModel->orientation === IndexPageUiOptions::ORIENTATION_HORIZONTAL) : ?>
-                <?= GridLegend::widget(['legendItem' => new PartGridLegend($model)]) ?>
-            <?php endif; ?>
         <?php $page->endContent() ?>
 
 

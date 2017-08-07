@@ -23,7 +23,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 
     <?php if ($this->context->indexPageUiOptionsModel->orientation === IndexPageUiOptions::ORIENTATION_VERTICAL) : ?>
-        <?= PartLegend::widget() ?>
+        <div class="row">
+            <div class="col-md-4">
+                <?= GridLegend::widget(['legendItem' => new PartGridLegend($model)]) ?>
+            </div>
+        </div>
     <?php endif; ?>
 
     <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>

@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ]) ?>
             <?= $page->renderPerPage() ?>
-            <?= $page->renderRepresentations(PartGridView::class) ?>
+            <?= $page->renderRepresentations($representationCollection) ?>
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('bulk-actions') ?>
@@ -137,7 +137,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ($locals ? '<br><span class="text-muted">' . Yii::t('hipanel', 'on screen') . ':' . $locals . '</span>' : null) .
                         '</div>';
                 },
-                'representation' => $representation,
+                'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
             ]) ?>
             <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>

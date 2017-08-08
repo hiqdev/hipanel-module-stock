@@ -20,9 +20,9 @@ use yii\helpers\Html;
 
 class ModelGridView extends BoxedGridView
 {
-    public static function defaultColumns()
+    public function columns()
     {
-        return [
+        return array_merge(parent::columns(), [
             'type' => [
                 'class' => RefColumn::class,
                 'gtype' => 'type,model',
@@ -87,6 +87,6 @@ class ModelGridView extends BoxedGridView
                 'template' => '{view} {update}',
                 'header' => Yii::t('hipanel', 'Actions'),
             ],
-        ];
+        ]);
     }
 }

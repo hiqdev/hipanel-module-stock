@@ -19,9 +19,9 @@ use yii\helpers\Html;
 
 class MoveGridView extends BoxedGridView
 {
-    public static function defaultColumns()
+    public function columns()
     {
-        return [
+        return array_merge(parent::columns(), [
             'date' => [
                 'attribute' => 'time',
                 'filter'    => false,
@@ -86,6 +86,6 @@ class MoveGridView extends BoxedGridView
                     ]);
                 },
             ],
-        ];
+        ]);
     }
 }

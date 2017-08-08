@@ -186,37 +186,4 @@ class PartGridView extends BoxedGridView
             ],
         ]);
     }
-
-    public static function defaultRepresentations()
-    {
-        return [
-            'common' => [
-                'label' => Yii::t('hipanel', 'common'),
-                'columns' => [
-                    'checkbox',
-                    'model_type', 'model_brand', 'partno', 'serial',
-                    'last_move', 'move_type_and_date', 'move_descr',
-                    'order_no',
-                ],
-            ],
-            'report' => [
-                'label' => Yii::t('hipanel', 'report'),
-                'columns' => [
-                    'checkbox',
-                    'model_type', 'model_brand', 'partno', 'serial',
-                    'create_date', 'price', 'place',
-                ],
-            ],
-            'detailed' => Yii::$app->user->can('tmp disabled') ? [
-                'label' => Yii::t('hipanel', 'detailed'),
-                'columns' => [
-                    'checkbox',
-                    'model_type', 'model_brand',
-                    'partno', 'serial',
-                    'last_move', 'move_type_and_date',
-                    'move_descr', 'order_data', 'dc_ticket',
-                ],
-            ] : '',
-        ];
-    }
 }

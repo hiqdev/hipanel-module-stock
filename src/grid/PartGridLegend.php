@@ -5,24 +5,12 @@ namespace hipanel\modules\stock\grid;
 use hipanel\base\Model;
 use hipanel\helpers\StringHelper;
 use hipanel\modules\stock\models\Part;
+use hipanel\widgets\gridLegend\BaseGridLegend;
 use hipanel\widgets\gridLegend\GridLegendInterface;
 use Yii;
 
-class PartGridLegend implements GridLegendInterface
+class PartGridLegend extends BaseGridLegend implements GridLegendInterface
 {
-    /**
-     * @var Part
-     */
-    protected $model;
-
-    /**
-     * @param Model $model
-     */
-    public function __construct(Part $model)
-    {
-        $this->model = $model;
-    }
-
     /**
      * @inheritdoc
      */
@@ -35,7 +23,7 @@ class PartGridLegend implements GridLegendInterface
             [
                 'label' => Yii::t('hipanel:stock', 'Reserve'),
                 'color' => '#337ab7',
-                'apply' => boolval($this->model->reserve),
+                'rule' => boolval($this->model->reserve),
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Stock'),

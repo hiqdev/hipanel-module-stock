@@ -20,10 +20,10 @@ class PartGridLegend extends BaseGridLegend implements GridLegendInterface
             [
                 'label' => Yii::t('hipanel:stock', 'Inuse'),
             ],
-            [
+            'reserve' => [
                 'label' => Yii::t('hipanel:stock', 'Reserve'),
                 'color' => '#337ab7',
-                'rule' => boolval($this->model->reserve),
+                'rule' => isset($this->model->reserve) ? boolval($this->model->reserve) : false,
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Stock'),

@@ -1,6 +1,8 @@
 <?php
 
+use hipanel\modules\stock\grid\MoveGridLegend;
 use hipanel\modules\stock\grid\MoveGridView;
+use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 
@@ -25,6 +27,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $page->renderPerPage() ?>
         <?php $page->endContent() ?>
 
+        <?php $page->beginContent('legend') ?>
+            <?= GridLegend::widget(['legendItem' => new MoveGridLegend($model)]) ?>
+        <?php $page->endContent() ?>
+
         <?php $page->beginContent('bulk-actions') ?>
             <?= $page->renderBulkButton(Yii::t('hipanel', 'Delete'), 'delete', 'danger') ?>
         <?php $page->endContent() ?>
@@ -35,6 +41,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $model,
             'boxed' => false,
+    'rowOptions' => function ($model) {
+        return GridLegend::create(new MoveGridLegend($model))->gridRowOptions();
+    },
             'columns' => [
                 'checkbox',
                 'client',

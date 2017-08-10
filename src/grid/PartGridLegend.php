@@ -18,25 +18,25 @@ class PartGridLegend extends BaseGridLegend implements GridLegendInterface
     {
         return [
             [
-                'label' => Yii::t('hipanel:stock', 'Inuse'),
+                'label' => ['hipanel:stock', 'Inuse'],
             ],
             'reserve' => [
-                'label' => Yii::t('hipanel:stock', 'Reserve'),
+                'label' => ['hipanel:stock', 'Reserve'],
                 'color' => '#337ab7',
                 'rule' => isset($this->model->reserve) ? boolval($this->model->reserve) : false,
             ],
             [
-                'label' => Yii::t('hipanel:stock', 'Stock'),
+                'label' => ['hipanel:stock', 'Stock'],
                 'color' => '#dff0d8',
                 'rule' => StringHelper::startsWith(mb_strtolower($this->model->dst_name), 'stock_') && empty($this->model->reserve),
             ],
             [
-                'label' => Yii::t('hipanel:stock', 'RMA'),
+                'label' => ['hipanel:stock', 'RMA'],
                 'color' => '#f2dede',
                 'rule' => StringHelper::startsWith(mb_strtolower($this->model->dst_name), 'rma_'),
             ],
             [
-                'label' => Yii::t('hipanel:stock', 'TRASH'),
+                'label' => ['hipanel:stock', 'TRASH'],
                 'color' => '#fcf8e3',
                 'rule' => in_array(mb_strtolower($this->model->dst_name), ['trash', 'trash_rma']),
             ],

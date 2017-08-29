@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'subTitle' => $model->partno . ' #' . $model->serial,
             'icon' => 'fa-cubes',
             'menu' => PartDetailMenu::widget(['model' => $model], ['linkTemplate' => '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>&nbsp;{label}</a>']),
-            'backgroundColor' => $model->partRowColor,
+//            'backgroundColor' => $model->partRowColor,
         ]) ?>
 
         <div class="row">

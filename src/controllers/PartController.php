@@ -22,6 +22,7 @@ use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
+use hipanel\modules\server\models\Server;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
 use Yii;
@@ -135,7 +136,7 @@ class PartController extends CrudController
                 'success' => Yii::t('hipanel:stock', 'Part has been created'),
                 'data' => function ($action) {
                     return [
-                        'moveTypes' => $action->controller->getMoveTypes(),
+                        'moveTypes' => $action->controller->getMoveTypes('add'),
                         'suppliers' => $action->controller->getSuppliers(),
                         'currencyTypes' => $action->controller->getCurrencyTypes(),
                     ];
@@ -146,7 +147,7 @@ class PartController extends CrudController
                 'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'data' => function ($action) {
                     return [
-                        'moveTypes' => $action->controller->getMoveTypes(),
+                        'moveTypes' => $action->controller->getMoveTypes('backrma'),
                         'suppliers' => $action->controller->getSuppliers(),
                         'currencyTypes' => $action->controller->getCurrencyTypes(),
                     ];
@@ -175,7 +176,7 @@ class PartController extends CrudController
                 ],
                 'data' => function ($action) {
                     return [
-                        'moveTypes' => $action->controller->getMoveTypes(),
+                        'moveTypes' => $action->controller->getMoveTypes('add'),
                         'suppliers' => $action->controller->getSuppliers(),
                         'currencyTypes' => $action->controller->getCurrencyTypes(),
                     ];
@@ -187,7 +188,7 @@ class PartController extends CrudController
                 'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'data' => function ($action) {
                     return [
-                        'moveTypes' => $action->controller->getMoveTypes(),
+                        'moveTypes' => $action->controller->getMoveTypes('trash'),
                         'suppliers' => $action->controller->getSuppliers(),
                         'currencyTypes' => $action->controller->getCurrencyTypes(),
                         'trashId' => $action->controller->getTrashId(),
@@ -200,7 +201,7 @@ class PartController extends CrudController
                 'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'data' => function ($action) {
                     return [
-                        'moveTypes' => $action->controller->getMoveTypes(),
+                        'moveTypes' => $action->controller->getMoveTypes('backrma'),
                         'suppliers' => $action->controller->getSuppliers(),
                         'currencyTypes' => $action->controller->getCurrencyTypes(),
                     ];
@@ -231,7 +232,19 @@ class PartController extends CrudController
                 'view' => 'moveByOne',
                 'data' => function ($action) {
                     return [
-                        'types' => $action->controller->getMoveTypes(),
+                        'types' => $action->controller->getMoveTypes('move'),
+                        'remotehands' => $action->controller->getRemotehands(),
+                    ];
+                },
+            ],
+            'rma' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel:stock', 'Parts have been moved to RMA'),
+                'scenario' => 'move-by-one',
+                'view' => 'moveByOne',
+                'data' => function ($action) {
+                    return [
+                        'types' => $action->controller->getMoveTypes('rma'),
                         'remotehands' => $action->controller->getRemotehands(),
                     ];
                 },
@@ -271,7 +284,7 @@ class PartController extends CrudController
                 ],
                 'data' => function ($action) {
                     return [
-                        'types' => $action->controller->getMoveTypes(),
+                        'types' => $action->controller->getMoveTypes('move'),
                         'remotehands' => $action->controller->getRemotehands(),
                     ];
                 },
@@ -331,9 +344,14 @@ class PartController extends CrudController
         return $res;
     }
 
-    public function getMoveTypes()
+    public function getMoveTypes($group = null)
     {
-        return $this->getRefs('type,move', 'hipanel:stock', ['orderby' => 'no_asc', 'with_recursive' => true]);
+        $query = 'type,move';
+        if ($group && in_array($group, ['add', 'backrma', 'change', 'move', 'rma', 'trash'])) {
+            $query = 'type,move,' . $group;
+        }
+
+        return $this->getRefs($query, 'hipanel:stock', ['orderby' => 'no_asc', 'with_recursive' => true]);
     }
 
     public function getSuppliers()
@@ -351,13 +369,10 @@ class PartController extends CrudController
      */
     public function getTrashId()
     {
-        $resultId = null;
-        $ids = Ref::find()->where(['gtype' => 'destination,trash', 'select' => 'full'])->all();
-        foreach ($ids as $model) {
-            if ($model->name === 'main')
-                $resultId = $model->id;
-        }
+        $trashId = Yii::$app->get('cache')->getOrSet('part_trash_id', function () {
+            return Server::find()->where(['names' => 'TRASH'])->one()->id;
+        }, 600);
 
-        return $resultId;
+        return $trashId ?: null;
     }
 }

@@ -8,9 +8,10 @@ use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 
 $scenario = $this->context->action->scenario;
-$this->title = Yii::t('hipanel:stock', 'Move by one');
+$this->title = StringHelper::startsWith($this->context->action->id, 'move-by-one') ? Yii::t('hipanel:stock', 'Move by one') : Yii::t('hipanel:stock', 'RMA');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

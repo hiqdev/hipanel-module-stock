@@ -65,7 +65,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
                         <div class="row">
                             <div class="col-md-4">
-                                <?= $form->field($model, "[$i]move_type")->dropDownList($model->filterTypes($moveTypes, $model->scenario)) ?>
+                                <?= $form->field($model, "[$i]move_type")->dropDownList($moveTypes) ?>
                             </div>
                             <div class="col-md-4">
                                 <?= $form->field($model, "[$i]supplier")->dropDownList($suppliers) ?>

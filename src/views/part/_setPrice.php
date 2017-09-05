@@ -23,7 +23,7 @@ use yii\helpers\Html;
             'data' => $models,
             'visibleCount' => count($models),
             'formatter' => function ($model) {
-                return $model->partno . sprintf(' (%s)', $model->serial);
+                return $model->partno . sprintf(' (%s/<b>%s</b>)', $model->serial, $model->src_name);
             },
             'delimiter' => ',&nbsp; ',
         ]) ?>

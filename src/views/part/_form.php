@@ -81,10 +81,10 @@ use yii\helpers\Url;
                                 <?= $form->field($model, "[$i]company_id")->dropDownList($model->companies) ?>
                             </div>
                             <div class="col-md-4">
-                                <?= $form->field($model, "[$i]move_type")->dropDownList($this->context->getMoveTypes()) ?>
+                                <?= $form->field($model, "[$i]move_type")->dropDownList($moveTypes) ?>
                             </div>
                             <div class="col-md-4">
-                                <?= $form->field($model, "[$i]supplier")->dropDownList($this->context->getSuppliers()) ?>
+                                <?= $form->field($model, "[$i]supplier")->dropDownList($suppliers) ?>
                             </div>
                             <div class="col-md-4">
                                 <?= $form->field($model, "[$i]order_no") ?>
@@ -109,17 +109,20 @@ use yii\helpers\Url;
                     <div class="col-md-3">
                         <?= $form->field($model, "[$i]model_id")->widget(ModelCombo::class) ?>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
+                        <?= $form->field($model, "[$i]dst_name")->textInput(['disabled' => true])->label(Yii::t('hipanel:stock', 'Location')) ?>
+                    </div>
+                    <div class="col-md-2">
                         <?= $form->field($model, "[$i]serial") ?>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <?= $form->field($model, "[$i]company_id")->dropDownList($model->companies) ?>
                     </div>
                     <div class="col-md-3 <?= AmountWithCurrency::$widgetClass ?>">
                         <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
                             'currencyAttributeName' => "[$i]currency",
                             'currencyAttributeOptions' => [
-                                'items' => $this->context->getCurrencyTypes(),
+                                'items' => $currencyTypes,
                             ],
                         ]) ?>
                         <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput() ?>

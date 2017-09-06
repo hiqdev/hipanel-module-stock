@@ -74,7 +74,9 @@ class PartController extends CrudController
                     $bulkPrice = $data['price'];
                     $bulkCurrency = $data['currency'];
                     unset($data['price'], $data['currency']);
-                    $action->collection->set(Part::find()->where(['id' => ArrayHelper::getColumn($data, 'id')])->all());
+                    $ids = ArrayHelper::getColumn($data, 'id');
+                    $parts = Part::find()->where(['ids' => $ids])->all();
+                    $action->collection->set($parts);
                     // TODO: silverfire подумай как переделать
                     foreach ($action->collection->models as $model) {
                         $model->scenario = 'update';

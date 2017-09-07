@@ -229,30 +229,6 @@ class Part extends \hipanel\base\Model
         return $this->hasOne(Model::class, ['id' => 'model_id']);
     }
 
-    /**
-     * Group all results by dst_id.
-     *
-     * @param array $models
-     * @return array
-     */
-    public static function groupMoveBulkElements(array $models = [])
-    {
-        $grouped_models = [];
-//        foreach ($models as $k => $model) {
-//            if (!$model->dst_id) {
-//                $model->dst_id = ArrayHelper::getValues($model, ['src_id', 'dst_id', 'src_name', 'dst_name']);
-//            }
-//            $grouped_models[$model['dst_id']]['parts'][$model->id] = [
-//                'id'        => $model->id,
-//                'serial'    => $model['serial'],
-//                'partno'    => $model['partno']
-//            ];
-//            $grouped_models[$k] = $model;
-//        }
-
-        return $grouped_models;
-    }
-
     public function scenarioActions()
     {
         return [

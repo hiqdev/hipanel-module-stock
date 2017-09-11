@@ -34,8 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $page->endContent() ?>
 
 
-        <?php $page->beginContent('show-actions') ?>
-            <?= $page->renderLayoutSwitcher() ?>
+        <?php $page->beginContent('sorter-actions') ?>
             <?= $page->renderSorter([
                 'attributes' => [
                     'id',
@@ -44,8 +43,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'create_time', 'move_time',
                 ],
             ]) ?>
+        <?php $page->endContent() ?>
+        <?php $page->beginContent('representation-actions') ?>
             <?= $page->renderRepresentations($representationCollection) ?>
-            <?= $page->renderPerPage() ?>
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('bulk-actions') ?>

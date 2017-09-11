@@ -27,14 +27,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Copy'), 'copy') ?>
     <?php $page->endContent() ?>
 
-    <?php $page->beginContent('show-actions') ?>
-        <?= $page->renderLayoutSwitcher() ?>
+    <?php $page->beginContent('sorter-actions') ?>
         <?= $page->renderSorter([
             'attributes' => [
                 'type', 'brand', 'model',
             ],
         ]) ?>
-        <?= $page->renderPerPage() ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('table') ?>

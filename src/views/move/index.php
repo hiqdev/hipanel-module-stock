@@ -16,15 +16,13 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
         <?= $page->setSearchFormData(compact(['types'])) ?>
 
-        <?php $page->beginContent('show-actions') ?>
-            <?= $page->renderLayoutSwitcher() ?>
+        <?php $page->beginContent('sorter-actions') ?>
             <?= $page->renderSorter([
                 'attributes' => [
                     'time',
                     'client',
                 ],
             ]) ?>
-            <?= $page->renderPerPage() ?>
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('legend') ?>

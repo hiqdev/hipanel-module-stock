@@ -31,6 +31,7 @@ class PartGridView extends BoxedGridView
         return array_merge(parent::columns(), [
             'serial' => [
                 'class' => MainColumn::class,
+                'filterOptions' => ['class' => 'narrow-filter'],
                 'filterAttribute' => 'serial_like',
                 'format' => 'html',
             ],
@@ -68,6 +69,7 @@ class PartGridView extends BoxedGridView
             ],
             'model_type' => [
                 'class' => RefColumn::class,
+                'filterOptions' => ['class' => 'narrow-filter'],
                 'gtype' => 'type,model',
                 'value' => function ($model) {
                     return $model->model_type_label;
@@ -75,6 +77,7 @@ class PartGridView extends BoxedGridView
             ],
             'model_brand' => [
                 'class' => RefColumn::class,
+                'filterOptions' => ['class' => 'narrow-filter'],
                 'gtype' => 'type,brand',
                 'value' => function ($model) {
                     return $model->model_brand_label;
@@ -99,7 +102,7 @@ class PartGridView extends BoxedGridView
                 'format' => 'raw',
                 'value' => function ($model) {
                     $linkToMove = Html::a($model->move_type_label, ['@move/index', 'MoveSearch' => ['serial_like' => $model->serial]], ['class' => 'text-bold']);
-                    return $linkToMove . '<br>' . Html::tag('nobr', Yii::$app->formatter->asDate($model->move_time));
+                    return $linkToMove . ' ' . Html::tag('nobr', Yii::$app->formatter->asDate($model->move_time));
                 },
             ],
             'move_type_label' => [
@@ -135,6 +138,9 @@ class PartGridView extends BoxedGridView
             'order_data' => [
                 'filter' => false,
                 'enableSorting' => false,
+            ],
+            'order_no' => [
+                'filterOptions' => ['class' => 'narrow-filter'],
             ],
             'dc_ticket' => [
                 'filter' => false,
@@ -179,6 +185,7 @@ class PartGridView extends BoxedGridView
                 'header' => Yii::t('hipanel', 'Actions'),
             ],
             'move_descr' => [
+                'filterOptions' => ['class' => 'narrow-filter'],
                 'format' => 'html',
                 'value' => function ($model) {
                     return Move::prepareDescr($model->move_descr);

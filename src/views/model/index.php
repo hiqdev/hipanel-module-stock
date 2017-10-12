@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'checkbox',
                 'type', 'brand', 'model',
                 'descr', 'partno',
-                'dtg', 'sdg', 'm3',
+                'dtg', 'sdg', 'm3', 'twr',
                 'last_prices',
             ],
         ]) ?>

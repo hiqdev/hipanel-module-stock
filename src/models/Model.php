@@ -161,6 +161,7 @@ class Model extends YiiModel
             'dtg' => Yii::t('hipanel:stock', 'DTG'),
             'sdg' => Yii::t('hipanel:stock', 'SDG'),
             'm3' => Yii::t('hipanel:stock', 'M3'),
+            'twr' => Yii::t('hipanel:stock', 'TWR'),
         ]);
     }
 
@@ -172,6 +173,9 @@ class Model extends YiiModel
         }
         if (!empty($this->counters[$dc]['reserved'])) {
             $out .= '+' . Html::tag('b', $this->counters[$dc]['reserved'], ['class' => 'text-info']);
+        }
+        if (!empty($this->counters[$dc]['uu'])) {
+            $out .= '+' . Html::tag('b', $this->counters[$dc]['uu'], ['class' => 'text-success']);
         }
         if (!empty($this->counters[$dc]['rma'])) {
             $out .= '/' . Html::tag('b', $this->counters[$dc]['rma'], ['class' => 'text-danger']);

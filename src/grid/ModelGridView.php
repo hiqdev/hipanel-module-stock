@@ -73,6 +73,14 @@ class ModelGridView extends BoxedGridView
                     return $model->renderReserves('m3');
                 },
             ],
+            'twr' => [
+                'enableSorting' => false,
+                'filter' => false,
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $model->renderReserves('twr');
+                },
+            ],
             'last_prices' => [
                 'label' => Yii::t('hipanel:stock', 'Last price'),
                 'enableSorting' => false,
@@ -81,7 +89,6 @@ class ModelGridView extends BoxedGridView
                     return $model->showModelPrices($model->last_prices);
                 },
             ],
-
             'actions' => [
                 'class' => ActionColumn::class,
                 'template' => '{view} {update}',

@@ -34,7 +34,7 @@ class PartController extends CrudController
 {
     public function actions()
     {
-        return [
+        return array_merge(parent::actions(), [
             'bulk-set-serial' => [
                 'class' => PrepareBulkAction::class,
                 'view' => '_setSerial',
@@ -48,8 +48,8 @@ class PartController extends CrudController
                 'POST html | POST ajax' => [
                     'save' => true,
                     'success' => [
-                        'class' => RedirectAction::class
-                    ]
+                        'class' => RedirectAction::class,
+                    ],
                 ],
             ],
             'bulk-set-price' => [
@@ -123,13 +123,15 @@ class PartController extends CrudController
                 },
                 'data' => function ($action) {
                     $moveSearch = new MoveSearch();
-                    $moveDataProvider = $moveSearch->search([$moveSearch->formName() => [
-                        'part_ids' => $action->getId(),
-                        'with_parts' => 1,
-                    ]]);
+                    $moveDataProvider = $moveSearch->search([
+                        $moveSearch->formName() => [
+                            'part_ids' => $action->getId(),
+                            'with_parts' => 1,
+                        ],
+                    ]);
 
                     return [
-                        'moveDataProvider' => $moveDataProvider
+                        'moveDataProvider' => $moveDataProvider,
                     ];
                 },
             ],
@@ -170,6 +172,7 @@ class PartController extends CrudController
                             $model->scenario = 'copy';
                             $model->serial = $model->id = null;
                         }
+
                         return [
                             'models' => $models,
                             'model' => reset($models),
@@ -304,12 +307,12 @@ class PartController extends CrudController
                     }
                     $action->collection->setModel($this->newModel(['scenario' => 'move']));
                     $action->collection->load($data);
-                }
+                },
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,
             ],
-        ];
+        ]);
     }
 
     /**

@@ -22,7 +22,7 @@ class MoveController extends CrudController
 {
     public function actions()
     {
-        return [
+        return array_merge(parent::actions(), [
             'index' => [
                 'class' => IndexAction::class,
                 'findOptions' => ['with_parts' => 1],
@@ -45,7 +45,7 @@ class MoveController extends CrudController
                 'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel', 'Deleted'),
             ],
-        ];
+        ]);
     }
 
     public function getTypes()

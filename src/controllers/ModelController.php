@@ -25,7 +25,7 @@ class ModelController extends CrudController
 {
     public function actions()
     {
-        return [
+        return array_merge(parent::actions(), [
             'index' => [
                 'class' => IndexAction::class, // with_counters
                 'findOptions' => ['with_counters' => 1],
@@ -82,7 +82,7 @@ class ModelController extends CrudController
             'validate-form' => [
                 'class' => ValidateFormAction::class,
             ],
-        ];
+        ]);
     }
 
     public function actionSubform()

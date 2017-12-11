@@ -22,7 +22,7 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
                 'label'   => Yii::t('hipanel:stock', 'Stock'),
                 'url'     => ['/stock/model/index'],
                 'icon'    => 'fa-cubes',
-                'visible' => Yii::$app->user->can('manage'),
+                'visible' => Yii::$app->user->can('stock.read'),
                 'items' => [
                     'model' => [
                         'label' => Yii::t('hipanel:stock', 'Models'),

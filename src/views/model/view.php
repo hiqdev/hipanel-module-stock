@@ -5,8 +5,9 @@ use hipanel\modules\stock\menus\ModelDetailMenu;
 use hipanel\widgets\Box;
 use yii\helpers\Html;
 
-$this->title = Html::encode(sprintf('%s %s %s', $model->type, $model->brand_label, $model->model));
-$this->params['subtitle'] = Yii::t('hipanel:stock', 'Model details') . ' ' . $this->title;
+$modelName = Html::encode(sprintf('%s %s %s', $model->type_label, $model->brand_label, $model->model));
+$this->title = $model->partno;
+$this->params['subtitle'] = Yii::t('hipanel:stock', 'Model details') . ' ' . $modelName;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Models'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -26,9 +27,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <i class="fa fa-cubes fa-5x"></i>
         </div>
         <p class="text-center">
-            <span class="profile-user-role"><?= $model->type ?></span>
+            <span class="profile-user-role"><?= $model->type_label . ' / ' . $model->brand_label ?></span>
             <br>
-            <span class="profile-user-name"><?= $model->brand_label . ' ' . $model->model; ?></span>
+            <span class="profile-user-name"><?= $model->partno ?></span>
         </p>
         <div class="profile-usermenu">
             <?= ModelDetailMenu::widget(['model' => $model]) ?>

@@ -184,7 +184,7 @@ class Model extends YiiModel
         return $out;
     }
 
-    public function showModelPrices($data, $delimiter = ' / ')
+    public function showModelPrices($data, $delimiter = ' /&nbsp;')
     {
         $prices = [];
         if (is_array($data)) {

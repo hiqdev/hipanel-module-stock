@@ -14,7 +14,10 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
             [
                 'label' => $this->model->reserve ? Yii::t('hipanel:stock', 'Unreserve') : Yii::t('hipanel:stock', 'Reserve'),
                 'icon' => 'fa-history',
-                'url' => $this->model->reserve ? ['@part/unreserve', 'id' => $this->model->id] : ['@part/reserve', 'id' => $this->model->id],
+                'url' => $this->model->reserve ? ['@part/unreserve', 'id' => $this->model->id] : [
+                    '@part/reserve',
+                    'id' => $this->model->id,
+                ],
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Replace'),
@@ -40,6 +43,7 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'label' => Yii::t('hipanel:stock', 'Trash'),
                 'icon' => 'fa-trash-o',
                 'url' => ['@part/trash', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('part.delete'),
             ],
         ];
     }

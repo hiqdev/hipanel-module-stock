@@ -98,7 +98,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set price'), ['class' => 'modal-title']),
                 'toggleButton' => ['label' => Yii::t('hipanel:stock', 'Set price'), 'class' => 'btn btn-default btn-sm'],
             ]) ?>
-            <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Trash'), 'trash', 'danger') ?>
+            <?php if (Yii::$app->user->can('part.delete')) : ?>
+                <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Trash'), 'trash', 'danger') ?>
+            <?php endif; ?>
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('table') ?>

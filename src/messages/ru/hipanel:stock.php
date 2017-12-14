@@ -97,7 +97,9 @@ return [
     'Units' => 'Юниты',
     'Unreserve' => 'Разрезервировать',
     'Update' => 'Редактировать',
+    'Delete' => 'Удалить',
     'Currency' => 'Валюта',
     'Create model' => 'Создать модель',
     'Company' => 'Компания',
+    'Are you sure you want to delete this model?' => 'Вы действительно хотите удалить эту модель?',
 ];

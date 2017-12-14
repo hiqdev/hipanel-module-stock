@@ -25,6 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Hide from users'), 'mark-hidden-from-user') ?>
         <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Update'), 'update') ?>
         <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Copy'), 'copy') ?>
+        <?php if (Yii::$app->user->can('model.delete')) : ?>
+        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Delete'), 'delete', 'danger') ?>
+        <?php endif; ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('sorter-actions') ?>

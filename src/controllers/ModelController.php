@@ -13,6 +13,7 @@ namespace hipanel\modules\stock\controllers;
 
 use hipanel\actions\IndexAction;
 use hipanel\actions\SmartCreateAction;
+use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
@@ -81,6 +82,11 @@ class ModelController extends CrudController
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,
+            ],
+            'delete' => [
+                'class' => SmartDeleteAction::class,
+                'success' => Yii::t('hipanel:stock', 'Model(s) deleted'),
+                'error' => Yii::t('hipanel:stock', 'Failed delete model(s)'),
             ],
         ]);
     }

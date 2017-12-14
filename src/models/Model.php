@@ -28,6 +28,8 @@ class Model extends YiiModel
     public function rules()
     {
         return [
+            // delete
+            [['id'], 'integer', 'on' => ['delete']],
             // Search
             [[
                 'id',

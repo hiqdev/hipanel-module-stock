@@ -17,24 +17,28 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
 {
     public function items()
     {
+        $user = Yii::$app->user;
         return [
             'stock' => [
                 'label'   => Yii::t('hipanel:stock', 'Stock'),
                 'url'     => ['/stock/model/index'],
                 'icon'    => 'fa-cubes',
-                'visible' => Yii::$app->user->can('stock.read'),
+                'visible' => $user->can('model.read') || $user->can('part.read') || $user->can('move.read'),
                 'items' => [
                     'model' => [
                         'label' => Yii::t('hipanel:stock', 'Models'),
                         'url'   => ['/stock/model/index'],
+                        'visible' => $user->can('model.read'),
                     ],
                     'part' => [
                         'label' => Yii::t('hipanel:stock', 'Parts'),
                         'url'   => ['/stock/part/index'],
+                        'visible' => $user->can('part.read'),
                     ],
                     'move' => [
                         'label' => Yii::t('hipanel:stock', 'History'),
                         'url'   => ['/stock/move/index'],
+                        'visible' => $user->can('move.read'),
                     ],
                     'hwconfig' => [
                         'label'   => Yii::t('hipanel:stock', 'Config Templates'),

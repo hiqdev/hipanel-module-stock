@@ -35,9 +35,6 @@ use yii\helpers\Url;
         'dst_id',
         'serials',
         'move_type',
-        'supplier',
-        'order_no',
-        'order_no',
         'descr',
         'price',
         'currency',
@@ -74,25 +71,14 @@ use yii\helpers\Url;
                     </div>
                     <div class="col-md-6">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-12">
                                 <?= $form->field($model, "[$i]serials") ?>
                             </div>
-                            <div class="col-md-4">
-                                <?= $form->field($model, "[$i]company_id")->dropDownList($model->companies) ?>
+                            <div class="col-md-12">
+                                <?= $form->field($model, "[$i]move_descr") ?>
                             </div>
                             <div class="col-md-4">
                                 <?= $form->field($model, "[$i]move_type")->dropDownList($moveTypes) ?>
-                            </div>
-                            <div class="col-md-4">
-                                <?= $form->field($model, "[$i]supplier")->dropDownList($suppliers) ?>
-                            </div>
-                            <div class="col-md-4">
-                                <?= $form->field($model, "[$i]order_no") ?>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8">
-                                <?= $form->field($model, "[$i]move_descr") ?>
                             </div>
                             <div class="col-md-4 <?= AmountWithCurrency::$widgetClass ?>">
                                 <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
@@ -102,6 +88,9 @@ use yii\helpers\Url;
                                     ],
                                 ]) ?>
                                 <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput() ?>
+                            </div>
+                            <div class="col-md-4">
+                                <?= $form->field($model, "[$i]company_id")->dropDownList($model->companies) ?>
                             </div>
                         </div>
                     </div>

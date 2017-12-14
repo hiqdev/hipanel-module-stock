@@ -22,7 +22,7 @@ class PartGridLegend extends BaseGridLegend implements GridLegendInterface
             ],
             'reserve' => [
                 'label' => ['hipanel:stock', 'Reserve'],
-                'color' => '#337ab7',
+                'color' => '#d9edf7',
                 'rule' => isset($this->model->reserve) ? boolval($this->model->reserve) : false,
             ],
             [

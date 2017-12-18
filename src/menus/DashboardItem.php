@@ -10,20 +10,18 @@
 
 namespace hipanel\modules\stock\menus;
 
+use hipanel\modules\dashboard\DashboardInterface;
 use Yii;
-use yii\widgets\Menu;
 
 class DashboardItem extends \hiqdev\yii2\menus\Menu
 {
-    public $widgetConfig = [
-        'class' => Menu::class,
-        'itemOptions' => [
-            'tag' => false,
-        ],
-        'options' => [
-            'tag' => false,
-        ],
-    ];
+    protected $dashboard;
+
+    public function __construct(DashboardInterface $dashboard, $config = [])
+    {
+        $this->dashboard = $dashboard;
+        parent::__construct($config);
+    }
 
     public function items()
     {

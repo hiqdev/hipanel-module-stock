@@ -33,6 +33,18 @@ return [
     ],
     'container' => [
         'definitions' => [
+            \hipanel\modules\dashboard\menus\DashboardMenu::class => [
+                'add' => [
+                    'stock' => [
+                        'menu' => [
+                            'class' => \hipanel\modules\stock\menus\DashboardItem::class,
+                        ],
+                        'where' => [
+                            'after'  => ['hosting', 'servers', 'domains', 'tickets', 'finance', 'clients', 'dashboard'],
+                        ],
+                    ],
+                ],
+            ],
             \hiqdev\thememanager\menus\AbstractSidebarMenu::class => [
                 'add' => [
                     'stock' => [

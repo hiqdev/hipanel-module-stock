@@ -37,7 +37,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'dst_id',
         'serials',
         'move_type',
-        'supplier',
         'order_no',
         'move_descr',
     ],
@@ -66,12 +65,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="row">
                             <div class="col-md-4">
                                 <?= $form->field($model, "[$i]move_type")->dropDownList($moveTypes) ?>
-                            </div>
-                            <div class="col-md-4">
-                                <?= $form->field($model, "[$i]supplier")->dropDownList($suppliers) ?>
-                            </div>
-                            <div class="col-md-4">
-                                <?= $form->field($model, "[$i]order_no") ?>
                             </div>
                         </div>
                         <div class="row">

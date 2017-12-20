@@ -28,156 +28,82 @@ class Part extends \hipanel\base\Model
     public function rules()
     {
         return [
-            // Search
-            [[
-                'model_type_label',
-                'model_type',
-                'model_brand',
-                'model_brand_label',
-                'src_name',
-                'dst_name',
-                'order_no',
-                'order_data',
+            [
+                [
+                    'model_type_label',
+                    'model_type',
+                    'model_brand',
+                    'model_brand_label',
+                    'src_name',
+                    'dst_name',
+                    'order_no',
+                    'order_data',
+                    'dst_ids',
+                    'model_ids',
+                    'reserve',
+                    'serial',
+                    'serials',
+                    'partno',
+                    'create_time',
+                    'place',
+                    'count',
+                    'move_type',
+                    'move_type_label',
+                    'move_time',
+                    'move_descr',
+                    'move_remote_ticket',
+                    'remote_ticket',
+                    'move_hm_ticket',
+                    'hm_ticket',
+                    'move_remotehands_label',
+                    'remotehands',
+                    'show_deleted',
+                    'show_groups',
+                    'limit',
+                    'descr',
+                    'price',
+                    'currency',
+                    'client',
+                    'supplier',
+                    'order_no',
+                    'type',
+                ],
+                'safe',
+            ],
+            [['id', 'company_id', 'dst_id', 'model_id', 'client_id'], 'integer'],
 
-                'id',
-                'dst_ids',
-                'model_ids',
-                'reserve',
-                'serial',
-                'serials',
-                'partno',
-                'create_time',
-                'place',
-                'count',
-                'move_type',
-                'move_type_label',
-                'move_time',
-                'move_descr',
-                'move_remote_ticket',
-                'move_hm_ticket',
-                'move_remotehands_label',
-                'show_deleted',
-                'show_groups',
-
-                'limit',
-            ], 'safe', 'on' => 'search'],
-            ['company_id', 'integer'],
             // Move by one
-            [[
-                'id',
-                'move_type',
-                'src_id',
-                'dst_id',
-                'descr',
-                'remotehands',
-                'remote_ticket',
-                'hm_ticket',
-            ], 'safe', 'on' => 'move-by-one'],
+            [['id'], 'required', 'on' => 'move-by-one'],
+
             // Create and copy
-            [[
-                'partno',
-                'model_id',
-                'serials',
-                'move_descr',
-                'price',
-                'currency',
-                'client',
-                'client_id',
-                'supplier',
-                'order_no',
-                'move_type',
-                'src_id',
-                'dst_id',
-            ], 'safe', 'on' => ['create', 'copy']],
-            [['price', 'currency', 'company_id'], 'required', 'on' => 'create'],
+            [['price', 'currency', 'company_id', 'serials'], 'required', 'on' => 'create'],
             [['serials', 'src_id'], 'required', 'on' => 'copy'],
+
             // Trash
-            [[
-                'id',
-                'src_id',
-                'dst_id',
-                'serial',
-                'partno',
-                'move_type',
-                'move_descr',
-            ], 'safe', 'on' => 'trash'],
+            [['id', 'dst_id', 'src_id', 'partno', 'serial', 'order_no'], 'required', 'on' => 'trash'],
+
             // Replace
-            [[
-                'id',
-                'move_descr',
-                'model_type',
-                'supplier',
-                'order_no',
-                'dst_id',
-                'src_id',
-                'serial',
-                'move_type',
-            ], 'safe', 'on' => 'replace'],
-            [['id'], 'required', 'on' => 'replace'],
-            [[
-                'src_id',
-                'dst_id',
-                'move_type',
-            ], 'required', 'on' => ['replace']],
+            [['id', 'src_id', 'dst_id', 'move_type'], 'required', 'on' => 'replace'],
+
             // Repair
-            [[
-                'id',
-                'move_descr',
-                'model_type',
-                'supplier',
-                'order_no',
-                'dst_id',
-                'src_id',
-                'serial',
-                'move_type',
-            ], 'safe', 'on' => 'repair'],
-            [['id'], 'required', 'on' => 'repair'],
-            [[
-                'src_id',
-                'dst_id',
-                'move_type',
-            ], 'required', 'on' => ['create']],
+            [['id', 'src_id', 'dst_id', 'move_type'], 'required', 'on' => 'repair'],
+
             // Update
-            [[
-                'id',
-                'model_id',
-                'serial',
-                'price',
-                'currency',
-            ], 'safe', 'on' => ['update']],
-            ['company_id', 'required', 'on' => 'create'],
+            [['id', 'model_id', 'serial', 'price', 'currency', 'company_id'], 'required', 'on' => 'update'],
+
             // Move / Bulk-move
-            [[
-                'id',
-                'src_id',
-                'dst_id',
-                'type',
-                'descr',
-                'remotehands',
-                'remote_ticket',
-                'hm_ticket',
-                'parts',
-            ], 'safe', 'on' => ['move']],
-            [[
-                'dst_id',
-                'type',
-            ], 'required', 'on' => ['move']],
+            [['dst_id', 'type'], 'required', 'on' => 'move'],
 
             // Reserve / Unreserve
-            [[
-                'id',
-                'reserve',
-                'descr',
-            ], 'safe', 'on' => ['reserve', 'unreserve']],
-            [['reserve'], 'required', 'on' => ['reserve']],
+            [['id'], 'required', 'on' => 'unreserve'],
+            [['id', 'reserve'], 'required', 'on' => 'reserve'],
 
             // Bulk set price
-            [['id', 'price'], 'required', 'on' => ['set-price']],
-            [['currency'], 'safe', 'on' => ['set-price']],
+            [['id', 'price'], 'required', 'on' => 'set-price'],
 
             // Set serial
-            [['id', 'serial'], 'required', 'on' => ['set-serial']],
-            [['serial'], 'filter', 'filter' => 'trim', 'on' => ['set-serial']],
+            [['id', 'serial'], 'required', 'on' => 'set-serial'],
+            [['serial'], 'filter', 'filter' => 'trim', 'on' => 'set-serial'],
         ];
     }
 
@@ -221,6 +147,7 @@ class Part extends \hipanel\base\Model
         foreach ($currencyCodes as $code) {
             $result[] = StringHelper::getCurrencySymbol($code);
         }
+
         return $result;
     }
 
@@ -267,7 +194,10 @@ class Part extends \hipanel\base\Model
     public function getCompanies()
     {
         $companies = Yii::$app->get('cache')->getOrSet([__METHOD__], function () {
-            $result = ArrayHelper::map(Ref::find()->where(['gtype' => 'type,part_company', 'select' => 'full'])->all(), 'id', function ($model) {
+            $result = ArrayHelper::map(Ref::find()->where([
+                'gtype' => 'type,part_company',
+                'select' => 'full',
+            ])->all(), 'id', function ($model) {
                 return Yii::t('hipanel:stock', $model->label);
             });
 

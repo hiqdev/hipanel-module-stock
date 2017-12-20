@@ -28,98 +28,83 @@ class Model extends YiiModel
     public function rules()
     {
         return [
-            // delete
-            [['id'], 'integer', 'on' => ['delete']],
-            // Search
-            [[
-                'id',
-                'url',
-                'descr',
-                'short',
-                'is_favourite',
-                'profile',
-                'profile_id',
-                'last_prices',
-                'model',
-                'type',
-                'type_id',
-                'types',
-                'type_label',
-                'state',
-                'states',
-                'state_label',
-                'brand',
-                'brands',
-                'brand_label',
-                'tag',
-                'tags',
-                'tags_all',
-                'prop_tag',
-                'prop_tags',
-                'prop_tags_all',
-                'partno',
-                'with_counters',
-                'with_prices',
-                'tariff_id',
-                'show_system',
-                'show_hidden_from_user',
-                'dcs',
-                'counters',
+            [
+                [
+                    'url',
+                    'descr',
+                    'short',
+                    'profile',
+                    'last_prices',
+                    'model',
+                    'type',
+                    'types',
+                    'type_label',
+                    'state',
+                    'states',
+                    'state_label',
+                    'brand',
+                    'brands',
+                    'brand_label',
+                    'tag',
+                    'tags',
+                    'tags_all',
+                    'props',
+                    'prop_tag',
+                    'prop_tags',
+                    'prop_tags_all',
+                    'partno',
+                    'with_counters',
+                    'with_prices',
+                    'show_system',
+                    'show_hidden_from_user',
+                    'dcs',
+                    'counters',
+                    'dtg',
+                    'sdg',
+                    'm3',
 
-                'dtg',
-                'sdg',
-                'm3',
-            ], 'safe'],
-            // Create & Update
-            [[
-                'id',
-                'type',
-                'partno',
-                'brand',
-                'model',
-                'url',
-                'descr',
-                'short',
-                'is_favourite',
-                'profile',
-                'tags',
-                'prop_tags',
-                'props',
-                // Chassis
-                'UNITS_QTY',
-                '35_HDD_QTY',
-                '25_HDD_QTY',
-                // Server
-                'units_qty',
-                '35_hdd_qty',
-                '25_hdd_qty',
-                'ram_qty',
-                'cpu_qty',
-                // CPU
-                // HDD
-                'FORMFACTOR',
-                // Motherboard
-                'RAM_AMOUNT',
-                'RAM_QTY',
-                'CPU_QTY',
-                // RAM
-                'RAM_VOLUME',
-            ], 'safe', 'on' => ['create', 'update']],
-            [[
-                'type',
-                'brand',
-                'model',
-                'partno',
-            ], 'required', 'on' => ['create']],
-            [[
-                'model',
-                'partno',
-            ], 'required', 'on' => ['update']],
+                    // Chassis
+                    'UNITS_QTY',
+                    '35_HDD_QTY',
+                    '25_HDD_QTY',
+
+                    // Server
+                    'units_qty',
+                    '35_hdd_qty',
+                    '25_hdd_qty',
+                    'ram_qty',
+                    'cpu_qty',
+
+                    // HDD
+                    'FORMFACTOR',
+
+                    // Motherboard
+                    'RAM_AMOUNT',
+                    'RAM_QTY',
+                    'CPU_QTY',
+
+                    // RAM
+                    'RAM_VOLUME',
+                ],
+                'string',
+            ],
+            [['is_favourite'], 'boolean'],
+            [['id', 'type_id', 'tariff_id', 'profile_id'], 'integer'],
+
+            // Delete
+            [['id'], 'integer', 'on' => ['delete']],
+
+            // Create
+            [['type', 'brand', 'model', 'partno'], 'required', 'on' => 'create'],
+
+            // Update
+            [['model', 'partno'], 'required', 'on' => 'update'],
+
             // Hide & Show
-            ['id', 'required', 'on' => ['mark-hidden-from-user', 'unmark-hidden-from-user']],
+            [['id'], 'required', 'on' => ['mark-hidden-from-user', 'unmark-hidden-from-user']],
 
             // Copy
-
+            [['type', 'brand', 'model', 'partno'], 'required', 'on' => 'copy'],
         ];
     }
 
@@ -193,8 +178,10 @@ class Model extends YiiModel
             foreach ($data as $currency => $price) {
                 $prices[] = Yii::$app->formatter->format($price, ['currency', $currency]);
             }
+
             return implode($delimiter, $prices);
         }
+
         return '';
     }
 }

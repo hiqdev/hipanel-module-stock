@@ -86,7 +86,7 @@ class Model extends YiiModel
                     // RAM
                     'RAM_VOLUME',
                 ],
-                'string',
+                'safe',
             ],
             [['is_favourite'], 'boolean'],
             [['id', 'type_id', 'tariff_id', 'profile_id'], 'integer'],

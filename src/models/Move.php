@@ -58,7 +58,7 @@ class Move extends \hipanel\base\Model
                     'with_parts',
                     'name',
                 ],
-                'string',
+                'safe',
             ],
 
             // Delete

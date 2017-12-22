@@ -23,6 +23,7 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
 use hipanel\modules\server\models\Server;
+use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
 use Yii;
@@ -375,7 +376,7 @@ class PartController extends CrudController
     public function getTrashId()
     {
         $trashId = Yii::$app->get('cache')->getOrSet('part_trash_id', function () {
-            return Server::find()->where(['names' => 'TRASH'])->one()->id;
+            return min(Move::batchPerform('get-directions-list', ['name_like' => 'trash']));
         }, 600);
 
         return $trashId ?: null;

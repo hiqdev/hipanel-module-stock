@@ -2,6 +2,7 @@
 
 use hipanel\helpers\Url;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
+use hipanel\modules\stock\widgets\combo\RmaDestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hipanel\widgets\Box;
@@ -85,7 +86,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                         <div class="col-md-6">
                             <?php $model->dst_id = null ?>
-                            <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
+                            <?php if (strstr($this->context->action->id, 'rma') !== false) : ?>
+                                <?= $form->field($model, "[$i]dst_id")->widget(RmaDestinationCombo::class) ?>
+                            <?php else : ?>
+                                <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
+                            <?php endif ?>
+
                         </div>
                     </div>
 

@@ -1,8 +1,8 @@
 <?php
 
-use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
+use hipanel\modules\stock\widgets\combo\TrashDestinationCombo;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
@@ -61,8 +61,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             'readonly' => true,
                         ],
                     ]) ?>
-                    <?php $model->dst_id = $trashId ?>
-                    <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
+                    <?= $form->field($model, "[$i]dst_id")->widget(TrashDestinationCombo::class, [
+                        'pluginOptions' => [
+                            'select2Options' => ['tags' => false],
+                        ],
+                    ]) ?>
                 </div>
                 <div class="col-md-6">
                     <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>

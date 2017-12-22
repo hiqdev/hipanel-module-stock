@@ -70,6 +70,7 @@ class Part extends \hipanel\base\Model
                 ],
                 'safe',
             ],
+            [['price'], 'number'],
             [['id', 'company_id', 'dst_id', 'model_id', 'client_id'], 'integer'],
 
             // Move by one

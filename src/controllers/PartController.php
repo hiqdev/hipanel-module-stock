@@ -197,7 +197,6 @@ class PartController extends CrudController
                         'moveTypes' => $action->controller->getMoveTypes('trash'),
                         'suppliers' => $action->controller->getSuppliers(),
                         'currencyTypes' => $action->controller->getCurrencyTypes(),
-                        'trashId' => $action->controller->getTrashId(),
                     ];
                 },
             ],
@@ -368,17 +367,5 @@ class PartController extends CrudController
     public function getRemotehands()
     {
         return $this->getRefs('destination,remotehands', 'hipanel:stock', ['orderby' => 'name_asc']);
-    }
-
-    /**
-     * @return null|integer
-     */
-    public function getTrashId()
-    {
-        $trashId = Yii::$app->get('cache')->getOrSet('part_trash_id', function () {
-            return min(Move::batchPerform('get-directions-list', ['name_like' => 'trash']));
-        }, 600);
-
-        return $trashId ?: null;
     }
 }

@@ -76,8 +76,7 @@ class Part extends \hipanel\base\Model
             [['id'], 'required', 'on' => 'move-by-one'],
 
             // Create and copy
-            [['price', 'currency', 'company_id', 'serials'], 'required', 'on' => 'create'],
-            [['serials', 'src_id'], 'required', 'on' => 'copy'],
+            [['partno', 'src_id', 'dst_id', 'serials', 'move_descr', 'move_type', 'price', 'currency', 'company_id'], 'required', 'on' => ['create', 'copy']],
 
             // Trash
             [['id', 'dst_id', 'src_id', 'partno', 'serial', 'order_no'], 'required', 'on' => 'trash'],

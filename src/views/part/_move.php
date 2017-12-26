@@ -41,7 +41,8 @@ use yii\helpers\Html;
                             <?= $form->field($model, "[$src_id]src_id")->widget(SourceCombo::class, [
                                 'inputOptions' => [
                                     'id' => "$src_id-src_id-" . uniqid(),
-                                    'readonly' => true
+                                    'readonly' => true,
+                                    'unselect' => $model->src_id,
                                 ],
                             ]) ?>
                         </div>

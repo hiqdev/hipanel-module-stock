@@ -68,12 +68,19 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?php endif; ?>
                     <?php else : ?>
                         <?= Html::activeHiddenInput($model, "[$i]id", ['value' => $model->id]); ?>
-                        <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class, [
-                            'inputOptions' => [
-                                'readonly' => true,
-                            ],
-                        ]) ?>
-                        <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class, [
+                                    'inputOptions' => [
+                                        'readonly' => true,
+                                        'unselect' => $model->partno,
+                                    ],
+                                ]) ?>
+                            </div>
+                            <div class="col-md-6">
+                                <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
+                            </div>
+                        </div>
                     <?php endif; ?>
                     <div class="row">
                         <div class="col-md-6">
@@ -81,6 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class, [
                                 'inputOptions' => [
                                     'readonly' => true,
+                                    'unselect' => $model->src_id,
                                 ],
                             ]) ?>
                         </div>

@@ -74,11 +74,11 @@ class Part extends \hipanel\base\Model
             [['price'], 'number'],
             [['id', 'company_id', 'dst_id', 'model_id', 'client_id'], 'integer'],
 
-            // Move by one
-            [['id'], 'required', 'on' => 'move-by-one'],
-
             // Create and copy
             [['partno', 'src_id', 'dst_id', 'serials', 'move_descr', 'move_type', 'price', 'currency', 'company_id'], 'required', 'on' => ['create', 'copy']],
+
+            // Move by one
+            [['id', 'dst_id', 'src_id', 'partno', 'serial'], 'required', 'on' => 'move-by-one'],
 
             // Trash
             [['id', 'dst_id', 'src_id', 'partno', 'serial', 'order_no'], 'required', 'on' => 'trash'],
@@ -93,7 +93,7 @@ class Part extends \hipanel\base\Model
             [['id', 'model_id', 'serial', 'price', 'currency', 'company_id'], 'required', 'on' => 'update'],
 
             // Move / Bulk-move
-            [['dst_id', 'type'], 'required', 'on' => 'move'],
+            [['src_id', 'dst_id', 'type'], 'required', 'on' => 'move'],
 
             // Reserve / Unreserve
             [['id'], 'required', 'on' => 'unreserve'],

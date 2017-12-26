@@ -51,20 +51,27 @@ class PartGridView extends BoxedGridView
                         'formElementSelector' => 'td',
                     ]);
                 },
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Html::a($model->partno, ['@model/view', 'id' => $model->model_id], [
+                        'data' => ['toggle' => 'tooltip'],
+                        'title' => "{$model->model_type_label} {$model->model_brand_label} / {$model->model_label}",
+                    ]);
+                },
             ],
             'reserve' => [
                 'attribute' => 'reserve',
                 'format' => 'text',
                 'contentOptions' => [
                     'style' => 'word-break: break-all;',
-                ]
+                ],
             ],
             'model' => [
                 'attribute' => 'model',
                 'format' => 'raw',
                 'label' => Yii::t('hipanel:stock', 'Model'),
                 'value' => function ($model) {
-                    return Html::a($model->model->model, ['@model/view', 'id' => $model->model_id]);
+                    return Html::a($model->model_label, ['@model/view', 'id' => $model->model_id]);
                 },
             ],
             'model_type' => [
@@ -101,7 +108,11 @@ class PartGridView extends BoxedGridView
                 'sortAttribute' => 'move_time',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    $linkToMove = Html::a($model->move_type_label, ['@move/index', 'MoveSearch' => ['serial_like' => $model->serial]], ['class' => 'text-bold']);
+                    $linkToMove = Html::a($model->move_type_label, [
+                        '@move/index',
+                        'MoveSearch' => ['serial_like' => $model->serial],
+                    ], ['class' => 'text-bold']);
+
                     return $linkToMove . ' ' . Html::tag('nobr', Yii::$app->formatter->asDate($model->move_time));
                 },
             ],
@@ -157,6 +168,7 @@ class PartGridView extends BoxedGridView
                     if ($model['move_remotehands_label']) {
                         $out .= $model['move_remotehands_label'] . '<br>';
                     }
+
                     return $out;
                 },
             ],
@@ -165,6 +177,7 @@ class PartGridView extends BoxedGridView
                 'filterAttribute' => 'currency',
                 'filter' => function ($column, $model, $attribute) {
                     $values = ['usd' => 'USD', 'eur' => 'EUR'];
+
                     return Html::activeDropDownList($model, 'currency', $values, [
                         'class' => 'form-control',
                         'prompt' => Yii::t('hipanel', '----------'),

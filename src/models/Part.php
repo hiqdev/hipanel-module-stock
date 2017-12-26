@@ -30,6 +30,7 @@ class Part extends \hipanel\base\Model
         return [
             [
                 [
+                    'model_label',
                     'model_type_label',
                     'model_type',
                     'model_brand',

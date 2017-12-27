@@ -257,6 +257,7 @@ class PartController extends CrudController
             'move' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
+                'findOptions' => ['limit' => 'all'],
                 'GET html | POST selection' => [
                     'class' => RenderAction::class,
                     'data' => function ($action, $originalData) {

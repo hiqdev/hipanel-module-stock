@@ -269,7 +269,7 @@ class PartController extends CrudController
                         $groupBy = Yii::$app->request->get('groupBy');
                         $groupModel = new DynamicModel(compact('groupBy'));
                         $groupModel->addRule('groupBy', 'integer');
-                        $groupModel->addRule('groupBy', 'in', ['range' => [2, 4, 6, 8, 12]]);
+                        $groupModel->addRule('groupBy', 'in', ['range' => [2, 4, 6, 8, 16]]);
                         foreach ($models as $model) {
                             $model->scenario = 'move';
                             $model->src_id = $model->dst_id;

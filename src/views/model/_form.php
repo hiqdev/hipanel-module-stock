@@ -4,6 +4,7 @@ use hipanel\helpers\Url;
 use hipanel\modules\stock\models\Model;
 use hipanel\modules\stock\widgets\combo\ModelProfileCombo;
 use hipanel\widgets\Box;
+use hipanel\widgets\DynamicFormCopyButton;
 use hipanel\widgets\DynamicFormWidget;
 use hiqdev\combo\StaticCombo;
 use yii\bootstrap\ActiveForm;
@@ -81,6 +82,7 @@ JS
                         <div class="btn-group">
                             <button type="button" class="add-item btn btn-success btn-sm"><i
                                         class="glyphicon glyphicon-plus"></i></button>
+                            <?= DynamicFormCopyButton::widget() ?>
                             <button type="button" class="remove-item btn btn-danger btn-sm"><i
                                         class="glyphicon glyphicon-minus"></i></button>
                         </div>

@@ -6,6 +6,7 @@ use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hipanel\widgets\AmountWithCurrency;
 use hipanel\widgets\Box;
+use hipanel\widgets\DynamicFormCopyButton;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -58,6 +59,7 @@ use yii\helpers\Url;
                         <div class="btn-group">
                             <button type="button" class="add-item btn btn-success btn-sm"><i
                                         class="glyphicon glyphicon-plus"></i></button>
+                            <?= DynamicFormCopyButton::widget() ?>
                             <button type="button" class="remove-item btn btn-danger btn-sm"><i
                                         class="glyphicon glyphicon-minus"></i></button>
                         </div>
@@ -87,7 +89,7 @@ use yii\helpers\Url;
                                         'items' => $this->context->getCurrencyTypes(),
                                     ],
                                 ]) ?>
-                                <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput() ?>
+                                <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput(['data-amount-with-currency' => 'currency']) ?>
                             </div>
                             <div class="col-md-4">
                                 <?= $form->field($model, "[$i]company_id")->dropDownList($model->companies) ?>

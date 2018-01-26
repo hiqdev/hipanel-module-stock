@@ -55,16 +55,6 @@ class MoveGridView extends BoxedGridView
                 'filter' => false,
             ],
             'parts' => [
-                'value' => function ($model) {
-                    $out = '';
-                    if (is_array($model->parts)) {
-                        foreach ($model->parts as $part) {
-                        }
-                    }
-                    return $out;
-                },
-            ],
-            'parts' => [
                 'format' => 'raw',
                 'filter' => false,
                 'enableSorting' => false,

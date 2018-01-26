@@ -34,24 +34,17 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('table') ?>
-        <?php $page->beginBulkForm() ?>
-        <?= MoveGridView::widget([
-            'dataProvider' => $dataProvider,
-            'filterModel' => $model,
-            'boxed' => false,
-    'rowOptions' => function ($model) {
-        return GridLegend::create(new MoveGridLegend($model))->gridRowOptions();
-    },
-            'columns' => [
-                'checkbox',
-                'client',
-                'date',
-                'move',
-                'descr',
-                'parts',
-            ],
-        ]) ?>
-        <?php $page->endBulkForm() ?>
+            <?php $page->beginBulkForm() ?>
+                <?= MoveGridView::widget([
+                    'dataProvider' => $dataProvider,
+                    'filterModel' => $model,
+                    'boxed' => false,
+                    'rowOptions' => function ($model) {
+                        return GridLegend::create(new MoveGridLegend($model))->gridRowOptions();
+                    },
+                    'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
+                ]) ?>
+            <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>
 
     <?php $page->end() ?>

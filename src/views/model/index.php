@@ -44,13 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $model,
             'boxed' => false,
-            'columns' => [
-                'checkbox',
-                'type', 'brand', 'model',
-                'descr', 'partno',
-                'dtg', 'sdg', 'm3', 'twr',
-                'last_prices',
-            ],
+            'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
         ]) ?>
         <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>

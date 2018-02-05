@@ -40,6 +40,11 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
                         'url'   => ['/stock/move/index'],
                         'visible' => $user->can('move.read'),
                     ],
+                    'model-group' => [
+                        'label' => Yii::t('hipanel:stock', 'Model groups'),
+                        'url'   => ['/stock/model-group/index'],
+                        'visible' => $user->can('model.read'),
+                    ],
                     'hwconfig' => [
                         'label'   => Yii::t('hipanel:stock', 'Config Templates'),
                         'url'     => ['/stock/hwconfig'],

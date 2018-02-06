@@ -76,6 +76,7 @@ class Part extends \hipanel\base\Model
 
             // Create and copy
             [['partno', 'src_id', 'dst_id', 'serials', 'move_descr', 'move_type', 'price', 'currency', 'company_id'], 'required', 'on' => ['create', 'copy']],
+            [['serials'], 'unique', 'on' => ['create', 'copy']],
 
             // Move by one
             [['id', 'dst_id', 'src_id', 'partno', 'serial'], 'required', 'on' => 'move-by-one'],
@@ -105,6 +106,15 @@ class Part extends \hipanel\base\Model
             // Set serial
             [['id', 'serial'], 'required', 'on' => 'set-serial'],
             [['serial'], 'filter', 'filter' => 'trim', 'on' => 'set-serial'],
+
+            // Unique serial for update, set-serial
+            [['serial'], 'unique', 'on' => ['set-serial', 'update'], 'when' => function ($model) {
+                if ($model->isAttributeChanged('serial')) {
+                    return static::findOne($model->id)->serial !== $model->serial;
+                }
+
+                return false;
+            }],
         ];
     }
 

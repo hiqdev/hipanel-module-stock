@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $page->beginContent('bulk-actions') ?>
         <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Update'), 'update') ?>
+        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Copy'), 'copy') ?>
         <?php if (Yii::$app->user->can('model.delete')) : ?>
             <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Delete'), 'delete', 'danger') ?>
         <?php endif; ?>
@@ -43,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $model,
             'boxed' => false,
-            'columns' => array_merge(['name'], array_keys($model->getSupportedLimitTypes()), ['descr'])
+            'columns' => array_merge(['checkbox', 'name'], array_keys($model->getSupportedLimitTypes()), ['descr'])
         ]) ?>
         <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>

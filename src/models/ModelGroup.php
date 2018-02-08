@@ -40,10 +40,16 @@ class ModelGroup extends YiiModel
      */
     public function rules()
     {
+        $limitAttributes = $this->getLimitTypesAsAttributes();
+
         return [
             [['id', 'num'], 'integer'],
             [['name', 'descr'], 'string'],
             [['model_ids', 'limits'], 'each', 'rule' => ['integer']],
+            [['name'], 'required', 'on' => ['create', 'update']],
+            [$limitAttributes, 'integer', 'on' => ['create', 'update', 'copy']],
+            [$limitAttributes, 'default', 'value' => 0],
+            [['id'], 'required', 'on' => ['update', 'delete']],
         ];
     }
 
@@ -65,6 +71,17 @@ class ModelGroup extends YiiModel
         ];
     }
 
+    public function getLimitTypesAsAttributes()
+    {
+
+        $limitAttributes = array_keys($this->getSupportedLimitTypes());
+        array_walk($limitAttributes, function (&$item) {
+            $item = 'limit_' . $item;
+        });
+
+        return $limitAttributes;
+    }
+
     public function getModels()
     {
         return $this->hasMany(Model::class, ['id' => 'model_ids']);
@@ -73,5 +90,14 @@ class ModelGroup extends YiiModel
     public function getStocks()
     {
         return array_keys($this->limits);
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+
+        foreach ($this->getSupportedLimitTypes() as $attribute => $label) {
+            $this->{'limit_' . $attribute} = $this->limits[$attribute]['limit'];
+        }
     }
 }

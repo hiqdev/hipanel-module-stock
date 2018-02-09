@@ -20,6 +20,11 @@ use hipanel\base\CrudController;
 use hipanel\actions\RedirectAction;
 use Yii;
 
+/**
+ * Class ModelGroupController
+ *
+ * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
+ */
 class ModelGroupController extends CrudController
 {
     public function actions()
@@ -66,5 +71,10 @@ class ModelGroupController extends CrudController
                 'success' => Yii::t('hipanel:stock', 'Deleted'),
             ]
         ]);
+    }
+
+    public function actionView($id)
+    {
+        return $this->redirect(['update', 'id' => $id]);
     }
 }

@@ -16,8 +16,8 @@ use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
+use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
-use hipanel\actions\RedirectAction;
 use Yii;
 
 /**
@@ -39,28 +39,10 @@ class ModelGroupController extends CrudController
             'create' => [
                 'class' => SmartCreateAction::class,
                 'success' => Yii::t('hipanel:stock', 'Created'),
-                'POST' => [
-                    'save' => true,
-                    'success' => [
-                        'class' => RedirectAction::class,
-                        'url' => function (RedirectAction $action) {
-                            return ['@model-group/index'];
-                        },
-                    ],
-                ],
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:stock', 'Updated'),
-                'POST html' => [
-                    'save' => true,
-                    'success' => [
-                        'class' => RedirectAction::class,
-                        'url' => function (RedirectAction $action) {
-                            return ['@model-group/index'];
-                        },
-                    ],
-                ],
             ],
             'copy' => [
                 'class' => SmartUpdateAction::class,
@@ -69,12 +51,10 @@ class ModelGroupController extends CrudController
             'delete' => [
                 'class' => SmartDeleteAction::class,
                 'success' => Yii::t('hipanel:stock', 'Deleted'),
-            ]
+            ],
+            'view' => [
+                'class' => ViewAction::class,
+            ],
         ]);
-    }
-
-    public function actionView($id)
-    {
-        return $this->redirect(['update', 'id' => $id]);
     }
 }

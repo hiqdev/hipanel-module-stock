@@ -84,7 +84,7 @@ class ModelGroup extends YiiModel
 
     public function getModels()
     {
-        return $this->hasMany(Model::class, ['id' => 'model_ids']);
+        return $this->hasMany(Model::class, ['id' => 'model_ids'])->andWhere(['with_counters' => true]);
     }
 
     public function getStocks()

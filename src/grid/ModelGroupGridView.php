@@ -27,6 +27,48 @@ class ModelGroupGridView extends BoxedGridView
     public function columns()
     {
         return array_merge(parent::columns(), [
+            'tableInfoRow' => [
+                'class' => ColspanColumn::class,
+                'label' => '',
+                'columns' => [
+                    [
+                        'format' => 'raw',
+                        'value' => function () {
+                            return '&nbsp;';
+                        },
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Stock'),
+                        'contentOptions' => ['class' => 'text-center'],
+                        'format' => 'raw',
+                        'value' => function () {
+                            return Yii::t('hipanel:stock', 'Stock');
+                        }
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'RMA'),
+                        'contentOptions' => ['class' => 'text-center'],
+                        'format' => 'raw',
+                        'value' => function () {
+                            return Yii::t('hipanel:stock', 'RMA');
+                        }
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Limit'),
+                        'contentOptions' => ['class' => 'text-center'],
+                        'format' => 'raw',
+                        'value' => function () {
+                            return Yii::t('hipanel:stock', 'Limit');
+                        }
+                    ],
+                    [
+                        'format' => 'raw',
+                        'value' => function () {
+                            return '&nbsp;';
+                        },
+                    ],
+                ],
+            ],
             'name' => [
                 'headerOptions' => [
                     'class' => 'text-right',
@@ -38,6 +80,10 @@ class ModelGroupGridView extends BoxedGridView
                     'class' => 'text-right',
                 ],
                 'filterAttribute' => 'name_ilike',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Html::a(Html::encode($model->name), ['@model-group/view', 'id' => $model->id], ['class' => 'text-bold']);
+                }
             ],
             'descr' => [
                 'enableSorting' => false,

@@ -21,9 +21,7 @@ use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
-use hipanel\models\Ref;
-use hipanel\modules\server\models\Server;
-use hipanel\modules\stock\models\Move;
+use hipanel\filters\EasyAccessControl;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
 use Yii;
@@ -33,6 +31,31 @@ use yii\helpers\ArrayHelper;
 
 class PartController extends CrudController
 {
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            [
+                'class' => EasyAccessControl::class,
+                'actions' => [
+                    'create' => 'part.create',
+                    'update' => 'part.update',
+                    'copy' => 'part.update',
+                    'reserve' => 'part.update',
+                    'unreserve' => 'part.update',
+
+                    'repair' => 'move.create',
+                    'replace' => 'move.create',
+                    'trash' => 'move.create',
+                    'rma' => 'move.create',
+                    'move' => 'move.create',
+                    'move-by-one' => 'move.create',
+
+                    '*' => 'part.read',
+                ],
+            ],
+        ]);
+    }
+
     public function actions()
     {
         return array_merge(parent::actions(), [

@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'last_move',
                                     'move_type_label',
                                     'move_time',
-                                    'order_data',
+                                    'order_no',
                                     'dc_ticket',
                                     'price',
                                     'place',

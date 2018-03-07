@@ -31,6 +31,17 @@ use yii\helpers\Html;
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <div class="form-group">
+        <?= Html::tag('label', Yii::t('hipanel:stock', 'Last move date'), ['class' => 'control-label']); ?>
+        <?= DatePicker::widget(['model' => $search->model,
+            'attribute' => 'move_time',
+            'pluginOptions' => ['autoclose' => true,
+                'format' => 'yyyy-mm-dd',],
+        ]) ?>
+    </div>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <div class="form-group">
         <?= Html::tag('label', Yii::t('hipanel:stock', 'Created range'), ['class' => 'control-label']); ?>
         <?= DatePicker::widget(['model' => $search->model,
             'type' => DatePicker::TYPE_RANGE,

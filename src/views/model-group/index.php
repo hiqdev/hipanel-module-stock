@@ -1,28 +1,29 @@
 <?php
 
-use hipanel\modules\stock\grid\ModelGridView;
+use hipanel\modules\stock\grid\ModelGroupGridView;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\helpers\Html;
 
-$this->title = Yii::t('hipanel:stock', 'Models');
-$this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
+$this->title = Yii::t('hipanel:stock', 'Model groups');
 $this->params['breadcrumbs'][] = $this->title;
+
+/**
+ * @var \yii\web\View $this
+ * @var \hiqdev\hiart\ActiveDataProvider $dataProvider
+ * @var \hipanel\modules\stock\models\ModelGroupSearch $model
+ */
 
 ?>
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 
 <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
-
-    <?= $page->setSearchFormData(compact(['types', 'brands'])) ?>
     <?php $page->beginContent('main-actions') ?>
-        <?= Html::a(Yii::t('hipanel:stock', 'Create model'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
+        <?= Html::a(Yii::t('hipanel:stock', 'Create group'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
-        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Show for users'), 'unmark-hidden-from-user') ?>
-        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Hide from users'), 'mark-hidden-from-user') ?>
         <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Update'), 'update') ?>
         <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Copy'), 'copy') ?>
         <?php if (Yii::$app->user->can('model.delete')) : ?>
@@ -33,18 +34,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $page->beginContent('sorter-actions') ?>
         <?= $page->renderSorter([
             'attributes' => [
-                'type', 'brand', 'model',
             ],
         ]) ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('table') ?>
         <?php $page->beginBulkForm() ?>
-        <?= ModelGridView::widget([
+        <?= ModelGroupGridView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $model,
             'boxed' => false,
-            'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
+            'columns' => array_merge(['checkbox', 'name'], array_keys($model->getSupportedLimitTypes()), ['descr'])
         ]) ?>
         <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>

@@ -16,10 +16,24 @@ use hipanel\actions\ComboSearchAction;
 use hipanel\actions\IndexAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\base\CrudController;
+use hipanel\filters\EasyAccessControl;
 use Yii;
 
 class MoveController extends CrudController
 {
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            [
+                'class' => EasyAccessControl::class,
+                'actions' => [
+                    'delete' => 'move.delete',
+                    '*' => 'move.read',
+                ],
+            ],
+        ]);
+    }
+
     public function actions()
     {
         return array_merge(parent::actions(), [

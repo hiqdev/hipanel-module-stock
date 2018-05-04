@@ -81,6 +81,7 @@ class Move extends \hipanel\base\Model
             'serial' => Yii::t('hipanel:stock', 'Serial'),
             'descr' => Yii::t('hipanel:stock', 'Move description'),
             'data' => Yii::t('hipanel:stock', 'Data'),
+            'order_no_ilike' => Yii::t('hipanel:stock', 'Order No.'),
         ]);
     }
 

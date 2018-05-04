@@ -11,10 +11,11 @@
 
 return [
     'aliases' => [
-        '@model'    => '/stock/model',
-        '@part'     => '/stock/part',
-        '@move'     => '/stock/move',
-        '@hwconfig' => '/stock/hwconfig',
+        '@model'          => '/stock/model',
+        '@model-group'    => '/stock/model-group',
+        '@part'           => '/stock/part',
+        '@move'           => '/stock/move',
+        '@hwconfig'       => '/stock/hwconfig',
     ],
     'modules' => [
         'stock' => [

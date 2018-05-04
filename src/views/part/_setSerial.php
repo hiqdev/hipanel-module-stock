@@ -8,6 +8,7 @@ use yii\bootstrap\Html;
 <?php $form = ActiveForm::begin([
     'id' => 'set-serial-form',
     'action' => Url::toRoute('set-serial'),
+    'enableAjaxValidation' => true,
     'validationUrl' => Url::toRoute(['validate-form', 'scenario' => 'set-serial']),
 ]) ?>
 

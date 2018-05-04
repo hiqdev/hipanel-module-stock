@@ -29,22 +29,33 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-lg-12">
                 <?php $box = Box::begin(['renderBody' => false]) ?>
-                <?php $box->beginHeader() ?>
-                <?= $box->renderTitle(Yii::t('hipanel', 'Detailed information')) ?>
-                <?php $box->endHeader() ?>
-                <?php $box->beginBody() ?>
-                <?= PartGridView::detailView([
-                    'boxed' => false,
-                    'model' => $model,
-                    'columns' => [
-                        'model_type_label', 'model_brand_label',
-                        'partno', 'model', ['attribute' => 'serial'],
-                        'last_move', 'move_type_label', 'move_time',
-                        'order_data', 'dc_ticket',
-                        'price', 'place', 'company', 'reserve',
-                    ],
-                ]) ?>
-                <?php $box->endBody() ?>
+                    <?php $box->beginHeader() ?>
+                        <?= $box->renderTitle(Yii::t('hipanel', 'Detailed information')) ?>
+                    <?php $box->endHeader() ?>
+                    <?php $box->beginBody() ?>
+                        <div class="table-responsive">
+                            <?= PartGridView::detailView([
+                                'boxed' => false,
+                                'model' => $model,
+                                'columns' => [
+                                    'model_type_label',
+                                    'model_brand_label',
+                                    'partno',
+                                    'model',
+                                    ['attribute' => 'serial'],
+                                    'last_move',
+                                    'move_type_label',
+                                    'move_time',
+                                    'order_no',
+                                    'dc_ticket',
+                                    'price',
+                                    'place',
+                                    'company',
+                                    'reserve',
+                                ],
+                            ]) ?>
+                        </div>
+                    <?php $box->endBody() ?>
                 <?php $box->end() ?>
 
             </div>
@@ -52,29 +63,35 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="col-lg-9">
         <?php $page = IndexPage::begin(['model' => $model, 'layout' => 'noSearch']) ?>
-        <?php $page->beginContent('show-actions') ?>
-        <h4 class="box-title" style="display: inline-block;"><?= Yii::t('hipanel:stock', 'Move history') ?></h4>
-        <?php $page->endContent() ?>
-        <?php $page->beginContent('bulk-actions') ?>
-        <?= $page->renderBulkButton(Yii::t('hipanel', 'Delete'), Url::toRoute('@move/delete'), 'danger') ?>
-        <?php $page->endContent() ?>
-        <?php $page->beginContent('table') ?>
-        <?php $page->beginBulkForm() ?>
-        <?= MoveGridView::widget([
-            'boxed' => false,
-            'dataProvider' => $moveDataProvider,
-            'filterModel' => $model,
-            'tableOptions' => [
-                'class' => 'table table-striped table-bordered'
-            ],
-            'filterRowOptions' => ['style' => 'display: none;'],
-            'columns' => [
-                'checkbox', 'client', 'date',
-                'move', 'descr', 'parts',
-            ],
-        ]) ?>
-        <?php $page->endBulkForm() ?>
-        <?php $page->endContent() ?>
+            <?php $page->beginContent('show-actions') ?>
+                <h4 class="box-title" style="display: inline-block;"><?= Yii::t('hipanel:stock', 'Move history') ?></h4>
+
+                <?php $page->endContent() ?>
+                    <?php $page->beginContent('bulk-actions') ?>
+                    <?= $page->renderBulkButton(Yii::t('hipanel', 'Delete'), Url::toRoute('@move/delete'), 'danger') ?>
+                <?php $page->endContent() ?>
+
+                <?php $page->beginContent('table') ?>
+                    <?php $page->beginBulkForm() ?>
+                        <?= MoveGridView::widget([
+                            'boxed' => false,
+                            'dataProvider' => $moveDataProvider,
+                            'filterModel' => $model,
+                            'tableOptions' => [
+                                'class' => 'table table-striped table-bordered',
+                            ],
+                            'filterRowOptions' => ['style' => 'display: none;'],
+                            'columns' => [
+                                'checkbox',
+                                'client',
+                                'date',
+                                'move',
+                                'descr',
+                                'parts',
+                            ],
+                        ]) ?>
+                    <?php $page->endBulkForm() ?>
+            <?php $page->endContent() ?>
         <?php $page->end() ?>
     </div>
 </div>

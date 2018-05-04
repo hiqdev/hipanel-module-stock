@@ -15,6 +15,7 @@ use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
+use hipanel\modules\stock\models\Model;
 use Yii;
 use yii\helpers\Html;
 
@@ -53,7 +54,7 @@ class ModelGridView extends BoxedGridView
                 'enableSorting' => false,
                 'filter' => false,
                 'format' => 'raw',
-                'value' => function ($model) {
+                'value' => function (Model $model) {
                     return $model->renderReserves('dtg');
                 },
             ],
@@ -61,7 +62,7 @@ class ModelGridView extends BoxedGridView
                 'enableSorting' => false,
                 'filter' => false,
                 'format' => 'raw',
-                'value' => function ($model) {
+                'value' => function (Model $model) {
                     return $model->renderReserves('sdg');
                 },
             ],
@@ -69,7 +70,7 @@ class ModelGridView extends BoxedGridView
                 'enableSorting' => false,
                 'filter' => false,
                 'format' => 'raw',
-                'value' => function ($model) {
+                'value' => function (Model $model) {
                     return $model->renderReserves('m3');
                 },
             ],
@@ -77,7 +78,7 @@ class ModelGridView extends BoxedGridView
                 'enableSorting' => false,
                 'filter' => false,
                 'format' => 'raw',
-                'value' => function ($model) {
+                'value' => function (Model $model) {
                     return $model->renderReserves('twr');
                 },
             ],
@@ -86,7 +87,7 @@ class ModelGridView extends BoxedGridView
                 'enableSorting' => false,
                 'filter' => false,
                 'format' => 'html',
-                'value' => function ($model) {
+                'value' => function (Model $model) {
                     return $model->showModelPrices($model->last_prices);
                 },
             ],

@@ -102,4 +102,7 @@ return [
     'Create model' => 'Создать модель',
     'Company' => 'Компания',
     'Are you sure you want to delete this model?' => 'Вы действительно хотите удалить эту модель?',
+    'Limit' => 'Лимит',
+    'Model groups' => 'Группы моделей',
+    'Create group' => 'Создать группу',
 ];

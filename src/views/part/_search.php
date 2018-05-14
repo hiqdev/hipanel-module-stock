@@ -5,6 +5,7 @@ use hipanel\modules\stock\widgets\combo\PartCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hiqdev\combo\StaticCombo;
+use hiqdev\yii2\daterangepicker\DateRangePicker;
 use hipanel\widgets\RefCombo;
 use hipanel\widgets\DatePicker;
 use yii\helpers\Html;
@@ -50,15 +51,14 @@ use yii\helpers\Html;
 <div class="col-md-4 col-sm-6 col-xs-12">
     <div class="form-group">
         <?= Html::tag('label', Yii::t('hipanel:stock', 'Created range'), ['class' => 'control-label']) ?>
-        <?= DatePicker::widget([
+        <?= DateRangePicker::widget([
             'model' => $search->model,
-            'type' => DatePicker::TYPE_RANGE,
             'attribute' => 'create_time_from',
             'attribute2' => 'create_time_till',
-            'pluginOptions' => [
-                'autoclose' => true,
-                'format' => 'yyyy-mm-dd',
+            'options' => [
+                'class' => 'form-control',
             ],
+            'dateFormat' => 'yyyy-MM-dd',
         ]) ?>
     </div>
 </div>

@@ -51,6 +51,7 @@ class ModelController extends CrudController
                     return [
                         'types' => $action->controller->getTypes(),
                         'brands' => $action->controller->getBrands(),
+                        'states' => $action->controller->getStates(),
                     ];
                 },
             ],
@@ -127,6 +128,11 @@ class ModelController extends CrudController
     public function getTypes()
     {
         return $this->getRefs('type,model', 'hipanel:stock');
+    }
+
+    public function getStates()
+    {
+        return $this->getRefs('state,model', 'hipanel');
     }
 
     public function getDcs()

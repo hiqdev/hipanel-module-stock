@@ -23,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 
     <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
-        <?php $page->setSearchFormData(compact(['types', 'locations', 'brands'])) ?>
+        <?php $page->setSearchFormData(compact(['types', 'locations', 'brands', 'states'])) ?>
 
         <?php $page->beginContent('legend') ?>
             <?= GridLegend::widget(['legendItem' => new PartGridLegend($model)]) ?>

@@ -134,6 +134,7 @@ class PartController extends CrudController
                         'types' => $action->controller->getTypes(),
                         'brands' => $action->controller->getBrands(),
                         'locations' => $action->controller->getLocations(),
+                        'states' => $action->controller->getStates(),
                     ];
                 },
             ],
@@ -356,6 +357,12 @@ class PartController extends CrudController
     {
         return $this->getRefs('type,model', 'hipanel:stock');
     }
+
+    public function getStates()
+    {
+        return $this->getRefs('state,part', 'hipanel');
+    }
+
 
     public function getBrands()
     {

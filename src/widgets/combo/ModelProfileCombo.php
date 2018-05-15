@@ -13,5 +13,9 @@ namespace hipanel\modules\stock\widgets\combo;
 
 class ModelProfileCombo extends ProfileCombo
 {
-    public $profileClass = 'model';
+    /** {@inheritdoc} */
+    public $type = 'stock/model-group';
+
+    /** {@inheritdoc} */
+    public $url = '/stock/model-group/index';
 }

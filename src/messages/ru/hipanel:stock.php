@@ -105,4 +105,6 @@ return [
     'Limit' => 'Лимит',
     'Model groups' => 'Группы моделей',
     'Create group' => 'Создать группу',
+    'Filter' => 'Фильтр',
+    'Hide unavailable' => 'Скрыть недоступные',
 ];

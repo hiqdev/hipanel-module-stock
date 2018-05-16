@@ -68,6 +68,7 @@ class Part extends \hipanel\base\Model
                     'supplier',
                     'order_no',
                     'type',
+                    'state',
                 ],
                 'safe',
             ],

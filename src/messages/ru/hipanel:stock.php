@@ -107,4 +107,5 @@ return [
     'Create group' => 'Создать группу',
     'Filter' => 'Фильтр',
     'Hide unavailable' => 'Скрыть недоступные',
+    'Last move date' => 'Дата перемещения',
 ];

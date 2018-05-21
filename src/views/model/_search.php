@@ -1,19 +1,8 @@
 <?php
 
-use hipanel\modules\stock\widgets\combo\PartnoCombo;
-use hiqdev\assets\icheck\iCheckAsset;
 use hiqdev\combo\StaticCombo;
 
-/**
- * @var \hipanel\widgets\AdvancedSearch $search
- */
-iCheckAsset::register($this);
-
-$this->registerJs("jQuery('.field-modelsearch-show_hidden_from_user input[type=checkbox]').iCheck({
-    checkboxClass: 'icheckbox_minimal-blue',
-    radioClass: 'iradio_flat',
-    increaseArea: '20%' // optional
-});");
+$this->registerCss('label > .option-input { top: 6px; margin-right: .3rem; }'); // fix label display for checkbox
 
 ?>
 
@@ -67,10 +56,10 @@ $this->registerJs("jQuery('.field-modelsearch-show_hidden_from_user input[type=c
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('show_hidden_from_user')->checkbox() ?>
+    <?= $search->field('show_hidden_from_user')->checkbox(['class' => 'option-input']) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('hide_unavailable')->checkbox() ?>
+    <?= $search->field('hide_unavailable')->checkbox(['class' => 'option-input']) ?>
 </div>
 

@@ -13,7 +13,7 @@ use yii\helpers\Url;
         'id' => $model->scenario . '-form',
     ],
     'enableAjaxValidation' => true,
-    'validationUrl' => Url::toRoute(['validate-buyout-form']),
+    'validationUrl' => Url::toRoute(['validate-sell-form']),
 ]) ?>
 
 <div class="row">
@@ -27,21 +27,25 @@ use yii\helpers\Url;
 
 <div class="row">
     <div class="col-md-6">
-        <?= $form->field($model, 'buyout_datetime')->widget(DateTimePicker::class) ?>
+        <?= $form->field($model, 'time')->widget(DateTimePicker::class) ?>
     </div>
     <div class="col-md-6">
         <?= $form->field($model, 'currency')->dropDownList($currencyOptions) ?>
     </div>
+    <div class="col-md-12">
+        <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
+    </div>
 </div>
 
-<legend><?= Yii::t('hipanel:stock', 'Parts') ?></legend>
 <div class="well well-sm">
+    <legend><?= Yii::t('hipanel:stock', 'Parts') ?></legend>
     <?php foreach (array_chunk($parts, 2) as $row) : ?>
         <div class="row">
             <?php foreach ($row as $part) : ?>
                 <div class="col-md-6">
-                    <?= $form->field($model, "parts[$part->id]")->textInput([
-                        'placeholder' => Yii::t('hipanel:stock', 'Price'),
+                    <?= Html::activeHiddenInput($model, "ids[]", ['value' => $part->id]) ?>
+                    <?= $form->field($model, "sums[$part->id]")->textInput([
+                        'placeholder' => Yii::t('hipanel:stock', 'Part price'),
                     ])->label($part->title) ?>
                 </div>
             <?php endforeach; ?>

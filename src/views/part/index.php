@@ -82,10 +82,10 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php if (Yii::$app->user->can('part.sell')) : ?>
                 <?= AjaxModal::widget([
                     'bulkPage' => true,
-                    'id' => 'parts-buyout',
-                    'scenario' => 'buyout',
-                    'actionUrl' => ['buyout'],
-                    'handleSubmit' => Url::toRoute('buyout'),
+                    'id' => 'parts-sell',
+                    'scenario' => 'sell',
+                    'actionUrl' => ['sell'],
+                    'handleSubmit' => Url::toRoute('sell'),
                     'size' => Modal::SIZE_LARGE,
                     'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Sell parts'), ['class' => 'modal-title']),
                     'toggleButton' => ['label' => Yii::t('hipanel:stock', 'Sell parts'), 'class' => 'btn btn-default btn-sm'],

@@ -3,16 +3,16 @@
 namespace hipanel\modules\stock\actions;
 
 use hipanel\actions\ValidateFormAction;
-use hipanel\modules\stock\forms\PartBuyoutForm;
+use hipanel\modules\stock\forms\PartSellForm;
 use Yii;
 use yii\base\DynamicModel;
 use yii\helpers\Html;
 
-class ValidateBuyoutFormAction extends ValidateFormAction
+class ValidateSellFormAction extends ValidateFormAction
 {
     public function init()
     {
-        $this->setModel(PartBuyoutForm::class);
+        $this->setModel(PartSellForm::class);
     }
 
     public function validateMultiple()
@@ -21,11 +21,11 @@ class ValidateBuyoutFormAction extends ValidateFormAction
         foreach ($this->collection->models as $i => $model) {
             $model->validate();
             foreach ($model->getErrors() as $attribute => $errors) {
-                if ($attribute !== 'parts') {
+                if ($attribute !== 'sums') {
                     $id = Html::getInputId($model, $attribute);
                     $result[$id] = $errors;
                 } else {
-                    foreach ($model->parts as $id => $price) {
+                    foreach ($model->sums as $id => $price) {
                         $validateModel = DynamicModel::validateData(compact('price'), [
                             ['price', 'required', 'message' => Yii::t('hipanel:stock', 'The field cannot be blank.')],
                             [
@@ -35,7 +35,7 @@ class ValidateBuyoutFormAction extends ValidateFormAction
                                 'tooBig' => Yii::t('hipanel:stock', 'The field must be no greater than {max}.'),
                             ],
                         ]);
-                        $result['partbuyoutform-parts-' . $id] = $validateModel->getErrors('price');
+                        $result['partsellform-sums-' . $id] = $validateModel->getErrors('price');
                     }
                 }
             }

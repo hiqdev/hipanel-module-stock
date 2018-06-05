@@ -12,13 +12,13 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
     public function items()
     {
         return [
-            'copy' => [
+            'sell' => [
                 'label' => SettingsModal::widget([
                     'model' => $this->model,
                     'title' => Yii::t('hipanel:stock', 'Sell part'),
                     'labelTemplate' => '<span class="pull-right">{icon}</span>&nbsp;{label}',
                     'icon' => 'fa-long-arrow-right fa-fw',
-                    'scenario' => 'buyout',
+                    'scenario' => 'sell',
                     'handleSubmit' => false,
                 ]),
                 'encode' => false,

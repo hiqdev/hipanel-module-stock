@@ -23,15 +23,14 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\StringHelper;
-use hipanel\modules\stock\actions\ValidateBuyoutFormAction;
-use hipanel\modules\stock\forms\PartBuyoutForm;
+use hipanel\modules\stock\actions\ValidateSellFormAction;
+use hipanel\modules\stock\forms\PartSellForm;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
 use Yii;
 use yii\base\DynamicModel;
 use yii\base\Event;
 use yii\helpers\ArrayHelper;
-use yii\web\NotAcceptableHttpException;
 
 class PartController extends CrudController
 {
@@ -53,7 +52,7 @@ class PartController extends CrudController
                     'rma' => 'move.create',
                     'move' => 'move.create',
                     'move-by-one' => 'move.create',
-                    'buyout' => 'part.sell',
+                    'sell' => 'part.sell',
 
                     '*' => 'part.read',
                 ],
@@ -342,8 +341,8 @@ class PartController extends CrudController
             'validate-form' => [
                 'class' => ValidateFormAction::class,
             ],
-            'validate-buyout-form' => [
-                'class' => ValidateBuyoutFormAction::class,
+            'validate-sell-form' => [
+                'class' => ValidateSellFormAction::class,
                 'validatedInputId' => false,
                 'allowDynamicScenario' => false,
             ],
@@ -410,25 +409,32 @@ class PartController extends CrudController
         return $this->getRefs('destination,remotehands', 'hipanel:stock', ['orderby' => 'name_asc']);
     }
 
-    public function actionBuyout()
+    /**
+     * @return string|\yii\web\Response
+     * @throws \yii\web\BadRequestHttpException
+     */
+    public function actionSell()
     {
-        $model = new PartBuyoutForm();
+        $model = new PartSellForm();
+        $action = new SmartUpdateAction('sell', $this);
         $request = Yii::$app->request;
-        if (!$request->isAjax) {
-            throw new NotAcceptableHttpException('Request method must be a XMLHttpRequest.');
-        }
+        $session = Yii::$app->session;
         if ($model->load($request->post()) && $model->validate()) {
-            // todo: Make API request
+            try {
+                $resp = Part::batchPerform('sell', $model->getAttributes());
+                $session->addFlash('success', Yii::t('hipanel:stock', 'Parts have been successfully sold.'));
+            } catch (\Exception $e) {
+                $session->addFlash('error', $e->getMessage());
+            }
 
             return $this->redirect($request->referrer);
         }
-        $action = new SmartUpdateAction('buyout', $this);
         $parts = $action->fetchModels();
         $currencyOptions = $this->getCurrencyTypes();
         array_walk($currencyOptions, function (&$value, $key) {
             $value = StringHelper::getCurrencySymbol($key);
         });
 
-        return $this->renderAjax('modals/buyout', compact('model', 'parts', 'currencyOptions'));
+        return $this->renderAjax('modals/sell', compact('model', 'parts', 'currencyOptions'));
     }
 }

@@ -115,5 +115,6 @@ return [
     'The field must be a number.' => 'Поле должно быть числом.',
     'The field must be no less than {min}.' => 'Поле должно быть не меньше {min}.',
     'The field must be no greater than {max}.' => 'Поле должно быть не больше {max}.',
-    'Price' => 'Цена'
+    'Parts have been successfully sold.' => 'Детали были успешно проданы.',
+    'Part price' => 'Цена детали'
 ];

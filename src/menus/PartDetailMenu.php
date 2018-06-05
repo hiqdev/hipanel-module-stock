@@ -15,7 +15,7 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
             'copy' => [
                 'label' => SettingsModal::widget([
                     'model' => $this->model,
-                    'title' => Yii::t('hipanel:stock', 'Buyout'),
+                    'title' => Yii::t('hipanel:stock', 'Sell part'),
                     'labelTemplate' => '<span class="pull-right">{icon}</span>&nbsp;{label}',
                     'icon' => 'fa-long-arrow-right fa-fw',
                     'scenario' => 'buyout',

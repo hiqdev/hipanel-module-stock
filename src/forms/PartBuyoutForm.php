@@ -25,7 +25,7 @@ class PartBuyoutForm extends Part
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'buyout_datetime' => Yii::t('hipanel:stock', 'Buyout datetime'),
+            'buyout_datetime' => Yii::t('hipanel:stock', 'Sell datetime'),
             'contact_id' => Yii::t('hipanel', 'Contact'),
         ]);
     }

@@ -7,8 +7,6 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$iteration = 1;
-
 ?>
 <?php $form = ActiveForm::begin([
     'options' => [

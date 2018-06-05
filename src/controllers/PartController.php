@@ -31,6 +31,7 @@ use Yii;
 use yii\base\DynamicModel;
 use yii\base\Event;
 use yii\helpers\ArrayHelper;
+use yii\web\NotAcceptableHttpException;
 
 class PartController extends CrudController
 {
@@ -413,7 +414,7 @@ class PartController extends CrudController
         $model = new PartBuyoutForm();
         $request = Yii::$app->request;
         if (!$request->isAjax) {
-            return Yii::$app->end();
+            throw new NotAcceptableHttpException('Request method must be a XMLHttpRequest.');
         }
         if ($model->load($request->post()) && $model->validate()) {
             // todo: Make API request

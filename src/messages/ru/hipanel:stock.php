@@ -108,4 +108,11 @@ return [
     'Filter' => 'Фильтр',
     'Hide unavailable' => 'Скрыть недоступные',
     'Last move date' => 'Дата перемещения',
+    'Buyout' => 'Выкуп деталей',
+    'Buyout datetime' => 'Дата и время выкупа детали',
+    'The field cannot be blank.' => 'Это поле не может быть пустым.',
+    'The field must be a number.' => 'Поле должно быть числом.',
+    'The field must be no less than {min}.' => 'Поле должно быть не меньше {min}.',
+    'The field must be no greater than {max}.' => 'Поле должно быть не больше {max}.',
+    'Price' => 'Цена'
 ];

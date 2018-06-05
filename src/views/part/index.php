@@ -81,6 +81,16 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <?= AjaxModal::widget([
                 'bulkPage' => true,
+                'id' => 'parts-buyout',
+                'scenario' => 'buyout',
+                'actionUrl' => ['buyout'],
+                'handleSubmit' => Url::toRoute('buyout'),
+                'size' => Modal::SIZE_LARGE,
+                'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Buyout'), ['class' => 'modal-title']),
+                'toggleButton' => ['label' => Yii::t('hipanel:stock', 'Buyout'), 'class' => 'btn btn-default btn-sm'],
+            ]) ?>
+            <?= AjaxModal::widget([
+                'bulkPage' => true,
                 'id' => 'set-serial-modal',
                 'scenario' => 'set-serial',
                 'actionUrl' => ['bulk-set-serial'],

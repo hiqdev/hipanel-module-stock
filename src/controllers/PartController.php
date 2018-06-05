@@ -22,6 +22,9 @@ use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
+use hipanel\helpers\StringHelper;
+use hipanel\modules\stock\actions\ValidateBuyoutFormAction;
+use hipanel\modules\stock\forms\PartBuyoutForm;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
 use Yii;
@@ -337,6 +340,11 @@ class PartController extends CrudController
             'validate-form' => [
                 'class' => ValidateFormAction::class,
             ],
+            'validate-buyout-form' => [
+                'class' => ValidateBuyoutFormAction::class,
+                'validatedInputId' => false,
+                'allowDynamicScenario' => false,
+            ],
         ]);
     }
 
@@ -398,5 +406,27 @@ class PartController extends CrudController
     public function getRemotehands()
     {
         return $this->getRefs('destination,remotehands', 'hipanel:stock', ['orderby' => 'name_asc']);
+    }
+
+    public function actionBuyout()
+    {
+        $model = new PartBuyoutForm();
+        $request = Yii::$app->request;
+        if (!$request->isAjax) {
+            return Yii::$app->end();
+        }
+        if ($model->load($request->post()) && $model->validate()) {
+            // todo: Make API request
+
+            return $this->redirect($request->referrer);
+        }
+        $action = new SmartUpdateAction('buyout', $this);
+        $parts = $action->fetchModels();
+        $currencyOptions = $this->getCurrencyTypes();
+        array_walk($currencyOptions, function (&$value, $key) {
+            $value = StringHelper::getCurrencySymbol($key);
+        });
+
+        return $this->renderAjax('modals/buyout', compact('model', 'parts', 'currencyOptions'));
     }
 }

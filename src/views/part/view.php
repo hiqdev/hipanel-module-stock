@@ -9,7 +9,7 @@ use hipanel\widgets\MainDetails;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->title = Html::encode(sprintf('%s %s %s #%s', $model->model_type_label, $model->model_brand_label, $model->partno, $model->serial));
+$this->title = Html::encode($model->title);
 $this->params['subtitle'] = Yii::t('hipanel', 'detailed information');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;

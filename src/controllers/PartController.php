@@ -53,6 +53,7 @@ class PartController extends CrudController
                     'rma' => 'move.create',
                     'move' => 'move.create',
                     'move-by-one' => 'move.create',
+                    'buyout' => 'part.sell',
 
                     '*' => 'part.read',
                 ],

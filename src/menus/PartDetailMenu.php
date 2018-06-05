@@ -22,6 +22,7 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                     'handleSubmit' => false,
                 ]),
                 'encode' => false,
+                'visible' => Yii::$app->user->can('part.sell')
             ],
             [
                 'label' => $this->model->reserve ? Yii::t('hipanel:stock', 'Unreserve') : Yii::t('hipanel:stock', 'Reserve'),

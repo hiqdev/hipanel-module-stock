@@ -52,7 +52,7 @@ $this->registerCss('label > .option-input { top: 6px; margin-right: .3rem; }'); 
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('show_without_group')->checkbox(['class' => 'option-input']) ?>
+    <?= $search->field('hide_group_assigned')->checkbox(['class' => 'option-input']) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">

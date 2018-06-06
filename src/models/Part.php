@@ -15,7 +15,6 @@ use hipanel\base\ModelTrait;
 use hipanel\helpers\ArrayHelper;
 use hipanel\helpers\StringHelper;
 use hipanel\models\Ref;
-use hipanel\modules\finance\models\Purse;
 use Yii;
 
 class Part extends \hipanel\base\Model
@@ -252,5 +251,10 @@ class Part extends \hipanel\base\Model
     public function getModelTypeNo()
     {
         return isset(static::$modelTypeNos[$this->model_type]) ? static::$modelTypeNos[$this->model_type] : 99999;
+    }
+
+    public function getTitle()
+    {
+        return sprintf('%s %s %s #%s', $this->model_type_label, $this->model_brand_label, $this->partno, $this->serial);
     }
 }

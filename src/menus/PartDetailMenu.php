@@ -2,6 +2,7 @@
 
 namespace hipanel\modules\stock\menus;
 
+use hipanel\widgets\SettingsModal;
 use Yii;
 
 class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
@@ -11,6 +12,18 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
     public function items()
     {
         return [
+            'sell' => [
+                'label' => SettingsModal::widget([
+                    'model' => $this->model,
+                    'title' => Yii::t('hipanel:stock', 'Sell part'),
+                    'labelTemplate' => '<span class="pull-right">{icon}</span>&nbsp;{label}',
+                    'icon' => 'fa-long-arrow-right fa-fw',
+                    'scenario' => 'sell',
+                    'handleSubmit' => false,
+                ]),
+                'encode' => false,
+                'visible' => Yii::$app->user->can('part.sell')
+            ],
             [
                 'label' => $this->model->reserve ? Yii::t('hipanel:stock', 'Unreserve') : Yii::t('hipanel:stock', 'Reserve'),
                 'icon' => 'fa-history',

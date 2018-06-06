@@ -79,6 +79,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                 ]); ?>
             </div>
+            <?php if (Yii::$app->user->can('part.sell')) : ?>
+                <?= AjaxModal::widget([
+                    'bulkPage' => true,
+                    'id' => 'parts-sell',
+                    'scenario' => 'sell',
+                    'actionUrl' => ['sell'],
+                    'handleSubmit' => Url::toRoute('sell'),
+                    'size' => Modal::SIZE_LARGE,
+                    'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Sell parts'), ['class' => 'modal-title']),
+                    'toggleButton' => ['label' => Yii::t('hipanel:stock', 'Sell parts'), 'class' => 'btn btn-default btn-sm'],
+                ]) ?>
+            <?php endif; ?>
             <?= AjaxModal::widget([
                 'bulkPage' => true,
                 'id' => 'set-serial-modal',

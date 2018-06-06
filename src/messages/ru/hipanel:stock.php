@@ -108,4 +108,13 @@ return [
     'Filter' => 'Фильтр',
     'Hide unavailable' => 'Скрыть недоступные',
     'Last move date' => 'Дата перемещения',
+    'Sell parts' => 'Продажа деталей',
+    'Sell part' => 'Продать деталь',
+    'Sell datetime' => 'Дата и время продажи',
+    'The field cannot be blank.' => 'Это поле не может быть пустым.',
+    'The field must be a number.' => 'Поле должно быть числом.',
+    'The field must be no less than {min}.' => 'Поле должно быть не меньше {min}.',
+    'The field must be no greater than {max}.' => 'Поле должно быть не больше {max}.',
+    'Parts have been successfully sold.' => 'Детали были успешно проданы.',
+    'Part price' => 'Цена детали'
 ];

@@ -22,6 +22,9 @@ use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
+use hipanel\helpers\StringHelper;
+use hipanel\modules\stock\actions\ValidateSellFormAction;
+use hipanel\modules\stock\forms\PartSellForm;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
 use Yii;
@@ -49,6 +52,7 @@ class PartController extends CrudController
                     'rma' => 'move.create',
                     'move' => 'move.create',
                     'move-by-one' => 'move.create',
+                    'sell' => 'part.sell',
 
                     '*' => 'part.read',
                 ],
@@ -337,6 +341,11 @@ class PartController extends CrudController
             'validate-form' => [
                 'class' => ValidateFormAction::class,
             ],
+            'validate-sell-form' => [
+                'class' => ValidateSellFormAction::class,
+                'validatedInputId' => false,
+                'allowDynamicScenario' => false,
+            ],
         ]);
     }
 
@@ -398,5 +407,34 @@ class PartController extends CrudController
     public function getRemotehands()
     {
         return $this->getRefs('destination,remotehands', 'hipanel:stock', ['orderby' => 'name_asc']);
+    }
+
+    /**
+     * @return string|\yii\web\Response
+     * @throws \yii\web\BadRequestHttpException
+     */
+    public function actionSell()
+    {
+        $model = new PartSellForm();
+        $action = new SmartUpdateAction('sell', $this);
+        $request = Yii::$app->request;
+        $session = Yii::$app->session;
+        if ($model->load($request->post()) && $model->validate()) {
+            try {
+                $resp = Part::batchPerform('sell', $model->getAttributes());
+                $session->addFlash('success', Yii::t('hipanel:stock', 'Parts have been successfully sold.'));
+            } catch (\Exception $e) {
+                $session->addFlash('error', $e->getMessage());
+            }
+
+            return $this->redirect($request->referrer);
+        }
+        $parts = $action->fetchModels();
+        $currencyOptions = $this->getCurrencyTypes();
+        array_walk($currencyOptions, function (&$value, $key) {
+            $value = StringHelper::getCurrencySymbol($key);
+        });
+
+        return $this->renderAjax('modals/sell', compact('model', 'parts', 'currencyOptions'));
     }
 }

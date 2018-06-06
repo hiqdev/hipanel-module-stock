@@ -1,6 +1,8 @@
 <?php
 
+use hipanel\modules\stock\grid\ModelGridLegend;
 use hipanel\modules\stock\grid\ModelGridView;
+use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\helpers\Html;
@@ -18,6 +20,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $page->setSearchFormData(compact(['types', 'brands', 'states'])) ?>
     <?php $page->beginContent('main-actions') ?>
         <?= Html::a(Yii::t('hipanel:stock', 'Create model'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
+    <?php $page->endContent() ?>
+
+    <?php $page->beginContent('legend') ?>
+        <?= GridLegend::widget(['legendItem' => new ModelGridLegend($model)]) ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>

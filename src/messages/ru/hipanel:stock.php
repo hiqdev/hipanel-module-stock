@@ -117,5 +117,9 @@ return [
     'The field must be no greater than {max}.' => 'Поле должно быть не больше {max}.',
     'Parts have been successfully sold.' => 'Детали были успешно проданы.',
     'Part price' => 'Цена детали',
-    'Hide assigned to group' => 'Спрятать модели с группой'
+    'Hide assigned to group' => 'Спрятать модели с группой',
+    'In stock' => 'В наличии',
+    'Reserved' => 'Зарезервированный',
+    'Unused' => 'Неиспользуемый',
+    'RMA' => 'RMA'
 ];

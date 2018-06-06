@@ -9,7 +9,7 @@ class StockSidebarMenuCest
 {
     public function ensureMenuIsOk(Admin $I)
     {
-        (new SidebarMenu($I))->ensureContains('Stock',[
+        (new SidebarMenu($I))->ensureContains('Stock', [
             'Models' => '@model/index',
             'Parts' => '@part/index',
             'History' => '@move/index',

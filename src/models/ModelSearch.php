@@ -25,7 +25,7 @@ class ModelSearch extends Model
     public function searchAttributes()
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
-            'group_like', 'filter_like', 'hide_unavailable'
+            'group_like', 'filter_like', 'hide_unavailable', 'show_without_group'
         ]);
     }
 
@@ -40,6 +40,7 @@ class ModelSearch extends Model
             'model_like' => Yii::t('hipanel:stock', 'Model'),
             'brand_like' => Yii::t('hipanel:stock', 'Brand'),
             'hide_unavailable' => Yii::t('hipanel:stock', 'Hide unavailable'),
+            'show_without_group' => Yii::t('hipanel:stock', 'Show without group'),
         ]);
     }
 }

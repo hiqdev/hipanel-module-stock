@@ -46,7 +46,7 @@ use yii\helpers\Url;
                     <?= Html::activeHiddenInput($model, "ids[]", ['value' => $part->id]) ?>
                     <?= $form->field($model, "sums[$part->id]")->textInput([
                         'placeholder' => Yii::t('hipanel:stock', 'Part price'),
-                    ])->label($part->title) ?>
+                    ])->label(sprintf('%s | %s', $part->title, $part->dst_name)) ?>
                 </div>
             <?php endforeach; ?>
         </div>

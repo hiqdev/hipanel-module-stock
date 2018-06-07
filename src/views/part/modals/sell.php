@@ -1,5 +1,9 @@
 <?php
 
+/** @var array $parts */
+
+/** @var array $currencyOptions */
+
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\stock\widgets\combo\ContactCombo;
 use hipanel\widgets\DateTimePicker;
@@ -7,11 +11,35 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+$this->registerJs("
+$('#partsellform-client_id').on('select2:select', function (e) {
+    var clientInput = $('#partsellform-client_id option:selected');
+    var selectedClientId = clientInput.val();
+    var selectedClientName = clientInput.text().trim();
+    jQuery.post('/client/contact/search', {return: ['id', 'name', 'email'], select: 'min', client: selectedClientName}).done(function (contacts) {
+        var autoContact = contacts.filter(function (contact) {
+            return contact.id === selectedClientId;    
+        });
+        if (autoContact.length > 0) {
+            $('#partsellform-contact_id')
+                .empty()
+                .append('<option value=\"' + autoContact[0]['id'] + '\">'+ autoContact[0]['name']+ '</option>')
+                .val(autoContact[0]['id'])
+                .trigger('change');
+        } else {
+            $('#partsellform-contact_id').empty();
+        }
+    });
+});
+");
+
 ?>
+
 <?php $form = ActiveForm::begin([
     'options' => [
         'id' => $model->scenario . '-form',
     ],
+    'validateOnChange' => false,
     'enableAjaxValidation' => true,
     'validationUrl' => Url::toRoute(['validate-sell-form']),
 ]) ?>

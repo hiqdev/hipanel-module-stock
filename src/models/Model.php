@@ -33,7 +33,7 @@ class Model extends YiiModel
                     'url',
                     'descr',
                     'short',
-                    'profile',
+                    'group',
                     'last_prices',
                     'model',
                     'type',
@@ -89,7 +89,7 @@ class Model extends YiiModel
                 'safe',
             ],
             [['is_favourite'], 'boolean'],
-            [['id', 'type_id', 'tariff_id', 'profile_id'], 'integer'],
+            [['id', 'type_id', 'tariff_id', 'group_id'], 'integer'],
 
             // Delete
             [['id'], 'integer', 'on' => ['delete']],
@@ -116,7 +116,8 @@ class Model extends YiiModel
         return $this->mergeAttributeLabels([
             'partno' => Yii::t('hipanel:stock', 'Part No.'),
             'show_hidden_from_user' => Yii::t('hipanel:stock', 'Show hidden'),
-            'profile' => Yii::t('hipanel:stock', 'Group'),
+            'group' => Yii::t('hipanel:stock', 'Group'),
+            'group_id' => Yii::t('hipanel:stock', 'Group'),
             // Chassis
             'UNITS_QTY' => Yii::t('hipanel:stock', 'Units'),
             '35_HDD_QTY' => Yii::t('hipanel:stock', '3.5" HDD'),

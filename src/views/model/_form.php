@@ -2,7 +2,7 @@
 
 use hipanel\helpers\Url;
 use hipanel\modules\stock\models\Model;
-use hipanel\modules\stock\widgets\combo\ModelProfileCombo;
+use hipanel\modules\stock\widgets\combo\ModelGroupCombo;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormCopyButton;
 use hipanel\widgets\DynamicFormWidget;
@@ -57,7 +57,7 @@ JS
     'formFields' => [
         'type',
         'brand',
-        'profile',
+        'group_id',
         'model',
         'partno',
         'short',
@@ -105,7 +105,7 @@ JS
                                 (!$model->isNewRecord && $model->scenario != Model::SCENARIO_COPY) ? ['disabled' => 'disabled'] : []) ?>
                         </div>
                     </div>
-                    <?= $form->field($model, "[$i]profile")->widget(ModelProfileCombo::class) ?>
+                    <?= $form->field($model, "[$i]group_id")->widget(ModelGroupCombo::class) ?>
                     <?= $form->field($model, "[$i]short")->textarea() ?>
                 </div>
                 <div class="col-md-4">

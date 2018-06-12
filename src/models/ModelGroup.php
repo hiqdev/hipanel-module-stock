@@ -47,6 +47,7 @@ class ModelGroup extends YiiModel
             [['name', 'descr'], 'string'],
             [['model_ids', 'limits'], 'each', 'rule' => ['integer']],
             [['name'], 'required', 'on' => ['create', 'update']],
+            [['name'], 'unique', 'on' => ['create', 'update']],
             [$limitAttributes, 'integer', 'on' => ['create', 'update', 'copy']],
             [$limitAttributes, 'default', 'value' => 0],
             [['id'], 'required', 'on' => ['update', 'delete']],

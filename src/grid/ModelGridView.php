@@ -42,9 +42,14 @@ class ModelGridView extends BoxedGridView
                 'filterAttribute' => 'model_like',
             ],
             'partno' => [
-                'class' => MainColumn::class,
                 'enableSorting' => false,
                 'filterAttribute' => 'partno_like',
+                'format' => 'raw',
+                'value' => function (Model $model) {
+                    return Html::a(Html::encode($model->partno), [
+                        '@model/view', 'id' => $model->id
+                    ], ['class' => 'text-bold']);
+                }
             ],
             'descr' => [
                 'enableSorting' => false,
@@ -97,7 +102,7 @@ class ModelGridView extends BoxedGridView
                 'filter' => false,
                 'format' => 'raw',
                 'value' => function (Model $model) {
-                    return Html::a($model->group, ['@model-group/view', 'id' => $model->group_id]);
+                    return Html::a(Html::encode($model->group), ['@model-group/view', 'id' => $model->group_id]);
                 }
             ],
             'actions' => [

@@ -20,6 +20,7 @@ use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
+use yii\base\Model;
 use yii\helpers\Html;
 
 class PartGridView extends BoxedGridView
@@ -191,6 +192,15 @@ class PartGridView extends BoxedGridView
                         'prompt' => Yii::t('hipanel', '----------'),
                     ]);
                 },
+            ],
+            'model_group' => [
+                'label' => Yii::t('hipanel:stock', 'Model group'),
+                'enableSorting' => false,
+                'filter' => false,
+                'format' => 'raw',
+                'value' => function (Model $model) {
+                    return Html::a(Html::encode($model->model->group), ['@model-group/view', 'id' => $model->model->group_id]);
+                }
             ],
             'actions' => [
                 'class' => ActionColumn::class,

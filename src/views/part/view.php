@@ -42,6 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'model_brand_label',
                                     'partno',
                                     'model',
+                                    'model_group',
                                     ['attribute' => 'serial'],
                                     'last_move',
                                     'move_type_label',

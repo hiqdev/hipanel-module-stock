@@ -52,7 +52,7 @@ $a = array_keys($model->getSupportedLimitTypes());
                     <?= ModelGridView::widget([
                         'boxed' => false,
                         'dataProvider' => new \yii\data\ArrayDataProvider([
-                            'allModels' => $model->models,
+                            'allModels' => $model->model_ids ? $model->models : [],
                             'pagination' => [
                                 'pageSize' => 50,
                             ],

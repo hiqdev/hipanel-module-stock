@@ -91,6 +91,15 @@ class ModelGridView extends BoxedGridView
                     return $model->showModelPrices($model->last_prices);
                 },
             ],
+            'model_group' => [
+                'label' => Yii::t('hipanel:stock', 'Model group'),
+                'enableSorting' => false,
+                'filter' => false,
+                'format' => 'raw',
+                'value' => function (Model $model) {
+                    return Html::a($model->group, ['@model-group/view', 'id' => $model->group_id]);
+                }
+            ],
             'actions' => [
                 'class' => ActionColumn::class,
                 'template' => '{view} {update}',

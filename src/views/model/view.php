@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'columns' => [
                         'type', 'brand', 'model',
                         'partno', 'descr',
-                        'last_prices',
+                        'last_prices', 'model_group'
                     ],
                 ]);
                 $box->endBody();

@@ -24,6 +24,7 @@ class ModelRepresentations extends RepresentationCollection
                     'm3',
                     'twr',
                     'last_prices',
+                    'model_group',
                 ],
             ],
         ]);

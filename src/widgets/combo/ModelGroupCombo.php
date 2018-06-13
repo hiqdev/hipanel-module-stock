@@ -22,6 +22,8 @@ class ModelGroupCombo extends Combo
     /** {@inheritdoc} */
     public $name = 'name';
 
+    public $_primaryFilter = 'name_ilike';
+
     /** {@inheritdoc} */
     public $url = '/stock/model-group/index';
 

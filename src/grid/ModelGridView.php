@@ -97,12 +97,17 @@ class ModelGridView extends BoxedGridView
                 },
             ],
             'model_group' => [
-                'label' => Yii::t('hipanel:stock', 'Model group'),
+                'label' => Yii::t('hipanel:stock', 'Group'),
                 'enableSorting' => false,
                 'filter' => false,
                 'format' => 'raw',
                 'value' => function (Model $model) {
-                    return Html::a(Html::encode($model->group), ['@model-group/view', 'id' => $model->group_id]);
+                    $groupName = Html::encode($model->group);
+
+                    return Html::a($groupName, ['@model-group/view', 'id' => $model->group_id], [
+                        'title' => $groupName,
+                        'style' => 'display: inline-block; width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'
+                    ]);
                 }
             ],
             'actions' => [

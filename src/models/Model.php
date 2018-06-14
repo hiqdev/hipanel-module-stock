@@ -192,6 +192,11 @@ class Model extends YiiModel
         return '';
     }
 
+    public function getParts()
+    {
+        return $this->hasMany(Part::class, ['model_id' => 'id'])->where(['limit' => 'ALL']);
+    }
+
     public function getName()
     {
         return sprintf('%s %s %s', $this->type_label, $this->brand_label, $this->model);

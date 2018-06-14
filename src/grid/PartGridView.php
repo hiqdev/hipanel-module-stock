@@ -14,10 +14,8 @@ namespace hipanel\modules\stock\grid;
 use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\CurrencyColumn;
-use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\stock\models\Move;
-use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
 use yii\base\Model;
@@ -31,10 +29,12 @@ class PartGridView extends BoxedGridView
     {
         return array_merge(parent::columns(), [
             'serial' => [
-                'class' => MainColumn::class,
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'filterAttribute' => 'serial_like',
                 'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->serial, ['@part/view', 'id' => $model->id], ['class' => 'text-bold']);
+                },
             ],
             'main' => [
                 'label' => Yii::t('hipanel', 'Type') . ' / ' . Yii::t('hipanel:stock', 'Manufacturer'),

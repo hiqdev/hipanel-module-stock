@@ -2,7 +2,7 @@
 
 use hipanel\modules\stock\grid\ModelGridView;
 use hipanel\modules\stock\menus\ModelDetailMenu;
-use hipanel\widgets\Box;
+use hipanel\widgets\MainDetails;
 use yii\helpers\Html;
 
 $modelName = Html::encode(sprintf('%s %s %s', $model->type_label, $model->brand_label, $model->model));
@@ -15,38 +15,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="row">
     <div class="col-md-3">
-        <?php Box::begin([
-            'options' => [
-                'class' => 'box-solid',
-            ],
-            'bodyOptions' => [
-                'class' => 'no-padding',
-            ],
-        ]); ?>
-        <div class="profile-user-img text-center">
-            <i class="fa fa-cubes fa-5x"></i>
-        </div>
-        <p class="text-center">
-            <span class="profile-user-role"><?= $model->type_label . ' / ' . $model->brand_label ?></span>
-            <br>
-            <span class="profile-user-name"><?= $model->partno ?></span>
-        </p>
-        <div class="profile-usermenu">
-            <?= ModelDetailMenu::widget(['model' => $model]) ?>
-        </div>
-        <?php Box::end(); ?>
-    </div>
+        <?= MainDetails::widget([
+            'title' => $this->title,
+            'icon' => 'fa-cubes',
+            'subTitle' => Html::encode($model->type_label . ' / ' . $model->brand_label),
+            'menu' => ModelDetailMenu::widget(['model' => $model], ['linkTemplate' => '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>&nbsp;{label}</a>']),
+        ]) ?>
 
-    <div class="col-md-9">
-        <div class="row">
-            <div class="col-md-6">
-                <?php
-                $box = Box::begin(['renderBody' => false]);
-                $box->beginHeader();
-                echo $box->renderTitle(Yii::t('hipanel', 'Information'));
-                $box->endHeader();
-                $box->beginBody();
-                echo ModelGridView::detailView([
+        <div class="box box-widget">
+            <div class="box-body no-padding">
+                <?= ModelGridView::detailView([
                     'boxed' => false,
                     'model' => $model,
                     'columns' => [
@@ -54,11 +32,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         'partno', 'descr',
                         'last_prices', 'model_group'
                     ],
-                ]);
-                $box->endBody();
-                $box->end();
-                ?>
+                ]) ?>
             </div>
         </div>
+    </div>
+
+    <div class="col-md-9">
+
     </div>
 </div>

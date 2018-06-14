@@ -119,8 +119,8 @@ return [
     'Parts have been successfully sold.' => 'Детали были успешно проданы.',
     'Part price' => 'Цена детали',
     'Hide assigned to group' => 'Спрятать модели с группой',
-    'In stock' => 'В наличии',
+    'In stock' => 'В стоке',
     'Reserved' => 'Зарезервированный',
-    'Unused' => 'Неиспользуемый',
+    'Unused' => 'Неиспользуется',
     'RMA' => 'RMA'
 ];

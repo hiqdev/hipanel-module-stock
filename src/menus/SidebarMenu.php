@@ -28,11 +28,13 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
                     'model' => [
                         'label' => Yii::t('hipanel:stock', 'Models'),
                         'url'   => ['/stock/model/index'],
+                        'icon'  => 'fa-cube',
                         'visible' => $user->can('model.read'),
                     ],
                     'part' => [
                         'label' => Yii::t('hipanel:stock', 'Parts'),
                         'url'   => ['/stock/part/index'],
+                        'icon'  => 'fa-cubes',
                         'visible' => $user->can('part.read'),
                     ],
                     'move' => [
@@ -43,6 +45,7 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
                     'model-group' => [
                         'label' => Yii::t('hipanel:stock', 'Model groups'),
                         'url'   => ['/stock/model-group/index'],
+                        'icon'  => 'fa-folder-open',
                         'visible' => $user->can('model.read'),
                     ],
                     'hwconfig' => [

@@ -191,4 +191,9 @@ class Model extends YiiModel
 
         return '';
     }
+
+    public function getName()
+    {
+        return sprintf('%s %s %s', $this->type_label, $this->brand_label, $this->model);
+    }
 }

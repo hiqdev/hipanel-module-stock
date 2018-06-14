@@ -5,9 +5,8 @@ use hipanel\modules\stock\menus\ModelDetailMenu;
 use hipanel\widgets\MainDetails;
 use yii\helpers\Html;
 
-$modelName = Html::encode(sprintf('%s %s %s', $model->type_label, $model->brand_label, $model->model));
 $this->title = $model->partno;
-$this->params['subtitle'] = Yii::t('hipanel:stock', 'Model details') . ' ' . $modelName;
+$this->params['subtitle'] = Yii::t('hipanel:stock', 'Model details') . ' ' . Html::encode($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Models'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 

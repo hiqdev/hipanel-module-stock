@@ -40,6 +40,7 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
                     'move' => [
                         'label' => Yii::t('hipanel:stock', 'History'),
                         'url'   => ['/stock/move/index'],
+                        'icon'  => 'fa-history',
                         'visible' => $user->can('move.read'),
                     ],
                     'model-group' => [

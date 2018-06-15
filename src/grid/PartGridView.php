@@ -15,6 +15,7 @@ use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\CurrencyColumn;
 use hipanel\grid\RefColumn;
+use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
@@ -183,6 +184,28 @@ class PartGridView extends BoxedGridView
                         'class' => 'form-control',
                         'prompt' => Yii::t('hipanel', '----------'),
                     ]);
+                },
+            ],
+            'buyer' => [
+                'class' => ClientColumn::class,
+                'nameAttribute' => 'buyer',
+                'idAttribute' => 'buyer_id',
+                'attribute' => 'buyer',
+            ],
+            'selling_price' => [
+                'filterAttribute' => 'selling_currency',
+                'filter' => false,
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Yii::$app->formatter->asCurrency($model->selling_price, $model->selling_currency);
+                },
+                'visible' => Yii::$app->user->can('bill.read'),
+            ],
+            'selling_time' => [
+                'filter' => false,
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return Html::tag('nobr', Yii::$app->formatter->asDateTime($model->create_time));
                 },
             ],
             'place' => [

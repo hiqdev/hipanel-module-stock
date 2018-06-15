@@ -115,7 +115,14 @@ class PartController extends CrudController
             ],
             'index' => [
                 'class' => IndexAction::class,
-                'view' => 'index',
+                'view'  => 'index',
+                'on beforePerform' => function (Event $event) {
+                    if ($this->indexPageUiOptionsModel->representation === 'selling') {
+                        /** @var \hipanel\actions\SearchAction $action */
+                        $action = $event->sender;
+                        $action->getDataProvider()->query->addSelect('selling');
+                    }
+                },
                 'data' => function ($action, $data) {
                     $local_sums = [];
                     $total_sums = [];

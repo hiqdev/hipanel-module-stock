@@ -68,11 +68,15 @@ class Part extends \hipanel\base\Model
                     'order_no',
                     'type',
                     'state',
+                    'selling_currency',
+                    'selling_price',
+                    'selling_time',
+                    'buyer',
                 ],
                 'safe',
             ],
             [['price'], 'number'],
-            [['id', 'company_id', 'dst_id', 'model_id', 'client_id'], 'integer'],
+            [['id', 'company_id', 'dst_id', 'model_id', 'client_id', 'buyer_id'], 'integer'],
 
             // Create and copy
             [['partno', 'src_id', 'dst_id', 'serials', 'move_descr', 'move_type', 'price', 'currency', 'company_id'], 'required', 'on' => ['create', 'copy']],
@@ -149,6 +153,12 @@ class Part extends \hipanel\base\Model
             'currency' => Yii::t('hipanel:stock', 'Currency'),
             'dc_ticket' => Yii::t('hipanel:stock', 'DC ticket'),
             'company_id' => Yii::t('hipanel:stock', 'Company'),
+            'buyer' => Yii::t('hipanel:stock', 'Buyer'),
+            'buyer_id' => Yii::t('hipanel:stock', 'Buyer'),
+            'selling_currency' => Yii::t('hipanel:stock', 'Selling currency'),
+            'selling_price' => Yii::t('hipanel:stock', 'Selling price'),
+            'selling_time' => Yii::t('hipanel:stock', 'Selling time'),
+            'price' => Yii::t('hipanel:stock', 'Purchase price')
         ]);
     }
 

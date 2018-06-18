@@ -205,7 +205,7 @@ class PartGridView extends BoxedGridView
                 'filter' => false,
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return Html::tag('nobr', Yii::$app->formatter->asDateTime($model->create_time));
+                    return Html::tag('nobr', Yii::$app->formatter->asDateTime($model->selling_time));
                 },
             ],
             'place' => [

@@ -122,11 +122,11 @@ return [
     'In stock' => 'В стоке',
     'Reserved' => 'Зарезервированный',
     'Unused' => 'Неиспользуется',
-    'RMA' => 'RMA',
     'selling' => 'продажа',
     'Selling price' => 'Цена продажи',
     'Selling time' => 'Дата продажи',
     'Selling currency' => 'Валюта продажи',
     'Purchase price' => 'Цена покупки',
     'Buyer' => 'Покупатель',
+    'Buyers' => 'Покупатели',
 ];

@@ -113,3 +113,8 @@ use yii\helpers\Html;
     </div>
 </div>
 
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field('buyer_in')->widget(\hipanel\modules\client\widgets\combo\ClientCombo::class, [
+        'multiple' => true,
+    ]) ?>
+</div>

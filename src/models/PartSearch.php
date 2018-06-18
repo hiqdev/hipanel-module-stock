@@ -29,7 +29,7 @@ class PartSearch extends Part
             'partno_like', 'serial_like',
             'order_no_ilike', 'order_data_like',
             'src_name_like', 'dst_name_like', 'move_descr_like',
-            'create_time_from', 'create_time_till', 'id_in',
+            'create_time_from', 'create_time_till', 'id_in', 'buyer_in',
         ]);
     }
 
@@ -44,6 +44,7 @@ class PartSearch extends Part
             'src_name_like'     => Yii::t('hipanel:stock', 'Source'),
             'dst_name_like'     => Yii::t('hipanel:stock', 'Destination'),
             'id_in'             => Yii::t('hipanel:stock', 'Parts'),
+            'buyer_in'          => Yii::t('hipanel:stock', 'Buyers'),
         ]);
     }
 }

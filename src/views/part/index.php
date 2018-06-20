@@ -111,7 +111,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'toggleButton' => ['label' => Yii::t('hipanel:stock', 'Set price'), 'class' => 'btn btn-default btn-sm'],
             ]) ?>
             <?php if (Yii::$app->user->can('part.delete')) : ?>
-                <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Trash'), 'trash', 'danger') ?>
+                <?= $page->renderBulkButton('trash', Yii::t('hipanel:stock', 'Trash'), ['color' => 'danger']) ?>
             <?php endif; ?>
         <?php $page->endContent() ?>
 

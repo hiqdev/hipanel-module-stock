@@ -27,12 +27,12 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
-        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Show for users'), 'unmark-hidden-from-user') ?>
-        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Hide from users'), 'mark-hidden-from-user') ?>
-        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Update'), 'update') ?>
-        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Copy'), 'copy') ?>
+        <?= $page->renderBulkButton('unmark-hidden-from-user', Yii::t('hipanel:stock', 'Show for users')) ?>
+        <?= $page->renderBulkButton('mark-hidden-from-user', Yii::t('hipanel:stock', 'Hide from users')) ?>
+        <?= $page->renderBulkButton('update', Yii::t('hipanel:stock', 'Update')) ?>
+        <?= $page->renderBulkButton('copy', Yii::t('hipanel:stock', 'Copy')) ?>
         <?php if (Yii::$app->user->can('model.delete')) : ?>
-            <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Delete'), 'delete', 'danger') ?>
+            <?= $page->renderBulkDeleteButton('delete') ?>
         <?php endif; ?>
     <?php $page->endContent() ?>
 

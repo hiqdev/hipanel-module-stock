@@ -24,10 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
-        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Update'), 'update') ?>
-        <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Copy'), 'copy') ?>
+        <?= $page->renderBulkButton('update', Yii::t('hipanel:stock', 'Update')) ?>
+        <?= $page->renderBulkButton('copy', Yii::t('hipanel:stock', 'Copy')) ?>
         <?php if (Yii::$app->user->can('model.delete')) : ?>
-            <?= $page->renderBulkButton(Yii::t('hipanel:stock', 'Delete'), 'delete', 'danger') ?>
+            <?= $page->renderBulkDeleteButton('delete') ?>
         <?php endif; ?>
     <?php $page->endContent() ?>
 

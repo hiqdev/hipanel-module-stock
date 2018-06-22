@@ -1,15 +1,19 @@
 <?php
 
-/** @var array $parts */
-
-/** @var array $currencyOptions */
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
+use hipanel\modules\stock\helpers\PartSort;
+use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\ContactCombo;
 use hipanel\widgets\DateTimePicker;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+
+/**
+ * @var Part[] $parts
+ * @var array $currencyOptions
+ */
 
 $this->registerJs("
 $('#partsellform-client_id').on('select2:select', function (e) {
@@ -67,18 +71,32 @@ $('#partsellform-client_id').on('select2:select', function (e) {
 
 <div class="well well-sm">
     <legend><?= Yii::t('hipanel:stock', 'Parts') ?></legend>
-    <?php foreach (array_chunk($parts, 2) as $row) : ?>
-        <div class="row">
+    <?php $byType = []; ?>
+    <?php $parts = PartSort::byGeneralRules()->values($parts); ?>
+    <?php foreach ($parts as $part) : ?>
+        <?php $byType[$part->model->type_label][] = $part ?>
+    <?php endforeach; ?>
+
+    <?php foreach ($byType as $type => $typeParts): ?>
+        <h3><?= $type ?></h3>
+        <?php foreach (array_chunk($typeParts, 2) as $row): ?>
+            <div class="row">
             <?php foreach ($row as $part) : ?>
                 <div class="col-md-6">
                     <?= Html::activeHiddenInput($model, "ids[]", ['value' => $part->id]) ?>
                     <?= $form->field($model, "sums[$part->id]")->textInput([
                         'placeholder' => Yii::t('hipanel:stock', 'Part price'),
-                    ])->label(sprintf('%s | %s', $part->title, $part->dst_name)) ?>
+                    ])->label(sprintf(
+                        '%s @ %s',
+                        Html::a($part->title, ['@part/view', 'id' => $part->id], ['tabindex' => -1]),
+                        $part->dst_name
+                    )); ?>
                 </div>
             <?php endforeach; ?>
-        </div>
+            </div>
+        <?php endforeach; ?>
     <?php endforeach; ?>
+
 </div>
 
 <?= Html::submitButton(Yii::t('hipanel', 'Create'), ['class' => 'btn btn-success']) ?> &nbsp;

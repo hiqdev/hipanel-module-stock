@@ -16,6 +16,12 @@ use hipanel\base\ModelTrait;
 use Yii;
 use yii\helpers\Html;
 
+/**
+ * Class Model
+ *
+ * @property string $type
+ * @property string $name
+ */
 class Model extends YiiModel
 {
     use ModelTrait;

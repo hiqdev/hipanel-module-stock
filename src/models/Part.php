@@ -17,6 +17,11 @@ use hipanel\helpers\StringHelper;
 use hipanel\models\Ref;
 use Yii;
 
+/**
+ * Class Part
+ *
+ * @property Model $model
+ */
 class Part extends \hipanel\base\Model
 {
     use ModelTrait;

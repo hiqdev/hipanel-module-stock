@@ -119,6 +119,11 @@ class Part extends \hipanel\base\Model
 
                 return false;
             }],
+
+            // Update Order No.
+            [['order_no', 'first_move_id'], 'required', 'on' => 'update-order-no'],
+            [['id', 'first_move_id'], 'integer', 'on' => 'update-order-no'],
+            [['order_no'], 'string', 'on' => 'update-order-no'],
         ];
     }
 

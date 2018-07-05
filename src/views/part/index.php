@@ -67,6 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ['label' => Yii::t('hipanel:stock', 'RMA'), 'url' => '#', 'linkOptions' => ['data-action' => 'rma']],
 
                         ['label' => Yii::t('hipanel:stock', 'Update'), 'url' => '#', 'linkOptions' => ['data-action' => 'update']],
+                        ['label' => Yii::t('hipanel:stock', 'Update Order No.'), 'url' => '#', 'linkOptions' => ['data-action' => 'update-order-no']],
 
                         '<li role="presentation" class="divider"></li>',
 

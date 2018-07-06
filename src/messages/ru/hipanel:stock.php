@@ -131,5 +131,5 @@ return [
     'Buyer' => 'Покупатель',
     'Buyers' => 'Покупатели',
     'Update Order No.' => 'Редактировать номер заказа',
-    'This operation will change the description of all the Moves and will affect other details of the Move, even if they were not selected.' => 'Эта операция изменит описание всего Перемещения и затронет другие детали Перемещения, даже если они не были выбраны.',
+    'This operation will change the description of all the Moves and will affect other parts of the Move, even if they were not selected.' => 'Эта операция изменит описание всего Перемещения и затронет другие детали Перемещения, даже если они не были выбраны.',
 ];

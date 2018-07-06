@@ -129,6 +129,9 @@ class Part extends \hipanel\base\Model
             [['order_no', 'first_move_id'], 'required', 'on' => 'update-order-no'],
             [['id', 'first_move_id'], 'integer', 'on' => 'update-order-no'],
             [['order_no'], 'string', 'on' => 'update-order-no'],
+
+            // Set collective partno
+            [['id', 'model_id'], 'required', 'on' => 'set-collective-partno'],
         ];
     }
 

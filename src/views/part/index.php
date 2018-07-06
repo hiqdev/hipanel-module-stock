@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         '<li role="presentation" class="divider"></li>',
 
                         ['label' => Yii::t('hipanel:stock', 'Move by one'), 'url' => '#', 'linkOptions' => ['data-action' => 'move-by-one']],
-                        ['label' => Yii::t('hipanel:stock', 'Move'), 'url' => '#', 'linkOptions' => ['data-action' => 'move']],
+                        ['label' => Yii::t('hipanel:stock', 'To move'), 'url' => '#', 'linkOptions' => ['data-action' => 'move']],
                         ['label' => Yii::t('hipanel:stock', 'Move by {0}', 2), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=2']],
                         ['label' => Yii::t('hipanel:stock', 'Move by {0}', 4), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=4']],
                         ['label' => Yii::t('hipanel:stock', 'Move by {0}', 8), 'url' => '#', 'linkOptions' => ['data-action' => 'move?groupBy=8']],

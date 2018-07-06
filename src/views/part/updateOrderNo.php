@@ -35,6 +35,9 @@ $this->params['breadcrumbs'][] = $this->title;
         'order_no',
     ],
 ]) ?>
+<p class="text-warning">
+   <?= Yii::t('hipanel:stock', 'This operation will change the description of all the Moves and will affect other details of the Move, even if they were not selected.') ?>
+</p>
 <div class="container-items">
     <?php foreach (ArrayHelper::index($models, null, ['first_move_id']) as $firstMoveId => $group) : ?>
         <div class="item">

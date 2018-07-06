@@ -74,8 +74,8 @@ return [
     'RAM slots' => 'Слотов оперативной памяти',
     'RAM volume' => 'Объем оперативной памяти',
     'RMA' => '',
-    'Repair' => 'Восстановить',
-    'Repair parts' => 'Восстановление деталей',
+    'Repair' => 'Ремонтировать',
+    'Repair parts' => 'Ремонт деталей',
     'Replace' => 'Заменить',
     'Reserve' => 'Резервировать',
     'Serial' => 'Серийный номер',
@@ -129,5 +129,6 @@ return [
     'Purchase price' => 'Цена покупки',
     'Buyer' => 'Покупатель',
     'Buyers' => 'Покупатели',
-    'Update Order No.' => 'Редактировать номер заказа'
+    'Update Order No.' => 'Редактировать номер заказа',
+    'This operation will change the description of all the Moves and will affect other details of the Move, even if they were not selected.' => 'Эта операция изменит описание всего Мува и затронет другие детали Мува, даже если они не были выбраны.',
 ];

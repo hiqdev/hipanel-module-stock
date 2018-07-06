@@ -113,6 +113,28 @@ class PartController extends CrudController
                     }
                 },
             ],
+            'update-order-no' => [
+                'class' => SmartUpdateAction::class,
+                'scenario' => 'update-order-no',
+                'success' => Yii::t('hipanel:stock', 'Parts have been updated'),
+                'view' => 'updateOrderNo',
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
+                    $action = $event->sender;
+                    $data = [];
+                    $groups = Yii::$app->request->post('Part');
+                    foreach ($groups as $first_move_id => $group) {
+                        $groupIds = ArrayHelper::remove($group, 'ids');
+                        foreach ($groupIds as $id) {
+                            $group['id'] = $id;
+                            $group['first_move_id'] = $first_move_id;
+                            $data[$id] = $group;
+                        }
+                    }
+                    $action->collection->setModel($this->newModel(['scenario' => 'update-order-no']));
+                    $action->collection->load($data);
+                }
+            ],
             'index' => [
                 'class' => IndexAction::class,
                 'view'  => 'index',

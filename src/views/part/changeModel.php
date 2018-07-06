@@ -6,17 +6,17 @@ use hipanel\widgets\ArraySpoiler;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 
-$this->title = Yii::t('hipanel:stock', 'Set collective Part No.');
+$this->title = Yii::t('hipanel:stock', 'Change model');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 <?php $form = ActiveForm::begin([
-    'id' => 'set-collective-partno-form',
-    'action' => Url::toRoute('set-collective-partno'),
+    'id' => 'change-model-form',
+    'action' => Url::toRoute('change-model'),
     'validateOnBlur' => true,
     'enableAjaxValidation' => true,
-    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => 'set-collective-partno']),
+    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => 'change-model']),
 ]) ?>
 
 <div class="panel panel-default">

@@ -113,11 +113,11 @@ class PartController extends CrudController
                     }
                 },
             ],
-            'set-collective-partno' => [
+            'change-model' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'update',
                 'success' => Yii::t('hipanel:stock', 'Parts have been updated'),
-                'view' => 'setCollectivePartno',
+                'view' => 'changeModel',
                 'on beforeSave' => function (Event $event) {
                     /** @var \hipanel\actions\Action $action */
                     $action = $event->sender;

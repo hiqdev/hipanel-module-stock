@@ -25,6 +25,7 @@ use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\StringHelper;
 use hipanel\modules\stock\actions\ValidateSellFormAction;
 use hipanel\modules\stock\forms\PartSellForm;
+use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
 use Yii;
@@ -401,8 +402,8 @@ class PartController extends CrudController
      */
     public function actionRenderObjectParts($id)
     {
-        $parts = Part::find()->where(['dst_id' => $id, 'limit' => 'ALL'])->all();
-        ArrayHelper::multisort($parts, ['modelTypeNo'], [SORT_ASC]);
+        $parts = Part::find()->joinWith('model')->where(['dst_id' => $id, 'limit' => 'ALL'])->all();
+        $parts = PartSort::byGeneralRules()->values($parts);
         $data = ArrayHelper::index($parts, 'id', ['model_type_label', 'model_id']);
 
         return $this->renderAjax('_objectParts', ['data' => $data]);

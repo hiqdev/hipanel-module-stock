@@ -29,7 +29,7 @@ class PartsCest
         $I->seeLink('Create', Url::to('create'));
         $this->ensureICanSeeAdvancedSearchBox();
         $this->ensureICanSeeLegendBox();
-        $this->ensureICanSeeBulkSearchBox($I);
+        $this->ensureICanSeeBulkSearchBox();
     }
 
     private function ensureICanSeeAdvancedSearchBox()
@@ -68,7 +68,7 @@ class PartsCest
         ]);
     }
 
-    private function ensureICanSeeBulkSearchBox(Admin $I)
+    private function ensureICanSeeBulkSearchBox()
     {
         $this->index->containsBulkButtons([
             'Bulk actions',
@@ -76,10 +76,6 @@ class PartsCest
             'Set price',
             'Trash',
         ]);
-
-        $I->click('//button[contains(text(), "View:")]');
-        $I->click(['link' => 'common']);
-        $I->waitForJS("return $.active == 0;",15);
         $this->index->containsColumns([
             'Type',
             'Manufacturer',
@@ -89,11 +85,7 @@ class PartsCest
             'Type / Date',
             'Move description',
             'Order No.',
-        ]);
-
-        $I->click('//button[contains(text(), "View:")]');
-        $I->click(['link' => 'report']);
-        $I->waitForJS("return $.active == 0;",15);
+        ], 'common');
         $this->index->containsColumns([
             'Type',
             'Manufacturer',
@@ -102,11 +94,7 @@ class PartsCest
             'Created',
             'Purchase price',
             'Place',
-        ]);
-
-        $I->click('//button[contains(text(), "View:")]');
-        $I->click(['link' => 'selling']);
-        $I->waitForJS("return $.active == 0;",15);
+        ], 'report');
         $this->index->containsColumns([
             'Buyer',
             'Last move',
@@ -115,6 +103,6 @@ class PartsCest
             'Serial',
             'Purchase price',
             'Selling time',
-        ]);
+        ], 'selling');
     }
 }

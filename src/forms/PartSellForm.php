@@ -32,5 +32,17 @@ class PartSellForm extends Part
             'description' => Yii::t('hipanel', 'Description'),
         ]);
     }
+
+    public function getTotalSum(): float
+    {
+        $result = 0;
+        if (!empty($this->sums)) {
+            foreach ($this->sums as $sum) {
+                $result += is_numeric($sum) ? (float)$sum : 0;
+            }
+        }
+
+        return $result;
+    }
 }
 

@@ -111,6 +111,7 @@ return [
     'Hide unavailable' => 'Скрыть недоступные',
     'Last move date' => 'Дата перемещения',
     'Sell parts' => 'Продать',
+    'Sell' => 'Продать',
     'Sell part' => 'Продать деталь',
     'Sell datetime' => 'Дата и время продажи',
     'The field cannot be blank.' => 'Это поле не может быть пустым.',
@@ -133,4 +134,5 @@ return [
     'Update Order No.' => 'Редактировать номер заказа',
     'This operation will change the description of all the Moves and will affect other parts of the Move, even if they were not selected.' => 'Эта операция изменит описание всего Перемещения и затронет другие детали Перемещения, даже если они не были выбраны.',
     'Change model' => 'Изменить модель',
+    'Total:' => 'Всего:',
 ];

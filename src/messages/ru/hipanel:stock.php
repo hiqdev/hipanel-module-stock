@@ -111,6 +111,7 @@ return [
     'Hide unavailable' => 'Скрыть недоступные',
     'Last move date' => 'Дата перемещения',
     'Sell parts' => 'Продать',
+    'Sell' => 'Продать',
     'Sell part' => 'Продать деталь',
     'Sell datetime' => 'Дата и время продажи',
     'The field cannot be blank.' => 'Это поле не может быть пустым.',

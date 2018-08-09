@@ -33,7 +33,7 @@ class PartSellForm extends Part
         ]);
     }
 
-    public function calculateSums(): string
+    public function getTotalSum()
     {
         $result = 0;
         if (!empty($this->sums)) {
@@ -42,7 +42,7 @@ class PartSellForm extends Part
             }
         }
 
-        return Yii::$app->formatter->asCurrency($result, $this->currency);
+        return $result;
     }
 }
 

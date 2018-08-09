@@ -15,7 +15,7 @@ use yii\helpers\Url;
  * @var array $currencyOptions
  */
 $this->registerCss('
-.part-sell-total {
+.part-sell-total-container {
     text-transform: uppercase;
     font-weight: bold;
     display: inline-block;
@@ -45,20 +45,20 @@ $('#partsellform-client_id').on('select2:select', function (e) {
     });
 });
 $('.parts-for-sell :input, #partsellform-currency').change(function (event) {
-    var form = $('#part-sell-form'), sum = $('#part-sell-sum');
+    var form = $('#part-sell-form'), total = $('#part-sell-total');
     $.ajax({
-        url: 'calculate-sell-sum',
+        url: 'calculate-sell-total',
         type: 'POST',
         data: form.serialize(),
-        dataType: 'text',
+        dataType: 'json',
         beforeSend: function (jqXHR, settings) {
-            sum.html('<i class=\"fa fa-spinner fa-pulse fa-fw\"></i>');
+            total.html('<i class=\"fa fa-spinner fa-pulse fa-fw\"></i>');
         },
-        success: function (res) {
-            sum.text(res);
+        success: function (resp) {
+            total.text(resp.total);
         },
         error: function () {
-            console.log('Error when try count the parts total.');
+            hipanel.notify.error('Error has occurred when try to count the parts total.');
         }
     });
 });
@@ -126,12 +126,12 @@ $('.parts-for-sell :input, #partsellform-currency').change(function (event) {
 
 <div class="row">
     <div class="col-xs-6 col-sm-8">
-        <?= Html::submitButton(Yii::t('hipanel', 'Create'), ['class' => 'btn btn-success']) ?> &nbsp;
+        <?= Html::submitButton(Yii::t('hipanel:stock', 'Sell'), ['class' => 'btn btn-success']) ?> &nbsp;
         <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) ?>
     </div>
-    <div class="col-xs-6 col-sm-4 part-sell-total">
+    <div class="col-xs-6 col-sm-4 part-sell-total-container">
         <div class="well well-sm text-center">
-            <?= Yii::t('hipanel:stock' ,'Total:') ?> <span id="part-sell-sum">0</span>
+            <?= Yii::t('hipanel:stock' ,'Total:') ?> <span id="part-sell-total">0</span>
         </div>
     </div>
 </div>

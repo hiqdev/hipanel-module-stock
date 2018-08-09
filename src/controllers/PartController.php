@@ -32,6 +32,8 @@ use Yii;
 use yii\base\DynamicModel;
 use yii\base\Event;
 use yii\helpers\ArrayHelper;
+use yii\web\ConflictHttpException;
+use yii\web\Response;
 
 class PartController extends CrudController
 {
@@ -486,12 +488,17 @@ class PartController extends CrudController
         return $this->renderAjax('modals/sell', compact('model', 'parts', 'currencyOptions'));
     }
 
-    public function actionCalculateSellSum(): string
+    public function actionCalculateSellTotal()
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
         $model = new PartSellForm();
         $request = Yii::$app->request;
-        if ($request->isPost && $model->load($request->post())) {
-            return $model->calculateSums();
+        if ($request->isAjax && $model->load($request->post())) {
+            return [
+                'total' => Yii::$app->formatter->asCurrency($model->totalSum, $model->currency)
+            ];
         }
+
+        throw new ConflictHttpException();
     }
 }

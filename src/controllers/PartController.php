@@ -54,6 +54,7 @@ class PartController extends CrudController
                     'move' => 'move.create',
                     'move-by-one' => 'move.create',
                     'sell' => 'part.sell',
+                    'calculate-sell-sum' => 'part.sell',
 
                     '*' => 'part.read',
                 ],
@@ -483,5 +484,14 @@ class PartController extends CrudController
         });
 
         return $this->renderAjax('modals/sell', compact('model', 'parts', 'currencyOptions'));
+    }
+
+    public function actionCalculateSellSum(): string
+    {
+        $model = new PartSellForm();
+        $request = Yii::$app->request;
+        if ($request->isPost && $model->load($request->post())) {
+            return $model->calculateSums();
+        }
     }
 }

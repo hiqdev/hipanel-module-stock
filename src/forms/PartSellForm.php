@@ -33,12 +33,12 @@ class PartSellForm extends Part
         ]);
     }
 
-    public function getTotalSum()
+    public function getTotalSum(): float
     {
         $result = 0;
         if (!empty($this->sums)) {
             foreach ($this->sums as $sum) {
-                $result += is_numeric($sum) ? $sum : 0;
+                $result += is_numeric($sum) ? (float)$sum : 0;
             }
         }
 

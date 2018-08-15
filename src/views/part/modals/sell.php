@@ -71,6 +71,9 @@ $('.parts-for-sell :input, #partsellform-currency').change(function (event) {
     'validateOnChange' => false,
     'enableAjaxValidation' => true,
     'validationUrl' => Url::toRoute(['validate-sell-form']),
+    'options' => [
+        'autocomplete' => 'off',
+    ]
 ]) ?>
 
 <div class="row">

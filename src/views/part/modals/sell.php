@@ -24,20 +24,20 @@ $this->registerCss('
 }
 ');
 
-$this->registerJs("
+$this->registerJs(/** @lang ECMAScript 6 */
+    <<<JS
+
 // Auto select contact when client selected
 $('#partsellform-client_id').on('select2:select', function (e) {
-    var clientInput = $('#partsellform-client_id option:selected');
-    var selectedClientId = clientInput.val();
-    var selectedClientName = clientInput.text().trim();
+    let clientInput = $('#partsellform-client_id option:selected');
+    let selectedClientId = clientInput.val();
+    let selectedClientName = clientInput.text().trim();
     jQuery.post('/client/contact/search', {return: ['id', 'name', 'email'], select: 'min', client: selectedClientName}).done(function (contacts) {
-        var autoContact = contacts.filter(function (contact) {
-            return contact.id === selectedClientId;    
-        });
+        let autoContact = contacts.filter(contact => contact.id === selectedClientId);    
         if (autoContact.length > 0) {
             $('#partsellform-contact_id')
                 .empty()
-                .append('<option value=\"' + autoContact[0]['id'] + '\">'+ autoContact[0]['name']+ '</option>')
+                .append('<option value="' + autoContact[0]['id'] + '">'+ autoContact[0]['name']+ '</option>')
                 .val(autoContact[0]['id'])
                 .trigger('change');
         } else {
@@ -54,7 +54,7 @@ $('.parts-for-sell :input, #partsellform-currency').change(function (event) {
         data: form.serialize(),
         dataType: 'json',
         beforeSend: function (jqXHR, settings) {
-            total.html('<i class=\"fa fa-spinner fa-pulse fa-fw\"></i>');
+            total.html('<i class="fa fa-spinner fa-pulse fa-fw"></i>');
         },
         success: function (resp) {
             total.text(resp.total);
@@ -71,19 +71,19 @@ $('#bill-exists-button').click(function (event) {
     event.preventDefault();
 });
 // Autoselect time when bill selected
-$('#partsellform-bill_id').on('select2:select', function (e) {
-    var billInput = $('#partsellform-bill_id option:selected');
-    var selectedBillId = billInput.val();
+$('#partsellform-bill_id').on('select2:select', function () {
+    let billInput = $('#partsellform-bill_id option:selected');
+    let selectedBillId = billInput.val();
     jQuery.post('/finance/bill/index', {return: ['id', 'time'], select: 'min', id: selectedBillId}).done(function (bills) {
-        var auto = bills.filter(function (bill) {
-            return bill.id === selectedBillId;    
-        });
+        let auto = bills.filter(bill => bill.id === selectedBillId);
         if (auto.length > 0) {
             $('#partsellform-time').val(auto[0].time).attr({readonly: true}).parent().datetimepicker('remove');
         }
     });
 });
-");
+
+JS
+);
 
 ?>
 

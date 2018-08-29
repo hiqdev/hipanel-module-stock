@@ -1,10 +1,10 @@
 <?php
 
-
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\ContactCombo;
+use hipanel\modules\finance\widgets\combo\BillCombo;
 use hipanel\widgets\DateTimePicker;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -25,6 +25,7 @@ $this->registerCss('
 ');
 
 $this->registerJs("
+// Auto select contact when client selected
 $('#partsellform-client_id').on('select2:select', function (e) {
     var clientInput = $('#partsellform-client_id option:selected');
     var selectedClientId = clientInput.val();
@@ -44,6 +45,7 @@ $('#partsellform-client_id').on('select2:select', function (e) {
         }
     });
 });
+// Calculate sum
 $('.parts-for-sell :input, #partsellform-currency').change(function (event) {
     var form = $('#part-sell-form'), total = $('#part-sell-total');
     $.ajax({
@@ -62,6 +64,25 @@ $('.parts-for-sell :input, #partsellform-currency').change(function (event) {
         }
     });
 });
+// Toggle Bill exists button
+$('#bill-exists-button').click(function (event) {
+    $('#bill-exists-button').toggle();
+    $('#bill-exists-field').toggle();
+    event.preventDefault();
+});
+// Autoselect time when bill selected
+$('#partsellform-bill_id').on('select2:select', function (e) {
+    var billInput = $('#partsellform-bill_id option:selected');
+    var selectedBillId = billInput.val();
+    jQuery.post('/finance/bill/index', {return: ['id', 'time'], select: 'min', id: selectedBillId}).done(function (bills) {
+        var auto = bills.filter(function (bill) {
+            return bill.id === selectedBillId;    
+        });
+        if (auto.length > 0) {
+            $('#partsellform-time').val(auto[0].time).attr({readonly: true}).parent().datetimepicker('remove');
+        }
+    });
+});
 ");
 
 ?>
@@ -73,7 +94,7 @@ $('.parts-for-sell :input, #partsellform-currency').change(function (event) {
     'validationUrl' => Url::toRoute(['validate-sell-form']),
     'options' => [
         'autocomplete' => 'off',
-    ]
+    ],
 ]) ?>
 
 <div class="row">
@@ -87,13 +108,31 @@ $('.parts-for-sell :input, #partsellform-currency').change(function (event) {
 
 <div class="row">
     <div class="col-md-6">
-        <?= $form->field($model, 'time')->widget(DateTimePicker::class) ?>
+        <?= $form->field($model, 'time')->widget(DateTimePicker::class, [
+            'clientOptions' => [
+                'todayBtn' => true,
+            ],
+        ]) ?>
     </div>
     <div class="col-md-6">
         <?= $form->field($model, 'currency')->dropDownList($currencyOptions) ?>
     </div>
     <div class="col-md-12">
         <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
+    </div>
+    <div class="col-md-12" style="margin-bottom: 2rem">
+        <div id="bill-exists-button">
+            <?= Html::button(Yii::t('hipanel:stock', 'The bill exists'), ['class' => 'btn btn-default']) ?>
+        </div>
+        <div id="bill-exists-field" style="display: none">
+            <?= $form->field($model, 'bill_id')->widget(BillCombo::class, [
+                'pluginOptions' => [
+                    'select2Options' => [
+                        'allowClear' => false,
+                    ],
+                ],
+            ]) ?>
+        </div>
     </div>
 </div>
 
@@ -134,10 +173,9 @@ $('.parts-for-sell :input, #partsellform-currency').change(function (event) {
     </div>
     <div class="col-xs-6 col-sm-4 part-sell-total-container">
         <div class="well well-sm text-center">
-            <?= Yii::t('hipanel:stock' ,'Total:') ?> <span id="part-sell-total">0</span>
+            <?= Yii::t('hipanel:stock', 'Total:') ?> <span id="part-sell-total">0</span>
         </div>
     </div>
 </div>
 
 <?php $form::end() ?>
-

@@ -9,13 +9,14 @@ class PartSellForm extends Part
 {
     public function attributes()
     {
-        return array_merge(parent::attributes(), ['contact_id', 'time', 'sums', 'client_id', 'description', 'ids']);
+        return array_merge(parent::attributes(), ['contact_id', 'time', 'sums', 'client_id', 'description', 'ids', 'bill_id']);
     }
 
     public function rules()
     {
         return array_merge(parent::rules(), [
             [['contact_id', 'time', 'currency'], 'required'],
+            [['bill_id'], 'integer'],
             [['client_id', 'contact_id'], 'integer'],
             [['description'], 'string'],
             [['ids'], 'each', 'rule' => ['integer']],
@@ -30,6 +31,7 @@ class PartSellForm extends Part
             'time' => Yii::t('hipanel:stock', 'Sell datetime'),
             'contact_id' => Yii::t('hipanel', 'Contact'),
             'description' => Yii::t('hipanel', 'Description'),
+            'bill_id' => Yii::t('hipanel', 'Bill'),
         ]);
     }
 

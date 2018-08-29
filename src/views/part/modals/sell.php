@@ -4,7 +4,7 @@ use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\ContactCombo;
-use hipanel\modules\finance\widgets\combo\BillCombo;
+use hipanel\modules\finance\widgets\combo\BillHwPurchaseCombo;
 use hipanel\widgets\DateTimePicker;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -125,7 +125,7 @@ $('#partsellform-bill_id').on('select2:select', function (e) {
             <?= Html::button(Yii::t('hipanel:stock', 'The bill exists'), ['class' => 'btn btn-default']) ?>
         </div>
         <div id="bill-exists-field" style="display: none">
-            <?= $form->field($model, 'bill_id')->widget(BillCombo::class, [
+            <?= $form->field($model, 'bill_id')->widget(BillHwPurchaseCombo::class, [
                 'pluginOptions' => [
                     'select2Options' => [
                         'allowClear' => false,

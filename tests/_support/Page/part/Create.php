@@ -1,6 +1,6 @@
 <?php
 
-namespace hipanel\modules\stock\tests\_support\Page\model;
+namespace hipanel\modules\stock\tests\_support\Page\part;
 
 use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Authenticated;
@@ -18,54 +18,53 @@ class Create extends Authenticated
     }
 
     /**
-     * Adds new model form and fill it with provided data.
+     * Adds new part form and fill it with provided data.
      *
      * If data was not provided leaves added form empty.
      *
      * @param array $modelData
-     * @throws \Exception
      */
-    public function addModel($modelData = []): void
+    public function addPart($modelData = []): void
     {
         $this->addItem();
         if (empty($modelData)) {
             return;
         }
-        $this->fillModelFields($modelData);
+        $this->fillPartFields($modelData);
     }
 
-    /**
-     * Fills last model form on the page with provided data.
-     *
-     * @param $modelData
-     * @throws \Exception
-     */
-    public function fillModelFields($modelData): void
+    public function fillPartFields($partData): void
     {
         $I = $this->tester;
 
         $base = 'div.item:last-child ';
 
-        $this->select2->open($base . 'select[id$=type]');
-        $this->select2->fillSearchField($modelData['type']);
-        $this->select2->chooseOption($modelData['type']);
+        $this->select2->open($base . 'select[id$=partno]');
+        $this->select2->fillSearchField($partData['partno']);
+        $this->select2->chooseOptionLike($partData['partno']);
 
-        $I->selectOption($base . 'select[id$=brand]', $modelData['brand']);
+        $this->select2->open($base . 'select[id$=src_id]');
+        $this->select2->fillSearchField($partData['src_id']);
+        $this->select2->chooseOptionLike($partData['src_id']);
 
-        $I->fillField($base . 'input[id$=model]', $modelData['model']);
-        $I->fillField($base . 'input[id$=partno]', $modelData['partno']);
+        $this->select2->open($base . 'select[id$=dst_id]');
+        $this->select2->fillSearchField($partData['dst_id']);
+        $this->select2->chooseOptionLike($partData['dst_id']);
 
-        $this->select2->open($base . 'select[id*=group_id]');
-        $this->select2->fillSearchField($modelData['group_id']);
-        $this->select2->chooseOption($modelData['group_id']);
+        $I->fillField($base . 'input[id$=serials]', $partData['serials']);
+        $I->fillField($base . 'input[id$=move_descr]', $partData['move_descr']);
 
-        $I->fillField($base . 'input[id$=url]', $modelData['url']);
-        $I->fillField($base . 'textarea[id$=short]', $modelData['short']);
-        $I->fillField($base . 'textarea[id$=descr]', $modelData['descr']);
+        $I->fillField($base . 'input[id$=price]', $partData['price']);
+        $I->click('div.item:last-child  span.caret');
+        $I->click("div.item:last-child li a[data-value=$partData[currency]]");
+
+        $I->selectOption($base . 'select[id$=type]', $partData['type']);
+        $I->selectOption($base . 'select[id$=company_id]',
+                                        $partData['company_id']);
     }
 
     /**
-     * Saves created model(s).
+     * Saves created part(s).
      */
     public function save(): void
     {
@@ -73,33 +72,33 @@ class Create extends Authenticated
     }
 
     /**
-     * Checks whether a model was created successfully and returns its id.
+     * Checks whether a part was created successfully and returns its id.
      *
      * @return string - id of created model.
      */
-    public function seeModelWasCreated(): string
+    public function seePartWasCreated(): string
     {
         $I = $this->tester;
 
-        $I->closeNotification('Model has been created');
-        $I->seeInCurrentUrl('/stock/model/view?id=');
+        $I->closeNotification('Part has been created');
+        $I->seeInCurrentUrl('/stock/part/view?id=');
 
         return $I->grabFromCurrentUrl('~id=(\d+)~');
     }
 
     /**
-     * Checks whether a models were created successfully.
+     * Checks whether a parts were created successfully.
      */
-    public function seeModelsWereCreated(): void
+    public function seePartsWereCreated(): void
     {
         $I = $this->tester;
 
-        $I->closeNotification('Model has been created');
-        $I->seeInCurrentUrl('/stock/model/index');
+        $I->closeNotification('Part has been created');
+        $I->seeInCurrentUrl('/stock/part/index');
     }
 
     /**
-     * Adds new model form to the page.
+     * Adds new part form to the page.
      */
     protected function addItem(): void
     {
@@ -108,15 +107,15 @@ class Create extends Authenticated
     }
 
     /**
-     * Copies specified model form.
+     * Copies specified part form.
      *
      * The count begins at 1.
      * If method will be called without parameter or with -1 - the last
      * form will be copied.
      *
-     * @param int $n - number of model form.
+     * @param int $n - number of part form.
      */
-    public function copyModel(int $n = -1): void
+    public function copyPart(int $n = -1): void
     {
         if ($n === -1) {
             $selector = "div.item:last-child button[class*='copy']";
@@ -127,15 +126,15 @@ class Create extends Authenticated
     }
 
     /**
-     * Removes specified model form.
+     * Removes specified part form.
      *
      * The count begins at 1.
      * If method will be called without parameter or with -1 - the last
      * form will be removed.
      *
-     * @param int $n - number of model form.
+     * @param int $n - number of part form.
      */
-    public function removeModel(int $n = -1): void
+    public function removePart(int $n = -1): void
     {
         if ($n === -1) {
             $selector = "div.item:last-child button[class*='remove-item']";
@@ -155,7 +154,7 @@ class Create extends Authenticated
         $this->tester->executeJS(<<<JS
            document.querySelector(arguments[0]).click();
 JS
-, [$selector]);
+            , [$selector]);
     }
 
     /**

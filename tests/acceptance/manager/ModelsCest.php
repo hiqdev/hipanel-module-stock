@@ -1,6 +1,6 @@
 <?php
 
-namespace hipanel\modules\stock\tests\acceptance\manger;
+namespace hipanel\modules\stock\tests\acceptance\manager;
 
 use hipanel\helpers\Url;
 use hipanel\modules\stock\tests\_support\Page\model\Create;
@@ -15,9 +15,10 @@ class ModelsCest
     }
 
     /**
-     * Checks work of model buttons (add, copy, remove).
+     * Checks work of model form buttons (add, copy, remove).
      *
      * @param Manager $I
+     * @throws \Exception
      */
     public function ensureModelManageButtonsWorks(Manager $I): void
     {
@@ -48,13 +49,14 @@ class ModelsCest
     }
 
     /**
-     * Tries to create a new simple model without any data.
+     * Tries to create a new single model without any data.
      *
      * Expects error due blank fields.
      *
      * @param Manager $I
+     * @throws \Exception
      */
-    public function ensureICantCreateModelWhithOutData(Manager $I): void
+    public function ensureICantCreateModelWithoutData(Manager $I): void
     {
         $page = new Create($I);
 
@@ -70,6 +72,7 @@ class ModelsCest
      * Expects successful models creation.
      *
      * @param Manager $I
+     * @throws \Exception
      */
     public function ensureICanCreateSeveralModel(Manager $I):void
     {
@@ -92,6 +95,7 @@ class ModelsCest
      * Expects successful creation.
      *
      * @param Manager $I
+     * @throws \Exception
      */
     public function ensureICanCreateModel(Manager $I): void
     {

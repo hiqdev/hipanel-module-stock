@@ -22,28 +22,43 @@ $this->registerCss('
     margin-bottom: 0;
     font-size: larger;
 }
+select[readonly].select2-hidden-accessible + .select2-container {
+    pointer-events: none;
+    touch-action: none;
+}
+select[readonly].select2-hidden-accessible + .select2-container .select2-selection {
+    background: #eee;
+    box-shadow: none;
+}
+
+select[readonly].select2-hidden-accessible + .select2-container .select2-selection__arrow,
+select[readonly].select2-hidden-accessible + .select2-container .select2-selection__clear {
+    display: none;
+}
 ');
 
 $this->registerJs(/** @lang ECMAScript 6 */
     <<<JS
-
-// Auto select contact when client selected
-$('#partsellform-client_id').on('select2:select', function (e) {
-    let clientInput = $('#partsellform-client_id option:selected');
-    let selectedClientId = clientInput.val();
-    let selectedClientName = clientInput.text().trim();
+function setContactFieldByClientName(selectedClientId, selectedClientName) {
     jQuery.post('/client/contact/search', {return: ['id', 'name', 'email'], select: 'min', client: selectedClientName}).done(function (contacts) {
         let autoContact = contacts.filter(contact => contact.id === selectedClientId);    
         if (autoContact.length > 0) {
             $('#partsellform-contact_id')
                 .empty()
-                .append('<option value="' + autoContact[0]['id'] + '">'+ autoContact[0]['name']+ '</option>')
+                .append('<option value="' + autoContact[0].id + '">'+ autoContact[0].name + '</option>')
                 .val(autoContact[0]['id'])
                 .trigger('change');
         } else {
             $('#partsellform-contact_id').empty();
         }
     });
+}
+// Auto select contact when client selected
+$('#partsellform-client_id').on('select2:select', function (e) {
+    let clientInput = $('#partsellform-client_id option:selected');
+    let selectedClientId = clientInput.val();
+    let selectedClientName = clientInput.text().trim();
+    setContactFieldByClientName(selectedClientId, selectedClientName);
 });
 // Calculate sum
 $('.parts-for-sell :input, #partsellform-currency').change(function (event) {
@@ -74,10 +89,16 @@ $('#bill-exists-button').click(function (event) {
 $('#partsellform-bill_id').on('select2:select', function () {
     let billInput = $('#partsellform-bill_id option:selected');
     let selectedBillId = billInput.val();
-    jQuery.post('/finance/bill/index', {return: ['id', 'time'], select: 'min', id: selectedBillId}).done(function (bills) {
+    $('#partsellform-currency option').attr('disabled', false);
+    jQuery.post('/finance/bill/index', {return: ['id', 'time', 'currency', 'client_id', 'client'], select: 'min', id: selectedBillId}).done(function (bills) {
         let auto = bills.filter(bill => bill.id === selectedBillId);
         if (auto.length > 0) {
             $('#partsellform-time').val(auto[0].time).attr({readonly: true}).parent().datetimepicker('remove');
+            $('#partsellform-currency').val(auto[0].currency).attr('readonly', true);
+            $('#partsellform-currency option:not(:selected)').attr('disabled', true);
+            setContactFieldByClientName(auto[0].client_id, auto[0].client);
+            $('#part-sell-fields').hide();
+            $('#part-sell-message').show();
         }
     });
 });
@@ -97,16 +118,13 @@ JS
     ],
 ]) ?>
 
-<div class="row">
+<div id="part-sell-fields" class="row">
     <div class="col-md-6">
         <?= $form->field($model, 'client_id')->widget(ClientCombo::class) ?>
     </div>
     <div class="col-md-6">
         <?= $form->field($model, 'contact_id')->widget(ContactCombo::class) ?>
     </div>
-</div>
-
-<div class="row">
     <div class="col-md-6">
         <?= $form->field($model, 'time')->widget(DateTimePicker::class, [
             'clientOptions' => [
@@ -120,6 +138,15 @@ JS
     <div class="col-md-12">
         <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
     </div>
+</div>
+<div id="part-sell-message" class="row" style="display: none;">
+    <div class="col-md-12">
+        <p class="bg-warning text-center" style="padding: 1rem 2rem">
+            <?= Yii::t('hipanel:stock', 'All data about the bill already exist. You do not need to fill out the form.') ?>
+        </p>
+    </div>
+</div>
+<div class="row">
     <div class="col-md-12" style="margin-bottom: 2rem">
         <div id="bill-exists-button">
             <?= Html::button(Yii::t('hipanel:stock', 'The bill exists'), ['class' => 'btn btn-default']) ?>

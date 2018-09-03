@@ -136,4 +136,5 @@ return [
     'Change model' => 'Изменить модель',
     'Total:' => 'Всего:',
     'The bill exists' => 'Платёж уже существует',
+    'All data about the bill already exist. You do not need to fill out the form.' => 'Все данные о платеже уже есть. Вам не нужно заполнять форму.',
 ];

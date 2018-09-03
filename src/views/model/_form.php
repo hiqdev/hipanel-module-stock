@@ -102,7 +102,7 @@ JS
                         </div>
                         <div class="col-md-6">
                             <?= $form->field($model, "[$i]brand")->dropDownList($brands,
-                                (!$model->isNewRecord && $model->scenario != Model::SCENARIO_COPY) ? ['disabled' => 'disabled'] : []) ?>
+                                (!$model->isNewRecord && $model->scenario != Model::SCENARIO_COPY) ? ['disabled' => 'disabled'] : ['prompt' => '--']) ?>
                         </div>
                     </div>
                     <?= $form->field($model, "[$i]group_id")->widget(ModelGroupCombo::class) ?>

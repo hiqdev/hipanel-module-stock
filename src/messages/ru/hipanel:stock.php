@@ -135,4 +135,6 @@ return [
     'This operation will change the description of all the Moves and will affect other parts of the Move, even if they were not selected.' => 'Эта операция изменит описание всего Перемещения и затронет другие детали Перемещения, даже если они не были выбраны.',
     'Change model' => 'Изменить модель',
     'Total:' => 'Всего:',
+    'The bill exists' => 'Платёж уже существует',
+    'All data about the bill already exist. You do not need to fill out the form.' => 'Все данные о платеже уже есть. Вам не нужно заполнять форму.',
 ];

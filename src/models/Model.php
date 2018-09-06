@@ -27,6 +27,7 @@ class Model extends YiiModel
     use ModelTrait;
 
     const SCENARIO_COPY = 'copy';
+    const STATE_DELETED = 'deleted';
 
     /**
      * {@inheritdoc}
@@ -94,7 +95,7 @@ class Model extends YiiModel
                 ],
                 'safe',
             ],
-            [['is_favourite'], 'boolean'],
+            [['is_favourite', 'hide_deleted'], 'boolean'],
             [['id', 'type_id', 'tariff_id', 'group_id'], 'integer'],
 
             // Delete
@@ -122,6 +123,7 @@ class Model extends YiiModel
         return $this->mergeAttributeLabels([
             'partno' => Yii::t('hipanel:stock', 'Part No.'),
             'show_hidden_from_user' => Yii::t('hipanel:stock', 'Show hidden'),
+            'hide_deleted' => Yii::t('hipanel:stock', 'Hide deleted'),
             'group' => Yii::t('hipanel:stock', 'Group'),
             'group_id' => Yii::t('hipanel:stock', 'Group'),
             // Chassis
@@ -206,5 +208,10 @@ class Model extends YiiModel
     public function getName()
     {
         return sprintf('%s %s %s', $this->type_label, $this->brand_label, $this->model);
+    }
+
+    public function isDeleted()
+    {
+        return $this->state === self::STATE_DELETED;
     }
 }

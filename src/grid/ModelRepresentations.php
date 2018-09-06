@@ -15,6 +15,7 @@ class ModelRepresentations extends RepresentationCollection
                 'columns' => [
                     'checkbox',
                     'type',
+                    'state',
                     'brand',
                     'model',
                     'descr',

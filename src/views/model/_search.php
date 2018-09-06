@@ -63,3 +63,7 @@ $this->registerCss('label > .option-input { top: 6px; margin-right: .3rem; }'); 
     <?= $search->field('hide_unavailable')->checkbox(['class' => 'option-input']) ?>
 </div>
 
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field('hide_deleted')->checkbox(['class' => 'option-input']) ?>
+</div>
+

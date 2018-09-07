@@ -69,7 +69,10 @@ use yii\helpers\Url;
                     <div class="col-md-6">
                         <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class) ?>
                         <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class) ?>
-                        <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
+                        <?= $form->field($model, "[$i]dst_ids")->widget(DestinationCombo::class, [
+                                'hasId' => true,
+                                'multiple' => true,
+                        ]) ?>
                     </div>
                     <div class="col-md-6">
                         <div class="row">

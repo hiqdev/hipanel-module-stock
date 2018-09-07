@@ -138,4 +138,10 @@ return [
     'The bill exists' => 'Платёж уже существует',
     'All data about the bill already exist. You do not need to fill out the form.' => 'Все данные о платеже уже есть. Вам не нужно заполнять форму.',
     'Hide deleted' => 'Скрыть удаленные',
+    'An error occurred when trying to delete {object}' => 'Произошла ошибка при попытке удалить {object}',
+    'part' => 'деталь',
+    'model' => 'модель',
+    'Part has been deleted' => 'Деталь была удалена',
+    'Are you sure you want to delete this part?' => 'Вы уверены, что хотите удалить эту деталь?',
+    'Parts already moved' => 'Детали уже были перемещены',
 ];

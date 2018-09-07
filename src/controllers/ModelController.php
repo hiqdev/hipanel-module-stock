@@ -104,7 +104,7 @@ class ModelController extends CrudController
             'delete' => [
                 'class' => SmartDeleteAction::class,
                 'success' => Yii::t('hipanel:stock', 'Model(s) deleted'),
-                'error' => Yii::t('hipanel:stock', 'Failed delete model(s)'),
+                'error' => Yii::t('hipanel:stock', 'An error occurred when trying to delete {object}', ['{object}' => Yii::t('hipanel:stock', 'model')]),
             ],
         ]);
     }

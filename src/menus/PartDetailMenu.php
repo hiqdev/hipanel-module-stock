@@ -58,6 +58,23 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'url' => ['@part/trash', 'id' => $this->model->id],
                 'visible' => Yii::$app->user->can('part.delete'),
             ],
+            [
+                'label' => Yii::t('hipanel', 'Delete'),
+                'icon' => 'fa-trash-o',
+                'url' => ['@part/delete', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('part.delete') && $this->model->isDeleteable(),
+                'linkOptions' => [
+                    'data' => [
+                        'method' => 'post',
+                        'pjax' => '0',
+                        'form' => 'delete',
+                        'confirm' => Yii::t('hipanel:stock', 'Are you sure you want to delete this part?'),
+                        'params' => [
+                            'Part[id]' => $this->model->id,
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 }

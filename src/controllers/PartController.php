@@ -11,6 +11,7 @@
 
 namespace hipanel\modules\stock\controllers;
 
+use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
 use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\RedirectAction;
@@ -216,6 +217,18 @@ class PartController extends CrudController
             ],
             'create' => [
                 'class' => SmartCreateAction::class,
+                'on beforeSave' => function (Event $event) {
+                    /** @var Action $action */
+                    $action = $event->sender;
+                    $parts = Yii::$app->request->post('Part');
+                    $newParts = [];
+                    foreach ($parts as $part) {
+                        foreach ($part['dst_ids'] as $dst_id) {
+                            $newParts[] = array_merge($part, ['dst_id' => $dst_id]);
+                        }
+                    }
+                    $action->collection->load($newParts);
+                },
                 'success' => Yii::t('hipanel:stock', 'Part has been created'),
                 'data' => function ($action) {
                     return [

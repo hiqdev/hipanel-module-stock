@@ -81,7 +81,7 @@ class Part extends \hipanel\base\Model
                 'safe',
             ],
             [['price'], 'number'],
-            [['id', 'company_id', 'dst_id', 'model_id', 'client_id', 'buyer_id'], 'integer'],
+            [['id', 'company_id', 'dst_id', 'model_id', 'client_id', 'buyer_id', 'last_move_id'], 'integer'],
 
             // Create and copy
             [['partno', 'src_id', 'dst_id', 'serials', 'move_descr', 'move_type', 'price', 'currency', 'company_id'], 'required', 'on' => ['create', 'copy']],
@@ -135,6 +135,9 @@ class Part extends \hipanel\base\Model
 
             // Change model
             [['id', 'model_id'], 'required', 'on' => 'change-model'],
+
+            // Delete
+            [['id'], 'required', 'on' => ['delete']],
         ];
     }
 
@@ -203,6 +206,11 @@ class Part extends \hipanel\base\Model
             'replace' => 'move',
             'move-by-one' => 'move',
         ];
+    }
+
+    public function isDeleteable()
+    {
+        return $this->first_move_id === $this->last_move_id;
     }
 
     /**

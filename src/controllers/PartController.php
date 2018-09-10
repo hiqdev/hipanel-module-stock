@@ -19,6 +19,7 @@ use hipanel\actions\RenderAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
+use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
@@ -57,6 +58,7 @@ class PartController extends CrudController
                     'move' => 'move.create',
                     'move-by-one' => 'move.create',
                     'sell' => 'part.sell',
+                    'delete' => 'part.delete',
                     'calculate-sell-sum' => 'part.sell',
 
                     '*' => 'part.read',
@@ -294,6 +296,14 @@ class PartController extends CrudController
                         'currencyTypes' => $action->controller->getCurrencyTypes(),
                     ];
                 },
+            ],
+            'delete' => [
+                'class' => SmartDeleteAction::class,
+                'success' => Yii::t('hipanel:stock', 'Part has been deleted'),
+                'error' => Yii::t('hipanel:stock', 'An error occurred when trying to delete {object}', ['{object}' => Yii::t('hipanel:stock', 'part')]),
+                'queryOptions' => [
+                    'batch' => false,
+                ],
             ],
             'replace' => [
                 'class' => SmartUpdateAction::class,

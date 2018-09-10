@@ -197,7 +197,7 @@ class Part extends \hipanel\base\Model
         return $this->hasOne(Model::class, ['id' => 'model_id']);
     }
 
-    public function scenarioActions()
+    public function scenarioActions(): array
     {
         return [
             'repair' => 'move',
@@ -208,7 +208,7 @@ class Part extends \hipanel\base\Model
         ];
     }
 
-    public function isDeleteable()
+    public function isDeletable(): bool
     {
         return $this->first_move_id === $this->last_move_id;
     }

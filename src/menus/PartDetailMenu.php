@@ -2,11 +2,15 @@
 
 namespace hipanel\modules\stock\menus;
 
+use hipanel\modules\stock\models\Part;
 use hipanel\widgets\SettingsModal;
 use Yii;
 
 class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
 {
+    /**
+     * @var Part
+     */
     public $model;
 
     public function items()
@@ -62,7 +66,7 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'label' => Yii::t('hipanel', 'Delete'),
                 'icon' => 'fa-trash-o',
                 'url' => ['@part/delete', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('part.delete') && $this->model->isDeleteable(),
+                'visible' => Yii::$app->user->can('part.delete') && $this->model->isDeletable(),
                 'linkOptions' => [
                     'data' => [
                         'method' => 'post',

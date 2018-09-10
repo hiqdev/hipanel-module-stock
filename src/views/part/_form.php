@@ -69,12 +69,19 @@ use yii\helpers\Url;
                     <div class="col-md-6">
                         <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class) ?>
                         <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class) ?>
-                        <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
+                        <?php if ($model->dst_id) : ?>
+                            <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
+                        <?php else : ?>
+                            <?= $form->field($model, "[$i]dst_ids", ['options' => ['class' => 'required']])->widget(DestinationCombo::class, [
+                                'hasId' => true,
+                                'multiple' => true,
+                            ]) ?>
+                        <?php endif; ?>
                     </div>
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-12">
-                                <?= $form->field($model, "[$i]serials") ?>
+                                <?= $form->field($model, "[$i]serials")->hint(Yii::t('hipanel:stock', 'In order to use the automatic serials generation, the field should look like: <samp>[number of generated serials]_</samp>')) ?>
                             </div>
                             <div class="col-md-12">
                                 <?= $form->field($model, "[$i]move_descr") ?>

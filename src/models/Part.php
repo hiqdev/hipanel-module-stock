@@ -85,6 +85,9 @@ class Part extends \hipanel\base\Model
 
             // Create and copy
             [['partno', 'src_id', 'dst_id', 'serials', 'move_descr', 'move_type', 'price', 'currency', 'company_id'], 'required', 'on' => ['create', 'copy']],
+            [['dst_ids'], 'required', 'when' => function ($model) {
+                return empty($model->dst_id);
+            }, 'on' => ['create']],
             [['serials'], 'unique', 'on' => ['create', 'copy']],
 
             // Move by one
@@ -164,6 +167,7 @@ class Part extends \hipanel\base\Model
             'src_id' => Yii::t('hipanel:stock', 'Source'),
             'src_name' => Yii::t('hipanel:stock', 'Source'),
             'dst_id' => Yii::t('hipanel:stock', 'Destination'),
+            'dst_ids' => Yii::t('hipanel:stock', 'Destination'),
             'dst_name' => Yii::t('hipanel:stock', 'Destination'),
             'supplier' => Yii::t('hipanel:stock', 'Supplier'),
             'currency' => Yii::t('hipanel:stock', 'Currency'),

@@ -87,7 +87,7 @@ class Part extends \hipanel\base\Model
             [['partno', 'src_id', 'dst_id', 'serials', 'move_descr', 'move_type', 'price', 'currency', 'company_id'], 'required', 'on' => ['create', 'copy']],
             [['dst_ids'], 'required', 'when' => function ($model) {
                 return empty($model->dst_id);
-            }],
+            }, 'on' => ['create']],
             [['serials'], 'unique', 'on' => ['create', 'copy']],
 
             // Move by one

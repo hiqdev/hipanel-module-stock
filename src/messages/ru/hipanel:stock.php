@@ -138,4 +138,5 @@ return [
     'The bill exists' => 'Платёж уже существует',
     'All data about the bill already exist. You do not need to fill out the form.' => 'Все данные о платеже уже есть. Вам не нужно заполнять форму.',
     'Hide deleted' => 'Скрыть удаленные',
+    'In order to use the automatic serials generation, the field should look like: <samp>[number of generated serials]_</samp>' => 'Для использования функции автоматического создания серийных номеров поле должно выглядеть так: <samp>[количество необходимых серийников]_</samp>',
 ];

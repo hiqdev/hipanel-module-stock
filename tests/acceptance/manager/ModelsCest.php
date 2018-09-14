@@ -61,7 +61,7 @@ class ModelsCest
         $page = new Create($I);
 
         $I->needPage(Url::to('@model/create'));
-        $page->save();
+        $I->pressButton('Save');
 
         $page->containsBlankFieldsError(['Type', 'Model', 'Part No.']);
     }
@@ -85,7 +85,7 @@ class ModelsCest
         $modelData = $this->getModelData('CPU', 'AMD', 'X11_1xCPU');
         $page->addModel($modelData);
 
-        $page->save();
+        $I->pressButton('Save');
         $page->seeModelsWereCreated();
     }
 
@@ -105,7 +105,7 @@ class ModelsCest
         $modelData = $this->getModelData('RAM', 'Kingston', '32GB DDR3');
         $page->fillModelFields($modelData);
 
-        $page->save();
+        $I->pressButton('Save');
         $page->seeModelWasCreated();
     }
 

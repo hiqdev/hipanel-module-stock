@@ -61,7 +61,7 @@ class PartsCreationCest
         $page = new Create($I);
 
         $I->needPage(Url::to('@part/create'));
-        $page->save();
+        $I->pressButton('Save');
 
         $page->containsBlankFieldsError([
             'Part No.',
@@ -74,6 +74,14 @@ class PartsCreationCest
         ]);
     }
 
+    /**
+     * Tries to create a new single part.
+     *
+     * Expects successful part creation.
+     *
+     * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
+     */
     public function ensureICanCreatePart(Manager $I): void
     {
         $page = new Create($I);
@@ -82,10 +90,18 @@ class PartsCreationCest
         $partData = $this->getPartData();
         $page->fillPartFields($partData);
 
-        $page->save();
+        $I->pressButton('Save');
         $page->seePartWasCreated();
     }
 
+    /**
+     * Tries to create several parts.
+     *
+     * Expects successful parts creation.
+     *
+     * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
+     */
     public function ensureICanCreateSeveralParts(Manager $I): void
     {
         $page = new Create($I);
@@ -94,10 +110,13 @@ class PartsCreationCest
         $page->fillPartFields($this->getPartData());
         $page->addPart($this->getPartData());
 
-        $page->save();
+        $I->pressButton('Save');
         $page->seePartsWereCreated();
     }
 
+    /**
+     * @return array
+     */
     protected function getPartData(): array
     {
         return [

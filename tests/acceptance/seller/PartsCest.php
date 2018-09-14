@@ -27,33 +27,33 @@ class PartsCest
         $I->needPage(Url::to('@part'));
         $I->see('Parts', 'h1');
         $I->seeLink('Create', Url::to('create'));
-        $this->ensureICanSeeAdvancedSearchBox();
+        $this->ensureICanSeeAdvancedSearchBox($I);
         $this->ensureICanSeeLegendBox();
         $this->ensureICanSeeBulkSearchBox();
     }
 
-    private function ensureICanSeeAdvancedSearchBox()
+    private function ensureICanSeeAdvancedSearchBox(Seller $I)
     {
         $this->index->containsFilters([
-            new Select2('Part No.'),
-            new Input('Types'),
-            new Select2('Status'),
-            new Input('Manufacturers'),
-            new Input('Serial'),
-            new Input('Parts'),
-            new Input('Move description'),
-            new Select2('Source'),
-            new Select2('Destination'),
-            new Input('Order No.'),
-            (new Dropdown('partsearch-company_id'))->withItems([
+            Select2::asAdvancedSearch($I, 'Part No.'),
+            Select2::asAdvancedSearch($I, 'Types'),
+            Select2::asAdvancedSearch($I, 'Status'),
+            Select2::asAdvancedSearch($I, 'Manufacturers'),
+            Input::asAdvancedSearch($I, 'Serial'),
+            Select2::asAdvancedSearch($I, 'Parts'),
+            Input::asAdvancedSearch($I, 'Move description'),
+            Select2::asAdvancedSearch($I, 'Source'),
+            Select2::asAdvancedSearch($I, 'Destination'),
+            Input::asAdvancedSearch($I, 'Order No.'),
+            (Dropdown::asAdvancedSearch($I, 'Company'))->withItems([
                 'Company',
                 'DataWeb',
                 'Other',
             ]),
-            new Input('Location'),
-            new Select2('Currency'),
-            new Input('Limit'),
-            new Input('Buyers'),
+            Select2::asAdvancedSearch($I, 'Location'),
+            Select2::asAdvancedSearch($I, 'Currency'),
+            Input::asAdvancedSearch($I, 'Limit'),
+            Select2::asAdvancedSearch($I, 'Buyers'),
         ]);
     }
 

@@ -2,21 +2,13 @@
 
 namespace hipanel\modules\stock\tests\_support\Page\part;
 
-use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Authenticated;
-use hipanel\tests\_support\Page\Widget\Select2;
+use hipanel\tests\_support\Page\Widget\Input\Dropdown;
+use hipanel\tests\_support\Page\Widget\Input\Input;
+use hipanel\tests\_support\Page\Widget\Input\Select2;
 
 class Create extends Authenticated
 {
-    protected $select2;
-
-    public function __construct(AcceptanceTester $I)
-    {
-        parent::__construct($I);
-
-        $this->select2 = new Select2($I);
-    }
-
     /**
      * Adds new part form and fill it with provided data.
      *
@@ -39,36 +31,30 @@ class Create extends Authenticated
 
         $base = 'div.item:last-child ';
 
-        $this->select2->open($base . 'select[id$=partno]');
-        $this->select2->fillSearchField($partData['partno']);
-        $this->select2->chooseOptionLike($partData['partno']);
+        (new Select2($I, $base . 'select[id$=partno]'))
+            ->setValueLike($partData['partno']);
 
-        $this->select2->open($base . 'select[id$=src_id]');
-        $this->select2->fillSearchField($partData['src_id']);
-        $this->select2->chooseOptionLike($partData['src_id']);
+        (new Select2($I, $base . 'select[id$=src_id]'))
+            ->setValueLike($partData['src_id']);
 
-        $this->select2->open($base . 'select[id$=dst_id]');
-        $this->select2->fillSearchField($partData['dst_id']);
-        $this->select2->chooseOptionLike($partData['dst_id']);
+        (new Select2($I, $base . 'select[id$=dst_id]'))
+            ->setValueLike($partData['dst_id']);
 
-        $I->fillField($base . 'input[id$=serials]', $partData['serials']);
-        $I->fillField($base . 'input[id$=move_descr]', $partData['move_descr']);
+        (new Input($I, $base . 'input[id$=serials]'))
+            ->setValue($partData['serials']);
 
-        $I->fillField($base . 'input[id$=price]', $partData['price']);
+        (new Input($I, $base . 'input[id$=move_descr]'))
+            ->setValue($partData['move_descr']);
+
+        (new Input($I, $base . 'input[id$=price]'))
+            ->setValue($partData['price']);
         $I->click('div.item:last-child  span.caret');
         $I->click("div.item:last-child li a[data-value=$partData[currency]]");
 
-        $I->selectOption($base . 'select[id$=type]', $partData['type']);
-        $I->selectOption($base . 'select[id$=company_id]',
-                                        $partData['company_id']);
-    }
-
-    /**
-     * Saves created part(s).
-     */
-    public function save(): void
-    {
-        $this->tester->click('button[type=submit]');
+        (new Dropdown($I, $base . 'select[id$=type]'))
+            ->setValue($partData['type']);
+        (new Dropdown($I, $base . 'select[id$=company_id]'))
+            ->setValue($partData['company_id']);
     }
 
     /**

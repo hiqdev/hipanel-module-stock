@@ -26,22 +26,22 @@ class ModelsCest
         $I->needPage(Url::to('@model'));
         $I->see('Models', 'h1');
         $I->seeLink('Create model', Url::to('create'));
-        $this->ensureICanSeeAdvancedSearchBox();
+        $this->ensureICanSeeAdvancedSearchBox($I);
         $this->ensureICanSeeLegendBox();
         $this->ensureICanSeeBulkSearchBox();
     }
 
-    private function ensureICanSeeAdvancedSearchBox()
+    private function ensureICanSeeAdvancedSearchBox(Admin $I)
     {
         $this->index->containsFilters([
-            new Select2('Type'),
-            new Select2('Brand'),
-            new Select2('Status'),
-            new Input('Filter'),
-            new Input('Model'),
-            new Input('Description'),
-            new Input('Part No.'),
-            new Input('Group'),
+            Select2::asAdvancedSearch($I, 'Type'),
+            Select2::asAdvancedSearch($I, 'Brand'),
+            Select2::asAdvancedSearch($I, 'Status'),
+            Input::asAdvancedSearch($I, 'Filter'),
+            Input::asAdvancedSearch($I, 'Model'),
+            Input::asAdvancedSearch($I, 'Description'),
+            Input::asAdvancedSearch($I, 'Part No.'),
+            Input::asAdvancedSearch($I, 'Group'),
         ]);
     }
 

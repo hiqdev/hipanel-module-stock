@@ -2,21 +2,14 @@
 
 namespace hipanel\modules\stock\tests\_support\Page\model;
 
-use hipanel\tests\_support\AcceptanceTester;
 use hipanel\tests\_support\Page\Authenticated;
-use hipanel\tests\_support\Page\Widget\Select2;
+use hipanel\tests\_support\Page\Widget\Input\Dropdown;
+use hipanel\tests\_support\Page\Widget\Input\Input;
+use hipanel\tests\_support\Page\Widget\Input\Select2;
+use hipanel\tests\_support\Page\Widget\Input\Textarea;
 
 class Create extends Authenticated
 {
-    protected $select2;
-
-    public function __construct(AcceptanceTester $I)
-    {
-        parent::__construct($I);
-
-        $this->select2 = new Select2($I);
-    }
-
     /**
      * Adds new model form and fill it with provided data.
      *
@@ -46,30 +39,29 @@ class Create extends Authenticated
 
         $base = 'div.item:last-child ';
 
-        $this->select2->open($base . 'select[id$=type]');
-        $this->select2->fillSearchField($modelData['type']);
-        $this->select2->chooseOption($modelData['type']);
+        (new Select2($I, $base . 'select[id$=type]'))
+            ->setValue($modelData['type']);
 
-        $I->selectOption($base . 'select[id$=brand]', $modelData['brand']);
+        (new Dropdown($I, $base . 'select[id$=brand]'))
+            ->setValue($modelData['brand']);
 
-        $I->fillField($base . 'input[id$=model]', $modelData['model']);
-        $I->fillField($base . 'input[id$=partno]', $modelData['partno']);
+        (new Input($I, $base . 'input[id$=model]'))
+            ->setValue($modelData['model']);
 
-        $this->select2->open($base . 'select[id*=group_id]');
-        $this->select2->fillSearchField($modelData['group_id']);
-        $this->select2->chooseOption($modelData['group_id']);
+        (new Input($I, $base . 'input[id$=partno]'))
+            ->setValue($modelData['partno']);
 
-        $I->fillField($base . 'input[id$=url]', $modelData['url']);
-        $I->fillField($base . 'textarea[id$=short]', $modelData['short']);
-        $I->fillField($base . 'textarea[id$=descr]', $modelData['descr']);
-    }
+        (new Select2($I, $base . 'select[id*=group_id]'))
+            ->setValue($modelData['group_id']);
 
-    /**
-     * Saves created model(s).
-     */
-    public function save(): void
-    {
-        $this->tester->click('button[type=submit]');
+        (new Input($I, $base . 'input[id$=url]'))
+            ->setValue($modelData['url']);
+
+        (new Textarea($I, $base . 'textarea[id$=short]'))
+            ->setValue($modelData['short']);
+
+        (new Textarea($I, $base . 'textarea[id$=descr]'))
+            ->setValue($modelData['descr']);
     }
 
     /**

@@ -25,14 +25,14 @@ class ModelGroupsCest
         $I->needPage(Url::to('@model-group'));
         $I->see('Model groups', 'h1');
         $I->seeLink('Create group', Url::to('create'));
-        $this->ensureICanSeeAdvancedSearchBox();
+        $this->ensureICanSeeAdvancedSearchBox($I);
         $this->ensureICanSeeBulkSearchBox();
     }
 
-    private function ensureICanSeeAdvancedSearchBox()
+    private function ensureICanSeeAdvancedSearchBox(Seller $I)
     {
         $this->index->containsFilters([
-            new Input('Name'),
+            Input::asAdvancedSearch($I, 'Name'),
         ]);
     }
 

@@ -25,21 +25,21 @@ class HistoryCest
         $I->login();
         $I->needPage(Url::to('@move'));
         $I->see('Moves', 'h1');
-        $this->ensureICanSeeAdvancedSearchBox();
+        $this->ensureICanSeeAdvancedSearchBox($I);
         $this->ensureICanSeeLegendBox();
         $this->ensureICanSeeBulkSearchBox();
     }
 
-    protected function ensureICanSeeAdvancedSearchBox()
+    protected function ensureICanSeeAdvancedSearchBox(Admin $I)
     {
         $this->index->containsFilters([
-            new Select2('Part No.'),
-            new Select2('Type'),
-            new Select2('Source'),
-            new Select2('Destination'),
-            new Input('Serial'),
-            new Input('Move description'),
-            new Input('Order No.'),
+            Select2::asAdvancedSearch($I, 'Part No.'),
+            Select2::asAdvancedSearch($I, 'Type'),
+            Select2::asAdvancedSearch($I, 'Source'),
+            Select2::asAdvancedSearch($I, 'Destination'),
+            Input::asAdvancedSearch($I, 'Serial'),
+            Input::asAdvancedSearch($I, 'Move description'),
+            Input::asAdvancedSearch($I, 'Order No.'),
         ]);
     }
 

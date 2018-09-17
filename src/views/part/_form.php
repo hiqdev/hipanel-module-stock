@@ -30,13 +30,22 @@ use yii\helpers\Url;
     'deleteButton' => '.remove-item', // css class
     'model' => reset($models),
     'formId' => 'dynamic-form',
-    'formFields' => [
+    'formFields' => $model->isNewRecord ? [
         'partno',
         'src_id',
         'dst_id',
+        'dst_ids',
         'serials',
         'move_type',
         'descr',
+        'price',
+        'currency',
+        'company_id',
+    ] : [
+        'model_id',
+        'dst_name',
+        'serial',
+        'company_id',
         'price',
         'currency',
     ],

@@ -35,10 +35,10 @@ class Create extends Authenticated
             ->setValueLike($partData['partno']);
 
         (new Select2($I, $base . 'select[id$=src_id]'))
-            ->setValueLike($partData['src_id']);
+            ->setValue($partData['src_id']);
 
-        (new Select2($I, $base . 'select[id$=dst_id]'))
-            ->setValueLike($partData['dst_id']);
+        (new Select2($I, $base . 'select[id$=dst_ids]'))
+            ->setValue($partData['dst_id']);
 
         (new Input($I, $base . 'input[id$=serials]'))
             ->setValue($partData['serials']);

@@ -25,11 +25,13 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\StringHelper;
+use hipanel\modules\server\models\Server;
 use hipanel\modules\stock\actions\ValidateSellFormAction;
 use hipanel\modules\stock\forms\PartSellForm;
 use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
+use hipanel\modules\stock\widgets\combo\PartDestinationCombo;
 use Yii;
 use yii\base\DynamicModel;
 use yii\base\Event;
@@ -527,5 +529,23 @@ class PartController extends CrudController
         }
 
         throw new ConflictHttpException();
+    }
+
+    public function actionResolveDestinationRange(): array
+    {
+        $result = [];
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $range = Yii::$app->request->post('id');
+        if ($range) {
+            $servers = Server::find()->where([
+                'name_like' => $range, 'limit' => 'ALL', 'types' => PartDestinationCombo::$types,
+            ])->all();
+
+            foreach ($servers as $server) {
+                $result[] = ['id' => $server->id, 'text' => $server->name];
+            }
+        }
+
+        return $result;
     }
 }

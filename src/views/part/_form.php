@@ -1,6 +1,6 @@
 <?php
 
-use hipanel\modules\stock\widgets\combo\DestinationCombo;
+use hipanel\modules\stock\widgets\combo\PartDestinationCombo;
 use hipanel\modules\stock\widgets\combo\ModelCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
@@ -79,9 +79,9 @@ use yii\helpers\Url;
                         <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class) ?>
                         <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class) ?>
                         <?php if ($model->dst_id) : ?>
-                            <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
+                            <?= $form->field($model, "[$i]dst_id")->widget(PartDestinationCombo::class) ?>
                         <?php else : ?>
-                            <?= $form->field($model, "[$i]dst_ids", ['options' => ['class' => 'required']])->widget(DestinationCombo::class, [
+                            <?= $form->field($model, "[$i]dst_ids", ['options' => ['class' => 'required']])->widget(PartDestinationCombo::class, [
                                 'hasId' => true,
                                 'multiple' => true,
                             ]) ?>

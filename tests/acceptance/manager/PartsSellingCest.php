@@ -39,6 +39,7 @@ class PartsSellingCest
         }
 
         $I->pressButton('Sell parts');
+        $I->waitForPageUpdate();
         $sellModal->fillSellWindowFields($this->sellData);
 
         $I->pressButton('Sell');
@@ -48,6 +49,7 @@ class PartsSellingCest
 
     /**
      * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
      */
     public function ensureSellingBillWasCreated(Manager $I): void
     {
@@ -64,13 +66,11 @@ class PartsSellingCest
 
     /**
      * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
      */
     protected function filterTable(Manager $I): void
     {
         $billPage = new IndexPage($I);
-
-        $billPage->filterBy(Select2::asTableFilter($I, 'Client'),
-            $this->sellData['client_id']);
 
         $billPage->filterBy(Dropdown::asTableFilter($I, 'Type'),
             '-- ' . $this->sellData['type']);

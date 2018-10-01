@@ -79,7 +79,7 @@ use yii\helpers\Url;
                         <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class) ?>
                         <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class) ?>
                         <?php if ($model->dst_id) : ?>
-                            <?= $form->field($model, "[$i]dst_id")->widget(PartDestinationCombo::class) ?>
+                            <?= $form->field($model, "[$i]dst_id")->widget(PartDestinationCombo::class, ['name' => 'dst_id']) ?>
                         <?php else : ?>
                             <?= $form->field($model, "[$i]dst_ids", ['options' => ['class' => 'required']])->widget(PartDestinationCombo::class, [
                                 'hasId' => true,

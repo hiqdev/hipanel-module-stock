@@ -7,6 +7,9 @@ use Yii;
 
 class PartDestinationCombo extends DestinationCombo
 {
+    /** {@inheritdoc} */
+    public $name = 'dst_ids';
+
     static public $types = [
         'unused',
         'old',

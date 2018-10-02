@@ -25,6 +25,7 @@ class ModelGridView extends BoxedGridView
     {
         return array_merge(parent::columns(), [
             'type' => [
+                'filterOptions' => ['class' => 'narrow-filter'],
                 'class' => RefColumn::class,
                 'gtype' => 'type,model',
                 'value' => function ($model) {
@@ -39,6 +40,7 @@ class ModelGridView extends BoxedGridView
                 },
             ],
             'brand' => [
+                'filterOptions' => ['class' => 'narrow-filter'],
                 'class' => RefColumn::class,
                 'gtype' => 'type,brand',
                 'value' => function ($model) {
@@ -47,6 +49,7 @@ class ModelGridView extends BoxedGridView
             ],
             'model' => [
                 'filterAttribute' => 'model_like',
+                'filterOptions' => ['class' => 'narrow-filter'],
             ],
             'partno' => [
                 'enableSorting' => false,

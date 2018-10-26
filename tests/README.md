@@ -4,15 +4,41 @@ Short list functionality
 
 ## Models
 
-* menu => all role - OK
-  * sub2 => admin OK, seller KO
-  * sub2 => TODO tests for all role
-      * sub3 => all role - OK
-      * sub3 => all role - OK
-        * sub4 => all role - OK
-        * sub4 => TODO tests for all role
+* menu
+
 * index
+	* show create
+		* check url to create page
+	* show advanced search
+		* show inputs and checkboxes
+			* check work inputs and checkboxes
+	* show legends
+		* show rows
+		* show collapse button
+			* check work collapse button 
+	* show widget
+		* show box 'mailbox-controls'
+			* check work orientation buttons
+			* check export buttons
+			* check sort buttons
+			* check 'per page' buttons
+			* show box 'box-tools'
+				* check work all buttons with mark rows in table
+		* show table
+			* show thead
+				* check name columns
+				* check work sorting
+				* check dropdown menu and sort result 
+			* show tbody
+				* check data in column 
+				* check mark rows
+
 * view
+
+* update
+
+* create
+
 
 ### Authors
 

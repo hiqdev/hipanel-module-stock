@@ -4,7 +4,10 @@ namespace hipanel\modules\stock\tests\acceptance\manager;
 
 use hipanel\helpers\Url;
 use hipanel\modules\stock\tests\_support\Page\model\Create;
+use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Step\Acceptance\Manager;
+use hipanel\tests\_support\Page\Widget\Input\Dropdown;
+use \Codeception\Util\Locator;
 
 class ModelsCest
 {
@@ -107,6 +110,29 @@ class ModelsCest
 
         $I->pressButton('Save');
         $page->seeModelWasCreated();
+    }
+
+
+    /**
+     * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureSortButtonsWork(Manager $I): void
+    {
+        $partIndex      = new IndexPage($I);
+
+        $I->login();
+        $I->needPage(Url::to('@model'));
+        $partIndex->filterBy(new Dropdown($I, 'tr.filters select[name*=brand]'), 'Samsung');
+        $table = $I->grabTextFrom("//tbody");
+//        print($table);
+        $rows = explode("\n", $table);
+        $rcount = count($rows);
+        for ($i = 1 ; $i < $rcount; ++$i)
+        {
+            $I->see('Samsung', '//tbody/tr['.$i.']/td[3]');
+        }
+//        $I->wait(11);
     }
 
     protected function getModelData($type, $brand, $groupId): array

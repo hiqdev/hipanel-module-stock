@@ -7,8 +7,8 @@ Short list functionality
 - sidebar menu (✓)
     - link to index for admins but not clients [admin/StockSidebarMenuCest], [client/StockSidebarMenuCest] \(✓\)
 - index page (✓)
-    - filtering
-        - by brand
+    - filtering (✓)
+        - by brand (✓)
     - sorting
         - by type
     - legend block (✓)
@@ -34,7 +34,7 @@ Short list functionality
 
 - sidebar menu (✓)
     - link to index for admins but not clients [admin/StockSidebarMenuCest], [client/StockSidebarMenuCest] \(✓\)
-- index page
+- index page (✓)
     - filtering
         - by brand
     - sorting

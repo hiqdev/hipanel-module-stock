@@ -116,7 +116,7 @@ class PartsCest
      *
      * @throws \Codeception\Exception\ModuleException
      */
-    public function ensureFilteredButtonsWork(Seller $I): void
+    public function ensureFilteredByBrandWork(Seller $I): void
     {
         $partIndex      = new IndexPage($I);
         $I->needPage(Url::to('@part'));
@@ -130,11 +130,8 @@ class PartsCest
         }
     }
 
-    public function ensureSortButtonsWork(Seller $I): void
+    public function ensureSortedBySerialWork(Seller $I): void
     {
-        $partIndex      = new IndexPage($I);
-
-        $I->login();
         $I->needPage(Url::to('@part'));
         $I->click("//button[@id='w0']");
         $I->click("//ul[@class='dropdown-menu']/*/a[contains(text(), 'Serial')]");

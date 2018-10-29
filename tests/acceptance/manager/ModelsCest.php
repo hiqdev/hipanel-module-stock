@@ -119,7 +119,7 @@ class ModelsCest
      *
      * @throws \Codeception\Exception\ModuleException
      */
-    public function ensureFilteredButtonsWork(Manager $I): void
+    public function ensureFilterByBrandWork(Manager $I): void
     {
         $partIndex      = new IndexPage($I);
 

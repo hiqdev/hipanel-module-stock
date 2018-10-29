@@ -11,17 +11,17 @@ Short list functionality
         - by brand
     - sorting
         - by type
-    - legend block
-        - has 3+ elements
+    - legend block (✓)
+        - has 3+ elements (✓)
 - details page (✓)
     - object info (✓)
         - title (✓)
         - detailed info (✓)
     - parts list (✓)
         - proper number (✓)
-- update
-    - single/bulk update from details/index page
-        - input data
+- update (✓) 
+    - single/bulk update from details/index page (✓)
+        - input data (✓)
         - returns to corresponding page
         - proper result
 - create (✓)
@@ -39,8 +39,8 @@ Short list functionality
         - by brand
     - sorting
         - by type
-    - legend block
-        - has 3+ elements
+    - legend block (✓)
+        - has 3+ elements (✓)
 - details page (✓)
     - object info (✓)
         - title (✓)
@@ -48,8 +48,8 @@ Short list functionality
     - parts list (✓)
         - proper number (✓)
 - update (✓)
-    - single/bulk update from details/index page
-        - input data
+    - single/bulk update from details/index page (✓)
+        - input data (✓)
         - returns to corresponding page
         - proper result
 - create (✓)

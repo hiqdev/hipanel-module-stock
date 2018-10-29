@@ -133,8 +133,6 @@ class PartsCest
     public function ensureSortedBySerialWork(Seller $I): void
     {
         $I->needPage(Url::to('@part'));
-        $I->click("//button[@id='w0']");
-        $I->click("//ul[@class='dropdown-menu']/*/a[contains(text(), 'Serial')]");
         $table = $I->grabTextFrom("//tbody");
         $rows = explode("\n", $table);
         $rcount = count($rows);
@@ -143,6 +141,8 @@ class PartsCest
         {
             $testSortArray[$i] = $I->grabTextFrom("//tbody/tr[$i]/td[5]");
         }
+        $I->click("//button[@id='w0']");
+        $I->click("//ul[@class='dropdown-menu']/*/a[contains(text(), 'Serial')]");
         $copytestSortArray = $testSortArray;
         sort($copytestSortArray);
         for ($i = 1 ; $i < $rcount; ++$i)

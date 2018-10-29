@@ -55,7 +55,7 @@ class Part extends \hipanel\base\Model
                     'move_type',
                     'move_type_label',
                     'move_time',
-                    'move_descr',
+                    'move_descr', 'move_descr_orig',
                     'move_remote_ticket',
                     'remote_ticket',
                     'move_hm_ticket',

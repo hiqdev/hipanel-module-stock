@@ -21,6 +21,9 @@ class PartsCest
         $this->index = new IndexPage($I);
     }
 
+    /**
+     * @param Seller $I
+     */
     public function ensureIndexPageWorks(Seller $I)
     {
         $I->login();
@@ -104,5 +107,50 @@ class PartsCest
             'Purchase price',
             'Selling time',
         ], 'selling');
+    }
+
+    /**
+     * Method for check filtering by brand
+     *
+     * @param Seller $I
+     *
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureFilteredButtonsWork(Seller $I): void
+    {
+        $partIndex      = new IndexPage($I);
+        $I->needPage(Url::to('@part'));
+        $partIndex->filterBy(new Dropdown($I, 'tr.filters select[name*=brand]'), 'Kingston');
+        $table = $I->grabTextFrom("//tbody");
+        $rows = explode("\n", $table);
+        $rcount = count($rows);
+        for ($i = 1 ; $i < $rcount; ++$i)
+        {
+            $I->see('Kingston', '//tbody/tr['.$i.']/td[3]');
+        }
+    }
+
+    public function ensureSortButtonsWork(Seller $I): void
+    {
+        $partIndex      = new IndexPage($I);
+
+        $I->login();
+        $I->needPage(Url::to('@part'));
+        $I->click("//button[@id='w0']");
+        $I->click("//ul[@class='dropdown-menu']/*/a[contains(text(), 'Serial')]");
+        $table = $I->grabTextFrom("//tbody");
+        $rows = explode("\n", $table);
+        $rcount = count($rows);
+        $testSortArray = array();
+        for ($i = 1 ; $i < $rcount; ++$i)
+        {
+            $testSortArray[$i] = $I->grabTextFrom("//tbody/tr[$i]/td[5]");
+        }
+        $copytestSortArray = $testSortArray;
+        sort($copytestSortArray);
+        for ($i = 1 ; $i < $rcount; ++$i)
+        {
+            $I->see($copytestSortArray[$i - 1], '//tbody/tr['.$i.']/td[5]');
+        }
     }
 }

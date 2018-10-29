@@ -4,10 +4,9 @@ Short list functionality
 
 ## Models
 
-- sidebar menu
-    - link to index
-- index page
-    - create button
+- sidebar menu (✓✓✓)
+    - link to index for admins but not clients [admin/StockSidebarMenuCest], [client/StockSidebarMenuCest] \(✓✓✓\)
+- index page (✓✓)
     - filtering
         - by brand
     - sorting
@@ -34,9 +33,8 @@ Short list functionality
 ## Parts
 
 - sidebar menu
-    - link to index
+    - link to index for admins but not clients [admin/StockSidebarMenuCest], [client/StockSidebarMenuCest]
 - index page
-    - create button
     - filtering
         - by brand
     - sorting
@@ -62,4 +60,5 @@ Short list functionality
 
 ## History
 
-
+[admin/StockSidebarMenuCest]:       acceptance/admin/StockSidebarMenuCest.php
+[client/StockSidebarMenuCest]:      acceptance/client/StockSidebarMenuCest.php

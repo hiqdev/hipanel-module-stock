@@ -121,7 +121,7 @@ class ModelsCest
     {
         $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@model'));
-        $partIndex->checkFilterBy('brand','AMD');
+        $partIndex->checkFilterBy('brand', 'AMD');
     }
 
     /**

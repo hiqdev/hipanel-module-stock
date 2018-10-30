@@ -120,7 +120,7 @@ class PartsCest
     {
         $partIndex      = new IndexPage($I);
         $I->needPage(Url::to('@part'));
-        $partIndex->checkFilterBy('brand','Kingston');
+        $partIndex->checkFilterBy('brand', 'Kingston');
     }
 
     /**

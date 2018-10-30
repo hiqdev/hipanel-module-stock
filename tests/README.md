@@ -9,8 +9,8 @@ Short list functionality
 - index page (✓)
     - filtering (✓)
         - by brand (✓)
-    - sorting
-        - by type
+    - sorting (✓)
+        - by type (✓)
     - legend block (✓)
         - has 3+ elements (✓)
 - details page (✓)
@@ -37,8 +37,8 @@ Short list functionality
 - index page (✓)
     - filtering (✓)
         - by brand (✓)
-    - sorting
-        - by type
+    - sorting (✓)
+        - by serial (✓)
     - legend block (✓)
         - has 3+ elements (✓)
 - details page (✓)

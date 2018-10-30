@@ -118,7 +118,7 @@ class PartsCest
      */
     public function ensureFilteredByBrandWork(Seller $I): void
     {
-        $partIndex      = new IndexPage($I);
+        $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@part'));
         $partIndex->checkFilterBy('brand', 'Kingston');
     }
@@ -128,7 +128,7 @@ class PartsCest
      * @param Seller $I
      * @throws \Codeception\Exception\ModuleException
      */
-    public function ensureSortedBySerialWork(Seller $I): void
+    public function ensureSortingWorks(Seller $I): void
     {
         $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@part'));

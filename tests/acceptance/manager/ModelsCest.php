@@ -4,6 +4,7 @@ namespace hipanel\modules\stock\tests\acceptance\manager;
 
 use hipanel\helpers\Url;
 use hipanel\modules\stock\tests\_support\Page\model\Create;
+use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 
 class ModelsCest
@@ -107,6 +108,33 @@ class ModelsCest
 
         $I->pressButton('Save');
         $page->seeModelWasCreated();
+    }
+
+
+    /**
+     * Method for check filtering by brand
+     *
+     * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureFilteredByBrandWork(Manager $I): void
+    {
+        $partIndex = new IndexPage($I);
+        $I->needPage(Url::to('@model'));
+        $partIndex->checkFilterBy('brand', 'AMD');
+    }
+
+    /**
+     * Method for check sorting
+
+     * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureSortedByTypeWork(Manager $I): void
+    {
+        $partIndex = new IndexPage($I);
+        $I->needPage(Url::to('@model'));
+        $partIndex->checkSortingBy('Type');
     }
 
     protected function getModelData($type, $brand, $groupId): array

@@ -8,6 +8,7 @@ use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
 use hipanel\tests\_support\Step\Acceptance\Seller;
+use \Codeception\Util\Locator;
 
 class PartsCest
 {
@@ -21,6 +22,9 @@ class PartsCest
         $this->index = new IndexPage($I);
     }
 
+    /**
+     * @param Seller $I
+     */
     public function ensureIndexPageWorks(Seller $I)
     {
         $I->login();
@@ -104,5 +108,31 @@ class PartsCest
             'Purchase price',
             'Selling time',
         ], 'selling');
+    }
+
+    /**
+     * Method for check filtering by brand
+     *
+     * @param Seller $I
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureFilteredByBrandWork(Seller $I): void
+    {
+        $partIndex = new IndexPage($I);
+        $I->needPage(Url::to('@part'));
+        $partIndex->checkFilterBy('brand', 'Kingston');
+    }
+
+    /**
+     * Method for check sorting
+     * @param Seller $I
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureSortingWorks(Seller $I): void
+    {
+        $partIndex = new IndexPage($I);
+        $I->needPage(Url::to('@part'));
+        $partIndex->checkSortingBy('Serial');
+        $partIndex->checkSortingBy('Part No.');
     }
 }

@@ -8,6 +8,7 @@ use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
 use hipanel\tests\_support\Step\Acceptance\Seller;
+use \Codeception\Util\Locator;
 
 class PartsCest
 {
@@ -113,41 +114,25 @@ class PartsCest
      * Method for check filtering by brand
      *
      * @param Seller $I
-     *
      * @throws \Codeception\Exception\ModuleException
      */
     public function ensureFilteredByBrandWork(Seller $I): void
     {
         $partIndex      = new IndexPage($I);
         $I->needPage(Url::to('@part'));
-        $partIndex->filterBy(new Dropdown($I, 'tr.filters select[name*=brand]'), 'Kingston');
-        $table = $I->grabTextFrom("//tbody");
-        $rows = explode("\n", $table);
-        $rcount = count($rows);
-        for ($i = 1 ; $i < $rcount; ++$i)
-        {
-            $I->see('Kingston', '//tbody/tr['.$i.']/td[3]');
-        }
+        $partIndex->ensureCanFilterWorks('Kingston');
     }
 
+    /**
+     * Method for check sorting
+     * @param Seller $I
+     * @throws \Codeception\Exception\ModuleException
+     */
     public function ensureSortedBySerialWork(Seller $I): void
     {
+        $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@part'));
-        $table = $I->grabTextFrom("//tbody");
-        $rows = explode("\n", $table);
-        $rcount = count($rows);
-        $testSortArray = array();
-        for ($i = 1 ; $i < $rcount; ++$i)
-        {
-            $testSortArray[$i] = $I->grabTextFrom("//tbody/tr[$i]/td[5]");
-        }
-        $I->click("//button[@id='w0']");
-        $I->click("//ul[@class='dropdown-menu']/*/a[contains(text(), 'Serial')]");
-        $copytestSortArray = $testSortArray;
-        sort($copytestSortArray);
-        for ($i = 1 ; $i < $rcount; ++$i)
-        {
-            $I->see($copytestSortArray[$i - 1], '//tbody/tr['.$i.']/td[5]');
-        }
+        $partIndex->ensureCanSortWorks('Serial');
+        $partIndex->ensureCanSortWorks('Part No.');
     }
 }

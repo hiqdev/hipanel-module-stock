@@ -6,7 +6,6 @@ use hipanel\helpers\Url;
 use hipanel\modules\stock\tests\_support\Page\model\Create;
 use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Step\Acceptance\Manager;
-use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 
 class ModelsCest
 {
@@ -116,24 +115,26 @@ class ModelsCest
      * Method for check filtering by brand
      *
      * @param Manager $I
-     *
      * @throws \Codeception\Exception\ModuleException
      */
-    public function ensureFilterByBrandWork(Manager $I): void
+    public function ensureFilteredByBrandWork(Manager $I): void
     {
-        $partIndex      = new IndexPage($I);
-
-        $I->login();
+        $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@model'));
+        $partIndex->ensureCanFilterWorks('AMD');
+    }
 
-        $partIndex->filterBy(new Dropdown($I, 'tr.filters select[name*=brand]'), 'Samsung');
-        $table = $I->grabTextFrom("//tbody");
-        $rows = explode("\n", $table);
-        $rcount = count($rows);
-        for ($i = 1 ; $i < $rcount; ++$i)
-        {
-            $I->see('Samsung', '//tbody/tr['.$i.']/td[3]');
-        }
+    /**
+     * Method for check sorting
+
+     * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureSortedByTypeWork(Manager $I): void
+    {
+        $partIndex = new IndexPage($I);
+        $I->needPage(Url::to('@model'));
+        $partIndex->ensureCanSortWorks('Type');
     }
 
     protected function getModelData($type, $brand, $groupId): array

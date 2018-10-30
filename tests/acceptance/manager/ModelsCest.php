@@ -121,7 +121,7 @@ class ModelsCest
     {
         $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@model'));
-        $partIndex->ensureCanFilterWorks('AMD');
+        $partIndex->checkFilterBy('brand','AMD');
     }
 
     /**
@@ -134,7 +134,7 @@ class ModelsCest
     {
         $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@model'));
-        $partIndex->ensureCanSortWorks('Type');
+        $partIndex->checkSortingBy('Type');
     }
 
     protected function getModelData($type, $brand, $groupId): array

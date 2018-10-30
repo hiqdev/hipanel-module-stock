@@ -120,7 +120,7 @@ class PartsCest
     {
         $partIndex      = new IndexPage($I);
         $I->needPage(Url::to('@part'));
-        $partIndex->ensureCanFilterWorks('Kingston');
+        $partIndex->checkFilterBy('brand','Kingston');
     }
 
     /**
@@ -132,7 +132,7 @@ class PartsCest
     {
         $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@part'));
-        $partIndex->ensureCanSortWorks('Serial');
-        $partIndex->ensureCanSortWorks('Part No.');
+        $partIndex->checkSortingBy('Serial');
+        $partIndex->checkSortingBy('Part No.');
     }
 }

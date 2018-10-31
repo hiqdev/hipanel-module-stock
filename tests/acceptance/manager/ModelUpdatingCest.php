@@ -20,13 +20,13 @@ class ModelUpdatingCest
         $page = new Create($I);
         $newValue = 'UPD_TEST';
 
-        $I->login();
         $I->needPage(Url::to('@model/create'));
         $modelData = $this->getModelData('RAM', 'Kingston', '32GB DDR3');
         $page->fillModelFields($modelData);
         $I->pressButton('Save');
         $urlDetails = $page->seeModelWasCreated();
         $I->click("//a[contains(text(), 'Update')]");
+
         $newValue .= $modelData['uid'];
         (new Input($I, "//input[@value='".$modelData['partno']."']"))
             ->setValue($newValue);

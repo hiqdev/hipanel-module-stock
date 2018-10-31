@@ -19,14 +19,14 @@ class PartsUpdatingCest
     public function ensureICanCreateAndUpdatePart(Manager $I): void
     {
         $page = new Create($I);
-        $price = '142.42';
 
-        $I->login();
         $I->needPage(Url::to('@part/create'));
         $partData = $this->getPartData();
         $page->fillPartFields($partData);
         $I->pressButton('Save');
         $urlDetails= $page->seePartWasCreated();
+
+        $price = '142.42';
         $I->click("//a[contains(text(), 'Update')]");
         (new Input($I, '//input[@value=42]'))
             ->setValue($price);

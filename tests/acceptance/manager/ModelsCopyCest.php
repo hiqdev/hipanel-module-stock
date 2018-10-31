@@ -41,7 +41,7 @@ class ModelsCopyCest
 
         $I->needPage(Url::to('@model'));
         $modelIndex->filterBy($input, $modelData['model']);
-        foreach (range(1,2) as $i) {
+        foreach (range(1, 2) as $i) {
             $I->see('noname', "//tbody/tr[$i]");
         }
     }

@@ -4,36 +4,46 @@ namespace hipanel\modules\stock\tests\acceptance\manager;
 
 use hipanel\helpers\Url;
 use hipanel\modules\stock\tests\_support\Page\model\Create;
+use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 
-class ModelsCest
+class ModelsCopyCest
 {
     /**
-     * Create new model, update PartNo and check result
+     * Create new model, and check copy functionality
      *
      * @param Manager $I
      * @throws \Codeception\Exception\ModuleException
      */
     public function ensureCopyModelWork(Manager $I):void
     {
+        $modelIndex = new IndexPage($I);
         $page = new Create($I);
-        $newValue = 'UPD_TEST';
 
         $I->needPage(Url::to('@model/create'));
-        $modelData = $this->getModelData('RAM', 'Kingston', '32GB DDR3');
+        $modelData = $this->getModelData('Chassis', 'noname', '32GB DDR3');
         $page->fillModelFields($modelData);
         $I->pressButton('Save');
-        $urlDetails = $page->seeModelWasCreated();
-        $I->click("//a[contains(text(), 'Update')]");
+        $page->seeModelWasCreated();
 
-        $newValue .= $modelData['uid'];
+        $I->needPage(Url::to('@model'));
+        $input = new Input($I, "//thead/tr/td/input[contains(@name,'ModelSearch[model_like]')]");
+        $modelIndex->filterBy($input, $modelData['model']);
+        $modelIndex->selectTableRowByNumber(1);
+        $I->pressButton('Copy');
+        $I->waitForPageUpdate();
+
         (new Input($I, "//input[@value='".$modelData['partno']."']"))
-            ->setValue($newValue);
+            ->setValue('COPY_TEST_'.$modelData['model']);
         $I->pressButton('Save');
         $I->waitForPageUpdate();
-        $I->seeInCurrentUrl('stock/model/view?id='.$urlDetails);
-        $I->see($newValue, '//td/a');
+
+        $I->needPage(Url::to('@model'));
+        $modelIndex->filterBy($input, $modelData['model']);
+        for ($i=1; $i <= 2; ++$i) {
+            $I->see('noname', "//tbody/tr[$i]");
+        }
     }
 
     /**

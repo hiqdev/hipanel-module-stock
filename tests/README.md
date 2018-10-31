@@ -50,11 +50,11 @@ Short list functionality
 - update (✓)
     - single/bulk update from details/index page (✓)
         - input data (✓)
-        - returns to corresponding page
-        - proper result
+        - returns to corresponding page (✓)
+        - proper result (✓)
 - create (✓)
     - create more then one object (✓)
-    - returns to corresponding page
+    - returns to corresponding page (✓)
 - delete (✓)
 - copy
 

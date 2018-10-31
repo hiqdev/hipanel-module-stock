@@ -5,37 +5,35 @@ namespace hipanel\modules\stock\tests\acceptance\manager;
 use hipanel\helpers\Url;
 use hipanel\modules\stock\tests\_support\Page\part\Create;
 use hipanel\tests\_support\Page\IndexPage;
+use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 
 class PartsUpdatingCest
 {
-    public function ensurePartsPageWorks(Manager $I): void
-    {
-        $I->login();
-        $I->needPage(Url::to('@part'));
-    }
 
     /**
-     * Tries to create a new single part.
-     *
-     * Expects successful part creation.
+     * Create new part, update price and check result
      *
      * @param Manager $I
      * @throws \Codeception\Exception\ModuleException
      */
-    public function ensureICanCreatePart(Manager $I): void
+    public function ensureICanCreateAndUpdatePart(Manager $I): void
     {
+        $price = '142.42';
+        $I->login();
         $page = new Create($I);
-        $partIndex = new IndexPage($I);
-        // create new test part with UPD_ prefix
         $I->needPage(Url::to('@part/create'));
         $partData = $this->getPartData();
         $page->fillPartFields($partData);
         $I->pressButton('Save');
-        $page->seePartWasCreated();
-        // filtering parts by type UPD_direct
-        $partIndex->checkFilterBy('type', 'UPD_direct');
-        // need mark part and start check update
+        $urlDetails= $page->seePartWasCreated();
+        $I->click("//a[contains(text(), 'Update')]");
+        (new Input($I, '//input[@value=42]'))
+            ->setValue($price);
+        $I->pressButton('Save');
+        $I->waitForPageUpdate();
+        $I->seeInCurrentUrl('stock/part/view?id='.$urlDetails);
+        $I->see('$'.$price, '//tbody//tr/td/span');
     }
 
     /**
@@ -44,13 +42,13 @@ class PartsUpdatingCest
     protected function getPartData(): array
     {
         return [
-            'partno'        => 'UPD_MG_TEST_PARTNO',
-            'src_id'        => 'UPD_TEST01',
-            'dst_id'        => 'UPD_vCDN-soltest',
-            'serials'       => 'UPD_MG_TEST_PART' . uniqid(),
-            'move_descr'    => 'UPD_MG_TEST_MOVE',
-            'type'          => 'UPD_direct',
-            'price'         => 200,
+            'partno'        => 'MG_TEST_PARTNO',
+            'src_id'        => 'TEST01',
+            'dst_id'        => 'vCDN-soltest',
+            'serials'       => 'MG_TEST_PART' . uniqid(),
+            'move_descr'    => 'MG_TEST_MOVE',
+            'type'          => 'FROM OLD STOCK',
+            'price'         => 42,
             'currency'      => 'usd',
             'company_id'    => 'Other'
         ];

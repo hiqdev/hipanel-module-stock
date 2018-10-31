@@ -4,7 +4,6 @@ namespace hipanel\modules\stock\tests\acceptance\manager;
 
 use hipanel\helpers\Url;
 use hipanel\modules\stock\tests\_support\Page\part\Create;
-use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 
@@ -19,9 +18,10 @@ class PartsUpdatingCest
      */
     public function ensureICanCreateAndUpdatePart(Manager $I): void
     {
-        $price = '142.42';
-        $I->login();
         $page = new Create($I);
+        $price = '142.42';
+
+        $I->login();
         $I->needPage(Url::to('@part/create'));
         $partData = $this->getPartData();
         $page->fillPartFields($partData);

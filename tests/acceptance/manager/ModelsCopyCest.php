@@ -16,7 +16,7 @@ class ModelsCopyCest
      * @param Manager $I
      * @throws \Codeception\Exception\ModuleException
      */
-    public function ensureCopyModelWork(Manager $I):void
+    public function ensureCopyModelWork(Manager $I): void
     {
         $modelIndex = new IndexPage($I);
         $page = new Create($I);
@@ -41,18 +41,18 @@ class ModelsCopyCest
 
         $I->needPage(Url::to('@model'));
         $modelIndex->filterBy($input, $modelData['model']);
-        for ($i=1; $i <= 2; ++$i) {
+        foreach (range(1,2) as $i) {
             $I->see('noname', "//tbody/tr[$i]");
         }
     }
 
     /**
-     * @param $type
-     * @param $brand
-     * @param $groupId
+     * @param string $type
+     * @param string $brand
+     * @param string $groupId
      * @return array
      */
-    protected function getModelData($type, $brand, $groupId): array
+    protected function getModelData(string $type, string $brand, string $groupId): array
     {
         $uid = uniqid();
 

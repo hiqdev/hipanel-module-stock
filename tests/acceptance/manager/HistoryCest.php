@@ -56,7 +56,7 @@ class HistoryCest
      */
     public function ensureFilterByClientWorks(Manager $I): void
     {
-        $name = 'hipanel_test_manager@hiqdev.com';
+        $name = $I->getUsername();
         $selector = '#movesearch-client_id';
 
         $I->needPage(Url::to('@move'));

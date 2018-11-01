@@ -28,7 +28,7 @@ Short list functionality
     - create more then one object (✓)
     - returns to corresponding page (✓)
 - delete
-- copy
+- copy (✓)
 
 ## Parts
 
@@ -56,29 +56,27 @@ Short list functionality
     - create more then one object (✓)
     - returns to corresponding page (✓)
 - delete
-- copy
+- copy (✓)
 
 ## History
-- sidebar menu
+- sidebar menu (✓)
     - link to index for admins but not clients [admin/StockSidebarMenuCest], [client/StockSidebarMenuCest] \(✓\)
-- index page
-    - filtering
-        - by client
-    - sorting
-        - by time
-    - legend block
-        - has 3+ elements
+- index page (✓)
+    - filtering (✓)
+        - by client (✓)
+    - sorting (✓)
+        - by time (✓)
+    - legend block (✓)
+        - has 3+ elements (✓)
 
 ## Model groups
-- sidebar menu
+- sidebar menu (✓)
     - link to index for admins but not clients [admin/StockSidebarMenuCest], [client/StockSidebarMenuCest] \(✓\)
-- index page
+- index page (✓)
     - filtering
         - by name
     - sorting
         - by name
-    - legend block
-        - has 3+ elements
 - update
     - single/bulk update from details/index page
         - input data
@@ -89,5 +87,6 @@ Short list functionality
     - returns to corresponding page
 - delete
 - copy
+
 [admin/StockSidebarMenuCest]:       acceptance/admin/StockSidebarMenuCest.php
 [client/StockSidebarMenuCest]:      acceptance/client/StockSidebarMenuCest.php

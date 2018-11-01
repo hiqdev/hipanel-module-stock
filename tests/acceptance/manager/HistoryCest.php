@@ -64,8 +64,9 @@ class HistoryCest
         $select->setValue($name);
         $this->index->filterBy($select, $name);
         $count = $this->index->countRowsInTableBody();
-        for ($i = 0 ; $i < $count; ++$i) {
-            $I->see($name, '//tbody/tr');
+        for ($i = 1 ; $i < $count; ++$i) {
+            $I->see($name, "//tbody/tr[$i]");
+            echo $count . PHP_EOL;
         }
     }
 

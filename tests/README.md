@@ -73,10 +73,10 @@ Short list functionality
 - sidebar menu (✓)
     - link to index for admins but not clients [admin/StockSidebarMenuCest], [client/StockSidebarMenuCest] \(✓\)
 - index page (✓)
-    - filtering
-        - by name
-    - sorting
-        - by name
+    - filtering (✓)
+        - by name (✓)
+    - sorting (✓)
+        - by id (✓)
 - update
     - single/bulk update from details/index page
         - input data

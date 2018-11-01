@@ -29,7 +29,7 @@ class ModelGroupsCest
     public function ensureFilterByNameWorks(Manager $I): void
     {
         $name = '16GB DDR';
-        $selector = "//input[contains(@name,'ModelGroupSearch[name_ilike]')]";
+        $selector = "//input[contains(@name, 'ModelGroupSearch[name_ilike]')]";
 
         $I->needPage(Url::to('@model-group'));
         $this->index->filterBy(new Input($I, $selector), $name);
@@ -48,12 +48,12 @@ class ModelGroupsCest
     public function ensureSortByIdWorks(Manager $I): void
     {
         $I->needPage(Url::to('@model-group'));
-        $I->click("//button[contains(text(),'Sort')]");
+        $I->click("//button[contains(text(), 'Sort')]");
         $I->click("//ul//a[contains(text(), 'ID')]");
         $I->waitForPageUpdate();
 
         $count = $this->index->countRowsInTableBody();
-        $dataKey = array();
+        $dataKey = [];
         for ($i = 1; $i <= $count; ++$i) {
             $dataKey[$i] = $I->grabAttributeFrom("//tbody/tr[$i]", 'data-key');
         }

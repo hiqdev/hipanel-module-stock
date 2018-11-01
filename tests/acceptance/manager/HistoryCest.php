@@ -66,7 +66,6 @@ class HistoryCest
         $count = $this->index->countRowsInTableBody();
         for ($i = 1 ; $i < $count; ++$i) {
             $I->see($name, "//tbody/tr[$i]");
-            echo $count . PHP_EOL;
         }
     }
 

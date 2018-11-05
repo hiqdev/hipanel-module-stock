@@ -19,7 +19,12 @@ class ModelGroupsActionsCest
         $this->index = new IndexPage($I);
     }
 
-    public function ensureCreateModelGroupsWorks(Manager $I): void
+    /**
+     * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
+     * @throws \Exception
+     */
+    public function ensureCreateModelGroupWorks(Manager $I): void
     {
         $I->needPage(Url::to('@model-group/create'));
         $I->pressButton('Save');
@@ -46,19 +51,80 @@ class ModelGroupsActionsCest
         $I->closeNotification('Created');
         $I->seeInCurrentUrl('/stock/model-group/index');
     }
-//
-//    public function ensureFilterByNameWorks(Manager $I): void
-//    {
-//        $name = 'test';
-//        $selector = "//input[contains(@name, 'ModelGroupSearch[name_ilike]')]";
-//
-//        $I->needPage(Url::to('@model-group'));
-//        $this->index->filterBy(new Input($I, $selector), $name);
-//        $count = $this->index->countRowsInTableBody();
-//        for ($i = 1 ; $i <= $count; ++$i) {
-//            $I->see($name, "//tbody/tr[$i]");
-//        }
-//    }
 
+    /**
+     * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureCopyModelGroupWorks(Manager $I): void
+    {
+        $count = $this->startAction($I);
+        $I->pressButton('Copy');
+        $this->fillInput($I, $count, 'Copy');
+        $I->closeNotification('Created');
+        $I->seeInCurrentUrl('/stock/model-group/index');
+    }
+
+    /**
+     * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureUpdateModelGroupWorks(Manager $I): void
+    {
+        $count = $this->startAction($I);
+        $I->pressButton('Update');
+        $this->fillInput($I, $count, 'Updated');
+        $I->closeNotification('Updated');
+        $I->seeInCurrentUrl('/stock/model-group/index');
+    }
+
+
+    /**
+     * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureDeleteModelGroupWorks(Manager $I): void
+    {
+        $this->startAction($I);
+        $I->pressButton('Delete');
+        $I->acceptPopup();
+        $I->closeNotification('Deleted');
+        $I->see('No results found.', '//tbody');
+    }
+
+    /**
+     * @param Manager $I
+     * @return int
+     * @throws \Codeception\Exception\ModuleException
+     */
+    private function startAction(Manager $I): int
+    {
+        $name = 'TEST';
+        $selector = "//input[contains(@name, 'ModelGroupSearch[name_ilike]')]";
+
+        $I->needPage(Url::to('@model-group'));
+        $this->index->filterBy(new Input($I, $selector), $name);
+        $count = $this->index->countRowsInTableBody();
+        foreach (range(1, $count) as $i) {
+            $this->index->selectTableRowByNumber($i);
+        }
+        return $count;
+    }
+
+    /**
+     * @param Manager $I
+     * @param int $count
+     * @param string $action
+     * @throws \Codeception\Exception\ModuleException
+     */
+    private function fillInput(Manager $I, int $count, string $action): void
+    {
+        foreach (range(0, $count - 1) as $i) {
+            (new Input($I, "//input[@name='ModelGroup[$i][name]']"))
+                ->setValue("TEST_MODEL_GROUP_$i-$action");
+        }
+        $I->pressButton('Save');
+        $I->waitForPageUpdate();
+    }
 }
 

@@ -19,6 +19,15 @@ class ModelGroupsCest
         $this->index = new IndexPage($I);
     }
 
+    public function ensureIndexPageWorks(Manager $I)
+    {
+        $I->needPage(Url::to('@model-group'));
+        $I->see('Model groups', 'h1');
+        $I->seeLink('Create group', Url::to('create'));
+        $this->ensureICanSeeAdvancedSearchBox($I);
+        $this->ensureICanSeeBulkSearchBox();
+    }
+
     /**
      * Method for check filtering by name
      *
@@ -61,6 +70,31 @@ class ModelGroupsCest
         for ($i = 1; $i <= $count; ++$i) {
             $I->seeElement("//tbody/tr[$i]", ['data-key' => $dataKey[$i - 1]]);
         }
+    }
+
+
+    private function ensureICanSeeAdvancedSearchBox(Manager $I)
+    {
+        $this->index->containsFilters([
+            Input::asAdvancedSearch($I, 'Name'),
+        ]);
+    }
+
+    private function ensureICanSeeBulkSearchBox()
+    {
+        $this->index->containsBulkButtons([
+            'Update',
+            'Copy',
+            'Delete',
+        ]);
+        $this->index->containsColumns([
+            'Name',
+            'DTG',
+            'SDG',
+            'M3',
+            'TWR',
+            'Description',
+        ]);
     }
 }
 

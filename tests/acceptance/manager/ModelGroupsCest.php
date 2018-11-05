@@ -27,7 +27,6 @@ class ModelGroupsCest
         $this->ensureICanSeeAdvancedSearchBox($I);
         $this->ensureICanSeeBulkSearchBox();
     }
-
     /**
      * Method for check filtering by name
      *
@@ -71,8 +70,6 @@ class ModelGroupsCest
             $I->seeElement("//tbody/tr[$i]", ['data-key' => $dataKey[$i - 1]]);
         }
     }
-
-
     private function ensureICanSeeAdvancedSearchBox(Manager $I)
     {
         $this->index->containsFilters([

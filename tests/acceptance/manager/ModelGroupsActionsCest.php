@@ -16,7 +16,7 @@ class ModelGroupsActionsCest
      * @var IndexPage
      */
     private $index;
-
+    private $uni;
 
     public function __construct()
     {

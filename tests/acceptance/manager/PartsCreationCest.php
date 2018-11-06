@@ -115,6 +115,28 @@ class PartsCreationCest
     }
 
     /**
+     * Create and delete new parts
+     *
+     * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureICanCreateAndTrashPart(Manager $I): void
+    {
+        $page = new Create($I);
+
+        $I->needPage(Url::to('@part/create'));
+        $partData = $this->getPartData();
+        $page->fillPartFields($partData);
+
+        $I->pressButton('Save');
+        $page->seePartWasCreated();
+
+        $I->click("//a[contains(text(), 'Delete')]");
+        $I->acceptPopup();
+        $I->closeNotification('Part has been deleted');
+    }
+
+    /**
      * @return array
      */
     protected function getPartData(): array

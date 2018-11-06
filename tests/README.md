@@ -27,7 +27,7 @@ Short list functionality
 - create (✓)
     - create more then one object (✓)
     - returns to corresponding page (✓)
-- delete
+- delete (✓)
 - copy (✓)
 
 ## Parts
@@ -55,7 +55,7 @@ Short list functionality
 - create (✓)
     - create more then one object (✓)
     - returns to corresponding page (✓)
-- delete
+- delete (✓)
 - copy (✓)
 
 ## History

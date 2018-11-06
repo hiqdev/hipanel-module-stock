@@ -6,7 +6,6 @@ use hipanel\helpers\Url;
 use hipanel\modules\stock\tests\_support\Page\model\Create;
 use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Input;
-use hipanel\tests\_support\Page\Widget\Input\Select2;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 
 class ModelsCest
@@ -144,6 +143,7 @@ class ModelsCest
      *
      * @param Manager $I
      * @throws \Codeception\Exception\ModuleException
+     * @throws \Exception
      */
     public function ensureICanCreateAndDeleteModel(Manager $I): void
     {

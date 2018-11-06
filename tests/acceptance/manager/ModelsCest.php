@@ -155,7 +155,7 @@ class ModelsCest
         $I->pressButton('Save');
         $page->seeModelWasCreated();
 
-        $I->click("//a[contains(text(),'Delete')]");
+        $I->click("//a[contains(text(), 'Delete')]");
         $I->acceptPopup();
         $I->closeNotification('Model(s) deleted');
 
@@ -174,7 +174,7 @@ class ModelsCest
     protected function filterModelsByNameAndSelectThem(Manager $I, $name): void
     {
         $page = new IndexPage($I);
-        $selector = "//thead/tr/td/input[contains(@name,'ModelSearch[model_like]')]";
+        $selector = "//thead/tr/td/input[contains(@name, 'ModelSearch[model_like]')]";
 
         $I->needPage(Url::to('@model'));
         $I->checkOption("//input[@name='ModelSearch[hide_deleted]'][@type='checkbox']");

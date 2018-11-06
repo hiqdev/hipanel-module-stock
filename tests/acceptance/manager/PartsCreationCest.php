@@ -131,7 +131,7 @@ class PartsCreationCest
         $I->pressButton('Save');
         $page->seePartWasCreated();
 
-        $I->click("//a[contains(text(),'Delete')]");
+        $I->click("//a[contains(text(), 'Delete')]");
         $I->acceptPopup();
         $I->closeNotification('Part has been deleted');
     }

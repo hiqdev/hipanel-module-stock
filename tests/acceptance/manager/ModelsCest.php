@@ -5,6 +5,8 @@ namespace hipanel\modules\stock\tests\acceptance\manager;
 use hipanel\helpers\Url;
 use hipanel\modules\stock\tests\_support\Page\model\Create;
 use hipanel\tests\_support\Page\IndexPage;
+use hipanel\tests\_support\Page\Widget\Input\Input;
+use hipanel\tests\_support\Page\Widget\Input\Select2;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 
 class ModelsCest
@@ -126,7 +128,7 @@ class ModelsCest
 
     /**
      * Method for check sorting
-
+     *
      * @param Manager $I
      * @throws \Codeception\Exception\ModuleException
      */
@@ -135,6 +137,53 @@ class ModelsCest
         $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@model'));
         $partIndex->checkSortingBy('Type');
+    }
+
+    /**
+     * Create and delete model
+     *
+     * @param Manager $I
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureICanCreateAndDeleteModel(Manager $I): void
+    {
+        $page = new Create($I);
+
+        $I->needPage(Url::to('@model/create'));
+        $modelData = $this->getModelData('other', 'noname', '32GB DDR3');
+        $page->fillModelFields($modelData);
+        $I->pressButton('Save');
+        $page->seeModelWasCreated();
+
+        $I->click("//a[contains(text(),'Delete')]");
+        $I->acceptPopup();
+        $I->closeNotification('Model(s) deleted');
+
+        $I->checkOption("//input[@name='ModelSearch[hide_deleted]'][@type='checkbox']");
+        (new Input($I, "//input[@name='ModelSearch[model_like]']"))
+            ->setValue($modelData['model']);
+        $I->pressButton('Search');
+        $I->waitForText('No results found.');
+    }
+
+    /**
+     * @param Manager $I
+     * @param $name
+     * @throws \Codeception\Exception\ModuleException
+     */
+    protected function filterModelsByNameAndSelectThem(Manager $I, $name): void
+    {
+        $page = new IndexPage($I);
+        $selector = "//thead/tr/td/input[contains(@name,'ModelSearch[model_like]')]";
+
+        $I->needPage(Url::to('@model'));
+        $I->checkOption("//input[@name='ModelSearch[hide_deleted]'][@type='checkbox']");
+        $page->filterBy(new Input($I, $selector), $name);
+        $count = $page->countRowsInTableBody();
+        foreach (range(1, $count) as $i) {
+            $page->selectTableRowByNumber($i);
+        }
+        $I->pressButton('Search');
     }
 
     protected function getModelData($type, $brand, $groupId): array

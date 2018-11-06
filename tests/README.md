@@ -77,16 +77,16 @@ Short list functionality
         - by name (✓)
     - sorting (✓)
         - by id (✓)
-- update
-    - single/bulk update from details/index page
-        - input data
-        - returns to corresponding page
-        - proper result
-- create
-    - create more then one object
-    - returns to corresponding page
-- delete
-- copy
+- update (✓)
+    - single/bulk update from details/index page (✓)
+        - input data (✓)
+        - returns to corresponding page (✓)
+        - proper result (✓)
+- create (✓)
+    - create more then one object (✓)
+    - returns to corresponding page (✓)
+- delete (✓)
+- copy (✓)
 
 [admin/StockSidebarMenuCest]:       acceptance/admin/StockSidebarMenuCest.php
 [client/StockSidebarMenuCest]:      acceptance/client/StockSidebarMenuCest.php

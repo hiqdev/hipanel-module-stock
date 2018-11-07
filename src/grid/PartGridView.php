@@ -232,6 +232,7 @@ class PartGridView extends BoxedGridView
             ],
             'move_descr' => [
                 'filterOptions' => ['class' => 'narrow-filter'],
+                'filterAttribute' => 'move_descr_ilike',
                 'format' => 'html',
                 'value' => function ($model) {
                     return Move::prepareDescr($model->move_descr);

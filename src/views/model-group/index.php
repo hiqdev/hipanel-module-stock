@@ -20,12 +20,18 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
     <?php $page->beginContent('main-actions') ?>
-        <?= Html::a(Yii::t('hipanel:stock', 'Create group'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
+        <?php if (Yii::$app->user->can('model.create')) : ?>
+            <?= Html::a(Yii::t('hipanel:stock', 'Create group'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
+        <?php endif ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
-        <?= $page->renderBulkButton('update', Yii::t('hipanel:stock', 'Update')) ?>
-        <?= $page->renderBulkButton('copy', Yii::t('hipanel:stock', 'Copy')) ?>
+        <?php if (Yii::$app->user->can('model.update')) : ?>
+            <?= $page->renderBulkButton('update', Yii::t('hipanel:stock', 'Update')) ?>
+        <?php endif ?>
+        <?php if (Yii::$app->user->can('model.create')) : ?>
+            <?= $page->renderBulkButton('copy', Yii::t('hipanel:stock', 'Copy')) ?>
+        <?php endif ?>
         <?php if (Yii::$app->user->can('model.delete')) : ?>
             <?= $page->renderBulkDeleteButton('delete') ?>
         <?php endif; ?>

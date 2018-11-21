@@ -35,32 +35,37 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                     '@part/reserve',
                     'id' => $this->model->id,
                 ],
+                'visible' => Yii::$app->user->can('part.update'),
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Replace'),
                 'icon' => 'fa-repeat',
                 'url' => ['@part/replace', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('move.create'),
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Copy'),
                 'icon' => 'fa-files-o',
                 'url' => ['@part/copy', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('part.create'),
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Move'),
                 'icon' => 'fa-arrows-h',
                 'url' => ['@part/move-by-one', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('move.create'),
             ],
             [
                 'label' => Yii::t('hipanel', 'Update'),
                 'icon' => 'fa-pencil',
                 'url' => ['@part/update', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('part.update'),
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Trash'),
                 'icon' => 'fa-trash-o',
                 'url' => ['@part/trash', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('part.delete'),
+                'visible' => Yii::$app->user->can('move.create'),
             ],
             [
                 'label' => Yii::t('hipanel', 'Delete'),
@@ -78,6 +83,7 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                         ],
                     ],
                 ],
+                'visible' => Yii::$app->user->can('part.delete'),
             ],
         ];
     }

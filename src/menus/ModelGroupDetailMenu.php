@@ -15,11 +15,13 @@ class ModelGroupDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'label' => Yii::t('hipanel:stock', 'Update'),
                 'icon' => 'fa-pencil',
                 'url' => ['@model-group/update', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('model.update'),
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Copy'),
                 'icon' => 'fa-copy',
                 'url' => ['@model-group/copy', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('model.create'),
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Delete'),

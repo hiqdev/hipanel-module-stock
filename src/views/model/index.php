@@ -19,7 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= $page->setSearchFormData(compact(['types', 'brands', 'states'])) ?>
     <?php $page->beginContent('main-actions') ?>
-        <?= Html::a(Yii::t('hipanel:stock', 'Create model'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
+        <?php if (Yii::$app->user->can('model.create')) : ?>
+            <?= Html::a(Yii::t('hipanel:stock', 'Create model'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
+        <?php endif ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('legend') ?>
@@ -27,13 +29,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
-        <?= $page->renderBulkButton('unmark-hidden-from-user', Yii::t('hipanel:stock', 'Show for users')) ?>
-        <?= $page->renderBulkButton('mark-hidden-from-user', Yii::t('hipanel:stock', 'Hide from users')) ?>
-        <?= $page->renderBulkButton('update', Yii::t('hipanel:stock', 'Update')) ?>
-        <?= $page->renderBulkButton('copy', Yii::t('hipanel:stock', 'Copy')) ?>
+        <?php if (Yii::$app->user->can('model.update')) : ?>
+            <?= $page->renderBulkButton('unmark-hidden-from-user', Yii::t('hipanel:stock', 'Show for users')) ?>
+            <?= $page->renderBulkButton('mark-hidden-from-user', Yii::t('hipanel:stock', 'Hide from users')) ?>
+            <?= $page->renderBulkButton('update', Yii::t('hipanel:stock', 'Update')) ?>
+        <?php endif ?>
+        <?php if (Yii::$app->user->can('model.create')) : ?>
+            <?= $page->renderBulkButton('copy', Yii::t('hipanel:stock', 'Copy')) ?>
+        <?php endif ?>
         <?php if (Yii::$app->user->can('model.delete')) : ?>
             <?= $page->renderBulkDeleteButton('delete') ?>
-        <?php endif; ?>
+        <?php endif ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('sorter-actions') ?>

@@ -70,7 +70,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php $page->endContent() ?>
 
                 <?php $page->beginContent('bulk-actions') ?>
-                    <?= $page->renderBulkDeleteButton('@move/delete') ?>
+                    <?php if (Yii::$app->user->can('move.delete')) : ?>
+                        <?= $page->renderBulkDeleteButton('@move/delete') ?>
+                    <?php endif ?>
                 <?php $page->endContent() ?>
 
                 <?php $page->beginContent('table') ?>

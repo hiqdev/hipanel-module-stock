@@ -49,9 +49,10 @@ class PartController extends CrudController
                 'actions' => [
                     'create' => 'part.create',
                     'update' => 'part.update',
-                    'copy' => 'part.update',
+                    'copy' => 'part.create',
                     'reserve' => 'part.update',
                     'unreserve' => 'part.update',
+                    'update-order-no' => 'part.update',
 
                     'repair' => 'move.create',
                     'replace' => 'move.create',

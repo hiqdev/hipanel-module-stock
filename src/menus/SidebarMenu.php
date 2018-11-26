@@ -18,16 +18,12 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
     public function items()
     {
         $user = Yii::$app->user;
-        if (!$user->can('stock.read')) {
-            return [];
-        }
-
         return [
             'stock' => [
                 'label'   => Yii::t('hipanel:stock', 'Stock'),
                 'url'     => ['/stock/model/index'],
                 'icon'    => 'fa-cubes',
-                'visible' => $user->can('stock.read'),
+                'visible' => $user->can('model.read') || $user->can('part.read') || $user->can('move.read'),
                 'items' => [
                     'model' => [
                         'label' => Yii::t('hipanel:stock', 'Models'),

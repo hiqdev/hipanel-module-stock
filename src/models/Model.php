@@ -202,7 +202,7 @@ class Model extends YiiModel
 
     public function getParts()
     {
-        return $this->hasMany(Part::class, ['model_id' => 'id'])->where(['limit' => 'ALL'])->orderBy(['move_time' => SORT_DESC]);
+        return $this->hasMany(Part::class, ['model_id' => 'id'])->limit(-1)->orderBy(['move_time' => SORT_DESC]);
     }
 
     public function getName()

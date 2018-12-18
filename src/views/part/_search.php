@@ -17,7 +17,9 @@ use yii\helpers\Html;
 
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('partno_like')->widget(PartnoCombo::class) ?>
+    <?= $search->field('partno_inilike')->widget(PartnoCombo::class, [
+        'multiple' => true, 'primaryFilter' => 'partno_inilike',
+    ]) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
@@ -44,12 +46,14 @@ use yii\helpers\Html;
 <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('serial_like') ?></div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('id_in')->widget(PartCombo::class, ['multiple' => true]) ?>
+    <?= $search->field('id_in')->widget(PartCombo::class, [
+        'hasId' => true,
+        'multiple' => true,
+        'current' => array_combine((array)$search->model->id_in, (array)$search->model->id_in),
+    ]) ?>
 </div>
 
-
 <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('move_descr_ilike') ?></div>
-
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('src_name_like')->widget(SourceCombo::class) ?>

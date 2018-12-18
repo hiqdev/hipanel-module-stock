@@ -9,7 +9,7 @@ use hiqdev\combo\StaticCombo;
  */
 ?>
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('partno_like')->widget(PartnoCombo::class) ?>
+    <?= $search->field('partno_inilike')->widget(PartnoCombo::class, ['multiple' => true, 'primaryFilter' => 'partno_inilike']) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">

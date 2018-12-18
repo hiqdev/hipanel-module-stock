@@ -25,7 +25,8 @@ class MoveSearch extends Move
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
             'order_no_ilike',
             'types',
-            'name_like' // -> server_like
+            'name_like', // -> server_like
+            'partno_inilike',
         ]);
     }
 }

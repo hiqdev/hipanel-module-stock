@@ -147,22 +147,24 @@ class ModelsCest
      */
     public function ensureICanCreateAndDeleteModel(Manager $I): void
     {
-        $page = new Create($I);
+        $createPage = new Create($I);
+        $indexPage  = new IndexPage($I);
 
         $I->needPage(Url::to('@model/create'));
         $modelData = $this->getModelData('other', 'noname', '32GB DDR3');
-        $page->fillModelFields($modelData);
+        $createPage->fillModelFields($modelData);
         $I->pressButton('Save');
-        $page->seeModelWasCreated();
+        $createPage->seeModelWasCreated();
 
-        $I->click("//a[contains(text(), 'Delete')]");
+        $I->needPage(Url::to('@model'));
+        $indexPage->filterBy((Input::asAdvancedSearch($I, 'Model')), $modelData['model']);
+
+        $indexPage->selectTableRowByNumber(1);
+
+        $I->pressButton('Delete');
         $I->acceptPopup();
         $I->closeNotification('Model(s) deleted');
 
-        $I->checkOption("//input[@name='ModelSearch[hide_deleted]'][@type='checkbox']");
-        (new Input($I, "//input[@name='ModelSearch[model_like]']"))
-            ->setValue($modelData['model']);
-        $I->pressButton('Search');
         $I->waitForText('No results found.');
     }
 
@@ -177,7 +179,6 @@ class ModelsCest
         $selector = "//thead/tr/td/input[contains(@name, 'ModelSearch[model_like]')]";
 
         $I->needPage(Url::to('@model'));
-        $I->checkOption("//input[@name='ModelSearch[hide_deleted]'][@type='checkbox']");
         $page->filterBy(new Input($I, $selector), $name);
         $count = $page->countRowsInTableBody();
         foreach (range(1, $count) as $i) {

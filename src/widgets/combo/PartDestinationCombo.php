@@ -3,7 +3,7 @@
 namespace hipanel\modules\stock\widgets\combo;
 
 use hipanel\helpers\ArrayHelper;
-use hipanel\models\Ref;
+use hipanel\modules\stock\models\Part;
 use Yii;
 
 class PartDestinationCombo extends DestinationCombo
@@ -77,10 +77,7 @@ class PartDestinationCombo extends DestinationCombo
     {
         return ArrayHelper::merge(parent::getFilter(), [
             'types' => [
-                'format' => ArrayHelper::merge(
-                    array_keys(Ref::getList('type,device,server')),
-                    array_keys(Ref::getList('type,device,switch'))
-                ),
+                'format' => Part::getSubTypes(),
             ],
         ]);
     }

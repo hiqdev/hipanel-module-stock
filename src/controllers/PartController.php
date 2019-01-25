@@ -538,7 +538,9 @@ class PartController extends CrudController
         $range = Yii::$app->request->post('id');
         if ($range) {
             $servers = Server::find()->where([
-                'name_like' => $range, 'limit' => 'ALL', 'types' => PartDestinationCombo::$types,
+                'name_like' => $range,
+                'limit' => 'ALL',
+                'types' => Part::getSubTypes(),
             ])->all();
 
             foreach ($servers as $server) {

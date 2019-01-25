@@ -11,6 +11,7 @@ class PartDestinationCombo extends DestinationCombo
     public $name = 'dst_ids';
 
     static public $types = [
+        // SERVER TYPES
         'unused',
         'old',
         'setup',
@@ -33,6 +34,17 @@ class PartDestinationCombo extends DestinationCombo
         'transit',
         'office',
         'stock',
+        // SWITCH TYPES
+        'net',
+        'kvm',
+        'pdu',
+        'ipmi',
+        'module',
+        'rack',
+        'camera',
+        'cable_organizer',
+        'mux',
+        'console',
     ];
 
     /** {@inheritdoc} */

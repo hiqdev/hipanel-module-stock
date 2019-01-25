@@ -268,30 +268,27 @@ class Part extends \hipanel\base\Model
         return sprintf('%s %s %s #%s', $this->model_type_label, $this->model_brand_label, $this->partno, $this->serial);
     }
 
-    public static function getBasicTypes()
+    public static function getDestinationBasicTypes()
     {
         return array_keys(Ref::getList('type,device'));
     }
 
-    public static function getSubTypes($subType = null)
+    public static function getDestinationSubTypes($subType = null)
     {
-        $basicTypes = self::getBasicTypes();
-        if (empty($basicTypes)) {
-            return [];
-        }
-        if (!empty($subType)) {
-            if (!in_array($subType, $basicTypes, true)) {
-                return [];
+        $types = Ref::getList("type,device", null, ['with_recursive' => true]);
+        foreach ($types as $type => $name) {
+            if (strpos($type, ",") !== false) {
+                [$base, $type] = explode(",", $type, 2);
+                $baseSubTypes[$base][] = $type;
             }
-
-            return array_keys(Ref::getList("type,device,{$subType}"));
+            $subTypes[] = $type;
         }
 
-        $subTypes = [];
-        foreach ($basicTypes as $subType) {
-            $subTypes = ArrayHelper::merge($subTypes, array_keys(Ref::getList("type,device,{$subType}")));
+        if (empty($subType)) {
+            return $subTypes;
         }
 
-        return $subTypes;
+        return empty($baseSubTypes[$subType]) ? [] : $baseSubTypes[$subType];
     }
+
 }

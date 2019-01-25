@@ -77,7 +77,7 @@ class PartDestinationCombo extends DestinationCombo
     {
         return ArrayHelper::merge(parent::getFilter(), [
             'types' => [
-                'format' => Part::getSubTypes(),
+                'format' => Part::getDestinationSubTypes(),
             ],
         ]);
     }

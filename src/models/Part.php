@@ -279,7 +279,7 @@ class Part extends \hipanel\base\Model
         foreach ($types as $type => $name) {
             if (strpos($type, ",") !== false) {
                 [$base, $type] = explode(",", $type, 2);
-                $type = self::getRecurciveSubType($type);
+                $type = self::getRecursiveSubType($type);
                 $baseSubTypes[$base][] = $type;
             }
             $subTypes[] = $type;
@@ -292,7 +292,7 @@ class Part extends \hipanel\base\Model
         return empty($baseSubTypes[$subType]) ? [] : $baseSubTypes[$subType];
     }
 
-    public static function getRecurciveSubType($type)
+    public static function getRecursiveSubType($type)
     {
         if (strpos($type, ",") !== false) {
             $type = explode(",", $type);

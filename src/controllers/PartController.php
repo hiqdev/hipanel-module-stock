@@ -31,7 +31,6 @@ use hipanel\modules\stock\forms\PartSellForm;
 use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
-use hipanel\modules\stock\widgets\combo\PartDestinationCombo;
 use Yii;
 use yii\base\DynamicModel;
 use yii\base\Event;
@@ -539,7 +538,8 @@ class PartController extends CrudController
         $range = Yii::$app->request->post('id');
         if ($range) {
             $servers = Server::find()->where([
-                'name_like' => $range, 'types' => PartDestinationCombo::$types,
+                'name_like' => $range,
+                'types' => Part::getDestinationSubTypes(),
             ])->limit(-1)->all();
 
             foreach ($servers as $server) {

@@ -267,4 +267,39 @@ class Part extends \hipanel\base\Model
     {
         return sprintf('%s %s %s #%s', $this->model_type_label, $this->model_brand_label, $this->partno, $this->serial);
     }
+
+    public static function getDestinationBasicTypes()
+    {
+        return array_keys(Ref::getList('type,device'));
+    }
+
+    public static function getDestinationSubTypes($subType = null)
+    {
+        $types = Ref::getList("type,device", null, ['with_recursive' => true]);
+        foreach ($types as $type => $name) {
+            if (strpos($type, ",") !== false) {
+                [$base, $type] = explode(",", $type, 2);
+                $type = self::getRecursiveSubType($type);
+                $baseSubTypes[$base][] = $type;
+            }
+            $subTypes[] = $type;
+        }
+
+        if (empty($subType)) {
+            return $subTypes;
+        }
+
+        return empty($baseSubTypes[$subType]) ? [] : $baseSubTypes[$subType];
+    }
+
+    public static function getRecursiveSubType($type)
+    {
+        if (strpos($type, ",") !== false) {
+            $type = explode(",", $type);
+            return end($type);
+        }
+
+        return $type;
+    }
+
 }

@@ -542,7 +542,6 @@ class PartController extends CrudController
                 'types' => Part::getDestinationSubTypes(),
             ])->limit(-1)->all();
 
-
             foreach ($servers as $server) {
                 $result[] = ['id' => $server->id, 'text' => $server->name];
             }

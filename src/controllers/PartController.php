@@ -48,9 +48,10 @@ class PartController extends CrudController
                 'actions' => [
                     'create' => 'part.create',
                     'update' => 'part.update',
-                    'copy' => 'part.update',
+                    'copy' => 'part.create',
                     'reserve' => 'part.update',
                     'unreserve' => 'part.update',
+                    'update-order-no' => 'part.update',
 
                     'repair' => 'move.create',
                     'replace' => 'move.create',
@@ -111,7 +112,7 @@ class PartController extends CrudController
                     $bulkCurrency = $data['currency'];
                     unset($data['price'], $data['currency']);
                     $ids = ArrayHelper::getColumn($data, 'id');
-                    $parts = Part::find()->where(['ids' => $ids])->all();
+                    $parts = Part::find()->where(['ids' => $ids])->limit(-1)->all();
                     $action->collection->set($parts);
                     // TODO: silverfire подумай как переделать
                     foreach ($action->collection->models as $model) {
@@ -433,7 +434,7 @@ class PartController extends CrudController
      */
     public function actionRenderObjectParts($id)
     {
-        $parts = Part::find()->joinWith('model')->where(['dst_id' => $id, 'limit' => 'ALL'])->all();
+        $parts = Part::find()->joinWith('model')->where(['dst_id' => $id])->limit(-1)->all();
         $parts = PartSort::byGeneralRules()->values($parts);
         $data = ArrayHelper::index($parts, 'id', ['model_type_label', 'model_id']);
 
@@ -458,7 +459,7 @@ class PartController extends CrudController
 
     public function getLocations()
     {
-        $query = $this->searchModel()->search([])->query->andWhere(['groupby' => 'place', 'limit' => 'ALL']);
+        $query = $this->searchModel()->search([])->query->andWhere(['groupby' => 'place'])->limit(-1);
         $res = [];
         foreach ($query->all() as $model) {
             $res[$model->place] = $model->place . '   - ' . Yii::t('hipanel', '{0, plural, one{# item} other{# items}}', $model->count);
@@ -538,9 +539,9 @@ class PartController extends CrudController
         if ($range) {
             $servers = Server::find()->where([
                 'name_like' => $range,
-                'limit' => 'ALL',
                 'types' => Part::getDestinationSubTypes(),
-            ])->all();
+            ])->limit(-1)->all();
+
 
             foreach ($servers as $server) {
                 $result[] = ['id' => $server->id, 'text' => $server->name];

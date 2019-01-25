@@ -13,7 +13,7 @@ class ModelSort
 {
     public static function byType(): \Closure
     {
-        $order = ['CHASSIS', 'MOTHERBOARD', 'CPU', 'RAM', 'HDD', 'SSD'];
+        $order = ['SERVER', 'CHASSIS', 'MOTHERBOARD', 'CPU', 'RAM', 'HDD', 'SSD'];
 
         return function (Model $model) use ($order) {
             $type = mb_strtoupper($model->type);

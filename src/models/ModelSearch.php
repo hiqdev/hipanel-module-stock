@@ -17,15 +17,14 @@ use Yii;
 
 class ModelSearch extends Model
 {
-    use SearchModelTrait
-    {
+    use SearchModelTrait {
         searchAttributes as defaultSearchAttributes;
     }
 
     public function searchAttributes()
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
-            'group_like', 'filter_like', 'hide_unavailable', 'hide_group_assigned'
+            'group_like', 'filter_like', 'hide_unavailable', 'hide_group_assigned', 'partno_inilike',
         ]);
     }
 
@@ -33,6 +32,7 @@ class ModelSearch extends Model
     {
         return array_merge(parent::attributeLabels(), [
             'partno_like' => Yii::t('hipanel:stock', 'Part No.'),
+            'partno_inilike' => Yii::t('hipanel:stock', 'Part No.'),
             'filter_like' => Yii::t('hipanel:stock', 'Filter'),
             'descr_like' => Yii::t('hipanel:stock', 'Description'),
             'short_like' => Yii::t('hipanel:stock', 'Short'),

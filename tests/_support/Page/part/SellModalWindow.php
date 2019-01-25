@@ -19,7 +19,7 @@ class SellModalWindow extends Authenticated
         $base = 'div.modal-body[data-action-url$=sell] ';
 
         (new Select2($I, $base . 'select[id$=client_id]'))
-            ->setValueLike($sellData['client_id']);
+            ->setValue($sellData['client_id']);
 
         $I->click($base . 'div[class$=date]>span:last-child');
         $I->click('td.day.active');

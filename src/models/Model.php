@@ -95,7 +95,7 @@ class Model extends YiiModel
                 ],
                 'safe',
             ],
-            [['is_favourite', 'hide_deleted'], 'boolean'],
+            [['is_favourite', 'show_deleted'], 'boolean'],
             [['id', 'type_id', 'tariff_id', 'group_id'], 'integer'],
 
             // Delete
@@ -123,7 +123,7 @@ class Model extends YiiModel
         return $this->mergeAttributeLabels([
             'partno' => Yii::t('hipanel:stock', 'Part No.'),
             'show_hidden_from_user' => Yii::t('hipanel:stock', 'Show hidden'),
-            'hide_deleted' => Yii::t('hipanel:stock', 'Hide deleted'),
+            'show_deleted' => Yii::t('hipanel:stock', 'Show deleted'),
             'group' => Yii::t('hipanel:stock', 'Group'),
             'group_id' => Yii::t('hipanel:stock', 'Group'),
             // Chassis
@@ -202,7 +202,7 @@ class Model extends YiiModel
 
     public function getParts()
     {
-        return $this->hasMany(Part::class, ['model_id' => 'id'])->where(['limit' => 'ALL'])->orderBy(['move_time' => SORT_DESC]);
+        return $this->hasMany(Part::class, ['model_id' => 'id'])->limit(-1)->orderBy(['move_time' => SORT_DESC]);
     }
 
     public function getName()

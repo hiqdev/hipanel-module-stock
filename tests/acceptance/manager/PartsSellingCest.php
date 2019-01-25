@@ -28,7 +28,7 @@ class PartsSellingCest
     {
         $partIndex      = new IndexPage($I);
         $sellModal      = new SellModalWindow($I);
-        $this->sellData = $this->getSellData();
+        $this->sellData = $this->getSellData($I->getUsername());
 
         $I->needPage(Url::to('@part'));
 
@@ -61,7 +61,7 @@ class PartsSellingCest
         $billPage->openRowMenuByNumber(1);
         $billPage->chooseRowMenuOption('View');
 
-        $I->seeNumberOfElements('form tbody tr', count($this->sellData['prices']));
+        $I->seeNumberOfElements('tr table  tr[data-key]', count($this->sellData['prices']));
     }
 
     /**
@@ -79,10 +79,10 @@ class PartsSellingCest
             $this->sellData['descr']);
     }
 
-    protected function getSellData(): array
+    protected function getSellData($userName): array
     {
         return [
-            'client_id' => 'test_login',
+            'client_id' => $userName,
             'currency'  => 'eur',
             'descr'     => 'test description ' . uniqid(),
             'type'      => 'HW purchase',

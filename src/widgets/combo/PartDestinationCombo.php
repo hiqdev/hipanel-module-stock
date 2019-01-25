@@ -3,49 +3,13 @@
 namespace hipanel\modules\stock\widgets\combo;
 
 use hipanel\helpers\ArrayHelper;
+use hipanel\models\Ref;
 use Yii;
 
 class PartDestinationCombo extends DestinationCombo
 {
     /** {@inheritdoc} */
     public $name = 'dst_ids';
-
-    static public $types = [
-        // SERVER TYPES
-        'unused',
-        'old',
-        'setup',
-        'delivery',
-        'reserved',
-        'dedicated',
-        'unmanaged',
-        'jbod',
-        'virtual',
-        'system',
-        'remote',
-        'vdsmaste',
-        'avdsnode',
-        'cloudservers',
-        'cdn',
-        'cdnv2',
-        'cdnpix',
-        'cdnstat',
-        'cloudstorage',
-        'transit',
-        'office',
-        'stock',
-        // SWITCH TYPES
-        'net',
-        'kvm',
-        'pdu',
-        'ipmi',
-        'module',
-        'rack',
-        'camera',
-        'cable_organizer',
-        'mux',
-        'console',
-    ];
 
     /** {@inheritdoc} */
     public function getPluginOptions($options = []): array
@@ -113,7 +77,10 @@ class PartDestinationCombo extends DestinationCombo
     {
         return ArrayHelper::merge(parent::getFilter(), [
             'types' => [
-                'format' => self::$types,
+                'format' => ArrayHelper::merge(
+                    array_keys(Ref::getList('type,device,server')),
+                    array_keys(Ref::getList('type,device,switch'))
+                ),
             ],
         ]);
     }

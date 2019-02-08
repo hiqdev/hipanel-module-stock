@@ -89,6 +89,7 @@ class PartsCreationCest
         $I->needPage(Url::to('@part/create'));
         $partData = $this->getPartData();
         $page->fillPartFields($partData);
+        $I->waitForJS("return $.active == 0;", 60);
 
         $I->pressButton('Save');
         $page->seePartWasCreated();
@@ -143,8 +144,8 @@ class PartsCreationCest
     {
         return [
             'partno'        => 'MG_TEST_PARTNO',
-            'src_id'        => 'TEST01',
-            'dst_id'        => 'vCDN-soltest',
+            'src_id'        => 'TEST-DS-01',
+            'dst_id'        => 'TEST-DS-02',
             'serials'       => 'MG_TEST_PART' . uniqid(),
             'move_descr'    => 'MG_TEST_MOVE',
             'type'          => 'direct',

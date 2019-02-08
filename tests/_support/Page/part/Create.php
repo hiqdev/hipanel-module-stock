@@ -2,6 +2,7 @@
 
 namespace hipanel\modules\stock\tests\_support\Page\part;
 
+use Facebook\WebDriver\WebDriverElement;
 use hipanel\tests\_support\Page\Authenticated;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
@@ -48,8 +49,7 @@ class Create extends Authenticated
 
         (new Input($I, $base . 'input[id$=price]'))
             ->setValue($partData['price']);
-        $I->click('div.item:last-child  span.caret');
-        $I->click("div.item:last-child li a[data-value=$partData[currency]]");
+        $I->executeJS(";document.querySelector('div.item:last-child li a[data-value=$partData[currency]]').click();");
 
         (new Dropdown($I, $base . 'select[id$=type]'))
             ->setValue($partData['type']);

@@ -5,6 +5,7 @@ use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\stock\grid\PartGridLegend;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\modules\stock\widgets\PartLegend;
+use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\AjaxModal;
@@ -51,6 +52,22 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('bulk-actions') ?>
+
+            <?= $page->withPermission('move.create', $page->renderBulkButton('rma', Yii::t('hipanel:stock', 'RMA'))) ?>
+            <?= $page->withPermission('move.create', $page->renderBulkButton('move', Yii::t('hipanel:stock', 'To move'))) ?>
+            <?php if (Yii::$app->user->can('part.sell')) : ?>
+                <?= AjaxModal::widget([
+                    'bulkPage' => true,
+                    'id' => 'parts-sell',
+                    'scenario' => 'sell',
+                    'actionUrl' => ['sell'],
+                    'handleSubmit' => Url::toRoute('sell'),
+                    'size' => Modal::SIZE_LARGE,
+                    'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Sell parts'), ['class' => 'modal-title']),
+                    'toggleButton' => ['label' => Yii::t('hipanel:stock', 'Sell parts'), 'class' => 'btn btn-default btn-sm'],
+                ]) ?>
+            <?php endif ?>
+
             <?php if (Yii::$app->user->can('part.create') || Yii::$app->user->can('part.update') || Yii::$app->user->can('move.create')) : ?>
                 <div class="dropdown" style="display: inline-block">
                     <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true"
@@ -60,7 +77,36 @@ $this->params['breadcrumbs'][] = $this->title;
                     </button>
                     <?= Dropdown::widget([
                         'encodeLabels' => false,
-                        'items' => [
+                        'items' => array_filter([
+                            Yii::$app->user->can('part.update') ? AjaxModalWithTemplatedButton::widget([
+                                'ajaxModalOptions' => [
+                                    'id' => 'set-serial-modal',
+                                    'bulkPage' => true,
+                                    'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set serial'), ['class' => 'modal-title']),
+                                    'scenario' => 'set-serial',
+                                    'actionUrl' => ['bulk-set-serial'],
+                                    'size' => Modal::SIZE_LARGE,
+                                    'handleSubmit' => Url::toRoute('set-serial'),
+                                    'toggleButton' => [
+                                        'tag' => 'a',
+                                        'label' => Yii::t('hipanel:stock', 'Set serial'),
+                                    ],
+                                ],
+                                'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                            ]) : null,
+                            Yii::$app->user->can('part.update') ? AjaxModalWithTemplatedButton::widget([
+                                'ajaxModalOptions' => [
+                                    'id' => 'bulk-set-price-modal',
+                                    'bulkPage' => true,
+                                    'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set price'), ['class' => 'modal-title']),
+                                    'scenario' => 'bulk-set-price',
+                                    'toggleButton' => [
+                                        'tag' => 'a',
+                                        'label' => Yii::t('hipanel:stock', 'Set price'),
+                                    ],
+                                ],
+                                'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                            ]) : null,
                             [
                                 'label' => Yii::t('hipanel:stock', 'Repair'),
                                 'url' => '#',
@@ -103,15 +149,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'visible' => Yii::$app->user->can('part.update'),
                             ],
                             [
-                                'label' => Yii::t('hipanel:stock', 'RMA'),
-                                'url' => '#',
-                                'linkOptions' => [
-                                    'data-action' => 'rma',
-                                ],
-                                'visible' => Yii::$app->user->can('move.create'),
-                            ],
-
-                            [
                                 'label' => Yii::t('hipanel:stock', 'Update'),
                                 'url' => '#',
                                 'linkOptions' => [
@@ -135,22 +172,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
                                 'visible' => Yii::$app->user->can('part.update'),
                             ],
-
                             '<li role="presentation" class="divider"></li>',
-
                             [
                                 'label' => Yii::t('hipanel:stock', 'Move by one'),
                                 'url' => '#',
                                 'linkOptions' => [
                                     'data-action' => 'move-by-one',
-                                ],
-                                'visible' => Yii::$app->user->can('move.create'),
-                            ],
-                            [
-                                'label' => Yii::t('hipanel:stock', 'To move'),
-                                'url' => '#',
-                                'linkOptions' => [
-                                    'data-action' => 'move',
                                 ],
                                 'visible' => Yii::$app->user->can('move.create'),
                             ],
@@ -186,42 +213,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ],
                                 'visible' => Yii::$app->user->can('move.create'),
                             ],
-                        ],
+                        ]),
                     ]) ?>
                 </div>
-            <?php endif ?>
-            <?php if (Yii::$app->user->can('part.sell')) : ?>
-                <?= AjaxModal::widget([
-                    'bulkPage' => true,
-                    'id' => 'parts-sell',
-                    'scenario' => 'sell',
-                    'actionUrl' => ['sell'],
-                    'handleSubmit' => Url::toRoute('sell'),
-                    'size' => Modal::SIZE_LARGE,
-                    'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Sell parts'), ['class' => 'modal-title']),
-                    'toggleButton' => ['label' => Yii::t('hipanel:stock', 'Sell parts'), 'class' => 'btn btn-default btn-sm'],
-                ]) ?>
-            <?php endif ?>
-            <?php if (Yii::$app->user->can('part.update')) : ?>
-                <?= AjaxModal::widget([
-                    'bulkPage' => true,
-                    'id' => 'set-serial-modal',
-                    'scenario' => 'set-serial',
-                    'actionUrl' => ['bulk-set-serial'],
-                    'handleSubmit' => Url::toRoute('set-serial'),
-                    'size' => Modal::SIZE_LARGE,
-                    'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set serial'), ['class' => 'modal-title']),
-                    'toggleButton' => ['label' => Yii::t('hipanel:stock', 'Set serial'), 'class' => 'btn btn-default btn-sm'],
-                ]) ?>
-                <?= AjaxModal::widget([
-                    'bulkPage' => true,
-                    'id' => 'bulk-set-price-modal',
-                    'scenario' => 'bulk-set-price',
-                    'actionUrl' => ['bulk-set-price'],
-                    'size' => Modal::SIZE_LARGE,
-                    'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set price'), ['class' => 'modal-title']),
-                    'toggleButton' => ['label' => Yii::t('hipanel:stock', 'Set price'), 'class' => 'btn btn-default btn-sm'],
-                ]) ?>
             <?php endif ?>
             <?php if (Yii::$app->user->can('part.delete')) : ?>
                 <?= $page->renderBulkButton('trash', Yii::t('hipanel:stock', 'Trash'), ['color' => 'danger']) ?>

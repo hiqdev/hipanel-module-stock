@@ -32,7 +32,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endforeach; ?>
     <?php endif; ?>
 
-    <?php Box::begin(['options' => ['class' => 'box-solid']]) ?>
     <div class="row">
         <div class="col-md-12 no">
             <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
@@ -40,6 +39,5 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
         </div>
     </div>
-    <?php Box::end() ?>
     <?php ActiveForm::end() ?>
 </div>

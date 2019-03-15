@@ -71,9 +71,9 @@ class PartsCest
     private function ensureICanSeeBulkSearchBox()
     {
         $this->index->containsBulkButtons([
+            'RMA',
+            'Move',
             'Bulk actions',
-            'Set serial',
-            'Set price',
             'Trash',
         ]);
         $this->index->containsColumns([

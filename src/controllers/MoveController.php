@@ -28,7 +28,8 @@ class MoveController extends CrudController
                 'class' => EasyAccessControl::class,
                 'actions' => [
                     'delete' => 'move.delete',
-                    '*' => 'move.read',
+                    'index' => 'move.read',
+                    '*' => 'move.get-directions',
                 ],
             ],
         ]);

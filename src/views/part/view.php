@@ -62,40 +62,42 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
     </div>
-    <div class="col-lg-9">
-        <?php $page = IndexPage::begin(['model' => $model, 'layout' => 'noSearch']) ?>
-            <?php $page->beginContent('show-actions') ?>
-                <h4 class="box-title" style="display: inline-block;"><?= Yii::t('hipanel:stock', 'Move history') ?></h4>
+    <?php if (Yii::$app->user->can('move.read')) : ?>
+        <div class="col-lg-9">
+            <?php $page = IndexPage::begin(['model' => $model, 'layout' => 'noSearch']) ?>
+                <?php $page->beginContent('show-actions') ?>
+                    <h4 class="box-title" style="display: inline-block;"><?= Yii::t('hipanel:stock', 'Move history') ?></h4>
 
+                    <?php $page->endContent() ?>
+
+                    <?php $page->beginContent('bulk-actions') ?>
+                        <?php if (Yii::$app->user->can('move.delete')) : ?>
+                            <?= $page->renderBulkDeleteButton('@move/delete') ?>
+                        <?php endif ?>
+                    <?php $page->endContent() ?>
+
+                    <?php $page->beginContent('table') ?>
+                        <?php $page->beginBulkForm() ?>
+                            <?= MoveGridView::widget([
+                                'boxed' => false,
+                                'dataProvider' => $moveDataProvider,
+                                'filterModel' => $model,
+                                'tableOptions' => [
+                                    'class' => 'table table-striped table-bordered',
+                                ],
+                                'filterRowOptions' => ['style' => 'display: none;'],
+                                'columns' => [
+                                    'checkbox',
+                                    'client',
+                                    'date',
+                                    'move',
+                                    'descr',
+                                    'parts',
+                                ],
+                            ]) ?>
+                        <?php $page->endBulkForm() ?>
                 <?php $page->endContent() ?>
-
-                <?php $page->beginContent('bulk-actions') ?>
-                    <?php if (Yii::$app->user->can('move.delete')) : ?>
-                        <?= $page->renderBulkDeleteButton('@move/delete') ?>
-                    <?php endif ?>
-                <?php $page->endContent() ?>
-
-                <?php $page->beginContent('table') ?>
-                    <?php $page->beginBulkForm() ?>
-                        <?= MoveGridView::widget([
-                            'boxed' => false,
-                            'dataProvider' => $moveDataProvider,
-                            'filterModel' => $model,
-                            'tableOptions' => [
-                                'class' => 'table table-striped table-bordered',
-                            ],
-                            'filterRowOptions' => ['style' => 'display: none;'],
-                            'columns' => [
-                                'checkbox',
-                                'client',
-                                'date',
-                                'move',
-                                'descr',
-                                'parts',
-                            ],
-                        ]) ?>
-                    <?php $page->endBulkForm() ?>
-            <?php $page->endContent() ?>
-        <?php $page->end() ?>
-    </div>
+            <?php $page->end() ?>
+        </div>
+    <?php endif ?>
 </div>

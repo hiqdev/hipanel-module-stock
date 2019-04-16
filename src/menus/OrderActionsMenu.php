@@ -26,7 +26,7 @@ class OrderActionsMenu extends Menu
                 'url' => ['@order/view', 'id' => $this->model->id],
                 'visible' => Yii::$app->user->can('order.read'),
             ],
-            [
+            'update' => [
                 'label' => Yii::t('hipanel', 'Update'),
                 'icon' => 'fa-pencil',
                 'url' => ['@order/update', 'id' => $this->model->id],

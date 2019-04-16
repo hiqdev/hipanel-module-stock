@@ -45,7 +45,6 @@ class OrderGridView extends BoxedGridView
                 }
             ],
             'buyer' => [
-//                'class' => ContactCombo::class,
                 'attribute' => 'buyer_id',
                 'filterAttribute' => 'buyer_id',
                 'format'    => 'raw',

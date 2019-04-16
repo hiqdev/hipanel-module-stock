@@ -64,12 +64,12 @@ use yii\helpers\Url;
     </div>
 </div>
 
-    <div class='row'>
-        <div class='col-md-12 no'>
-            <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
-            &nbsp;
-            <?= Html::a(Yii::t('hipanel', 'Cancel'), ['@order/index'], ['class' => 'btn btn-default']) ?>
-        </div>
+<div class='row'>
+    <div class='col-md-12 no'>
+        <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
+        &nbsp;
+        <?= Html::a(Yii::t('hipanel', 'Cancel'), ['@order/index'], ['class' => 'btn btn-default']) ?>
     </div>
+</div>
 
 <?php ActiveForm::end() ?>

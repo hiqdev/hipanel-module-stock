@@ -28,6 +28,7 @@ class ModelGridView extends BoxedGridView
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'class' => RefColumn::class,
                 'gtype' => 'type,model',
+                'i18nDictionary' => 'hipanel.stock.order',
                 'value' => function ($model) {
                     return $model->type_label;
                 },
@@ -35,6 +36,7 @@ class ModelGridView extends BoxedGridView
             'state' => [
                 'class' => RefColumn::class,
                 'gtype' => 'state,model',
+                'i18nDictionary' => 'hipanel.stock.order',
                 'value' => function ($model) {
                     return $model->state_label;
                 },

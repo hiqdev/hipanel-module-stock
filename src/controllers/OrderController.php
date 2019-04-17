@@ -1,8 +1,14 @@
 <?php
-
+/**
+ * hipanel.advancedhosters.com
+ *
+ * @link      http://hipanel.advancedhosters.com/
+ * @package   hipanel.advancedhosters.com
+ * @license   proprietary
+ * @copyright Copyright (c) 2016-2019, AdvancedHosters (https://advancedhosters.com/)
+ */
 
 namespace hipanel\modules\stock\controllers;
-
 
 use hipanel\actions\IndexAction;
 use hipanel\actions\SmartCreateAction;
@@ -35,10 +41,10 @@ class OrderController extends CrudController
     public function actions()
     {
         return array_merge(parent::actions(), [
-            "index" => [
+            'index' => [
                 'class' => IndexAction::class,
             ],
-            "create" => [
+            'create' => [
                 'class' => SmartCreateAction::class,
                 'success' => Yii::t('hipanel.stock.order', 'Order has been created'),
             ],

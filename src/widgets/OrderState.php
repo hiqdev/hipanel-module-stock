@@ -1,11 +1,11 @@
 <?php
 /**
- * Client module for HiPanel
+ * hipanel.advancedhosters.com
  *
- * @link      https://github.com/hiqdev/hipanel-module-client
- * @package   hipanel-module-client
- * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ * @link      http://hipanel.advancedhosters.com/
+ * @package   hipanel.advancedhosters.com
+ * @license   proprietary
+ * @copyright Copyright (c) 2016-2019, AdvancedHosters (https://advancedhosters.com/)
  */
 
 namespace hipanel\modules\stock\widgets;

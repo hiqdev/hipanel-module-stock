@@ -1,11 +1,13 @@
 <?php
+/**
+ * @var \yii\web\View $this
+ */
 
 use hipanel\modules\stock\grid\OrderGridView;
 use hipanel\modules\stock\menus\OrderDetailMenu;
 use hipanel\widgets\Box;
 use hipanel\widgets\MainDetails;
 use yii\helpers\Html;
-
 
 $this->title = Html::encode($model->pageTitle);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel.stock.order', 'Orders'), 'url' => ['index']];

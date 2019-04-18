@@ -1,11 +1,11 @@
 <?php
 /**
- * Server module for HiPanel
+ * hipanel.advancedhosters.com
  *
- * @link      https://gitorder.com/hiqdev/hipanel-module-server
- * @package   hipanel-module-server
- * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ * @link      http://hipanel.advancedhosters.com/
+ * @package   hipanel.advancedhosters.com
+ * @license   proprietary
+ * @copyright Copyright (c) 2016-2019, AdvancedHosters (https://advancedhosters.com/)
  */
 
 namespace hipanel\modules\stock\menus;
@@ -17,7 +17,7 @@ class OrderActionsMenu extends Menu
 {
     public $model;
 
-    public function items()
+    public function items(): array
     {
         return [
             'view' => [

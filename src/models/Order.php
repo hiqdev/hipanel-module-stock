@@ -7,6 +7,7 @@ use hipanel\base\ModelTrait;
 use hipanel\base\Model;
 use hipanel\models\Ref;
 use Yii;
+use yii\db\Query;
 
 class Order extends Model
 {
@@ -21,7 +22,7 @@ class Order extends Model
             [['id'], 'required', 'on' => ['update', 'delete']],
             [['time'], 'datetime', 'format' => 'php:Y-m-d H:i', 'on' => ['create', 'update']],
             ['no', 'unique', 'targetAttribute' => ['no', 'seller_id'],
-                'filter' => function ($query) {
+                'filter' => function (Query $query) {
                     $query->andWhere(['ne', 'id', $this->id]);
                 },
                 'message' => Yii::t('hipanel.stock.order', 'The combination No. and Reseller has already been taken.'),

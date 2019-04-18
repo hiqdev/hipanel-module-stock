@@ -22,7 +22,7 @@ use Yii;
 
 class OrderController extends CrudController
 {
-    public function behaviors()
+    public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
             [
@@ -38,7 +38,7 @@ class OrderController extends CrudController
         ]);
     }
 
-    public function actions()
+    public function actions(): array
     {
         return array_merge(parent::actions(), [
             'index' => [

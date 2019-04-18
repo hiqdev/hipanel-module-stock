@@ -5,6 +5,7 @@ use hipanel\widgets\RefCombo;
 
 /**
  * @var \hipanel\widgets\AdvancedSearch $search
+ * @var \yii\web\View $this
  */
 
 ?>

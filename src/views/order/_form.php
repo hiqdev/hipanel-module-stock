@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * @var \yii\web\View $this
+ * @var Order $model
+ */
+
+use hipanel\modules\stock\models\Order;
 use hipanel\modules\stock\widgets\combo\ContactCombo;
 use hipanel\widgets\DateTimePicker;
 use hipanel\widgets\Box;

@@ -58,6 +58,16 @@ class OrdersCest
         $this->order_id = $this->page->seeOrderWasCreated();
     }
 
+    public function ensureICantCreateOrderWithSameNoResellerCombo(Manager $I): void
+    {
+        $I->login();
+        $I->needPage(Url::to('@order/create'));
+        $this->page->fillOrderForm($this->values);
+        $I->pressButton('Save');
+        $I->waitForPageUpdate();
+        $I->waitForText('The combination No. and Reseller has already been taken.');
+    }
+
     public function ensureICanUpdateOrder(Manager $I): void
     {
         $page = $this->page;

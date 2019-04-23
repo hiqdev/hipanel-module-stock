@@ -26,6 +26,7 @@ class MoveSearch extends Move
             'order_no_ilike',
             'types',
             'name_like', // -> server_like
+            'name_inilike',
             'partno_inilike',
         ]);
     }

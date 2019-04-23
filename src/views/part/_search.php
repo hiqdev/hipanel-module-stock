@@ -60,7 +60,10 @@ use yii\helpers\Html;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('dst_name_like')->widget(DestinationCombo::class) ?>
+    <?= $search->field('dst_name_in')->widget(DestinationCombo::class, [
+        'primaryFilter' => 'name_inilike',
+        'multiple' => true,
+    ]) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('order_no_ilike') ?></div>

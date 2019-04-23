@@ -21,7 +21,6 @@ use hipanel\modules\stock\widgets\OrderType;
 use hiqdev\higrid\DataColumn;
 use hiqdev\yii2\menus\grid\MenuColumn;
 use yii\bootstrap\Html;
-use yii\grid\Column;
 
 class OrderGridView extends BoxedGridView
 {

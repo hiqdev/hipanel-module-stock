@@ -57,4 +57,10 @@ class Order extends Model
     {
         return $this->no;
     }
+
+    public function getParts()
+    {
+        return $this->hasMany(Part::class, ['order_id' => 'id'])->limit(-1)->orderBy(['move_time' => SORT_DESC]);
+    }
+
 }

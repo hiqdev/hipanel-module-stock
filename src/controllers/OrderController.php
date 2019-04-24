@@ -19,6 +19,7 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use Yii;
+use yii\base\Event;
 
 class OrderController extends CrudController
 {
@@ -43,6 +44,9 @@ class OrderController extends CrudController
         return array_merge(parent::actions(), [
             'index' => [
                 'class' => IndexAction::class,
+                'on beforePerform' => function (Event $event) {
+                    $event->sender->getDataProvider()->query->withParts();
+                },
             ],
             'create' => [
                 'class' => SmartCreateAction::class,

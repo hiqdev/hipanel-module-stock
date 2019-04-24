@@ -35,14 +35,14 @@ class OrdersCest
         $this->values = $this->getOrderValues();
     }
 
-    public function ensureIndexPageWorks(Manager $I): void
-    {
-        $I->login();
-        $I->needPage(Url::to('@order'));
-        $I->see('Orders', 'h1');
-        $this->page->ensureICanSeeAdvancedSearchBox();
-        $this->page->ensureICanSeeBulkSearchBox();
-    }
+//    public function ensureIndexPageWorks(Manager $I): void
+//    {
+//        $I->login();
+//        $I->needPage(Url::to('@order'));
+//        $I->see('Orders', 'h1');
+//        $this->page->ensureICanSeeAdvancedSearchBox();
+//        $this->page->ensureICanSeeBulkSearchBox();
+//    }
 
     public function ensureICanCreateOrder(Manager $I): void
     {
@@ -58,27 +58,34 @@ class OrdersCest
         $this->order_id = $this->page->seeOrderWasCreated();
     }
 
-    public function ensureICantCreateOrderWithSameNoResellerCombo(Manager $I): void
+//    public function ensureICantCreateOrderWithSameNoResellerCombo(Manager $I): void
+//    {
+//        $I->login();
+//        $I->needPage(Url::to('@order/create'));
+//        $this->page->fillOrderForm($this->values);
+//        $I->pressButton('Save');
+//        $I->waitForPageUpdate();
+//        $I->waitForText('The combination No. and Reseller has already been taken.');
+//    }
+
+    public function ensureICanSeeViewPage(Manager $I): void
     {
-        $I->login();
-        $I->needPage(Url::to('@order/create'));
-        $this->page->fillOrderForm($this->values);
-        $I->pressButton('Save');
-        $I->waitForPageUpdate();
-        $I->waitForText('The combination No. and Reseller has already been taken.');
+        $I->needPage(Url::to('@order/view?id=' . $this->order_id));
+
+        $this->page->ensureICanSeePartsTable();
     }
 
-    public function ensureICanUpdateOrder(Manager $I): void
-    {
-        $page = $this->page;
-        $I->login();
-        $I->needPage(Url::to('@order/update?id='.$this->order_id));
-        $this->updateValues();
-        $page->fillOrderForm($this->values);
-        $I->pressButton('Save');
-        $I->waitForPageUpdate();
-        $I->waitForText('Order has been updated');
-    }
+//    public function ensureICanUpdateOrder(Manager $I): void
+//    {
+//        $page = $this->page;
+//        $I->login();
+//        $I->needPage(Url::to('@order/update?id='.$this->order_id));
+//        $this->updateValues();
+//        $page->fillOrderForm($this->values);
+//        $I->pressButton('Save');
+//        $I->waitForPageUpdate();
+//        $I->waitForText('Order has been updated');
+//    }
 
     public function ensureICanDeleteOrder(Manager $I): void
     {

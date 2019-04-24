@@ -13,6 +13,6 @@ class OrderSearch extends Order
 
     public function searchAttributes()
     {
-        return ArrayHelper::merge($this->defaultSearchAttributes(), []);
+        return ArrayHelper::merge($this->defaultSearchAttributes(), ['seller_no']);
     }
 }

@@ -17,6 +17,8 @@ use hipanel\grid\CurrencyColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\stock\models\Move;
+use hipanel\modules\stock\models\Part;
+use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
 use yii\base\Model;
@@ -153,7 +155,21 @@ class PartGridView extends BoxedGridView
                 'enableSorting' => false,
             ],
             'order_no' => [
+                'attribute' => 'order_id',
+                'filterAttribute' => 'order_id',
+                'filter' => function ($column, $model, $attribute) {
+                    return OrderCombo::widget([
+                        'model' => $model,
+                        'attribute' => $attribute,
+                        'formElementSelector' => 'td',
+                    ]);
+                },
                 'filterOptions' => ['class' => 'narrow-filter'],
+                'format' => 'raw',
+                'value' => function (Part $model): string {
+                    return HTML::a($model->order_name, ['@order/view', 'id' => $model->order_id]) .
+                        '</br>' . $model->order_no;
+                }
             ],
             'dc_ticket' => [
                 'filter' => false,

@@ -87,7 +87,6 @@ $this->registerCss('
                     'columns' => [
                         'model_type', 'model_brand', 'partno', 'serial',
                         'last_move', 'move_type_and_date', 'move_descr',
-                        'order_no',
                     ],
                 ]) ?>
             <?php $page->endBulkForm() ?>

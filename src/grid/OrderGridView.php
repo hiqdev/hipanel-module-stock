@@ -12,15 +12,21 @@ namespace hipanel\modules\stock\grid;
 
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\RefColumn;
+use hipanel\helpers\ArrayHelper;
+use hipanel\modules\stock\controllers\PartController;
 use hipanel\modules\stock\menus\OrderActionsMenu;
 use hipanel\modules\stock\models\Order;
 use hipanel\modules\stock\models\OrderSearch;
+use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\ContactCombo;
 use hipanel\modules\stock\widgets\OrderState;
 use hipanel\modules\stock\widgets\OrderType;
+use hipanel\widgets\ArraySpoiler;
 use hiqdev\higrid\DataColumn;
 use hiqdev\yii2\menus\grid\MenuColumn;
+use Yii;
 use yii\bootstrap\Html;
+use yii\helpers\Url;
 
 class OrderGridView extends BoxedGridView
 {
@@ -95,6 +101,47 @@ class OrderGridView extends BoxedGridView
             ],
             'comment' => [
                 'filterAttribute' => 'comment_ilike',
+            ],
+            'parts' => [
+                'format' => 'raw',
+                'filter' => false,
+                'contentOptions' => [
+                    'class' => 'text-right',
+                    'style' => 'width:1%; white-space:nowrap;',
+                ],
+                'label' => Yii::t('hipanel.stock.order', 'Parts'),
+                'value' => function (Order $order) {
+                    return ArraySpoiler::widget([
+                        'data' => $order->parts,
+                        'delimiter' => '<br />',
+                        'visibleCount' => 0,
+                        'formatter' => function (Part $part, $idx) use ($order) {
+                            return Html::a($part->title, Url::toRoute(['@part/view', 'id' => $part->id]), [
+                                'class' => 'text-bold',
+                                'target' => '_blank',
+                            ]);
+                        },
+                        'button' => [
+                            'label' => ' +' . (count($order->parts)),
+                            'tag' => 'button',
+                            'type' => 'button',
+                            'class' => 'btn btn-xs btn-flat',
+                            'style' => 'font-size: 10px',
+                            'popoverOptions' => [
+                                'html' => true,
+                                'placement' => 'bottom',
+                                'title' => Html::a(Yii::t('hipanel.stock.order', 'Show all parts'), PartController::getSearchUrl(['order_id' => $order->id])),
+                                'template' => '
+                                    <div class="popover" role="tooltip">
+                                        <div class="arrow"></div>
+                                        <h3 class="popover-title"></h3>
+                                        <div class="popover-content" style="min-width: 15rem; height: 15rem; overflow-x: scroll;"></div>
+                                    </div>
+                                ',
+                            ],
+                        ],
+                    ]);
+                }
             ],
         ]);
     }

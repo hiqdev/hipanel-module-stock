@@ -50,6 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'state',
                     'seller',
                     'buyer',
+                    'parts',
                     'no',
                     'comment',
                     'time',

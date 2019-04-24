@@ -43,6 +43,22 @@ class OrderPage extends Authenticated
             'No.',
             'Comment',
             'Lead time',
+            'Parts'
+        ]);
+    }
+
+    public function ensureICanSeePartsTable(): void
+    {
+        $I = $this->tester;
+        $I->wait(5);
+        (new IndexPage($I))->containsColumns([
+//            'Type',
+//            'Manufacturer',
+//            'Part No.',
+//            'Serial',
+//            'Last move',
+//            'Type / Date',
+//            'Move description',
         ]);
     }
 

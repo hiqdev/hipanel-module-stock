@@ -1,11 +1,19 @@
 <?php
-
+/**
+ * hipanel.advancedhosters.com
+ *
+ * @link      http://hipanel.advancedhosters.com/
+ * @package   hipanel.advancedhosters.com
+ * @license   proprietary
+ * @copyright Copyright (c) 2016-2019, AdvancedHosters (https://advancedhosters.com/)
+ */
 
 namespace hipanel\modules\stock\models;
 
 use hipanel\base\ModelTrait;
 use hipanel\base\Model;
 use hipanel\models\Ref;
+use hipanel\modules\stock\models\query\OrderQuery;
 use Yii;
 use yii\db\Query;
 
@@ -21,6 +29,7 @@ class Order extends Model
             [['state', 'type', 'seller_id', 'buyer_id', 'no', 'time'], 'required', 'on' => ['create', 'update']],
             [['id'], 'required', 'on' => ['update', 'delete']],
             [['time'], 'datetime', 'format' => 'php:Y-m-d H:i', 'on' => ['create', 'update']],
+            [['seller_no'], 'string'],
             ['no', 'unique', 'targetAttribute' => ['no', 'seller_id'],
                 'filter' => function (Query $query) {
                     $query->andWhere(['ne', 'id', $this->id]);
@@ -63,4 +72,14 @@ class Order extends Model
         return $this->hasMany(Part::class, ['order_id' => 'id'])->limit(-1)->orderBy(['move_time' => SORT_DESC]);
     }
 
+    /**
+     * {@inheritdoc}
+     * @return OrderQuery
+     */
+    public static function find($options = [])
+    {
+        return new OrderQuery(get_called_class(), [
+            'options' => $options,
+        ]);
+    }
 }

@@ -5,6 +5,7 @@ namespace hipanel\modules\stock\widgets\combo;
 use hipanel\helpers\ArrayHelper;
 use hipanel\modules\stock\models\Part;
 use Yii;
+use yii\web\JsExpression;
 
 class PartDestinationCombo extends DestinationCombo
 {
@@ -17,6 +18,17 @@ class PartDestinationCombo extends DestinationCombo
         return parent::getPluginOptions([
             'select2Options' => [
                 'tags' => true,
+                'createTag' => new JsExpression("function (params) {
+                    // Do not create tag if term has not contains dash symbol
+                    if (params.term.includes('-') === false) {
+                        return null;
+                    }
+
+                    return {
+                      id: params.term,
+                      text: params.term
+                    }
+                }"),
             ],
         ]);
     }

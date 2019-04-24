@@ -83,6 +83,7 @@ use yii\helpers\Url;
                             <?= $form->field($model, "[$i]dst_id")->widget(PartDestinationCombo::class, ['name' => 'dst_id']) ?>
                         <?php else : ?>
                             <?= $form->field($model, "[$i]dst_ids", ['options' => ['class' => 'required']])->widget(PartDestinationCombo::class, [
+                                'primaryFilter' => 'name_inilike',
                                 'hasId' => true,
                                 'multiple' => true,
                             ]) ?>

@@ -57,7 +57,7 @@ class OrderGridView extends BoxedGridView
                         'formElementSelector' => 'td',
                     ]);
                 },
-                'value' => function ($model) {
+                'value' => function (Order $model) {
                     return Html::a($model->seller, ['@client/view', 'id' => $model->seller_id]);
                 }
             ],

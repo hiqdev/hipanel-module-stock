@@ -71,6 +71,7 @@ class OrdersCest
     public function ensureICanSeeViewPage(Manager $I): void
     {
         $I->needPage(Url::to('@order/view?id=' . $this->order_id));
+        $I->see($this->values['no'], 'h1');
 
         $this->page->ensureICanSeePartsTable();
     }

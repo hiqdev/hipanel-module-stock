@@ -56,6 +56,7 @@ class PartGridView extends BoxedGridView
                     ]);
                 },
                 'format' => 'raw',
+                'label' => 'Part No.',
                 'value' => function ($model) {
                     return Html::a($model->partno, ['@model/view', 'id' => $model->model_id], [
                         'data' => ['toggle' => 'tooltip'],
@@ -82,6 +83,7 @@ class PartGridView extends BoxedGridView
                 'class' => RefColumn::class,
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'gtype' => 'type,model',
+                'label' => 'Type',
                 'value' => function ($model) {
                     return $model->model_type_label;
                 },
@@ -90,6 +92,7 @@ class PartGridView extends BoxedGridView
                 'class' => RefColumn::class,
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'gtype' => 'type,brand',
+                'label' => 'Manufacturer',
                 'value' => function ($model) {
                     return $model->model_brand_label;
                 },
@@ -250,6 +253,7 @@ class PartGridView extends BoxedGridView
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'filterAttribute' => 'move_descr_ilike',
                 'format' => 'html',
+                'label' => 'Move description',
                 'value' => function ($model) {
                     return Move::prepareDescr($model->move_descr);
                 },

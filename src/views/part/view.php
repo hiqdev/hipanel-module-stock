@@ -53,7 +53,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'company',
                                     'reserve',
                                     'order_no',
-                                    'order_name',
                                 ],
                             ]) ?>
                         </div>

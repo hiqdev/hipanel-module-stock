@@ -12,6 +12,7 @@ namespace hipanel\modules\stock\tests\_support\Page\order;
 
 use hipanel\tests\_support\Page\Authenticated;
 use hipanel\tests\_support\Page\IndexPage;
+use hipanel\tests\_support\Page\Widget\Grid;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
@@ -50,8 +51,11 @@ class OrderPage extends Authenticated
     public function ensureICanSeePartsTable(): void
     {
         $I = $this->tester;
-        $I->wait(5);
-        (new IndexPage($I))->containsColumns([
+        (new Grid($I))->containsColumns([
+
+        ]);
+//        $I->wait(5);
+//        (new IndexPage($I))->containsColumns([
 //            'Type',
 //            'Manufacturer',
 //            'Part No.',
@@ -59,7 +63,7 @@ class OrderPage extends Authenticated
 //            'Last move',
 //            'Type / Date',
 //            'Move description',
-        ]);
+//        ]);
     }
 
     public function fillOrderForm(array $values): void

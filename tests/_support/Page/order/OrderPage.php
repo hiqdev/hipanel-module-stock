@@ -52,21 +52,25 @@ class OrderPage extends Authenticated
     {
         $I = $this->tester;
         (new Grid($I))->containsColumns([
-
+            'Type',
+            'Manufacturer',
+            'Part No.',
+            'Serial',
+            'Last move',
+            'Type / Date',
+            'Move description',
         ]);
-//        $I->wait(5);
-//        (new IndexPage($I))->containsColumns([
-//            'Type',
-//            'Manufacturer',
-//            'Part No.',
-//            'Serial',
-//            'Last move',
-//            'Type / Date',
-//            'Move description',
-//        ]);
     }
 
-    public function fillOrderForm(array $values): void
+    public function setupOrderForm(array $values): void
+    {
+        $I = $this->tester;
+        $this->fillOrderForm($values);
+        $I->pressButton('Save');
+        $I->waitForPageUpdate();
+    }
+
+    private function fillOrderForm(array $values): void
     {
         $I = $this->tester;
 

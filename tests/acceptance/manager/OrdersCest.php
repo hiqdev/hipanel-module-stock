@@ -35,14 +35,14 @@ class OrdersCest
         $this->values = $this->getOrderValues();
     }
 
-//    public function ensureIndexPageWorks(Manager $I): void
-//    {
-//        $I->login();
-//        $I->needPage(Url::to('@order'));
-//        $I->see('Orders', 'h1');
-//        $this->page->ensureICanSeeAdvancedSearchBox();
-//        $this->page->ensureICanSeeBulkSearchBox();
-//    }
+    public function ensureIndexPageWorks(Manager $I): void
+    {
+        $I->login();
+        $I->needPage(Url::to('@order'));
+        $I->see('Orders', 'h1');
+        $this->page->ensureICanSeeAdvancedSearchBox();
+        $this->page->ensureICanSeeBulkSearchBox();
+    }
 
     public function ensureICanCreateOrder(Manager $I): void
     {
@@ -52,21 +52,17 @@ class OrdersCest
         $I->waitForPageUpdate();
         $I->waitForText('No. cannot be blank.');
         $I->waitForText('Lead time cannot be blank.');
-        $this->page->fillOrderForm($this->values);
-        $I->pressButton('Save');
-        $I->waitForPageUpdate();
+        $this->page->setupOrderForm($this->values);
         $this->order_id = $this->page->seeOrderWasCreated();
     }
 
-//    public function ensureICantCreateOrderWithSameNoResellerCombo(Manager $I): void
-//    {
-//        $I->login();
-//        $I->needPage(Url::to('@order/create'));
-//        $this->page->fillOrderForm($this->values);
-//        $I->pressButton('Save');
-//        $I->waitForPageUpdate();
-//        $I->waitForText('The combination No. and Reseller has already been taken.');
-//    }
+    public function ensureICantCreateOrderWithSameNoResellerCombo(Manager $I): void
+    {
+        $I->login();
+        $I->needPage(Url::to('@order/create'));
+        $this->page->setupOrderForm($this->values);
+        $I->waitForText('The combination No. and Reseller has already been taken.');
+    }
 
     public function ensureICanSeeViewPage(Manager $I): void
     {
@@ -76,17 +72,15 @@ class OrdersCest
         $this->page->ensureICanSeePartsTable();
     }
 
-//    public function ensureICanUpdateOrder(Manager $I): void
-//    {
-//        $page = $this->page;
-//        $I->login();
-//        $I->needPage(Url::to('@order/update?id='.$this->order_id));
-//        $this->updateValues();
-//        $page->fillOrderForm($this->values);
-//        $I->pressButton('Save');
-//        $I->waitForPageUpdate();
-//        $I->waitForText('Order has been updated');
-//    }
+    public function ensureICanUpdateOrder(Manager $I): void
+    {
+        $page = $this->page;
+        $I->login();
+        $I->needPage(Url::to('@order/update?id='.$this->order_id));
+        $this->updateValues();
+        $page->setupOrderForm($this->values);
+        $I->waitForText('Order has been updated');
+    }
 
     public function ensureICanDeleteOrder(Manager $I): void
     {
@@ -106,13 +100,13 @@ class OrdersCest
     protected function getOrderValues(): array
     {
         return [
-            'type' => 'hardware',
+            'type'      => 'hardware',
             'seller_id' => 'Test Manager',
-            'buyer_id' => 'Test Admin',
-            'state' => 'OK',
-            'no' => 'testNO228',
-            'time' => '2019-04-03 01:30',
-            'comment' => 'simple comment',
+            'buyer_id'  => 'Test Admin',
+            'state'     => 'OK',
+            'no'        => 'testNO1448',
+            'time'      => '2019-04-03 01:30',
+            'comment'   => 'simple comment',
         ];
     }
 

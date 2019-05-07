@@ -32,6 +32,7 @@ class PartGridView extends BoxedGridView
     {
         return array_merge(parent::columns(), [
             'serial' => [
+                'label' => Yii::t('hipanel:stock', 'Serial'),
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'filterAttribute' => 'serial_like',
                 'format' => 'html',
@@ -56,7 +57,7 @@ class PartGridView extends BoxedGridView
                     ]);
                 },
                 'format' => 'raw',
-                'label' => 'Part No.',
+                'label' => Yii::t('hipanel:stock', 'Part No.'),
                 'value' => function ($model) {
                     return Html::a($model->partno, ['@model/view', 'id' => $model->model_id], [
                         'data' => ['toggle' => 'tooltip'],
@@ -83,7 +84,7 @@ class PartGridView extends BoxedGridView
                 'class' => RefColumn::class,
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'gtype' => 'type,model',
-                'label' => 'Type',
+                'label' => Yii::t('hipanel:stock','Type'),
                 'value' => function ($model) {
                     return $model->model_type_label;
                 },
@@ -92,7 +93,7 @@ class PartGridView extends BoxedGridView
                 'class' => RefColumn::class,
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'gtype' => 'type,brand',
-                'label' => 'Manufacturer',
+                'label' => Yii::t('hipanel:stock', 'Manufacturer'),
                 'value' => function ($model) {
                     return $model->model_brand_label;
                 },
@@ -253,7 +254,7 @@ class PartGridView extends BoxedGridView
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'filterAttribute' => 'move_descr_ilike',
                 'format' => 'html',
-                'label' => 'Move description',
+                'label' => Yii::t('hipanel:stock', 'Move description'),
                 'value' => function ($model) {
                     return Move::prepareDescr($model->move_descr);
                 },

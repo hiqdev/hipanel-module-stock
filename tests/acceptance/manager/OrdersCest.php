@@ -37,7 +37,6 @@ class OrdersCest
 
     public function ensureIndexPageWorks(Manager $I): void
     {
-        $I->login();
         $I->needPage(Url::to('@order'));
         $I->see('Orders', 'h1');
         $this->page->ensureICanSeeAdvancedSearchBox();
@@ -46,7 +45,6 @@ class OrdersCest
 
     public function ensureICanCreateOrder(Manager $I): void
     {
-        $I->login();
         $I->needPage(Url::to('@order/create'));
         $I->click('Save');
         $I->waitForPageUpdate();
@@ -58,10 +56,9 @@ class OrdersCest
 
     public function ensureICantCreateOrderWithSameNoResellerCombo(Manager $I): void
     {
-        $I->login();
         $I->needPage(Url::to('@order/create'));
         $this->page->setupOrderForm($this->values);
-        $I->waitForText('The combination No. and Reseller has already been taken.');
+        $I->closeNotification('The combination No. and Reseller has already been taken.');
     }
 
     public function ensureICanSeeViewPage(Manager $I): void
@@ -75,21 +72,19 @@ class OrdersCest
     public function ensureICanUpdateOrder(Manager $I): void
     {
         $page = $this->page;
-        $I->login();
         $I->needPage(Url::to('@order/update?id='.$this->order_id));
         $this->updateValues();
         $page->setupOrderForm($this->values);
-        $I->waitForText('Order has been updated');
+        $I->closeNotification('Order has been updated');
     }
 
     public function ensureICanDeleteOrder(Manager $I): void
     {
-        $I->login();
         $I->needPage(Url::to('@order/view?id='.$this->order_id));
         $I->click('Delete');
         $I->acceptPopup();
         $I->waitForPageUpdate();
-        $I->waitForText('Order has been deleted');
+        $I->closeNotification('Order has been deleted');
     }
 
     public function ensureICanFullDeleteOrder(Manager $I): void

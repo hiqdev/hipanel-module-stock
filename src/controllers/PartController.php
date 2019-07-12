@@ -13,6 +13,7 @@ namespace hipanel\modules\stock\controllers;
 
 use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
+use hipanel\actions\RenderAjaxAction;
 use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\RedirectAction;
 use hipanel\actions\RenderAction;
@@ -27,10 +28,12 @@ use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\StringHelper;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\stock\actions\ValidateSellFormAction;
+use hipanel\modules\stock\forms\PartSellByPlanForm;
 use hipanel\modules\stock\forms\PartSellForm;
 use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
+use hiqdev\hiart\Collection;
 use Yii;
 use yii\base\DynamicModel;
 use yii\base\Event;
@@ -425,6 +428,13 @@ class PartController extends CrudController
                 'validatedInputId' => false,
                 'allowDynamicScenario' => false,
             ],
+            'validate-sell-by-plan-form' => [
+                'class' => ValidateFormAction::class,
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new PartSellByPlanForm(),
+                ],
+            ],
         ]);
     }
 
@@ -515,6 +525,27 @@ class PartController extends CrudController
         });
 
         return $this->renderAjax('modals/sell', compact('model', 'parts', 'currencyOptions'));
+    }
+
+    public function actionSellByPlan()
+    {
+        $model = new PartSellByPlanForm();
+        $action = new SmartUpdateAction('sell-by-plan', $this);
+        $request = Yii::$app->request;
+        $session = Yii::$app->session;
+        if ($model->load($request->post()) && $model->validate()) {
+            try {
+                Part::batchPerform('sell-by-plan', $model->getAttributes());
+                $session->addFlash('success', Yii::t('hipanel:stock', 'Parts have been successfully sold.'));
+            } catch (\Exception $e) {
+                $session->addFlash('error', $e->getMessage());
+            }
+
+            return $this->redirect($request->referrer);
+        }
+        $parts = $action->fetchModels();
+
+        return $this->renderAjax('modals/sell-by-plan', compact('model', 'parts'));
     }
 
     public function actionCalculateSellTotal()

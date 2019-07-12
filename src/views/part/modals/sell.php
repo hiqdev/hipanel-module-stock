@@ -168,7 +168,7 @@ JS
     <?php $byType = []; ?>
     <?php $parts = PartSort::byGeneralRules()->values($parts); ?>
     <?php foreach ($parts as $part) : ?>
-        <?php $byType[$part->model->type_label][] = $part ?>
+        <?php $byType[$part->model_type_label][] = $part ?>
     <?php endforeach; ?>
 
     <?php foreach ($byType as $type => $typeParts): ?>

@@ -204,6 +204,7 @@ class PartController extends CrudController
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
                     $dataProvider->query->joinWith('model');
+                    $dataProvider->query->andWhere(['show_deleted' => true]);
                 },
                 'data' => function ($action) {
                     $moveSearch = new MoveSearch();

@@ -48,7 +48,7 @@ class PartDestinationCombo extends DestinationCombo
         ");
         $this->view->registerJs(/** @lang ECMAScript 4 */
             "var tryToResolveDestinationRange = function (event) {
-            if (event.params.args.data.id.indexOf('-') !== -1) {
+            if (event.params.args.data.id.toString().indexOf('-') !== -1) {
                 var Select2 = $(event.target).data('select2');
                 var loading = $('.select2-container--open .select2-selection');
                 $.ajax({

@@ -541,6 +541,7 @@ class PartController extends CrudController
             $servers = Server::find()->where([
                 'name_like' => $range,
                 'types' => Part::getDestinationSubTypes(),
+                'primary_only' => true,
             ])->limit(-1)->all();
 
             foreach ($servers as $server) {

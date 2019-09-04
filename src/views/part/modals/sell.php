@@ -40,7 +40,7 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
 $this->registerJs(/** @lang ECMAScript 6 */
     <<<JS
 function setContactFieldByClientName(selectedClientId, selectedClientName) {
-    jQuery.post('/client/contact/search', {return: ['id', 'name', 'email'], select: 'min', client: selectedClientName}).done(function (contacts) {
+    $.post('/client/contact/search', {return: ['id', 'name', 'email'], select: 'min', client: selectedClientName}).done(function (contacts) {
         let autoContact = contacts.filter(contact => contact.id === selectedClientId);    
         if (autoContact.length > 0) {
             $('#partsellform-contact_id')
@@ -90,8 +90,8 @@ $('#partsellform-bill_id').on('select2:select', function () {
     let billInput = $('#partsellform-bill_id option:selected');
     let selectedBillId = billInput.val();
     $('#partsellform-currency option').attr('disabled', false);
-    jQuery.post('/finance/bill/index', {return: ['id', 'time', 'currency', 'client_id', 'client'], select: 'min', id: selectedBillId}).done(function (bills) {
-        let auto = bills.filter(bill => bill.id === selectedBillId);
+    $.post('/finance/bill/index', {return: ['id', 'time', 'currency', 'client_id', 'client'], select: 'min', id: selectedBillId}).done(function (bills) {
+        let auto = bills.filter(bill => bill.id.toString() === selectedBillId.toString());
         if (auto.length > 0) {
             $('#partsellform-time').val(auto[0].time).attr({readonly: true}).parent().datetimepicker('remove');
             $('#partsellform-currency').val(auto[0].currency).attr('readonly', true);

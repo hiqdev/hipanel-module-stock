@@ -26,6 +26,9 @@ class Part extends \hipanel\base\Model
 {
     use ModelTrait;
 
+    public const STATE_OK = 'ok';
+    public const STATE_DELETED = 'deleted';
+
     /** @inheritdoc */
     public static $i18nDictionary = 'hipanel:stock';
 

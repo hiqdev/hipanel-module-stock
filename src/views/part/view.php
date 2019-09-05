@@ -21,7 +21,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= MainDetails::widget([
             'title' => $model->model_type_label . ' ' . $model->model_brand_label,
-            'subTitle' => $model->partno . ' #' . $model->serial,
+            'subTitle' => (function () use ($model) {
+                if ($model->state !== \hipanel\modules\stock\models\Part::STATE_OK) {
+                    $state = Yii::t('hipanel', 'Deleted');
+                    $label = "<br /><span class=\"label label-danger\">{$state}</span>";
+                }
+
+                return $model->partno . ' #' . $model->serial . ($label ?? '') ;
+            })(),
             'icon' => 'fa-cubes',
             'menu' => PartDetailMenu::widget(['model' => $model], ['linkTemplate' => '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>&nbsp;{label}</a>']),
         ]) ?>

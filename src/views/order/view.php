@@ -51,7 +51,6 @@ $this->registerCss('
                         'state',
                         'seller',
                         'buyer',
-                        'no',
                         'comment',
                         'time',
                     ],

@@ -12,7 +12,6 @@ namespace hipanel\modules\stock\grid;
 
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\RefColumn;
-use hipanel\helpers\ArrayHelper;
 use hipanel\modules\stock\controllers\PartController;
 use hipanel\modules\stock\menus\OrderActionsMenu;
 use hipanel\modules\stock\models\Order;
@@ -27,6 +26,7 @@ use hiqdev\yii2\menus\grid\MenuColumn;
 use Yii;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
+use hipanel\grid\MainColumn;
 
 class OrderGridView extends BoxedGridView
 {
@@ -40,6 +40,10 @@ class OrderGridView extends BoxedGridView
                 'class' => MenuColumn::class,
                 'menuClass' => OrderActionsMenu::class,
             ],
+            'comment' => [
+                'class' => MainColumn::class,
+                'filterAttribute' => 'comment_ilike',
+            ],
             'time' => [
                 'attribute' => 'time',
                 'filter' => false,
@@ -47,6 +51,7 @@ class OrderGridView extends BoxedGridView
                 'contentOptions' => ['style' => 'white-space:nowrap'],
             ],
             'seller' => [
+                #'label' => Yii::t('hipanel', 'Seller'),
                 'attribute' => 'seller_id',
                 'filterAttribute' => 'seller_id',
                 'format' => 'raw',
@@ -99,9 +104,6 @@ class OrderGridView extends BoxedGridView
             'no' => [
                 'filterAttribute' => 'no_ilike',
             ],
-            'comment' => [
-                'filterAttribute' => 'comment_ilike',
-            ],
             'parts' => [
                 'format' => 'raw',
                 'filter' => false,
@@ -122,7 +124,7 @@ class OrderGridView extends BoxedGridView
                             ]);
                         },
                         'button' => [
-                            'label' => ' +' . (count($order->parts)),
+                            'label' => count($order->parts),
                             'tag' => 'button',
                             'type' => 'button',
                             'class' => 'btn btn-xs btn-flat',

@@ -42,13 +42,12 @@ class Order extends Model
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
-            'no' => Yii::t('hipanel.stock.order', 'No.'),
+            'no' => Yii::t('hipanel.stock.order', '#'),
             'state' => Yii::t('hipanel.stock.order', 'State'),
             'type' => Yii::t('hipanel.stock.order', 'Type'),
+            'seller_id' => Yii::t('hipanel.stock.order', 'Seller'),
             'buyer_id' => Yii::t('hipanel.stock.order', 'Buyer'),
-            'comment' => Yii::t('hipanel.stock.order', 'Comment'),
-            'seller_id' => Yii::t('hipanel.stock.order', 'Reseller'),
-            'time' => Yii::t('hipanel.stock.order', 'Lead time'),
+            'comment' => Yii::t('hipanel.stock.order', 'Order No'),
         ]);
     }
 
@@ -64,7 +63,7 @@ class Order extends Model
 
     public function getPageTitle()
     {
-        return $this->no;
+        return $this->comment;
     }
 
     public function getParts()

@@ -54,12 +54,12 @@ $this->params['breadcrumbs'][] = $this->title;
                                     'last_move',
                                     'move_type_label',
                                     'move_time',
-                                    'order_no',
                                     'dc_ticket',
                                     'price',
                                     'place',
                                     'company',
                                     'reserve',
+                                    'order_no',
                                 ],
                             ]) ?>
                         </div>

@@ -80,14 +80,16 @@ class Part extends \hipanel\base\Model
                     'selling_price',
                     'selling_time',
                     'buyer',
+                    'order_id',
+                    'order_name',
                 ],
                 'safe',
             ],
             [['price'], 'number'],
-            [['id', 'company_id', 'dst_id', 'model_id', 'client_id', 'buyer_id', 'last_move_id'], 'integer'],
+            [['id', 'company_id', 'dst_id', 'model_id', 'client_id', 'buyer_id', 'last_move_id', 'order_id'], 'integer'],
 
             // Create and copy
-            [['partno', 'src_id', 'dst_id', 'serials', 'move_descr', 'move_type', 'price', 'currency', 'company_id'], 'required', 'on' => ['create', 'copy']],
+            [['partno', 'src_id', 'dst_id', 'serials', 'move_descr', 'price', 'currency', 'company_id', 'order_id'], 'required', 'on' => ['create', 'copy']],
             [['dst_ids'], 'required', 'when' => function ($model) {
                 return empty($model->dst_id);
             }, 'on' => ['create']],
@@ -106,7 +108,7 @@ class Part extends \hipanel\base\Model
             [['id', 'src_id', 'dst_id', 'move_type'], 'required', 'on' => 'repair'],
 
             // Update
-            [['id', 'model_id', 'serial', 'price', 'currency', 'company_id'], 'required', 'on' => 'update'],
+            [['id', 'model_id', 'serial', 'price', 'currency', 'company_id', 'order_id'], 'required', 'on' => 'update'],
 
             // Move / Bulk-move
             [['src_id', 'dst_id', 'type'], 'required', 'on' => 'move'],

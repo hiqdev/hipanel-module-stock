@@ -1,6 +1,8 @@
 <?php
 
+use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
+use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
@@ -66,7 +68,6 @@ use yii\helpers\Html;
     ]) ?>
 </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('order_no_ilike') ?></div>
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('company_id')->dropDownList($search->model->companies, ['prompt' => Yii::t('hipanel:stock', 'Company')]) ?>
 </div>
@@ -121,7 +122,11 @@ use yii\helpers\Html;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('buyer_in')->widget(\hipanel\modules\client\widgets\combo\ClientCombo::class, [
+    <?= $search->field('buyer_in')->widget(ClientCombo::class, [
         'multiple' => true,
     ]) ?>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field('order_id')->widget(OrderCombo::class) ?>
 </div>

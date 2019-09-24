@@ -1,10 +1,8 @@
 <?php
 
 use hipanel\helpers\Url;
-use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\stock\grid\PartGridLegend;
 use hipanel\modules\stock\grid\PartGridView;
-use hipanel\modules\stock\widgets\PartLegend;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;

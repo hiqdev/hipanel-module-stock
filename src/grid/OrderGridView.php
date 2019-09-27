@@ -30,7 +30,7 @@ use hipanel\grid\MainColumn;
 
 class OrderGridView extends BoxedGridView
 {
-    private function getAttrs()
+    private function getProfitColumns()
     {
         foreach (['total', 'uu', 'stock', 'rma', 'rent', 'leasing', 'buyout', 'currency'] as $attr) {
             foreach (['eur', 'usd'] as $cur) {
@@ -52,7 +52,13 @@ class OrderGridView extends BoxedGridView
      */
     public function columns()
     {
-        return $this->getAttrs() + array_merge(parent::columns(), [
+        return array_merge(parent::columns(), $this->getProfitColumns(), [
+            'comment_profit' => [
+                'format' => 'raw',
+                'value' => function (Order $order) {
+                    return Html::a($order->comment, ['profit-view', 'id' => $order->id], ['class' => 'bold']);
+                },
+            ],
             'actions' => [
                 'class' => MenuColumn::class,
                 'menuClass' => OrderActionsMenu::class,

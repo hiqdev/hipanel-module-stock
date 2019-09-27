@@ -69,6 +69,13 @@ class OrderController extends CrudController
             'validate-form' => [
                 'class' => ValidateFormAction::class,
             ],
+            'profit-view' => [
+                'view'  => 'profit-view',
+                'class' => ViewAction::class,
+                'on beforePerform' => function (Event $event) {
+                    $event->sender->getDataProvider()->query->withProfit();
+                },
+            ],
         ]);
     }
 }

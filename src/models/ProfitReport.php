@@ -13,16 +13,17 @@ class ProfitReport extends \hipanel\base\Model
         return array_merge(parent::rules(), [
             [
                 [
-                  'currency',
-                  'date',
-                  'comment',
-                  'total',
-                  'uu',
-                  'stock',
-                  'rma',
-                  'rent',
-                  'leasing',
-                  'buyout',
+                    'obj_id',
+                    'currency',
+                    'date',
+                    'comment',
+                    'total',
+                    'uu',
+                    'stock',
+                    'rma',
+                    'rent',
+                    'leasing',
+                    'buyout',
                 ],
                 'safe',
             ]

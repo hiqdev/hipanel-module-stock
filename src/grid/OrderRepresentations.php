@@ -7,7 +7,7 @@ use Yii;
 
 class OrderRepresentations extends RepresentationCollection
 {
-    protected function fillRepresentations()
+    public function fillRepresentations()
     {
         $this->representations = array_filter([
             'common' => [
@@ -27,7 +27,7 @@ class OrderRepresentations extends RepresentationCollection
 
     private function getProfitReportColumns(): array
     {
-        $attrs = ['comment', 'time'];
+        $attrs = ['comment_profit', 'time'];
         foreach (['total', 'uu', 'stock', 'rma', 'rent', 'leasing', 'buyout'] as $attr) {
             foreach (['eur', 'usd'] as $cur) {
                 $attrs[] = "{$attr}_{$cur}";

@@ -21,4 +21,12 @@ class OrderQuery extends ActiveQuery
 
         return $this;
     }
+
+    public function withProfit(): self
+    {
+        $this->joinWith('profit');
+        $this->andWhere(['withProfit' => true]);
+
+        return $this;
+    }
 }

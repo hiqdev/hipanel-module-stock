@@ -4,7 +4,7 @@
  * @var \hipanel\modules\stock\models\OrderSearch $model
  * @var \hipanel\modules\stock\grid\OrderGridView $gridView
  * @var \hipanel\models\IndexPageUiOptions $uiModel
- * @var \hipanel\modules\finance\grid\SaleRepresentations $representationCollection
+ * @var \hipanel\modules\stock\grid\OrderRepresentations $representationCollection
  * @var \yii\data\ActiveDataProvider $dataProvider
  * @var array $types
  */
@@ -38,22 +38,17 @@ $this->params['breadcrumbs'][] = $this->title;
             ]) ?>
         <?php $page->endContent() ?>
 
+        <?php $page->beginContent('representation-actions') ?>
+            <?= $page->renderRepresentations($representationCollection) ?>
+        <?php $page->endContent() ?>
+
         <?php $page->beginContent('table') ?>
             <?php $page->beginBulkForm() ?>
             <?= OrderGridView::widget([
                 'dataProvider' => $dataProvider,
                 'filterModel' => $model,
                 'boxed' => false,
-                'columns' => [
-                    'actions',
-                    'type',
-                    'state',
-                    'seller',
-                    'buyer',
-                    'parts',
-                    'comment',
-                    'time',
-                ],
+                'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
             ]) ?>
             <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>

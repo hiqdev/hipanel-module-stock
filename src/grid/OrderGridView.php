@@ -30,12 +30,29 @@ use hipanel\grid\MainColumn;
 
 class OrderGridView extends BoxedGridView
 {
+    private function getAttrs()
+    {
+        foreach (['total', 'uu', 'stock', 'rma', 'rent', 'leasing', 'buyout', 'currency'] as $attr) {
+            foreach (['eur', 'usd'] as $cur) {
+                $res["{$attr}_{$cur}"] = [
+                    'value' => function (Order $order) use ($attr, $cur) {
+                        $profit = reset($order->profit);
+                        if ($profit->currency === $cur) {
+                            return $profit->{$attr};
+                        }
+                        return '';
+                    },
+                ];
+            }
+        }
+        return $res;
+    }
     /**
      * @inheritdoc
      */
     public function columns()
     {
-        return array_merge(parent::columns(), [
+        return $this->getAttrs() + array_merge(parent::columns(), [
             'actions' => [
                 'class' => MenuColumn::class,
                 'menuClass' => OrderActionsMenu::class,
@@ -51,7 +68,6 @@ class OrderGridView extends BoxedGridView
                 'contentOptions' => ['style' => 'white-space:nowrap'],
             ],
             'seller' => [
-                #'label' => Yii::t('hipanel', 'Seller'),
                 'attribute' => 'seller_id',
                 'filterAttribute' => 'seller_id',
                 'format' => 'raw',

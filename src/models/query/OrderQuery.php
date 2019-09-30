@@ -25,7 +25,15 @@ class OrderQuery extends ActiveQuery
     public function withProfit(): self
     {
         $this->joinWith('profit');
-        $this->andWhere(['withProfit' => true]);
+        $this->andWhere(['with_profit' => true]);
+
+        return $this;
+    }
+
+    public function withProfitParts(): self
+    {
+        $this->joinWith('profitParts');
+        $this->andWhere(['with_profit_parts' => true]);
 
         return $this;
     }

@@ -3,9 +3,9 @@
  * @var \yii\web\View $this
  */
 
-use hipanel\grid\RepresentationCollectionFinder;
 use hipanel\modules\stock\grid\OrderGridView;
-use hipanel\modules\stock\grid\OrderRepresentations;
+use hipanel\modules\stock\grid\PartGridView;
+use hipanel\modules\stock\helpers\ProfitRepresentations;
 use hipanel\modules\stock\menus\OrderDetailMenu;
 use hipanel\widgets\Box;
 use hipanel\widgets\IndexPage;
@@ -23,10 +23,6 @@ $this->registerCss('
     }
 ');
 
-$repColFinder = Yii::createObject(RepresentationCollectionFinder::class);
-/** @var OrderRepresentations $orderRepresentations */
-$orderRepresentations = $repColFinder->findOrFallback();
-$columns = array_diff($orderRepresentations->getByName('profit-report')->getColumns(), ['comment_profit']);
 ?>
 <div class="row">
     <div class="col-md-3">
@@ -76,12 +72,10 @@ $columns = array_diff($orderRepresentations->getByName('profit-report')->getColu
 
         <?php $page->beginContent('table') ?>
             <?php $page->beginBulkForm() ?>
-                <?= OrderGridView::widget([
+                <?= PartGridView::widget([
                     'boxed' => false,
                     'dataProvider' => new ArrayDataProvider([
-                        'allModels' => [
-                            $model
-                        ],
+                        'allModels' => $model->profitParts,
                         'pagination' => [
                             'pageSize' => 25,
                         ],
@@ -89,7 +83,11 @@ $columns = array_diff($orderRepresentations->getByName('profit-report')->getColu
                     'tableOptions' => [
                         'class' => 'table table-striped table-bordered'
                     ],
-                    'columns' => $columns,
+                    'columns' => ProfitRepresentations::getColumns(function ($attr, $cur) {
+                        return [
+                            'value' => "{$attr}_{$cur}",
+                        ];
+                    }, ['serial', 'partno', 'model_brand_label']),
                 ]) ?>
             <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>

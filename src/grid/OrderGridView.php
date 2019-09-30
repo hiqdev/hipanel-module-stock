@@ -13,6 +13,7 @@ namespace hipanel\modules\stock\grid;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\RefColumn;
 use hipanel\modules\stock\controllers\PartController;
+use hipanel\modules\stock\helpers\ProfitRepresentations;
 use hipanel\modules\stock\menus\OrderActionsMenu;
 use hipanel\modules\stock\models\Order;
 use hipanel\modules\stock\models\OrderSearch;
@@ -32,21 +33,21 @@ class OrderGridView extends BoxedGridView
 {
     private function getProfitColumns()
     {
-        foreach (['total', 'uu', 'stock', 'rma', 'rent', 'leasing', 'buyout', 'currency'] as $attr) {
-            foreach (['eur', 'usd'] as $cur) {
-                $res["{$attr}_{$cur}"] = [
+        return ProfitRepresentations::getColumns(function ($attr, $cur) {
+            return [
+                'key' => "{$attr}_{$cur}",
+                'value' => [
                     'value' => function (Order $order) use ($attr, $cur) {
-                        $profit = reset($order->profit);
-                        if ($profit->currency === $cur) {
-                            return $profit->{$attr};
+                        if ($order->profit->currency === $cur) {
+                            return $order->profit->{$attr};
                         }
                         return '';
                     },
-                ];
-            }
-        }
-        return $res;
+                ],
+            ];
+        });
     }
+
     /**
      * @inheritdoc
      */
@@ -55,6 +56,8 @@ class OrderGridView extends BoxedGridView
         return array_merge(parent::columns(), $this->getProfitColumns(), [
             'comment_profit' => [
                 'format' => 'raw',
+                'label' => 'Order No',
+                'filterAttribute' => 'comment_ilike',
                 'value' => function (Order $order) {
                     return Html::a($order->comment, ['profit-view', 'id' => $order->id], ['class' => 'bold']);
                 },

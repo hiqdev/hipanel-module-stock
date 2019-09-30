@@ -73,7 +73,12 @@ class Order extends Model
 
     public function getProfit()
     {
-        return $this->hasMany(ProfitReport::class, ['obj_id' => 'id']);
+        return $this->hasOne(ProfitReport::class, ['order_id' => 'id']);
+    }
+
+    public function getProfitParts()
+    {
+        return $this->hasMany(ProfitParts::class, ['id' => 'id']);
     }
 
     /**

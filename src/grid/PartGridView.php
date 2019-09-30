@@ -16,8 +16,11 @@ use hipanel\grid\BoxedGridView;
 use hipanel\grid\CurrencyColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\client\grid\ClientColumn;
+use hipanel\modules\stock\helpers\ProfitRepresentations;
 use hipanel\modules\stock\models\Move;
+use hipanel\modules\stock\models\Order;
 use hipanel\modules\stock\models\Part;
+use hipanel\modules\stock\models\ProfitParts;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
@@ -28,9 +31,26 @@ class PartGridView extends BoxedGridView
 {
     public $locations;
 
+    private function getProfitColumns()
+    {
+        return ProfitRepresentations::getColumns(function ($attr, $cur) {
+            return [
+                'key' => "{$attr}_{$cur}",
+                'value' => [
+                    'value' => function (ProfitParts $parts) use ($attr, $cur) {
+                        if ($parts->currency === $cur) {
+                            return $parts->{$attr};
+                        }
+                        return '';
+                    },
+                ],
+            ];
+        });
+    }
+
     public function columns()
     {
-        return array_merge(parent::columns(), [
+        return array_merge(parent::columns(), $this->getProfitColumns(), [
             'serial' => [
                 'label' => Yii::t('hipanel:stock', 'Serial'),
                 'filterOptions' => ['class' => 'narrow-filter'],

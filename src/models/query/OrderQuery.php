@@ -12,8 +12,15 @@ namespace hipanel\modules\stock\models\query;
 
 use hiqdev\hiart\ActiveQuery;
 
+/**
+ * Class OrderQuery
+ * @package hipanel\modules\stock\models\query
+ */
 class OrderQuery extends ActiveQuery
 {
+    /**
+     * @return $this
+     */
     public function withParts(): self
     {
         $this->joinWith('parts');
@@ -22,6 +29,9 @@ class OrderQuery extends ActiveQuery
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withProfit(): self
     {
         $this->joinWith('profit');
@@ -30,6 +40,9 @@ class OrderQuery extends ActiveQuery
         return $this;
     }
 
+    /**
+     * @return $this
+     */
     public function withProfitParts(): self
     {
         $this->joinWith('profitParts');

@@ -31,11 +31,14 @@ use hipanel\grid\MainColumn;
 
 class OrderGridView extends BoxedGridView
 {
-    private function getProfitColumns()
+    /**
+     * @return array
+     */
+    private function getProfitColumns(): array
     {
-        return ProfitRepresentations::getColumns(function ($attr, $cur) {
+        return ProfitRepresentations::getColumns(function ($attr, $cur): array {
             $valueArray = [
-                'value' => function (Order $order) use ($attr, $cur) {
+                'value' => function (Order $order) use ($attr, $cur): string {
                     if ($order->profit->currency === $cur) {
                         return "<div class='right-aligned'>{$order->profit->{$attr}}</div>";
                     }
@@ -46,12 +49,12 @@ class OrderGridView extends BoxedGridView
             if ($this->showFooter) {
                 $models = $this->dataProvider->getModels();
                 $valueArray['footer'] = (function () use ($attr, $cur, $models): string {
-                    $sum = array_reduce($models, function (float $sum, Order $order) use ($attr, $cur): float {
+                    $sum = array_reduce($models, function (?float $sum, Order $order) use ($attr, $cur): ?float {
                         if ($order->profit && $order->profit->currency === $cur) {
                             return $sum + $order->profit->{$attr};
                         }
                         return $sum;
-                    }, 0.0);
+                    }, null);
                     $res = empty($sum) ? '' : number_format($sum, 2);
                     return "<div class='right-aligned'>$res</div>";
                 })();
@@ -73,7 +76,7 @@ class OrderGridView extends BoxedGridView
                 'format' => 'raw',
                 'label' => 'Order No',
                 'filterAttribute' => 'comment_ilike',
-                'value' => function (Order $order) {
+                'value' => function (Order $order): string {
                     return Html::a($order->comment, ['profit-view', 'id' => $order->id], ['class' => 'bold']);
                 },
                 'footer' => '<b>TOTAL on screen</b>',

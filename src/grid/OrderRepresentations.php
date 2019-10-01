@@ -6,8 +6,15 @@ use hipanel\modules\stock\helpers\ProfitRepresentations;
 use hiqdev\higrid\representations\RepresentationCollection;
 use Yii;
 
+/**
+ * Class OrderRepresentations
+ * @package hipanel\modules\stock\grid
+ */
 class OrderRepresentations extends RepresentationCollection
 {
+    /**
+     * @inheritDoc
+     */
     public function fillRepresentations()
     {
         $this->representations = array_filter([
@@ -21,7 +28,7 @@ class OrderRepresentations extends RepresentationCollection
             ],
             'profit-report' => [
                 'label' => Yii::t('hipanel', 'profit report'),
-                'columns' => ProfitRepresentations::getColumns(function ($attr, $cur) {
+                'columns' => ProfitRepresentations::getColumns(function ($attr, $cur): array {
                     return [
                         'value' => "{$attr}_{$cur}",
                     ];

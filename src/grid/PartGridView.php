@@ -33,9 +33,9 @@ class PartGridView extends BoxedGridView
 
     private function getProfitColumns()
     {
-        return ProfitRepresentations::getColumns(function ($attr, $cur) {
+        return ProfitRepresentations::getColumns(function ($attr, $cur): array {
             $valueArray = [
-                'value' => function (ProfitParts $parts) use ($attr, $cur) {
+                'value' => function (ProfitParts $parts) use ($attr, $cur): string {
                     if ($parts->currency === $cur) {
                         return "<div class='right-aligned'>{$parts->{$attr}}</div>";
                     }

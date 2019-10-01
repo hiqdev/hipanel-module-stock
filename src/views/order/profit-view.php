@@ -2,8 +2,6 @@
 /**
  * @var \yii\web\View $this
  * @var Order $model
- * @var array $local_sums
- * @var array $total_sums
  */
 
 use hipanel\modules\stock\grid\OrderGridView;
@@ -11,7 +9,6 @@ use hipanel\modules\stock\grid\PartGridView;
 use hipanel\modules\stock\helpers\ProfitRepresentations;
 use hipanel\modules\stock\menus\OrderDetailMenu;
 use hipanel\modules\stock\models\Order;
-use hipanel\modules\stock\widgets\SummaryWidget;
 use hipanel\widgets\Box;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\MainDetails;

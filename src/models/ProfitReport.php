@@ -13,6 +13,9 @@ class ProfitReport extends \hipanel\base\Model
 {
     use ModelTrait;
 
+    /**
+     * @inheritDoc
+     */
     public function rules()
     {
         return array_merge(parent::rules(), [

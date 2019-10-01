@@ -7,12 +7,25 @@ namespace hipanel\modules\stock\widgets;
 use Yii;
 use yii\base\Widget;
 
+/**
+ * Class SummaryWidget
+ * @package hipanel\modules\stock\widgets
+ */
 class SummaryWidget extends Widget
 {
+    /**
+     * @var array
+     */
     public $total_sums;
 
+    /**
+     * @var array
+     */
     public $local_sums;
 
+    /**
+     * @inheritDoc
+     */
     public function run()
     {
         $locals = $this->getSumsString($this->local_sums);
@@ -23,6 +36,11 @@ class SummaryWidget extends Widget
             '</div>';
     }
 
+    /**
+     * @param array $sumsArray
+     * @return string
+     * @throws \yii\base\InvalidConfigException
+     */
     private function getSumsString(array $sumsArray): string
     {
         $totals = '';

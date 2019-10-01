@@ -6,13 +6,10 @@
  * @var \hipanel\models\IndexPageUiOptions $uiModel
  * @var \hipanel\modules\stock\grid\OrderRepresentations $representationCollection
  * @var \yii\data\ActiveDataProvider $dataProvider
- * @var array $local_sums
- * @var array $total_sums
  * @var array $types
  */
 
 use hipanel\modules\stock\grid\OrderGridView;
-use hipanel\modules\stock\widgets\SummaryWidget;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\helpers\Html;

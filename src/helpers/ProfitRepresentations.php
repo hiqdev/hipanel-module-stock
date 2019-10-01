@@ -3,9 +3,17 @@
 
 namespace hipanel\modules\stock\helpers;
 
-
+/**
+ * Class ProfitRepresentations
+ * @package hipanel\modules\stock\helpers
+ */
 class ProfitRepresentations
 {
+    /**
+     * @param \Closure $pack
+     * @param array $commonColumns
+     * @return array
+     */
     public static function getColumns(\Closure $pack, array $commonColumns = []): array
     {
         foreach (['total', 'uu', 'stock', 'rma', 'rent', 'leasing', 'buyout'] as $attr) {

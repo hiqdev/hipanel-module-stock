@@ -50,6 +50,25 @@ class OrderController extends CrudController
                         $query->withProfit();
                     }
                 },
+                'data' => function ($action, $data) {
+                    $local_sums = [];
+                    $total_sums = [];
+                    $representation = $this->indexPageUiOptionsModel->representation;
+                    if ($representation === 'profit-report') {
+                        foreach ($data['dataProvider']->getModels() as $model) {
+                            $local_sums[$model->profit->currency] += $model->profit->total;
+                        }
+//                        $query = $action->parent->dataProvider->query;
+//                        $query->andWhere(['groupby' => 'total_price']);
+//                        foreach ($query->all() as $model) {
+//                            $total_sums[$model->profit->currency] += $model->profit->total;
+//                        }
+                    }
+                    return [
+                        'local_sums' => array_filter($local_sums),
+                        'total_sums' => array_filter($total_sums),
+                    ];
+                },
             ],
             'create' => [
                 'class' => SmartCreateAction::class,
@@ -74,6 +93,22 @@ class OrderController extends CrudController
                 'class' => ViewAction::class,
                 'on beforePerform' => function (Event $event) {
                     $event->sender->getDataProvider()->query->withProfitParts();
+                },
+                'data' => function ($action, $data) {
+                    $local_sums = [];
+                    $total_sums = [];
+                    foreach ($data['model']->profitParts as $profitPart) {
+                        $local_sums[$profitPart->currency] += $profitPart->total;
+                    }
+//                        $query = $action->parent->dataProvider->query;
+//                        $query->andWhere(['groupby' => 'total_price']);
+//                        foreach ($query->all() as $model) {
+//                            $total_sums[$model->profit->currency] += $model->profit->total;
+//                        }
+                    return [
+                        'local_sums' => array_filter($local_sums),
+                        'total_sums' => array_filter($total_sums),
+                    ];
                 },
             ],
         ]);

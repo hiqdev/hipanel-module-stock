@@ -1,12 +1,17 @@
 <?php
 /**
  * @var \yii\web\View $this
+ * @var Order $model
+ * @var array $local_sums
+ * @var array $total_sums
  */
 
 use hipanel\modules\stock\grid\OrderGridView;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\modules\stock\helpers\ProfitRepresentations;
 use hipanel\modules\stock\menus\OrderDetailMenu;
+use hipanel\modules\stock\models\Order;
+use hipanel\modules\stock\widgets\SummaryWidget;
 use hipanel\widgets\Box;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\MainDetails;
@@ -88,6 +93,12 @@ $this->registerCss('
                             'value' => "{$attr}_{$cur}",
                         ];
                     }, ['serial', 'partno', 'model_brand_label']),
+                    'summaryRenderer' => function ($grid, $defaultSummaryCb) use ($local_sums, $total_sums) {
+                        return $defaultSummaryCb() . SummaryWidget::widget([
+                            'local_sums' => $local_sums,
+                            'total_sums' => $total_sums,
+                        ]);
+                    },
                 ]) ?>
             <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>

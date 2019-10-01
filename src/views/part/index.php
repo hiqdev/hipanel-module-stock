@@ -3,6 +3,7 @@
 use hipanel\helpers\Url;
 use hipanel\modules\stock\grid\PartGridLegend;
 use hipanel\modules\stock\grid\PartGridView;
+use hipanel\modules\stock\widgets\SummaryWidget;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
@@ -234,27 +235,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $model,
                 'locations' => $locations,
                 'summaryRenderer' => function ($grid, $defaultSummaryCb) use ($local_sums, $total_sums) {
-                    $locals = '';
-                    $totals = '';
-                    if (is_array($total_sums)) {
-                        foreach ($total_sums as $cur => $sum) {
-                            if ($cur && $sum > 0) {
-                                $totals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
-                            }
-                        }
-                    }
-                    if (is_array($local_sums)) {
-                        foreach ($local_sums as $cur => $sum) {
-                            if ($cur && $sum > 0) {
-                                $locals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
-                            }
-                        }
-                    }
-
-                    return $defaultSummaryCb() . '<div class="summary">' .
-                        ($totals ? Yii::t('hipanel:stock', 'TOTAL') . ':' . $totals : null) .
-                        ($locals ? '<br><span class="text-muted">' . Yii::t('hipanel', 'on screen') . ':' . $locals . '</span>' : null) .
-                        '</div>';
+                    return $defaultSummaryCb() . SummaryWidget::widget([
+                        'local_sums' => $local_sums,
+                        'total_sums' => $total_sums,
+                    ]);
                 },
                 'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
             ]) ?>

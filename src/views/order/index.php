@@ -6,10 +6,13 @@
  * @var \hipanel\models\IndexPageUiOptions $uiModel
  * @var \hipanel\modules\stock\grid\OrderRepresentations $representationCollection
  * @var \yii\data\ActiveDataProvider $dataProvider
+ * @var array $local_sums
+ * @var array $total_sums
  * @var array $types
  */
 
 use hipanel\modules\stock\grid\OrderGridView;
+use hipanel\modules\stock\widgets\SummaryWidget;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\helpers\Html;
@@ -49,6 +52,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $model,
                 'boxed' => false,
                 'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
+                'summaryRenderer' => function ($grid, $defaultSummaryCb) use ($local_sums, $total_sums) {
+                    return $defaultSummaryCb() . SummaryWidget::widget([
+                        'local_sums' => $local_sums,
+                        'total_sums' => $total_sums,
+                    ]);
+                },
             ]) ?>
             <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>

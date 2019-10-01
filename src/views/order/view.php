@@ -36,28 +36,26 @@ $this->registerCss('
                 ]) ?>
             </div>
             <div class="col-md-12">
-                <?php
-                $box = Box::begin(['renderBody' => false]);
-                $box->beginHeader();
-                echo $box->renderTitle(Yii::t('hipanel.stock.order', 'Details'));
-                $box->endHeader();
-                $box->beginBody();
-                echo OrderGridView::detailView([
-                    'model' => $model,
-                    'boxed' => false,
-                    'columns' => [
-                        'id',
-                        'type',
-                        'state',
-                        'seller',
-                        'buyer',
-                        'comment',
-                        'time',
-                    ],
-                ]);
-                $box->endBody();
-                $box->end();
-                ?>
+                <?php $box = Box::begin(['renderBody' => false]) ?>
+                    <?php $box->beginHeader() ?>
+                        <?= $box->renderTitle(Yii::t('hipanel.stock.order', 'Details')) ?>
+                    <?php $box->endHeader() ?>
+                    <?php $box->beginBody() ?>
+                        <?= OrderGridView::detailView([
+                            'model' => $model,
+                            'boxed' => false,
+                            'columns' => [
+                                'id',
+                                'type',
+                                'state',
+                                'seller',
+                                'buyer',
+                                'comment',
+                                'time',
+                            ],
+                        ]) ?>
+                    <?php $box->endBody() ?>
+                <?php $box->end() ?>
             </div>
 
         </div>

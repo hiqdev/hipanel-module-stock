@@ -14,12 +14,12 @@ use yii\base\Widget;
 class SummaryWidget extends Widget
 {
     /**
-     * @var array
+     * @var float[]
      */
     public $total_sums;
 
     /**
-     * @var array
+     * @var float[]
      */
     public $local_sums;
 
@@ -31,8 +31,8 @@ class SummaryWidget extends Widget
         $locals = $this->getSumsString($this->local_sums);
         $totals = $this->getSumsString($this->total_sums);
         return '<div class="summary">' .
-            ($totals ? Yii::t('hipanel:stock', 'TOTAL') . ':' . $totals : null) .
-            ($locals ? '<br><span class="text-muted">' . Yii::t('hipanel', 'on screen') . ':' . $locals . '</span>' : null) .
+            ($totals ? Yii::t('hipanel:stock', 'TOTAL: {sum}', ['sum' => $totals]) : null) .
+            ($locals ? '<br><span class="text-muted">' . Yii::t('hipanel:stock', 'on screen: {sum}', ['sum' => $locals]) . '</span>' : null) .
             '</div>';
     }
 

@@ -40,23 +40,24 @@ class OrderGridView extends BoxedGridView
             $valueArray = [
                 'value' => function (Order $order) use ($attr, $cur): string {
                     if ($order->profit->currency === $cur) {
-                        return "<div class='right-aligned'>{$order->profit->{$attr}}</div>";
+                        return (string)$order->profit->{$attr};
                     }
                     return '';
                 },
                 'format' => 'raw',
+                'contentOptions' => ['class' => 'right-aligned'],
+                'footerOptions' => ['class' => 'right-aligned'],
             ];
             if ($this->showFooter) {
                 $models = $this->dataProvider->getModels();
                 $valueArray['footer'] = (function () use ($attr, $cur, $models): string {
-                    $sum = array_reduce($models, function (?float $sum, Order $order) use ($attr, $cur): ?float {
+                    $sum = array_reduce($models, function (float $sum, Order $order) use ($attr, $cur): float {
                         if ($order->profit && $order->profit->currency === $cur) {
                             return $sum + $order->profit->{$attr};
                         }
                         return $sum;
-                    }, null);
-                    $res = empty($sum) ? '' : number_format($sum, 2);
-                    return "<div class='right-aligned'>$res</div>";
+                    }, 0.0);
+                    return empty($sum) ? '' : number_format($sum, 2);
                 })();
             }
             return [

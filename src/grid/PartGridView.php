@@ -37,23 +37,24 @@ class PartGridView extends BoxedGridView
             $valueArray = [
                 'value' => function (ProfitParts $parts) use ($attr, $cur): string {
                     if ($parts->currency === $cur) {
-                        return "<div class='right-aligned'>{$parts->{$attr}}</div>";
+                        return (string)$parts->{$attr};
                     }
                     return '';
                 },
                 'format' => 'raw',
+                'contentOptions' => ['class' => 'right-aligned'],
+                'footerOptions' => ['class' => 'right-aligned'],
             ];
             if ($this->showFooter) {
                 $valueArray['footer'] = (function () use ($attr, $cur): string {
                     $models = $this->dataProvider->getModels();
-                    $sum = array_reduce($models, function (?float $sum, ProfitParts $parts) use ($attr, $cur): ?float {
+                    $sum = array_reduce($models, function (float $sum, ProfitParts $parts) use ($attr, $cur): float {
                         if ($parts && $parts->currency === $cur) {
                             return $sum + $parts->{$attr};
                         }
                         return $sum;
-                    }, null);
-                    $res = empty($sum) ? '' : number_format($sum, 2);
-                    return "<div class='right-aligned'>$res</div>";
+                    }, 0.0);
+                    return empty($sum) ? '' : number_format($sum, 2);
                 })();
             }
             return [

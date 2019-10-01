@@ -26,6 +26,9 @@ $this->registerCss('
     .profile-block {
         text-align: center;
     }
+    .right-aligned {
+        text-align: right;
+    }
 ');
 
 ?>
@@ -88,17 +91,12 @@ $this->registerCss('
                     'tableOptions' => [
                         'class' => 'table table-striped table-bordered'
                     ],
+                    'showFooter' => true,
                     'columns' => ProfitRepresentations::getColumns(function ($attr, $cur) {
                         return [
                             'value' => "{$attr}_{$cur}",
                         ];
                     }, ['serial', 'partno', 'model_brand_label']),
-                    'summaryRenderer' => function ($grid, $defaultSummaryCb) use ($local_sums, $total_sums) {
-                        return $defaultSummaryCb() . SummaryWidget::widget([
-                            'local_sums' => $local_sums,
-                            'total_sums' => $total_sums,
-                        ]);
-                    },
                 ]) ?>
             <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>

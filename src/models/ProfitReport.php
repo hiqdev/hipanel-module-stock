@@ -4,6 +4,11 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\ModelTrait;
 
+/**
+ * Class ProfitReport
+ *
+ * @property string $currency
+ */
 class ProfitReport extends \hipanel\base\Model
 {
     use ModelTrait;

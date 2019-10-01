@@ -34,16 +34,31 @@ class PartGridView extends BoxedGridView
     private function getProfitColumns()
     {
         return ProfitRepresentations::getColumns(function ($attr, $cur) {
+            $valueArray = [
+                'value' => function (ProfitParts $parts) use ($attr, $cur) {
+                    if ($parts->currency === $cur) {
+                        return "<div class='right-aligned'>{$parts->{$attr}}</div>";
+                    }
+                    return '';
+                },
+                'format' => 'raw',
+            ];
+            if ($this->showFooter) {
+                $valueArray['footer'] = (function () use ($attr, $cur): string {
+                    $models = $this->dataProvider->getModels();
+                    $sum = array_reduce($models, function (?float $sum, ProfitParts $parts) use ($attr, $cur): ?float {
+                        if ($parts && $parts->currency === $cur) {
+                            return $sum + $parts->{$attr};
+                        }
+                        return $sum;
+                    }, null);
+                    $res = empty($sum) ? '' : number_format($sum, 2);
+                    return "<div class='right-aligned'>$res</div>";
+                })();
+            }
             return [
                 'key' => "{$attr}_{$cur}",
-                'value' => [
-                    'value' => function (ProfitParts $parts) use ($attr, $cur) {
-                        if ($parts->currency === $cur) {
-                            return $parts->{$attr};
-                        }
-                        return '';
-                    },
-                ],
+                'value' => $valueArray,
             ];
         });
     }
@@ -59,6 +74,7 @@ class PartGridView extends BoxedGridView
                 'value' => function ($model) {
                     return Html::a($model->serial, ['@part/view', 'id' => $model->id], ['class' => 'text-bold']);
                 },
+                'footer' => '<b>TOTAL on screen</b>',
             ],
             'main' => [
                 'label' => Yii::t('hipanel', 'Type') . ' / ' . Yii::t('hipanel:stock', 'Manufacturer'),

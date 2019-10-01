@@ -34,16 +34,31 @@ class OrderGridView extends BoxedGridView
     private function getProfitColumns()
     {
         return ProfitRepresentations::getColumns(function ($attr, $cur) {
+            $valueArray = [
+                'value' => function (Order $order) use ($attr, $cur) {
+                    if ($order->profit->currency === $cur) {
+                        return "<div class='right-aligned'>{$order->profit->{$attr}}</div>";
+                    }
+                    return '';
+                },
+                'format' => 'raw',
+            ];
+            if ($this->showFooter) {
+                $models = $this->dataProvider->getModels();
+                $valueArray['footer'] = (function () use ($attr, $cur, $models): string {
+                    $sum = array_reduce($models, function (float $sum, Order $order) use ($attr, $cur): float {
+                        if ($order->profit && $order->profit->currency === $cur) {
+                            return $sum + $order->profit->{$attr};
+                        }
+                        return $sum;
+                    }, 0.0);
+                    $res = empty($sum) ? '' : number_format($sum, 2);
+                    return "<div class='right-aligned'>$res</div>";
+                })();
+            }
             return [
                 'key' => "{$attr}_{$cur}",
-                'value' => [
-                    'value' => function (Order $order) use ($attr, $cur) {
-                        if ($order->profit->currency === $cur) {
-                            return $order->profit->{$attr};
-                        }
-                        return '';
-                    },
-                ],
+                'value' => $valueArray,
             ];
         });
     }
@@ -61,6 +76,7 @@ class OrderGridView extends BoxedGridView
                 'value' => function (Order $order) {
                     return Html::a($order->comment, ['profit-view', 'id' => $order->id], ['class' => 'bold']);
                 },
+                'footer' => '<b>TOTAL on screen</b>',
             ],
             'actions' => [
                 'class' => MenuColumn::class,

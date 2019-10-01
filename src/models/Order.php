@@ -17,6 +17,11 @@ use hipanel\modules\stock\models\query\OrderQuery;
 use Yii;
 use yii\db\Query;
 
+/**
+ * @property-read ProfitParts $profitParts
+ * @property-read Part[] $parts
+ * @property-read ProfitReport $profit
+ */
 class Order extends Model
 {
     use ModelTrait;

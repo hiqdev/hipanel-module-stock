@@ -18,9 +18,9 @@ use Yii;
 use yii\db\Query;
 
 /**
- * @property-read ProfitParts $profitParts
+ * @property-read PartWithProfit $profitParts
  * @property-read Part[] $parts
- * @property-read ProfitReport $profit
+ * @property-read OrderWithProfit $profit
  */
 class Order extends Model
 {
@@ -76,15 +76,15 @@ class Order extends Model
         return $this->hasMany(Part::class, ['order_id' => 'id'])->limit(-1)->orderBy(['move_time' => SORT_DESC]);
     }
 
-    public function getProfit()
+    public function getOrderWithProfit()
     {
-        return $this->hasOne(ProfitReport::class, ['order_id' => 'id']);
+        return $this->hasOne(OrderWithProfit::class, ['obj_id' => 'id']);
     }
 
-    public function getProfitParts()
-    {
-        return $this->hasMany(ProfitParts::class, ['id' => 'id']);
-    }
+//    public function getPartWithProfit()
+//    {
+//        return $this->hasMany(PartWithProfit::class, ['id' => 'id']);
+//    }
 
     /**
      * {@inheritdoc}

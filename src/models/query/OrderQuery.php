@@ -32,9 +32,9 @@ class OrderQuery extends ActiveQuery
     /**
      * @return $this
      */
-    public function withProfit(): self
+    public function withOrderProfit(): self
     {
-        $this->joinWith('profit');
+        $this->joinWith('orderWithProfit');
         $this->andWhere(['with_profit' => true]);
 
         return $this;
@@ -43,11 +43,11 @@ class OrderQuery extends ActiveQuery
     /**
      * @return $this
      */
-    public function withProfitParts(): self
-    {
-        $this->joinWith('profitParts');
-        $this->andWhere(['with_profit_parts' => true]);
-
-        return $this;
-    }
+//    public function withPartProfit(): self
+//    {
+//        $this->joinWith('partWithProfit');
+//        $this->andWhere(['with_profit_parts' => true]);
+//
+//        return $this;
+//    }
 }

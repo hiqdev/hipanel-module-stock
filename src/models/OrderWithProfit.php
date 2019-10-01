@@ -5,10 +5,11 @@ namespace hipanel\modules\stock\models;
 use hipanel\base\ModelTrait;
 
 /**
- * Class ProfitParts
- * @package hipanel\modules\stock\models
+ * Class OrderWithProfit
+ *
+ * @property string $currency
  */
-class ProfitParts extends Part
+class OrderWithProfit extends Order
 {
     use ModelTrait;
 
@@ -20,6 +21,7 @@ class ProfitParts extends Part
         return array_merge(parent::rules(), [
             [
                 [
+                    'currency',
                     'comment',
                     'total',
                     'uu',

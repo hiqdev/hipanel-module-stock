@@ -39,8 +39,8 @@ class OrderGridView extends BoxedGridView
         return ProfitRepresentations::getColumns(function ($attr, $cur): array {
             $valueArray = [
                 'value' => function (Order $order) use ($attr, $cur): string {
-                    if ($order->profit->currency === $cur) {
-                        return (string)$order->profit->{$attr};
+                    if ($order->orderWithProfit->currency === $cur) {
+                        return (string)$order->orderWithProfit->{$attr};
                     }
                     return '';
                 },
@@ -52,8 +52,8 @@ class OrderGridView extends BoxedGridView
                 $models = $this->dataProvider->getModels();
                 $valueArray['footer'] = (function () use ($attr, $cur, $models): string {
                     $sum = array_reduce($models, function (float $sum, Order $order) use ($attr, $cur): float {
-                        if ($order->profit && $order->profit->currency === $cur) {
-                            return $sum + $order->profit->{$attr};
+                        if ($order->orderWithProfit && $order->orderWithProfit->currency === $cur) {
+                            return $sum + $order->orderWithProfit->{$attr};
                         }
                         return $sum;
                     }, 0.0);

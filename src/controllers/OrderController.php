@@ -73,7 +73,7 @@ class OrderController extends CrudController
                 'view'  => 'profit-view',
                 'class' => ViewAction::class,
                 'on beforePerform' => function (Event $event) {
-                    $event->sender->getDataProvider()->query->withPartProfit();
+                    $event->sender->getDataProvider()->query->withPartsProfit();
                 },
             ],
         ]);

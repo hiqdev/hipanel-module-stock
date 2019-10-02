@@ -20,4 +20,7 @@ class OrderCombo extends Combo
 
     /** {@inheritdoc} */
     public $_primaryFilter = 'seller_no';
+
+    /** {@inheritdoc} */
+    public $_rename = ['text' => 'comment'];
 }

@@ -1,7 +1,9 @@
 <?php
 
 use hipanel\modules\stock\widgets\combo\ContactCombo;
+use hipanel\widgets\DatePicker;
 use hipanel\widgets\RefCombo;
+use yii\bootstrap\Html;
 
 /**
  * @var \hipanel\widgets\AdvancedSearch $search
@@ -38,4 +40,19 @@ use hipanel\widgets\RefCombo;
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('comment_ilike') ?>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <div class="form-group">
+        <?= Html::tag('label', Yii::t('hipanel', 'Time'), ['class' => 'control-label']); ?>
+        <?= DatePicker::widget([
+            'id' => 'time_date-picker',
+            'model' => $search->model,
+            'attribute' => 'time',
+            'pluginOptions' => [
+                'autoclose' => true,
+                'format' => 'yyyy-mm-dd',
+            ],
+        ]) ?>
+    </div>
 </div>

@@ -108,7 +108,7 @@ class Part extends \hipanel\base\Model
             [['id', 'src_id', 'dst_id', 'move_type'], 'required', 'on' => 'repair'],
 
             // Update
-            [['id', 'model_id', 'serial', 'price', 'currency', 'company_id', 'order_id'], 'required', 'on' => 'update'],
+            [['id', 'model_id', 'serial', 'price', 'currency', 'company_id'], 'required', 'on' => 'update'],
 
             // Move / Bulk-move
             [['src_id', 'dst_id', 'type'], 'required', 'on' => 'move'],

@@ -35,8 +35,8 @@ class PartGridView extends BoxedGridView
         return ProfitColumns::getGridColumns(function (string $attr, string $cur): array {
             $valueArray = [
                 'value' => function (PartWithProfit $parts) use ($attr, $cur): string {
-                    if ($parts->currency === $cur) {
-                        return (string)$parts->{$attr};
+                    if ($parts->currency === $cur && !empty($parts->{$attr})) {
+                        return (string)number_format($parts->{$attr}, 2);
                     }
                     return '';
                 },

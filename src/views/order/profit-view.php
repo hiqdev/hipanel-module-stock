@@ -19,12 +19,6 @@ $this->title = Html::encode($model->pageTitle) . ' Profit';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel.stock.order', 'Orders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$this->registerCss('
-    .profile-block {
-        text-align: center;
-    }
-');
-
 ?>
 <div class="row">
     <div class="col-md-3">

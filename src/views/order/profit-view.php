@@ -6,7 +6,7 @@
 
 use hipanel\modules\stock\grid\OrderGridView;
 use hipanel\modules\stock\grid\PartGridView;
-use hipanel\modules\stock\helpers\ProfitRepresentations;
+use hipanel\modules\stock\helpers\ProfitColumns;
 use hipanel\modules\stock\menus\OrderDetailMenu;
 use hipanel\modules\stock\models\Order;
 use hipanel\widgets\Box;
@@ -87,11 +87,7 @@ $this->registerCss('
                         'class' => 'table table-striped table-bordered'
                     ],
                     'showFooter' => true,
-                    'columns' => ProfitRepresentations::getColumns(function ($attr, $cur) {
-                        return [
-                            'value' => "{$attr}_{$cur}",
-                        ];
-                    }, ['serial', 'partno', 'model_brand_label']),
+                    'columns' => ProfitColumns::getColumns(['serial', 'partno', 'model_brand_label']),
                 ]) ?>
             <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>

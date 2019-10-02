@@ -13,7 +13,7 @@ namespace hipanel\modules\stock\grid;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\RefColumn;
 use hipanel\modules\stock\controllers\PartController;
-use hipanel\modules\stock\helpers\ProfitRepresentations;
+use hipanel\modules\stock\helpers\ProfitColumns;
 use hipanel\modules\stock\menus\OrderActionsMenu;
 use hipanel\modules\stock\models\Order;
 use hipanel\modules\stock\models\OrderSearch;
@@ -36,7 +36,7 @@ class OrderGridView extends BoxedGridView
      */
     private function getProfitColumns(): array
     {
-        return ProfitRepresentations::getColumns(function ($attr, $cur): array {
+        return ProfitColumns::getGridColumns(function (string $attr, string $cur): array {
             $valueArray = [
                 'value' => function (Order $order) use ($attr, $cur): string {
                     if ($order->profit->currency === $cur) {
@@ -60,10 +60,7 @@ class OrderGridView extends BoxedGridView
                     return empty($sum) ? '' : number_format($sum, 2);
                 })();
             }
-            return [
-                'key' => "{$attr}_{$cur}",
-                'value' => $valueArray,
-            ];
+            return $valueArray;
         });
     }
 

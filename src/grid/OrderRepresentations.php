@@ -2,7 +2,7 @@
 
 namespace hipanel\modules\stock\grid;
 
-use hipanel\modules\stock\helpers\ProfitRepresentations;
+use hipanel\modules\stock\helpers\ProfitColumns;
 use hiqdev\higrid\representations\RepresentationCollection;
 use Yii;
 
@@ -28,11 +28,7 @@ class OrderRepresentations extends RepresentationCollection
             ],
             'profit-report' => [
                 'label' => Yii::t('hipanel', 'profit report'),
-                'columns' => ProfitRepresentations::getColumns(function ($attr, $cur): array {
-                    return [
-                        'value' => "{$attr}_{$cur}",
-                    ];
-                }, ['comment_profit', 'time']),
+                'columns' => ProfitColumns::getColumns(['comment_profit', 'time']),
             ],
         ]);
     }

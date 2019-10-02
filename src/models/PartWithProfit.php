@@ -8,6 +8,7 @@ use hipanel\base\ModelTrait;
  * Class PartWithProfit
  * @package hipanel\modules\stock\models
  *
+ * @property string $currency
  * @property string $comment
  * @property string $total
  * @property string $uu

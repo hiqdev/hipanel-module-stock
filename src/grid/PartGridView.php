@@ -16,9 +16,8 @@ use hipanel\grid\BoxedGridView;
 use hipanel\grid\CurrencyColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\client\grid\ClientColumn;
-use hipanel\modules\stock\helpers\ProfitRepresentations;
+use hipanel\modules\stock\helpers\ProfitColumns;
 use hipanel\modules\stock\models\Move;
-use hipanel\modules\stock\models\Order;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\models\PartWithProfit;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
@@ -31,9 +30,9 @@ class PartGridView extends BoxedGridView
 {
     public $locations;
 
-    private function getProfitColumns()
+    private function getProfitColumns(): array
     {
-        return ProfitRepresentations::getColumns(function ($attr, $cur): array {
+        return ProfitColumns::getGridColumns(function (string $attr, string $cur): array {
             $valueArray = [
                 'value' => function (PartWithProfit $parts) use ($attr, $cur): string {
                     if ($parts->currency === $cur) {
@@ -57,10 +56,7 @@ class PartGridView extends BoxedGridView
                     return empty($sum) ? '' : number_format($sum, 2);
                 })();
             }
-            return [
-                'key' => "{$attr}_{$cur}",
-                'value' => $valueArray,
-            ];
+            return $valueArray;
         });
     }
 

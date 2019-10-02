@@ -39,8 +39,8 @@ class OrderGridView extends BoxedGridView
         return ProfitRepresentations::getColumns(function ($attr, $cur): array {
             $valueArray = [
                 'value' => function (Order $order) use ($attr, $cur): string {
-                    if ($order->orderWithProfit->currency === $cur) {
-                        return (string)$order->orderWithProfit->{$attr};
+                    if ($order->profit->currency === $cur) {
+                        return (string)$order->profit->{$attr};
                     }
                     return '';
                 },
@@ -52,8 +52,8 @@ class OrderGridView extends BoxedGridView
                 $models = $this->dataProvider->getModels();
                 $valueArray['footer'] = (function () use ($attr, $cur, $models): string {
                     $sum = array_reduce($models, function (float $sum, Order $order) use ($attr, $cur): float {
-                        if ($order->orderWithProfit && $order->orderWithProfit->currency === $cur) {
-                            return $sum + $order->orderWithProfit->{$attr};
+                        if ($order->profit && $order->profit->currency === $cur) {
+                            return $sum + $order->profit->{$attr};
                         }
                         return $sum;
                     }, 0.0);
@@ -75,12 +75,12 @@ class OrderGridView extends BoxedGridView
         return array_merge(parent::columns(), $this->getProfitColumns(), [
             'comment_profit' => [
                 'format' => 'raw',
-                'label' => 'Order No',
+                'label' => Yii::t('hipanel:stock', 'Order No.'),
                 'filterAttribute' => 'comment_ilike',
                 'value' => function (Order $order): string {
                     return Html::a($order->comment, ['profit-view', 'id' => $order->id], ['class' => 'bold']);
                 },
-                'footer' => '<b>TOTAL on screen</b>',
+                'footer' => '<b>' . Yii::t('hipanel:stock', 'TOTAL on screen') . '</b>',
             ],
             'actions' => [
                 'class' => MenuColumn::class,

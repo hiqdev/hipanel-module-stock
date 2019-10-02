@@ -91,6 +91,7 @@ return [
     'Stock' => 'Склад',
     'Supplier' => 'Поставщик',
     'TOTAL: {sum}' => 'ИТОГО: {sum}',
+    'TOTAL on screen' => 'ИТОГО на экране',
     'on screen: {sum}' => 'на экране: {sum}',
     'Tags' => 'Теги',
     'Trash' => 'Выбросить',

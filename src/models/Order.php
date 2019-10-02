@@ -76,15 +76,15 @@ class Order extends Model
         return $this->hasMany(Part::class, ['order_id' => 'id'])->limit(-1)->orderBy(['move_time' => SORT_DESC]);
     }
 
-    public function getOrderWithProfit()
+    public function getProfit()
     {
         return $this->hasOne(OrderWithProfit::class, ['obj_id' => 'id']);
     }
 
-//    public function getPartWithProfit()
-//    {
-//        return $this->hasMany(PartWithProfit::class, ['id' => 'id']);
-//    }
+    public function getPartsProfit()
+    {
+        return $this->hasMany(PartWithProfit::class, ['id' => 'id']);
+    }
 
     /**
      * {@inheritdoc}

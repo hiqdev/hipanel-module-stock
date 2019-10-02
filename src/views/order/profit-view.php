@@ -78,7 +78,7 @@ $this->registerCss('
                 <?= PartGridView::widget([
                     'boxed' => false,
                     'dataProvider' => new ArrayDataProvider([
-                        'allModels' => $model->profitParts,
+                        'allModels' => $model->partsProfit,
                         'pagination' => [
                             'pageSize' => 25,
                         ],

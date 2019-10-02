@@ -47,7 +47,7 @@ class OrderController extends CrudController
                 'on beforePerform' => function (Event $event) {
                     $query = $event->sender->getDataProvider()->query->withParts();
                     if ($event->sender->controller->indexPageUiOptionsModel->representation === 'profit-report') {
-                        $query->withOrderProfit();
+                        $query->withProfit();
                     }
                 },
             ],
@@ -73,7 +73,7 @@ class OrderController extends CrudController
                 'view'  => 'profit-view',
                 'class' => ViewAction::class,
                 'on beforePerform' => function (Event $event) {
-//                    $event->sender->getDataProvider()->query->withPartProfit();
+                    $event->sender->getDataProvider()->query->withPartProfit();
                 },
             ],
         ]);

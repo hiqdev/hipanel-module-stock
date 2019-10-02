@@ -6,8 +6,16 @@ use hipanel\base\ModelTrait;
 
 /**
  * Class OrderWithProfit
+ * @package hipanel\modules\stock\models
  *
  * @property string $currency
+ * @property string $total
+ * @property string $uu
+ * @property string $stock
+ * @property string $rma
+ * @property string $rent
+ * @property string $leasing
+ * @property string $buyout
  */
 class OrderWithProfit extends Order
 {
@@ -22,7 +30,6 @@ class OrderWithProfit extends Order
             [
                 [
                     'currency',
-                    'comment',
                     'total',
                     'uu',
                     'stock',

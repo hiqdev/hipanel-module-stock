@@ -23,9 +23,6 @@ $this->registerCss('
     .profile-block {
         text-align: center;
     }
-    .right-aligned {
-        text-align: right;
-    }
 ');
 
 ?>

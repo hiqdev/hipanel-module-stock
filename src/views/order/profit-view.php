@@ -28,42 +28,38 @@ $this->registerCss("
 ?>
 <div class="row">
     <div class="col-md-3">
-        <div class="row">
-            <div class="col-md-12">
-                <?= MainDetails::widget([
-                    'title' => $model->pageTitle,
-                    'icon' => 'fa-shopping-basket',
-                    'subTitle' => Html::a($model->buyer, ['@order/view', 'id' => $model->buyer_id]),
-                    'menu' => OrderDetailMenu::widget(['model' => $model], ['linkTemplate' => '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>&nbsp;{label}</a>']),
-                ]) ?>
-            </div>
-            <div class="col-md-12">
-                <?php $box = Box::begin(['renderBody' => false]) ?>
-                    <?php $box->beginHeader() ?>
-                        <?= $box->renderTitle(Yii::t('hipanel.stock.order', 'Details')) ?>
-                    <?php $box->endHeader() ?>
-                    <?php $box->beginBody() ?>
-                        <?= OrderGridView::detailView([
-                            'model' => $model,
-                            'boxed' => false,
-                            'columns' => [
-                                'id',
-                                'type',
-                                'state',
-                                'seller',
-                                'buyer',
-                                'comment',
-                                'time',
-                            ],
-                        ]) ?>
-                    <?php $box->endBody() ?>
-                <?php $box->end() ?>
-            </div>
-
-        </div>
+        <?= MainDetails::widget([
+            'title' => $model->pageTitle,
+            'icon' => 'fa-shopping-basket',
+            'subTitle' => Html::a($model->buyer, ['@order/view', 'id' => $model->buyer_id]),
+            'menu' => OrderDetailMenu::widget(['model' => $model], ['linkTemplate' => '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>&nbsp;{label}</a>']),
+        ]) ?>
     </div>
-
-    <div class="col-md-9">
+    <div class="col-md-3">
+        <?php $box = Box::begin(['renderBody' => false]) ?>
+        <?php $box->beginHeader() ?>
+        <?= $box->renderTitle(Yii::t('hipanel.stock.order', 'Details')) ?>
+        <?php $box->endHeader() ?>
+        <?php $box->beginBody() ?>
+        <?= OrderGridView::detailView([
+            'model' => $model,
+            'boxed' => false,
+            'columns' => [
+                'id',
+                'type',
+                'state',
+                'seller',
+                'buyer',
+                'comment',
+                'time',
+            ],
+        ]) ?>
+        <?php $box->endBody() ?>
+        <?php $box->end() ?>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
         <?php $page = IndexPage::begin(['model' => $model, 'layout' => 'noSearch']) ?>
 
         <?php $page->beginContent('show-actions') ?>

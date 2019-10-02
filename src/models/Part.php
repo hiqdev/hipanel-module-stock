@@ -89,7 +89,7 @@ class Part extends \hipanel\base\Model
             [['id', 'company_id', 'dst_id', 'model_id', 'client_id', 'buyer_id', 'last_move_id', 'order_id'], 'integer'],
 
             // Create and copy
-            [['partno', 'src_id', 'dst_id', 'serials', 'move_descr', 'price', 'currency', 'company_id', 'order_id'], 'required', 'on' => ['create', 'copy']],
+            [['partno', 'src_id', 'dst_id', 'serials', 'move_descr', 'price', 'currency', 'company_id'], 'required', 'on' => ['create', 'copy']],
             [['dst_ids'], 'required', 'when' => function ($model) {
                 return empty($model->dst_id);
             }, 'on' => ['create']],

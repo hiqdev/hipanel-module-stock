@@ -97,12 +97,7 @@ use yii\helpers\Url;
                             <div class="col-md-12">
                                 <?= $form->field($model, "[$i]move_descr") ?>
                             </div>
-                            <div class="col-md-5">
-                                <?= $form->field($model, "[$i]order_id")->widget(OrderCombo::class, [
-                                    'hasId' => true,
-                                ])->label(Yii::t('hipanel.stock.order', 'Order')); ?>
-                            </div>
-                            <div class="col-md-4 <?= AmountWithCurrency::$widgetClass ?>">
+                            <div class="col-md-6 <?= AmountWithCurrency::$widgetClass ?>">
                                 <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
                                     'currencyAttributeName' => "[$i]currency",
                                     'currencyAttributeOptions' => [
@@ -111,7 +106,7 @@ use yii\helpers\Url;
                                 ]) ?>
                                 <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput(['data-amount-with-currency' => 'currency']) ?>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <?= $form->field($model, "[$i]company_id")->dropDownList($model->companies) ?>
                             </div>
                         </div>

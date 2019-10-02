@@ -46,7 +46,7 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
                     'order' => [
                         'label' => Yii::t('hipanel.stock.order', 'Orders'),
                         'url'   => ['@order/index'],
-                        'fa'    => 'fa-shopping-basket',
+                        'icon'  => 'fa-shopping-basket',
                         'visible' => $user->can('order.read'),
                     ],
                     'model-group' => [

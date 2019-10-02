@@ -17,6 +17,11 @@ use hipanel\modules\stock\models\query\OrderQuery;
 use Yii;
 use yii\db\Query;
 
+/**
+ * @property-read PartWithProfit $profitParts
+ * @property-read Part[] $parts
+ * @property-read OrderWithProfit $profit
+ */
 class Order extends Model
 {
     use ModelTrait;
@@ -69,6 +74,16 @@ class Order extends Model
     public function getParts()
     {
         return $this->hasMany(Part::class, ['order_id' => 'id'])->limit(-1)->orderBy(['move_time' => SORT_DESC]);
+    }
+
+    public function getProfit()
+    {
+        return $this->hasOne(OrderWithProfit::class, ['obj_id' => 'id']);
+    }
+
+    public function getPartsProfit()
+    {
+        return $this->hasMany(PartWithProfit::class, ['id' => 'id']);
     }
 
     /**

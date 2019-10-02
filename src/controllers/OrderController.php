@@ -45,7 +45,10 @@ class OrderController extends CrudController
             'index' => [
                 'class' => IndexAction::class,
                 'on beforePerform' => function (Event $event) {
-                    $event->sender->getDataProvider()->query->withParts();
+                    $query = $event->sender->getDataProvider()->query->withParts();
+                    if ($event->sender->controller->indexPageUiOptionsModel->representation === 'profit-report') {
+                        $query->withProfit();
+                    }
                 },
             ],
             'create' => [
@@ -65,6 +68,13 @@ class OrderController extends CrudController
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,
+            ],
+            'profit-view' => [
+                'view'  => 'profit-view',
+                'class' => ViewAction::class,
+                'on beforePerform' => function (Event $event) {
+                    $event->sender->getDataProvider()->query->withPartsProfit();
+                },
             ],
         ]);
     }

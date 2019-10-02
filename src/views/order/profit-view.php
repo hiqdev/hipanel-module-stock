@@ -1,20 +1,21 @@
 <?php
 /**
  * @var \yii\web\View $this
+ * @var Order $model
  */
 
-use hipanel\modules\finance\grid\SaleGridView;
-use hipanel\modules\finance\menus\SaleDetailMenu;
 use hipanel\modules\stock\grid\OrderGridView;
 use hipanel\modules\stock\grid\PartGridView;
+use hipanel\modules\stock\helpers\ProfitColumns;
 use hipanel\modules\stock\menus\OrderDetailMenu;
+use hipanel\modules\stock\models\Order;
 use hipanel\widgets\Box;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\MainDetails;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
 
-$this->title = Html::encode($model->pageTitle);
+$this->title = Html::encode($model->pageTitle) . ' Profit';
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel.stock.order', 'Orders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -68,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= PartGridView::widget([
                     'boxed' => false,
                     'dataProvider' => new ArrayDataProvider([
-                        'allModels' => $model->parts,
+                        'allModels' => $model->partsProfit,
                         'pagination' => [
                             'pageSize' => 25,
                         ],
@@ -76,10 +77,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'tableOptions' => [
                         'class' => 'table table-striped table-bordered'
                     ],
-                    'columns' => [
-                        'model_type', 'model_brand', 'partno', 'serial',
-                        'last_move', 'move_type_and_date', 'move_descr',
-                    ],
+                    'showFooter' => true,
+                    'columns' => ProfitColumns::getColumns(['serial', 'partno', 'model_brand_label']),
                 ]) ?>
             <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>

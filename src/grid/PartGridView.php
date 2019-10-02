@@ -16,8 +16,10 @@ use hipanel\grid\BoxedGridView;
 use hipanel\grid\CurrencyColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\client\grid\ClientColumn;
+use hipanel\modules\stock\helpers\ProfitColumns;
 use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\models\Part;
+use hipanel\modules\stock\models\PartWithProfit;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
@@ -28,9 +30,39 @@ class PartGridView extends BoxedGridView
 {
     public $locations;
 
+    private function getProfitColumns(): array
+    {
+        return ProfitColumns::getGridColumns(function (string $attr, string $cur): array {
+            $valueArray = [
+                'value' => function (PartWithProfit $parts) use ($attr, $cur): string {
+                    if ($parts->currency === $cur) {
+                        return (string)$parts->{$attr};
+                    }
+                    return '';
+                },
+                'format' => 'raw',
+                'contentOptions' => ['class' => 'right-aligned'],
+                'footerOptions' => ['class' => 'right-aligned'],
+            ];
+            if ($this->showFooter) {
+                $valueArray['footer'] = (function () use ($attr, $cur): string {
+                    $models = $this->dataProvider->getModels();
+                    $sum = array_reduce($models, function (float $sum, PartWithProfit $parts) use ($attr, $cur): float {
+                        if ($parts && $parts->currency === $cur) {
+                            return $sum + $parts->{$attr};
+                        }
+                        return $sum;
+                    }, 0.0);
+                    return empty($sum) ? '' : number_format($sum, 2);
+                })();
+            }
+            return $valueArray;
+        });
+    }
+
     public function columns()
     {
-        return array_merge(parent::columns(), [
+        return array_merge(parent::columns(), $this->getProfitColumns(), [
             'serial' => [
                 'label' => Yii::t('hipanel:stock', 'Serial'),
                 'filterOptions' => ['class' => 'narrow-filter'],
@@ -39,6 +71,7 @@ class PartGridView extends BoxedGridView
                 'value' => function ($model) {
                     return Html::a($model->serial, ['@part/view', 'id' => $model->id], ['class' => 'text-bold']);
                 },
+                'footer' => '<b>' . Yii::t('hipanel:stock', 'TOTAL on screen') . '</b>',
             ],
             'main' => [
                 'label' => Yii::t('hipanel', 'Type') . ' / ' . Yii::t('hipanel:stock', 'Manufacturer'),

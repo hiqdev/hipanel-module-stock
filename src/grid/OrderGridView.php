@@ -13,6 +13,7 @@ namespace hipanel\modules\stock\grid;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\RefColumn;
 use hipanel\modules\stock\controllers\PartController;
+use hipanel\modules\stock\helpers\ProfitColumns;
 use hipanel\modules\stock\menus\OrderActionsMenu;
 use hipanel\modules\stock\models\Order;
 use hipanel\modules\stock\models\OrderSearch;
@@ -31,11 +32,53 @@ use hipanel\grid\MainColumn;
 class OrderGridView extends BoxedGridView
 {
     /**
+     * @return array
+     */
+    private function getProfitColumns(): array
+    {
+        return ProfitColumns::getGridColumns(function (string $attr, string $cur): array {
+            $valueArray = [
+                'value' => function (Order $order) use ($attr, $cur): string {
+                    if ($order->profit->currency === $cur) {
+                        return (string)$order->profit->{$attr};
+                    }
+                    return '';
+                },
+                'format' => 'raw',
+                'contentOptions' => ['class' => 'right-aligned'],
+                'footerOptions' => ['class' => 'right-aligned'],
+            ];
+            if ($this->showFooter) {
+                $models = $this->dataProvider->getModels();
+                $valueArray['footer'] = (function () use ($attr, $cur, $models): string {
+                    $sum = array_reduce($models, function (float $sum, Order $order) use ($attr, $cur): float {
+                        if ($order->profit && $order->profit->currency === $cur) {
+                            return $sum + $order->profit->{$attr};
+                        }
+                        return $sum;
+                    }, 0.0);
+                    return empty($sum) ? '' : number_format($sum, 2);
+                })();
+            }
+            return $valueArray;
+        });
+    }
+
+    /**
      * @inheritdoc
      */
     public function columns()
     {
-        return array_merge(parent::columns(), [
+        return array_merge(parent::columns(), $this->getProfitColumns(), [
+            'comment_profit' => [
+                'format' => 'raw',
+                'label' => Yii::t('hipanel:stock', 'Order No.'),
+                'filterAttribute' => 'comment_ilike',
+                'value' => function (Order $order): string {
+                    return Html::a($order->comment, ['profit-view', 'id' => $order->id], ['class' => 'bold']);
+                },
+                'footer' => '<b>' . Yii::t('hipanel:stock', 'TOTAL on screen') . '</b>',
+            ],
             'actions' => [
                 'class' => MenuColumn::class,
                 'menuClass' => OrderActionsMenu::class,
@@ -51,7 +94,6 @@ class OrderGridView extends BoxedGridView
                 'contentOptions' => ['style' => 'white-space:nowrap'],
             ],
             'seller' => [
-                #'label' => Yii::t('hipanel', 'Seller'),
                 'attribute' => 'seller_id',
                 'filterAttribute' => 'seller_id',
                 'format' => 'raw',

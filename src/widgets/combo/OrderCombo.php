@@ -13,7 +13,7 @@ class OrderCombo extends Combo
     public $name = 'seller_no';
 
     /** {@inheritdoc} */
-    public $url = '/stock/order/index';
+    public $url = '/stock/order/search';
 
     /** {@inheritdoc} */
     public $_return = ['id', 'seller', 'no'];

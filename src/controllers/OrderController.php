@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\stock\controllers;
 
+use hipanel\actions\ComboSearchAction;
 use hipanel\actions\IndexAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
@@ -51,6 +52,9 @@ class OrderController extends CrudController
                         $query->withProfit();
                     }
                 },
+            ],
+            'search' => [
+                'class' => ComboSearchAction::class,
             ],
             'create' => [
                 'class' => SmartCreateAction::class,

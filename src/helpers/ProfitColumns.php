@@ -15,9 +15,16 @@ final class ProfitColumns
      */
     public static function getColumns(array $commonColumns = []): array
     {
-        foreach (['total', 'uu', 'stock', 'rma', 'rent', 'leasing', 'buyout'] as $attr) {
+        foreach (['total', 'uu', 'stock', 'rma'] as $attr) {
             foreach (['usd', 'eur'] as $cur) {
-                $columns[] = "{$attr}_{$cur}";
+                $columns[] = "{$attr}.{$cur}";
+            }
+        }
+        foreach (['rent', 'leasing', 'buyout'] as $attr) {
+            foreach (['usd', 'eur'] as $cur) {
+                foreach (['price', 'charge'] as $type) {
+                    $columns[] = "{$attr}_{$type}.{$cur}";
+                }
             }
         }
         return array_merge($commonColumns, $columns);
@@ -31,7 +38,7 @@ final class ProfitColumns
     {
         $profitColumns = static::getColumns();
         foreach ($profitColumns as $profitColumn) {
-            [$attr, $cur] = explode('_', $profitColumn);
+            [$attr, $cur] = explode('.', $profitColumn);
             $columns[$profitColumn] = $pack($attr, $cur);
         }
         return $columns;

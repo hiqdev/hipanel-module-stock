@@ -32,6 +32,7 @@ class OrderController extends CrudController
                     'create' => 'order.create',
                     'update' => 'order.update',
                     'delete' => 'order.delete',
+                    'profit-view' => 'order.read-profits',
 
                     '*' => 'order.read',
                 ],

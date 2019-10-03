@@ -10,7 +10,7 @@ class OrderCombo extends Combo
     public $type = 'stock/order';
 
     /** {@inheritdoc} */
-    public $name = 'seller_no';
+    public $name = 'comment';
 
     /** {@inheritdoc} */
     public $url = '/stock/order/search';
@@ -19,8 +19,5 @@ class OrderCombo extends Combo
     public $_return = ['id', 'seller', 'no'];
 
     /** {@inheritdoc} */
-    public $_primaryFilter = 'seller_no';
-
-    /** {@inheritdoc} */
-    public $_rename = ['text' => 'comment'];
+    public $_primaryFilter = 'comment_ilike';
 }

@@ -3,8 +3,6 @@
  * @var \yii\web\View $this
  */
 
-use hipanel\modules\finance\grid\SaleGridView;
-use hipanel\modules\finance\menus\SaleDetailMenu;
 use hipanel\modules\stock\grid\OrderGridView;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\modules\stock\menus\OrderDetailMenu;
@@ -78,6 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'columns' => [
                         'model_type', 'model_brand', 'partno', 'serial',
                         'last_move', 'move_type_and_date', 'move_descr',
+                        'price',
                     ],
                 ]) ?>
             <?php $page->endBulkForm() ?>

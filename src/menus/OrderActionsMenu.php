@@ -26,6 +26,12 @@ class OrderActionsMenu extends Menu
                 'url' => ['@order/view', 'id' => $this->model->id],
                 'visible' => Yii::$app->user->can('order.read'),
             ],
+            [
+                'label' => Yii::t('hipanel.stock.order', 'Profit report'),
+                'icon' => 'fa-bar-chart',
+                'url' => ['@order/profit-view', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('order.read-profits'),
+            ],
             'update' => [
                 'label' => Yii::t('hipanel', 'Update'),
                 'icon' => 'fa-pencil',

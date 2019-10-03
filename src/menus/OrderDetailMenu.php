@@ -35,6 +35,12 @@ class OrderDetailMenu extends AbstractDetailMenu
                     ],
                 ],
             ],
+            [
+                'label' => Yii::t('hipanel.stock.order', 'Profit report'),
+                'icon' => 'fa-bar-chart',
+                'url' => ['@order/profit-view', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('order.read-profits'),
+            ],
         ];
     }
 }

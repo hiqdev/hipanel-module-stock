@@ -16,6 +16,7 @@ use hipanel\models\Ref;
 use hipanel\modules\stock\models\query\OrderQuery;
 use Yii;
 use yii\db\Query;
+use hipanel\modules\stock\helpers\ProfitColumns;
 
 /**
  * @property-read PartWithProfit $profitParts
@@ -46,14 +47,14 @@ class Order extends Model
 
     public function attributeLabels()
     {
-        return $this->mergeAttributeLabels([
+        return $this->mergeAttributeLabels(array_merge([
             'no' => Yii::t('hipanel.stock.order', '#'),
             'state' => Yii::t('hipanel.stock.order', 'State'),
             'type' => Yii::t('hipanel.stock.order', 'Type'),
             'seller_id' => Yii::t('hipanel.stock.order', 'Seller'),
             'buyer_id' => Yii::t('hipanel.stock.order', 'Buyer'),
             'name' => Yii::t('hipanel.stock.order', 'Order No.'),
-        ]);
+        ], ProfitColumns::getLabels()));
     }
 
     public function getTypeOptions(): array

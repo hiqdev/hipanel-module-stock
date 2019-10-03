@@ -3,6 +3,7 @@
 namespace hipanel\modules\stock\models;
 
 use hipanel\base\ModelTrait;
+use hipanel\modules\stock\helpers\ProfitColumns;
 
 /**
  * Class OrderWithProfit
@@ -33,10 +34,10 @@ class OrderWithProfit extends Order
             [
                 [
                     'currency',
-                    'total',
-                    'uu',
-                    'stock',
-                    'rma',
+                    'total_price',
+                    'uu_price',
+                    'stock_price',
+                    'rma_price',
                     "rent_price",
                     "rent_charge",
                     "leasing_price",
@@ -49,4 +50,8 @@ class OrderWithProfit extends Order
         ]);
     }
 
+    public function attributeLabels()
+    {
+        return $this->mergeAttributeLabels(ProfitColumns::getLabels());
+    }
 }

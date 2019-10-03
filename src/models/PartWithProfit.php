@@ -3,6 +3,7 @@
 namespace hipanel\modules\stock\models;
 
 use hipanel\base\ModelTrait;
+use hipanel\modules\stock\helpers\ProfitColumns;
 
 /**
  * Class PartWithProfit
@@ -34,10 +35,10 @@ class PartWithProfit extends Part
             [
                 [
                     'name',
-                    'total',
-                    'uu',
-                    'stock',
-                    'rma',
+                    'total_price',
+                    'uu_price',
+                    'stock_price',
+                    'rma_price',
                     "rent_price",
                     "rent_charge",
                     "leasing_price",
@@ -50,4 +51,8 @@ class PartWithProfit extends Part
         ]);
     }
 
+    public function attributeLabels()
+    {
+        return $this->mergeAttributeLabels(ProfitColumns::getLabels());
+    }
 }

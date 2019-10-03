@@ -29,7 +29,7 @@ class OrderPage extends Authenticated
             Select2::asAdvancedSearch($I, 'Reseller'),
             Select2::asAdvancedSearch($I, 'Buyer'),
             Input::asAdvancedSearch($I, 'No.'),
-            Input::asAdvancedSearch($I, 'Comment'),
+            Input::asAdvancedSearch($I, 'Order'),
         ]);
     }
 
@@ -42,7 +42,7 @@ class OrderPage extends Authenticated
             'Reseller',
             'Buyer',
             'No.',
-            'Comment',
+            'Order',
             'Lead time',
             'Parts'
         ]);
@@ -92,8 +92,8 @@ class OrderPage extends Authenticated
         (new Input($I, '#order-time'))
             ->setValue($values['time']);
 
-        (new Textarea($I, 'textarea[id$=comment]'))
-            ->setValue($values['comment']);
+        (new Textarea($I, 'textarea[id$=name]'))
+            ->setValue($values['name']);
     }
 
     public function seeOrderWasCreated(): string

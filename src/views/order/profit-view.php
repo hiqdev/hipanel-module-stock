@@ -44,7 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'state',
                 'seller',
                 'buyer',
-                'comment',
+                'name',
                 'time',
             ],
         ]) ?>

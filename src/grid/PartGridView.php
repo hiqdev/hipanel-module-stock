@@ -191,7 +191,7 @@ class PartGridView extends BoxedGridView
                 'filter' => false,
                 'enableSorting' => false,
             ],
-            'order_no' => [
+            'order_name' => [
                 'attribute' => 'order_id',
                 'filterAttribute' => 'order_id',
                 'filter' => function ($column, $model, $attribute) {
@@ -202,10 +202,9 @@ class PartGridView extends BoxedGridView
                     ]);
                 },
                 'filterOptions' => ['class' => 'narrow-filter'],
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function (Part $model): string {
-                    return HTML::a($model->order_name, ['@order/view', 'id' => $model->order_id]) .
-                        '</br>' . $model->order_no;
+                    return HTML::a($model->order_name, ['@order/view', 'id' => $model->order_id]);
                 }
             ],
             'dc_ticket' => [

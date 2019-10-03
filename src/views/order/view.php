@@ -40,12 +40,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             'model' => $model,
                             'boxed' => false,
                             'columns' => [
-                                'id',
                                 'type',
                                 'state',
                                 'seller',
                                 'buyer',
-                                'comment',
+                                'name',
                                 'time',
                             ],
                         ]) ?>

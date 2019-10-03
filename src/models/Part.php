@@ -45,6 +45,7 @@ class Part extends \hipanel\base\Model
                     'src_name',
                     'dst_name',
                     'order_no',
+                    'order_name',
                     'order_data',
                     'dst_ids',
                     'model_ids',
@@ -73,7 +74,6 @@ class Part extends \hipanel\base\Model
                     'currency',
                     'client',
                     'supplier',
-                    'order_no',
                     'type',
                     'state',
                     'selling_currency',
@@ -99,7 +99,7 @@ class Part extends \hipanel\base\Model
             [['id', 'dst_id', 'src_id', 'partno', 'serial'], 'required', 'on' => 'move-by-one'],
 
             // Trash
-            [['id', 'dst_id', 'src_id', 'partno', 'serial', 'order_no'], 'required', 'on' => 'trash'],
+            [['id', 'dst_id', 'src_id', 'partno', 'serial'], 'required', 'on' => 'trash'],
 
             // Replace
             [['id', 'src_id', 'dst_id', 'move_type'], 'required', 'on' => 'replace'],
@@ -134,9 +134,9 @@ class Part extends \hipanel\base\Model
             }],
 
             // Update Order No.
-            [['order_no', 'first_move_id'], 'required', 'on' => 'update-order-no'],
+            [['order_id', 'first_move_id'], 'required', 'on' => 'update-order-no'],
             [['id', 'first_move_id'], 'integer', 'on' => 'update-order-no'],
-            [['order_no'], 'string', 'on' => 'update-order-no'],
+            [['order_id'], 'string', 'on' => 'update-order-no'],
 
             // Change model
             [['id', 'model_id'], 'required', 'on' => 'change-model'],
@@ -167,8 +167,8 @@ class Part extends \hipanel\base\Model
             'move_type_label' => Yii::t('hipanel:stock', 'Move type'),
             'move_descr' => Yii::t('hipanel:stock', 'Move description'),
             'move_type' => Yii::t('hipanel:stock', 'Type'),
+            'order_name' => Yii::t('hipanel:stock', 'Order'),
             'order_data' => Yii::t('hipanel:stock', 'Order'),
-            'order_no' => Yii::t('hipanel:stock', 'Order No.'),
             'src_id' => Yii::t('hipanel:stock', 'Source'),
             'src_name' => Yii::t('hipanel:stock', 'Source'),
             'dst_id' => Yii::t('hipanel:stock', 'Destination'),

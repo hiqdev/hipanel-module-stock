@@ -72,12 +72,12 @@ class OrderGridView extends BoxedGridView
     public function columns()
     {
         return array_merge(parent::columns(), $this->getProfitColumns(), [
-            'comment_profit' => [
+            'name_profit' => [
                 'format' => 'raw',
                 'label' => Yii::t('hipanel:stock', 'Order No.'),
-                'filterAttribute' => 'comment_ilike',
+                'filterAttribute' => 'name_ilike',
                 'value' => function (Order $order): string {
-                    return Html::a($order->comment, ['profit-view', 'id' => $order->id], ['class' => 'bold']);
+                    return Html::a($order->name, ['profit-view', 'id' => $order->id], ['class' => 'bold']);
                 },
                 'footer' => '<b>' . Yii::t('hipanel:stock', 'TOTAL on screen') . '</b>',
             ],
@@ -85,9 +85,9 @@ class OrderGridView extends BoxedGridView
                 'class' => MenuColumn::class,
                 'menuClass' => OrderActionsMenu::class,
             ],
-            'comment' => [
+            'name' => [
                 'class' => MainColumn::class,
-                'filterAttribute' => 'comment_ilike',
+                'filterAttribute' => 'name_ilike',
             ],
             'time' => [
                 'attribute' => 'time',

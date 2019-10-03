@@ -178,7 +178,7 @@ class PartsCreationCest
             'state'     => 'OK',
             'no'        => 'testNO228' .  (string)time(),
             'time'      => '2019-04-03 01:30',
-            'comment'   => 'test comment',
+            'name'      => 'test name',
         ];
     }
 }

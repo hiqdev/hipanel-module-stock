@@ -9,7 +9,7 @@ use hipanel\base\ModelTrait;
  * @package hipanel\modules\stock\models
  *
  * @property string $currency
- * @property string $comment
+ * @property string $name
  * @property string $total
  * @property string $uu
  * @property string $stock
@@ -33,7 +33,7 @@ class PartWithProfit extends Part
         return array_merge(parent::rules(), [
             [
                 [
-                    'comment',
+                    'name',
                     'total',
                     'uu',
                     'stock',

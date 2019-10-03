@@ -30,7 +30,7 @@ class Order extends Model
     {
         return array_merge(parent::rules(), [
             [['id', 'state_id', 'buyer_id', 'seller_id', 'type_id'], 'integer', 'on' => ['create', 'update']],
-            [['comment', 'no', 'state', 'seller', 'buyer', 'state', 'type'], 'string', 'on' => ['create', 'update']],
+            [['name', 'no', 'state', 'seller', 'buyer', 'state', 'type'], 'string', 'on' => ['create', 'update']],
             [['state', 'type', 'seller_id', 'buyer_id', 'no', 'time'], 'required', 'on' => ['create', 'update']],
             [['id'], 'required', 'on' => ['update', 'delete']],
             [['time'], 'datetime', 'format' => 'php:Y-m-d H:i', 'on' => ['create', 'update']],
@@ -52,7 +52,7 @@ class Order extends Model
             'type' => Yii::t('hipanel.stock.order', 'Type'),
             'seller_id' => Yii::t('hipanel.stock.order', 'Seller'),
             'buyer_id' => Yii::t('hipanel.stock.order', 'Buyer'),
-            'comment' => Yii::t('hipanel.stock.order', 'Order No'),
+            'name' => Yii::t('hipanel.stock.order', 'Order No.'),
         ]);
     }
 
@@ -68,7 +68,7 @@ class Order extends Model
 
     public function getPageTitle()
     {
-        return $this->comment;
+        return $this->name;
     }
 
     public function getParts()

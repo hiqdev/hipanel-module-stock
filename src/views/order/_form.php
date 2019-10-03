@@ -63,7 +63,7 @@ use yii\helpers\Url;
             </div>
         </div>
 
-        <?= $form->field($model, 'comment')->textarea(['rows' => 3]) ?>
+        <?= $form->field($model, 'name')->textarea(['rows' => 3]) ?>
 
         <?php Box::end() ?>
 

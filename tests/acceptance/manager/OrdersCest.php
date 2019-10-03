@@ -101,14 +101,14 @@ class OrdersCest
             'state'     => 'OK',
             'no'        => 'testNO1448',
             'time'      => '2019-04-03 01:30',
-            'comment'   => 'simple comment',
+            'name'      => 'simple name',
         ];
     }
 
     protected function updateValues(): void
     {
         $this->values['no'] .= '1';
-        $this->values['comment'] = '';
+        $this->values['name'] = '';
         $this->values['state'] = 'New';
     }
 }

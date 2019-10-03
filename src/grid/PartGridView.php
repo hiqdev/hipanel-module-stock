@@ -41,8 +41,8 @@ class PartGridView extends BoxedGridView
                     return '';
                 },
                 'format' => 'raw',
-                'contentOptions' => ['class' => 'right-aligned'],
-                'footerOptions' => ['class' => 'right-aligned'],
+                'contentOptions' => ['class' => 'text-right'],
+                'footerOptions' => ['class' => 'text-right'],
             ];
             if ($this->showFooter) {
                 $valueArray['footer'] = (function () use ($attr, $cur): string {

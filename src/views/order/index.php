@@ -18,12 +18,6 @@ $this->title = Yii::t('hipanel.stock.order', 'Orders');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
 
-$this->registerCss("
-    .right-aligned {
-        text-align: right;
-    }
-");
-
 ?>
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>

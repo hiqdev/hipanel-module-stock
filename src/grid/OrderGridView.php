@@ -46,8 +46,8 @@ class OrderGridView extends BoxedGridView
                     return '';
                 },
                 'format' => 'raw',
-                'contentOptions' => ['class' => 'right-aligned'],
-                'footerOptions' => ['class' => 'right-aligned'],
+                'contentOptions' => ['class' => 'text-right'],
+                'footerOptions' => ['class' => 'text-right'],
             ];
             if ($this->showFooter) {
                 $models = $this->dataProvider->getModels();

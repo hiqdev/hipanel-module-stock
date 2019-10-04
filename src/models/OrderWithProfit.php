@@ -11,7 +11,7 @@ use hipanel\modules\stock\helpers\ProfitColumns;
  *
  * @property string $currency
  * @property string $total
- * @property string $uu
+ * @property string $unused
  * @property string $stock
  * @property string $rma
  * @property string $rent_price
@@ -35,7 +35,7 @@ class OrderWithProfit extends Order
                 [
                     'currency',
                     'total_price',
-                    'uu_price',
+                    'unused_price',
                     'stock_price',
                     'rma_price',
                     "rent_price",

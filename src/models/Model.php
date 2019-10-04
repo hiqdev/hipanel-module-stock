@@ -172,8 +172,8 @@ class Model extends YiiModel
                     'class' => 'text-info', 'title' => Yii::t('hipanel:stock', 'Reserved')
                 ]);
         }
-        if (!empty($this->counters[$dc]['uu'])) {
-            $out .= '+' . Html::tag('b', $this->counters[$dc]['uu'], [
+        if (!empty($this->counters[$dc]['unused'])) {
+            $out .= '+' . Html::tag('b', $this->counters[$dc]['unused'], [
                     'class' => 'text-success', 'title' => Yii::t('hipanel:stock', 'Unused')
                 ]);
         }

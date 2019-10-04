@@ -17,7 +17,7 @@ final class ProfitColumns
      */
     public static function getColumns(array $commonColumns = []): array
     {
-        foreach (['total', 'uu', 'stock', 'rma'] as $attr) {
+        foreach (['total', 'unused', 'stock', 'rma'] as $attr) {
             foreach (['usd', 'eur'] as $cur) {
                 $columns[] = "{$attr}_price.{$cur}";
             }
@@ -52,7 +52,7 @@ final class ProfitColumns
         $labels = [];
         foreach ([
             'total'     => 'TOTAL',
-            'uu'        => 'Unused',
+            'unused'    => 'Unused',
             'stock'     => 'Stock',
             'rma'       => 'RMA',
             'rent'      => 'Rent',

@@ -8,7 +8,6 @@ use hipanel\modules\stock\grid\OrderGridView;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\modules\stock\helpers\ProfitColumns;
 use hipanel\modules\stock\menus\OrderDetailMenu;
-use hipanel\modules\stock\models\Order;
 use hipanel\widgets\Box;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\MainDetails;
@@ -67,14 +66,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     'dataProvider' => new ArrayDataProvider([
                         'allModels' => $model->partsProfit,
                         'pagination' => [
-                            'pageSize' => 25,
+                            'pageSize' => 100,
                         ],
                     ]),
                     'tableOptions' => [
                         'class' => 'table table-striped table-bordered'
                     ],
                     'showFooter' => true,
-                    'columns' => ProfitColumns::getColumns(['serial', 'partno', 'model_brand_label']),
+                    'columns' => ProfitColumns::getColumns(['serial', 'partno']),
                 ]) ?>
             <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>

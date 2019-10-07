@@ -48,7 +48,7 @@ use yii\bootstrap\Html;
         <?= DateRangePicker::widget([
             'model' => $search->model,
             'attribute' => 'time_from',
-            'attribute2' => 'time_to',
+            'attribute2' => 'time_till',
             'options' => [
                 'class' => 'form-control',
             ],

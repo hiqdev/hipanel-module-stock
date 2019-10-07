@@ -16,7 +16,7 @@ class OrderSearch extends Order
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
             'seller_no',
             'time_from',
-            'time_to',
+            'time_till',
         ]);
     }
 }

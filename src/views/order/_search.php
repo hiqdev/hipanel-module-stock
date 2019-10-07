@@ -1,8 +1,8 @@
 <?php
 
 use hipanel\modules\stock\widgets\combo\ContactCombo;
-use hipanel\widgets\DatePicker;
 use hipanel\widgets\RefCombo;
+use hiqdev\yii2\daterangepicker\DateRangePicker;
 use yii\bootstrap\Html;
 
 /**
@@ -45,14 +45,14 @@ use yii\bootstrap\Html;
 <div class="col-md-4 col-sm-6 col-xs-12">
     <div class="form-group">
         <?= Html::tag('label', Yii::t('hipanel', 'Time'), ['class' => 'control-label']); ?>
-        <?= DatePicker::widget([
-            'id' => 'time_date-picker',
+        <?= DateRangePicker::widget([
             'model' => $search->model,
-            'attribute' => 'time',
-            'pluginOptions' => [
-                'autoclose' => true,
-                'format' => 'yyyy-mm-dd',
+            'attribute' => 'time_from',
+            'attribute2' => 'time_to',
+            'options' => [
+                'class' => 'form-control',
             ],
+            'dateFormat' => 'yyyy-mm-dd',
         ]) ?>
     </div>
 </div>

@@ -47,11 +47,7 @@ class OrderGridView extends BoxedGridView
                     if (empty(strpos($attr, 'charge'))) {
                         return $result;
                     }
-                    $part_ids = '';
-                    foreach ($order->parts as $part) {
-                        $part_ids .= $part->id . ',';
-                    }
-                    return HTML::a($result, ['/finance/charge/index', 'object_ids' => $part_ids]);
+                    return HTML::a($result, ['/finance/charge/index', 'order_id' => $order->id]);
                 },
                 'format' => 'raw',
                 'contentOptions' => ['class' => 'text-right'],

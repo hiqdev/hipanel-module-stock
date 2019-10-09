@@ -40,10 +40,14 @@ class OrderGridView extends BoxedGridView
             $valueArray = [
                 'value' => function (Order $order) use ($attr, $cur): string {
                     $profit = $order->profit;
-                    if ($profit->currency === $cur && !empty($profit->{$attr})) {
-                        return (string)number_format($profit->{$attr}, 2);
+                    if ($profit->currency !== $cur || empty($profit->{$attr})) {
+                        return '';
                     }
-                    return '';
+                    $result = (string)number_format($profit->{$attr}, 2);
+                    if (empty(strpos($attr, 'charge'))) {
+                        return $result;
+                    }
+                    return HTML::a($result, ['/finance/charge/index', 'order_id' => $order->id]);
                 },
                 'format' => 'raw',
                 'contentOptions' => ['class' => 'text-right'],

@@ -82,6 +82,7 @@ class Part extends \hipanel\base\Model
                     'buyer',
                     'order_id',
                     'order_name',
+                    'company',
                 ],
                 'safe',
             ],
@@ -240,32 +241,6 @@ class Part extends \hipanel\base\Model
         }
 
         return $result;
-    }
-
-    public function getCompanies()
-    {
-        $companies = Yii::$app->get('cache')->getOrSet([__METHOD__], function () {
-            $result = ArrayHelper::map(Ref::find()->where([
-                'gtype' => 'type,part_company',
-                'select' => 'full',
-            ])->all(), 'id', function ($model) {
-                return Yii::t('hipanel:stock', $model->label);
-            });
-
-            return $result;
-        }, 86400 * 24); // 24 days
-
-        return $companies;
-    }
-
-    public function getCompany()
-    {
-        $company = null;
-        if ($this->company_id) {
-            $company = $this->getCompanies()[$this->company_id];
-        }
-
-        return $company;
     }
 
     public function getTitle()

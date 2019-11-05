@@ -13,7 +13,7 @@ class PartRepresentations extends RepresentationCollection
             'common' => [
                 'label' => Yii::t('hipanel', 'common'),
                 'columns' => [
-                    'checkbox',
+                    'checkbox', 'company',
                     'model_type', 'model_brand', 'partno', 'serial',
                     'last_move', 'move_type_and_date', 'move_descr',
                     'order_name',

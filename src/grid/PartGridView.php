@@ -136,9 +136,10 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'company' => [
-                'value' => function ($model) {
-                    return $model->company;
-                },
+                'class' => RefColumn::class,
+                'filterOptions' => ['class' => 'narrow-filter'],
+                'gtype' => 'type,part_company',
+                'label' => Yii::t('hipanel:stock', 'Company'),
             ],
             'last_move' => [
                 'label' => Yii::t('hipanel:stock', 'Last move'),

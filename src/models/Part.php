@@ -258,16 +258,6 @@ class Part extends \hipanel\base\Model
         return $companies;
     }
 
-    public function getCompany()
-    {
-        $company = null;
-        if ($this->company_id) {
-            $company = $this->getCompanies()[$this->company_id];
-        }
-
-        return $company;
-    }
-
     public function getTitle()
     {
         return sprintf('%s %s %s #%s', $this->model_type_label, $this->model_brand_label, $this->partno, $this->serial);

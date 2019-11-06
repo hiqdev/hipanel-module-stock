@@ -93,6 +93,12 @@ class OrderGridView extends BoxedGridView
                 'class' => MainColumn::class,
                 'filterAttribute' => 'name_ilike',
             ],
+            'company' => [
+                'class' => RefColumn::class,
+                'filterOptions' => ['class' => 'narrow-filter'],
+                'gtype' => 'type,part_company',
+                'label' => Yii::t('hipanel:stock', 'Company'),
+            ],
             'time' => [
                 'attribute' => 'time',
                 'filter' => false,

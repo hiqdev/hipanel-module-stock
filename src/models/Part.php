@@ -82,6 +82,7 @@ class Part extends \hipanel\base\Model
                     'buyer',
                     'order_id',
                     'order_name',
+                    'company',
                 ],
                 'safe',
             ],

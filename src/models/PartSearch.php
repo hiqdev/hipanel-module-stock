@@ -30,6 +30,7 @@ class PartSearch extends Part
             'order_no_ilike', 'order_data_like',
             'src_name_like', 'dst_name_like', 'move_descr_like', 'move_descr_ilike',
             'create_time_from', 'create_time_till', 'id_in', 'buyer_in', 'partno_inilike', 'partno_in',
+            'company',
         ]);
     }
 

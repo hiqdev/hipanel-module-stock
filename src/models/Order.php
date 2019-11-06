@@ -35,7 +35,7 @@ class Order extends Model
             [['state', 'type', 'seller_id', 'buyer_id', 'no', 'time'], 'required', 'on' => ['create', 'update']],
             [['id'], 'required', 'on' => ['update', 'delete']],
             [['time'], 'datetime', 'format' => 'php:Y-m-d H:i', 'on' => ['create', 'update']],
-            [['seller_no'], 'string'],
+            [['seller_no', 'company'], 'string'],
             ['no', 'unique', 'targetAttribute' => ['no', 'seller_id'],
                 'filter' => function (Query $query) {
                     $query->andWhere(['ne', 'id', $this->id]);

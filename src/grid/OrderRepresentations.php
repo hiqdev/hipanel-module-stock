@@ -23,12 +23,12 @@ class OrderRepresentations extends RepresentationCollection
                 'columns' => [
                     'actions', 'type', 'state',
                     'seller', 'buyer',
-                    'name', 'parts', 'time',
+                    'name', 'company', 'parts', 'time',
                 ],
             ],
             'profit-report' => Yii::$app->user->can('order.read-profits') ? [
                 'label' => Yii::t('hipanel', 'profit report'),
-                'columns' => ProfitColumns::getColumns(['name_profit', 'parts', 'time']),
+                'columns' => ProfitColumns::getColumns(['name_profit', 'company', 'parts', 'time']),
             ] : null,
         ]);
     }

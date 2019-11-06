@@ -75,7 +75,6 @@ class PartGridView extends BoxedGridView
                 'value' => function ($model) {
                     return Html::a($model->serial, ['@part/view', 'id' => $model->id], ['class' => 'text-bold']);
                 },
-                'footer' => '<b>' . Yii::t('hipanel:stock', 'TOTAL on screen') . '</b>',
             ],
             'main' => [
                 'label' => Yii::t('hipanel', 'Type') . ' / ' . Yii::t('hipanel:stock', 'Manufacturer'),
@@ -248,6 +247,7 @@ class PartGridView extends BoxedGridView
                 'nameAttribute' => 'buyer',
                 'idAttribute' => 'buyer_id',
                 'attribute' => 'buyer',
+                'footer' => '<b>' . Yii::t('hipanel:stock', 'TOTAL on screen') . '</b>',
             ],
             'selling_price' => [
                 'filterAttribute' => 'selling_currency',

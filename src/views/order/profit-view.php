@@ -73,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'class' => 'table table-striped table-bordered'
                     ],
                     'showFooter' => true,
-                    'columns' => ProfitColumns::getColumns(['serial', 'partno']),
+                    'columns' => ProfitColumns::getColumns(['buyer', 'serial', 'company', 'partno']),
                 ]) ?>
             <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>

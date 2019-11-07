@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
+use hipanel\modules\stock\widgets\combo\CompanyCombo;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartCombo;
@@ -69,10 +70,7 @@ use yii\helpers\Html;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('company')->widget(RefCombo::class, [
-        'gtype' => 'type,part_company',
-        'multiple' => false,
-    ]) ?>
+    <?= $search->field('company_id')->widget(CompanyCombo::class) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">

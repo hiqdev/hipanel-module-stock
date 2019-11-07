@@ -36,6 +36,7 @@ class Order extends Model
             [['id'], 'required', 'on' => ['update', 'delete']],
             [['time'], 'datetime', 'format' => 'php:Y-m-d H:i', 'on' => ['create', 'update']],
             [['seller_no', 'company'], 'string'],
+            [['company_id'], 'integer'],
             ['no', 'unique', 'targetAttribute' => ['no', 'seller_id'],
                 'filter' => function (Query $query) {
                     $query->andWhere(['ne', 'id', $this->id]);

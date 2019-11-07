@@ -1,5 +1,6 @@
 <?php
 
+use hipanel\modules\stock\widgets\combo\CompanyCombo;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartDestinationCombo;
 use hipanel\modules\stock\widgets\combo\ModelCombo;
@@ -108,13 +109,7 @@ use yii\helpers\Url;
                                 <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput(['data-amount-with-currency' => 'currency']) ?>
                             </div>
                             <div class="col-md-6">
-                                <?= $form->field($model, "[$i]company_id")->widget(RefCombo::class, [
-                                    'gtype' => 'type,part_company',
-                                    'findOptions' => [
-                                        'select' => 'id_label',
-                                        'mapOptions' => ['from' => 'id'],
-                                    ],
-                                ]) ?>
+                                <?= $form->field($model, "[$i]company_id")->widget(CompanyCombo::class) ?>
                             </div>
                         </div>
                     </div>
@@ -129,13 +124,7 @@ use yii\helpers\Url;
                         <?= $form->field($model, "[$i]serial") ?>
                     </div>
                     <div class="col-md-2">
-                        <?= $form->field($model, "[$i]company_id")->widget(RefCombo::class, [
-                            'gtype' => 'type,part_company',
-                            'findOptions' => [
-                                'select' => 'id_label',
-                                'mapOptions' => ['from' => 'id'],
-                            ],
-                        ]) ?>
+                        <?= $form->field($model, "[$i]company_id")->widget(CompanyCombo::class) ?>
                     </div>
                     <div class="col-md-3 <?= AmountWithCurrency::$widgetClass ?>">
                         <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [

@@ -1,5 +1,6 @@
 <?php
 
+use hipanel\modules\stock\widgets\combo\CompanyCombo;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartDestinationCombo;
 use hipanel\modules\stock\widgets\combo\ModelCombo;
@@ -9,6 +10,7 @@ use hipanel\widgets\AmountWithCurrency;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormCopyButton;
 use hipanel\widgets\DynamicFormWidget;
+use hipanel\widgets\RefCombo;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -107,7 +109,7 @@ use yii\helpers\Url;
                                 <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput(['data-amount-with-currency' => 'currency']) ?>
                             </div>
                             <div class="col-md-6">
-                                <?= $form->field($model, "[$i]company_id")->dropDownList($model->companies) ?>
+                                <?= $form->field($model, "[$i]company_id")->widget(CompanyCombo::class) ?>
                             </div>
                         </div>
                     </div>
@@ -122,7 +124,7 @@ use yii\helpers\Url;
                         <?= $form->field($model, "[$i]serial") ?>
                     </div>
                     <div class="col-md-2">
-                        <?= $form->field($model, "[$i]company_id")->dropDownList($model->companies) ?>
+                        <?= $form->field($model, "[$i]company_id")->widget(CompanyCombo::class) ?>
                     </div>
                     <div class="col-md-3 <?= AmountWithCurrency::$widgetClass ?>">
                         <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [

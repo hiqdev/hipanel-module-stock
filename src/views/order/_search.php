@@ -1,5 +1,6 @@
 <?php
 
+use hipanel\modules\stock\widgets\combo\CompanyCombo;
 use hipanel\modules\stock\widgets\combo\ContactCombo;
 use hipanel\widgets\RefCombo;
 use hiqdev\yii2\daterangepicker\DateRangePicker;
@@ -39,10 +40,7 @@ use yii\bootstrap\Html;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('company')->widget(RefCombo::class, [
-        'gtype' => 'type,part_company',
-        'multiple' => false,
-    ]) ?>
+    <?= $search->field('company_id')->widget(CompanyCombo::class) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">

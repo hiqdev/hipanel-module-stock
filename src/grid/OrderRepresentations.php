@@ -26,10 +26,14 @@ class OrderRepresentations extends RepresentationCollection
                     'name', 'company_id', 'parts', 'time',
                 ],
             ],
-            'profit-report' => Yii::$app->user->can('order.read-profits') ? [
+//            'profit-report' => Yii::$app->user->can('order.read-profits') ? [
+//                'label' => Yii::t('hipanel', 'profit report'),
+//                'columns' => ProfitColumns::getColumns(['name_profit', 'company_id', 'parts', 'time']),
+//            ] : null,
+            'profit-report' => [
                 'label' => Yii::t('hipanel', 'profit report'),
                 'columns' => ProfitColumns::getColumns(['name_profit', 'company_id', 'parts', 'time']),
-            ] : null,
+            ],
         ]);
     }
 }

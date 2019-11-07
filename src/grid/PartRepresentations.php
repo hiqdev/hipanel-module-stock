@@ -2,6 +2,7 @@
 
 namespace hipanel\modules\stock\grid;
 
+use hipanel\modules\stock\helpers\ProfitColumns;
 use hiqdev\higrid\representations\RepresentationCollection;
 use Yii;
 
@@ -50,6 +51,14 @@ class PartRepresentations extends RepresentationCollection
                     'selling_price',
                     'selling_time',
                 ]
+            ],
+//            'profit-report' => Yii::$app->user->can('order.read-profits') ? [
+//                'label' => Yii::t('hipanel', 'profit report'),
+//                'columns' => ProfitColumns::getColumns(['name_profit', 'company_id', 'parts', 'time']),
+//            ] : null,
+            'profit-report' => [
+                'label' => Yii::t('hipanel', 'profit report'),
+                'columns' => ProfitColumns::getColumns([]),
             ],
         ]);
     }

@@ -12,7 +12,6 @@
 namespace hipanel\modules\stock\models;
 
 use hipanel\base\ModelTrait;
-use hipanel\helpers\ArrayHelper;
 use hipanel\helpers\StringHelper;
 use hipanel\models\Ref;
 use Yii;
@@ -21,6 +20,8 @@ use Yii;
  * Class Part
  *
  * @property Model $model
+ * @property string $currency
+ * @property-read PartWithProfit $profit
  */
 class Part extends \hipanel\base\Model
 {

@@ -9,7 +9,6 @@ use hipanel\modules\stock\helpers\ProfitColumns;
  * Class PartWithProfit
  * @package hipanel\modules\stock\models
  *
- * @property string $currency
  * @property string $name
  * @property string $total
  * @property string $unused

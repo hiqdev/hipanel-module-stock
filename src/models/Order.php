@@ -19,6 +19,7 @@ use yii\db\Query;
 use hipanel\modules\stock\helpers\ProfitColumns;
 
 /**
+ * @property string $name
  * @property-read PartWithProfit $profitParts
  * @property-read Part[] $parts
  * @property-read OrderWithProfit $profit

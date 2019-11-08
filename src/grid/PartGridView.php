@@ -34,7 +34,7 @@ class PartGridView extends BoxedGridView
         return ProfitColumns::getGridColumns(function (string $attr, string $cur): array {
             $valueArray = [
                 'value' => function (Part $parts) use ($attr, $cur): string {
-                    $parts = $parts->buyerPartsProfit;
+                    $parts = $parts->profit;
                     if ($parts->currency !== $cur || empty($parts->{$attr})) {
                         return '';
                     }
@@ -52,7 +52,7 @@ class PartGridView extends BoxedGridView
                 $valueArray['footer'] = (function () use ($attr, $cur): string {
                     $models = $this->dataProvider->getModels();
                     $sum = array_reduce($models, function (float $sum, Part $parts) use ($attr, $cur): float {
-                        $parts = $parts->buyerPartsProfit;
+                        $parts = $parts->profit;
                         if ($parts && $parts->currency === $cur) {
                             return $sum + $parts->{$attr};
                         }

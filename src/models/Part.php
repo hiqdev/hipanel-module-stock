@@ -219,7 +219,7 @@ class Part extends \hipanel\base\Model
         return $this->first_move_id === $this->last_move_id;
     }
 
-    public function getBuyerPartsProfit()
+    public function getProfit()
     {
         return $this->hasOne(PartWithProfit::class, ['id' => 'id']);
     }

@@ -1,7 +1,7 @@
 <?php
 /**
  * @var \yii\web\View $this
- * @var Order $model
+ * @var \hipanel\modules\stock\models\Order $model
  */
 
 use hipanel\modules\stock\grid\OrderGridView;

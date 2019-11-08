@@ -169,7 +169,7 @@ class PartController extends CrudController
                     /** @var ActiveQuery $query */
                     $query = $event->sender->getDataProvider()->query;
                     if ($this->indexPageUiOptionsModel->representation === 'profit-report') {
-                        $query->joinWith('buyerPartsProfit');
+                        $query->joinWith('profit');
                         $query->andWhere(['with_profit' => true]);
                         $query->addSelect('selling');
                     }

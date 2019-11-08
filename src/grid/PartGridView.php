@@ -19,7 +19,6 @@ use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\stock\helpers\ProfitColumns;
 use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\models\Part;
-use hipanel\modules\stock\models\PartWithProfit;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
@@ -35,7 +34,7 @@ class PartGridView extends BoxedGridView
         return ProfitColumns::getGridColumns(function (string $attr, string $cur): array {
             $valueArray = [
                 'value' => function (Part $parts) use ($attr, $cur): string {
-                    $parts = $parts->partsProfit;
+                    $parts = $parts->buyerPartsProfit;
                     if ($parts->currency !== $cur || empty($parts->{$attr})) {
                         return '';
                     }
@@ -52,7 +51,8 @@ class PartGridView extends BoxedGridView
             if ($this->showFooter) {
                 $valueArray['footer'] = (function () use ($attr, $cur): string {
                     $models = $this->dataProvider->getModels();
-                    $sum = array_reduce($models, function (float $sum, PartWithProfit $parts) use ($attr, $cur): float {
+                    $sum = array_reduce($models, function (float $sum, Part $parts) use ($attr, $cur): float {
+                        $parts = $parts->buyerPartsProfit;
                         if ($parts && $parts->currency === $cur) {
                             return $sum + $parts->{$attr};
                         }

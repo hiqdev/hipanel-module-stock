@@ -45,7 +45,13 @@ class OrderQuery extends ActiveQuery
      */
     public function withPartsProfit(): self
     {
-        $this->joinWith('partsProfit');
+        $this->joinWith([
+            'partsProfit' => function (ActiveQuery $query) {
+                $query->addSelect('selling');
+                $query->joinWith('buyerPartsProfit');
+                $query->andWhere(['with_profit' => true]);
+            },
+        ]);
         $this->andWhere(['with_parts_profit' => true]);
 
         return $this;

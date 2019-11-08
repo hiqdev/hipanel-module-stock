@@ -18,9 +18,8 @@ $this->title = Yii::t('hipanel.stock.order', 'Orders');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
 
-$showFooter = true;
-//$showFooter = ($uiModel->representation === 'profit-report')
-//                && (Yii::$app->user->can('order.read-profits'));
+$showFooter = ($uiModel->representation === 'profit-report')
+                && (Yii::$app->user->can('order.read-profits'));
 
 ?>
 

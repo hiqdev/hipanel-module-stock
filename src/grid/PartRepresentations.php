@@ -52,14 +52,10 @@ class PartRepresentations extends RepresentationCollection
                     'selling_time',
                 ]
             ],
-//            'profit-report' => Yii::$app->user->can('order.read-profits') ? [
-//                'label' => Yii::t('hipanel', 'profit report'),
-//                'columns' => ProfitColumns::getColumns(['name_profit', 'company_id', 'parts', 'time']),
-//            ] : null,
-            'profit-report' => [
+            'profit-report' => Yii::$app->user->can('order.read-profits') ? [
                 'label' => Yii::t('hipanel', 'profit report'),
-                'columns' => ProfitColumns::getColumns([]),
-            ],
+                'columns' => ProfitColumns::getColumns(['checkbox', 'buyer', 'company_id', 'serial', 'partno']),
+            ] : null,
         ]);
     }
 }

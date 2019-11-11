@@ -5,6 +5,8 @@ namespace hipanel\modules\stock\helpers;
 
 use hipanel\base\Model;
 use hipanel\grid\BoxedGridView;
+use hipanel\modules\stock\models\Order;
+use hipanel\modules\stock\models\Part;
 use Yii;
 use yii\helpers\Html;
 
@@ -85,8 +87,15 @@ final class ProfitColumns
         return ProfitColumns::getGridColumns(function (string $attr, string $cur) use ($gridView, $linkAttribute): array {
             $valueArray = [
                 'value' => function (Model $model) use ($attr, $cur, $linkAttribute): string {
-                    $profit = $model->profit;
-                    if ($profit->currency !== $cur || empty($profit->{$attr})) {
+                    /** @var Part|Order $model */
+                    $profits = $model->profit;
+                    $profit = array_reduce($profits, function ($result, $profit) use ($attr, $cur) {
+                        if ($profit->currency === $cur && !empty($profit->{$attr})) {
+                            return $profit;
+                        }
+                        return $result;
+                    }, null);
+                    if ($profit === null) {
                         return '';
                     }
                     $result = (string)number_format($profit->{$attr}, 2);

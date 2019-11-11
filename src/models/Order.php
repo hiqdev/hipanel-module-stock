@@ -81,7 +81,7 @@ class Order extends Model
 
     public function getProfit()
     {
-        return $this->hasOne(OrderWithProfit::class, ['obj_id' => 'id']);
+        return $this->hasMany(OrderWithProfit::class, ['obj_id' => 'id'])->indexBy('currency');
     }
 
     public function getPartsProfit()

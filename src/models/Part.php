@@ -21,7 +21,7 @@ use Yii;
  *
  * @property Model $model
  * @property string $currency
- * @property-read PartWithProfit $profit
+ * @property-read PartWithProfit[] $profit
  */
 class Part extends \hipanel\base\Model
 {
@@ -222,7 +222,7 @@ class Part extends \hipanel\base\Model
 
     public function getProfit()
     {
-        return $this->hasOne(PartWithProfit::class, ['id' => 'id']);
+        return $this->hasMany(PartWithProfit::class, ['id' => 'id'])->indexBy('currency');
     }
 
     /**

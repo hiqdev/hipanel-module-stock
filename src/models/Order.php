@@ -22,7 +22,7 @@ use hipanel\modules\stock\helpers\ProfitColumns;
  * @property string $name
  * @property-read PartWithProfit $profitParts
  * @property-read Part[] $parts
- * @property-read OrderWithProfit $profit
+ * @property-read OrderWithProfit[] $profit
  */
 class Order extends Model
 {

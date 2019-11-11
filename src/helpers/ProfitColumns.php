@@ -6,7 +6,9 @@ namespace hipanel\modules\stock\helpers;
 use hipanel\base\Model;
 use hipanel\grid\BoxedGridView;
 use hipanel\modules\stock\models\Order;
+use hipanel\modules\stock\models\OrderWithProfit;
 use hipanel\modules\stock\models\Part;
+use hipanel\modules\stock\models\PartWithProfit;
 use Yii;
 use yii\helpers\Html;
 
@@ -78,6 +80,22 @@ final class ProfitColumns
     }
 
     /**
+     * @param PartWithProfit[]|OrderWithProfit[] $profits
+     * @param string $attr
+     * @param string $cur
+     * @return PartWithProfit|OrderWithProfit|null
+     */
+    private static function getRedusedProfitByCurrency(array $profits, string $attr, string $cur): ?Model
+    {
+        return array_reduce($profits, function ($result, $profit) use ($attr, $cur) {
+            if ($profit->currency === $cur && !empty($profit->{$attr})) {
+                return $profit;
+            }
+            return $result;
+        }, null);
+    }
+
+    /**
      * @param BoxedGridView $gridView
      * @param string $linkAttribute
      * @return array
@@ -88,13 +106,7 @@ final class ProfitColumns
             $valueArray = [
                 'value' => function (Model $model) use ($attr, $cur, $linkAttribute): string {
                     /** @var Part|Order $model */
-                    $profits = $model->profit;
-                    $profit = array_reduce($profits, function ($result, $profit) use ($attr, $cur) {
-                        if ($profit->currency === $cur && !empty($profit->{$attr})) {
-                            return $profit;
-                        }
-                        return $result;
-                    }, null);
+                    $profit = static::getRedusedProfitByCurrency($model->profit, $attr, $cur);
                     if ($profit === null) {
                         return '';
                     }
@@ -125,7 +137,8 @@ final class ProfitColumns
     {
         $models = $gridView->dataProvider->getModels();
         $sum = array_reduce($models, function (float $sum, Model $model) use ($attr, $cur): float {
-            $profit = $model->profit;
+            $profit = static::getRedusedProfitByCurrency($model->profit, $attr, $cur);
+
             if ($profit && $profit->currency === $cur) {
                 return $sum + $profit->{$attr};
             }

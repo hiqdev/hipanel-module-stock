@@ -12,7 +12,6 @@
 namespace hipanel\modules\stock\models;
 
 use hipanel\base\ModelTrait;
-use hipanel\helpers\ArrayHelper;
 use hipanel\helpers\StringHelper;
 use hipanel\models\Ref;
 use Yii;
@@ -21,6 +20,8 @@ use Yii;
  * Class Part
  *
  * @property Model $model
+ * @property string $currency
+ * @property-read PartWithProfit $profit
  */
 class Part extends \hipanel\base\Model
 {
@@ -217,6 +218,11 @@ class Part extends \hipanel\base\Model
     public function isDeletable(): bool
     {
         return $this->first_move_id === $this->last_move_id;
+    }
+
+    public function getProfit()
+    {
+        return $this->hasOne(PartWithProfit::class, ['id' => 'id']);
     }
 
     /**

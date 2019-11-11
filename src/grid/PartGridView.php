@@ -19,7 +19,6 @@ use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\stock\helpers\ProfitColumns;
 use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\models\Part;
-use hipanel\modules\stock\models\PartWithProfit;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
@@ -30,38 +29,12 @@ class PartGridView extends BoxedGridView
 {
     public $locations;
 
+    /**
+     * @return array
+     */
     private function getProfitColumns(): array
     {
-        return ProfitColumns::getGridColumns(function (string $attr, string $cur): array {
-            $valueArray = [
-                'value' => function (PartWithProfit $parts) use ($attr, $cur): string {
-                    if ($parts->currency !== $cur || empty($parts->{$attr})) {
-                        return '';
-                    }
-                    $result = (string)number_format($parts->{$attr}, 2);
-                    if (empty(strpos($attr, 'charge'))) {
-                        return $result;
-                    }
-                    return HTML::a($result, ['/finance/charge/index', 'object_ids' => $parts->id]);
-                },
-                'format' => 'raw',
-                'contentOptions' => ['class' => 'text-right'],
-                'footerOptions' => ['class' => 'text-right'],
-            ];
-            if ($this->showFooter) {
-                $valueArray['footer'] = (function () use ($attr, $cur): string {
-                    $models = $this->dataProvider->getModels();
-                    $sum = array_reduce($models, function (float $sum, PartWithProfit $parts) use ($attr, $cur): float {
-                        if ($parts && $parts->currency === $cur) {
-                            return $sum + $parts->{$attr};
-                        }
-                        return $sum;
-                    }, 0.0);
-                    return empty($sum) ? '' : number_format($sum, 2);
-                })();
-            }
-            return $valueArray;
-        });
+        return ProfitColumns::getProfitColumns($this, 'object_ids');
     }
 
     public function columns()

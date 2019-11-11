@@ -31,6 +31,7 @@ use hipanel\modules\stock\forms\PartSellForm;
 use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
+use hiqdev\hiart\ActiveQuery;
 use Yii;
 use yii\base\DynamicModel;
 use yii\base\Event;
@@ -165,10 +166,15 @@ class PartController extends CrudController
                 'class' => IndexAction::class,
                 'view'  => 'index',
                 'on beforePerform' => function (Event $event) {
+                    /** @var ActiveQuery $query */
+                    $query = $event->sender->getDataProvider()->query;
+                    if ($this->indexPageUiOptionsModel->representation === 'profit-report') {
+                        $query->joinWith('profit');
+                        $query->andWhere(['with_profit' => true]);
+                        $query->addSelect('selling');
+                    }
                     if ($this->indexPageUiOptionsModel->representation === 'selling') {
-                        /** @var \hipanel\actions\SearchAction $action */
-                        $action = $event->sender;
-                        $action->getDataProvider()->query->addSelect('selling');
+                        $query->addSelect('selling');
                     }
                 },
                 'data' => function ($action, $data) {

@@ -36,38 +36,7 @@ class OrderGridView extends BoxedGridView
      */
     private function getProfitColumns(): array
     {
-        return ProfitColumns::getGridColumns(function (string $attr, string $cur): array {
-            $valueArray = [
-                'value' => function (Order $order) use ($attr, $cur): string {
-                    $profit = $order->profit;
-                    if ($profit->currency !== $cur || empty($profit->{$attr})) {
-                        return '';
-                    }
-                    $result = (string)number_format($profit->{$attr}, 2);
-                    if (empty(strpos($attr, 'charge'))) {
-                        return $result;
-                    }
-                    return HTML::a($result, ['/finance/charge/index', 'order_id' => $order->id]);
-                },
-                'format' => 'raw',
-                'contentOptions' => ['class' => 'text-right'],
-                'footerOptions' => ['class' => 'text-right'],
-            ];
-            if ($this->showFooter) {
-                $models = $this->dataProvider->getModels();
-                $valueArray['footer'] = (function () use ($attr, $cur, $models): string {
-                    $sum = array_reduce($models, function (float $sum, Order $order) use ($attr, $cur): float {
-                        $profit = $order->profit;
-                        if ($profit && $profit->currency === $cur) {
-                            return $sum + $profit->{$attr};
-                        }
-                        return $sum;
-                    }, 0.0);
-                    return empty($sum) ? '' : number_format($sum, 2);
-                })();
-            }
-            return $valueArray;
-        });
+        return ProfitColumns::getProfitColumns($this, 'order_id');
     }
 
     /**

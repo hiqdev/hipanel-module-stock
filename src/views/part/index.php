@@ -17,6 +17,9 @@ $this->title = Yii::t('hipanel:stock', 'Parts');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
 
+$showFooter = ($uiModel->representation === 'profit-report')
+                && (Yii::$app->user->can('order.read-profits'));
+
 ?>
 
 
@@ -240,6 +243,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'total_sums' => $total_sums,
                     ]);
                 },
+                'showFooter' => $showFooter,
                 'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
             ]) ?>
             <?php $page->endBulkForm() ?>

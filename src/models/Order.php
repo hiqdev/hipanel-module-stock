@@ -22,7 +22,7 @@ use hipanel\modules\stock\helpers\ProfitColumns;
  * @property string $name
  * @property-read PartWithProfit $profitParts
  * @property-read Part[] $parts
- * @property-read OrderWithProfit $profit
+ * @property-read OrderWithProfit[] $profit
  */
 class Order extends Model
 {
@@ -81,7 +81,7 @@ class Order extends Model
 
     public function getProfit()
     {
-        return $this->hasOne(OrderWithProfit::class, ['obj_id' => 'id']);
+        return $this->hasMany(OrderWithProfit::class, ['obj_id' => 'id'])->indexBy('currency');
     }
 
     public function getPartsProfit()

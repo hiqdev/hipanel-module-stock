@@ -3,15 +3,26 @@
 use hipanel\helpers\Url;
 use hipanel\modules\stock\grid\PartGridLegend;
 use hipanel\modules\stock\grid\PartGridView;
-use hipanel\modules\stock\widgets\SummaryWidget;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\Pjax;
+use hipanel\widgets\SummaryWidget;
 use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
+
+/**
+ * @var \yii\data\ActiveDataProvider $dataProvider
+ * @var \hipanel\models\IndexPageUiOptions $uiModel
+ * @var \hipanel\modules\stock\grid\PartRepresentations $representationCollection
+ * @var string[] $locations
+ * @var float[] $local_sums
+ * @var float[] $total_sums
+ * @var \hipanel\modules\stock\models\PartSearch $model
+ * @var \yii\web\View $this
+ */
 
 $this->title = Yii::t('hipanel:stock', 'Parts');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');

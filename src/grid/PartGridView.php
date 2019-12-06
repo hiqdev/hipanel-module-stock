@@ -34,7 +34,7 @@ class PartGridView extends BoxedGridView
      */
     private function getProfitColumns(): array
     {
-        return ProfitColumns::getProfitColumns($this, 'object_ids');
+        return ProfitColumns::getGridColumns($this, 'object_ids');
     }
 
     public function columns()

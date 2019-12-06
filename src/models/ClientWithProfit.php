@@ -1,15 +1,25 @@
 <?php
+/**
+ * Client module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-client
+ * @package   hipanel-module-client
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\modules\stock\models;
 
+
 use hipanel\base\ModelTrait;
+use hipanel\modules\client\models\Client;
 use hipanel\modules\stock\helpers\ProfitColumns;
 
 /**
- * Class PartWithProfit
- * @package hipanel\modules\stock\models
+ * Class Client
+ * @package hipanel\modules\client\models
  */
-class PartWithProfit extends Part implements ProfitModelInterface
+class ClientWithProfit extends Client implements ProfitModelInterface
 {
     use ModelTrait;
 
@@ -21,7 +31,7 @@ class PartWithProfit extends Part implements ProfitModelInterface
         return array_merge(parent::rules(), [
             [
                 [
-                    'name',
+                    'currency',
                     'total_price',
                     'unused_price',
                     'stock_price',
@@ -38,6 +48,9 @@ class PartWithProfit extends Part implements ProfitModelInterface
         ]);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels(ProfitColumns::getLabels());

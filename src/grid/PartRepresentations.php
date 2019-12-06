@@ -54,7 +54,7 @@ class PartRepresentations extends RepresentationCollection
             ],
             'profit-report' => Yii::$app->user->can('order.read-profits') ? [
                 'label' => Yii::t('hipanel', 'profit report'),
-                'columns' => ProfitColumns::getColumns(['checkbox', 'buyer', 'company_id', 'serial', 'partno']),
+                'columns' => ProfitColumns::getColumnNames(['checkbox', 'buyer', 'company_id', 'serial', 'partno']),
             ] : null,
         ]);
     }

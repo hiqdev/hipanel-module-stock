@@ -32,6 +32,21 @@ use hipanel\grid\MainColumn;
 class OrderGridView extends BoxedGridView
 {
     /**
+     * @inheritDoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        $this->view->registerCss("
+            .popover .popover-content {
+                max-height: 170px;
+                overflow-y: scroll;
+            }
+        ");
+    }
+
+    /**
      * @return array
      */
     private function getProfitColumns(): array

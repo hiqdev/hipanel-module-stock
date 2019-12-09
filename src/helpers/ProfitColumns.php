@@ -16,6 +16,12 @@ use yii\helpers\Html;
  */
 final class ProfitColumns
 {
+    const CHARGE_TYPES = [
+        'rent' => 'monthly,hardware',
+        'leasing' => 'monthly,leasing',
+        'buyout' => 'other,hw_purchase',
+    ];
+
     /**
      * @param string[] $commonColumns
      * @return string[]
@@ -74,7 +80,7 @@ final class ProfitColumns
             $valueArray = [
                 'value' => function (Model $model) use ($attr, $cur, $linkAttribute): string {
                     /** @var ProfitOwnerInterface $model */
-                    $profit = static::getRedusedProfitByCurrency($model->profit, $attr, $cur);
+                    $profit = static::getReducedProfitByCurrency($model->profit, $attr, $cur);
                     if ($profit === null) {
                         return '';
                     }
@@ -82,7 +88,12 @@ final class ProfitColumns
                     if (empty(strpos($attr, 'charge'))) {
                         return $result;
                     }
-                    return HTML::a($result, ['/finance/charge/index', $linkAttribute => $model->id]);
+                    $chargeType = self::CHARGE_TYPES[explode('_', $attr)[0]];
+                    return HTML::a($result, ['/finance/charge/index',
+                        $linkAttribute => $model->id,
+                        'ftype'         => $chargeType,
+                        'currency_in'  => $cur,
+                    ]);
                 },
                 'format' => 'raw',
                 'contentOptions' => ['class' => 'text-right'],
@@ -115,7 +126,7 @@ final class ProfitColumns
      * @param string $cur
      * @return ProfitModelInterface|null
      */
-    private static function getRedusedProfitByCurrency(array $profits, string $attr, string $cur): ?ProfitModelInterface
+    private static function getReducedProfitByCurrency(array $profits, string $attr, string $cur): ?ProfitModelInterface
     {
         return array_reduce($profits, function ($result, $profit) use ($attr, $cur) {
             if ($profit->currency === $cur && !empty($profit->{$attr})) {
@@ -136,7 +147,7 @@ final class ProfitColumns
         $models = $gridView->dataProvider->getModels();
         $sum = array_reduce($models, function (float $sum, Model $model) use ($attr, $cur): float {
             /** @var ProfitOwnerInterface $model */
-            $profit = static::getRedusedProfitByCurrency($model->profit, $attr, $cur);
+            $profit = static::getReducedProfitByCurrency($model->profit, $attr, $cur);
 
             if ($profit && $profit->currency === $cur) {
                 return $sum + $profit->{$attr};

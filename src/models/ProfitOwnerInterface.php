@@ -9,6 +9,7 @@ use yii\db\ActiveRecordInterface;
 /**
  * Interface ProfitOwnerInterface is a virtual interface which explains model with $profit property
  *
+ * @property int $id
  * @property-read ProfitModelInterface[]|null $profit
  */
 interface ProfitOwnerInterface extends ActiveRecordInterface

@@ -38,8 +38,9 @@ class OrderGridView extends BoxedGridView
     {
         parent::init();
 
+        $this->options['class'] .= ' order-grid-view';
         $this->view->registerCss("
-            .popover .popover-content {
+            .order-grid-view .popover .popover-content {
                 max-height: 170px;
                 overflow-y: scroll;
             }

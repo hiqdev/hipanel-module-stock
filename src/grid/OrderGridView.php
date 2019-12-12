@@ -52,7 +52,7 @@ class OrderGridView extends BoxedGridView
      */
     private function getProfitColumns(): array
     {
-        return ProfitColumns::getProfitColumns($this, 'order_id');
+        return ProfitColumns::getGridColumns($this, 'order_id');
     }
 
     /**

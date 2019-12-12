@@ -5,10 +5,8 @@ namespace hipanel\modules\stock\helpers;
 
 use hipanel\base\Model;
 use hipanel\grid\BoxedGridView;
-use hipanel\modules\stock\models\Order;
-use hipanel\modules\stock\models\OrderWithProfit;
-use hipanel\modules\stock\models\Part;
-use hipanel\modules\stock\models\PartWithProfit;
+use hipanel\modules\stock\models\ProfitModelInterface;
+use hipanel\modules\stock\models\ProfitOwnerInterface;
 use Yii;
 use yii\helpers\Html;
 
@@ -18,11 +16,17 @@ use yii\helpers\Html;
  */
 final class ProfitColumns
 {
+    const CHARGE_TYPES = [
+        'rent' => 'monthly,hardware',
+        'leasing' => 'monthly,leasing',
+        'buyout' => 'other,hw_purchase',
+    ];
+
     /**
      * @param string[] $commonColumns
      * @return string[]
      */
-    public static function getColumns(array $commonColumns = []): array
+    public static function getColumnNames(array $commonColumns = []): array
     {
         foreach (['total', 'unused', 'stock', 'rma'] as $attr) {
             foreach (['usd', 'eur'] as $cur) {
@@ -38,20 +42,6 @@ final class ProfitColumns
         }
 
         return array_merge($commonColumns, $columns);
-    }
-
-    /**
-     * @param \Closure $pack
-     * @return mixed[]
-     */
-    public static function getGridColumns(\Closure $pack): array
-    {
-        $profitColumns = static::getColumns();
-        foreach ($profitColumns as $profitColumn) {
-            [$attr, $cur] = explode('.', $profitColumn);
-            $columns[$profitColumn] = $pack($attr, $cur);
-        }
-        return $columns;
     }
 
     /**
@@ -80,33 +70,17 @@ final class ProfitColumns
     }
 
     /**
-     * @param PartWithProfit[]|OrderWithProfit[] $profits
-     * @param string $attr
-     * @param string $cur
-     * @return PartWithProfit|OrderWithProfit|null
-     */
-    private static function getRedusedProfitByCurrency(array $profits, string $attr, string $cur): ?Model
-    {
-        return array_reduce($profits, function ($result, $profit) use ($attr, $cur) {
-            if ($profit->currency === $cur && !empty($profit->{$attr})) {
-                return $profit;
-            }
-            return $result;
-        }, null);
-    }
-
-    /**
      * @param BoxedGridView $gridView
      * @param string $linkAttribute
      * @return array
      */
-    public static function getProfitColumns(BoxedGridView $gridView, string $linkAttribute): array
+    public static function getGridColumns(BoxedGridView $gridView, string $linkAttribute): array
     {
-        return ProfitColumns::getGridColumns(function (string $attr, string $cur) use ($gridView, $linkAttribute): array {
+        return static::buildGridColumns(function (string $attr, string $cur) use ($gridView, $linkAttribute): array {
             $valueArray = [
                 'value' => function (Model $model) use ($attr, $cur, $linkAttribute): string {
-                    /** @var Part|Order $model */
-                    $profit = static::getRedusedProfitByCurrency($model->profit, $attr, $cur);
+                    /** @var ProfitOwnerInterface $model */
+                    $profit = static::getReducedProfitByCurrency($model->profit, $attr, $cur);
                     if ($profit === null) {
                         return '';
                     }
@@ -114,7 +88,12 @@ final class ProfitColumns
                     if (empty(strpos($attr, 'charge'))) {
                         return $result;
                     }
-                    return HTML::a($result, ['/finance/charge/index', $linkAttribute => $model->id]);
+                    $chargeType = self::CHARGE_TYPES[explode('_', $attr)[0]];
+                    return HTML::a($result, ['/finance/charge/index',
+                        $linkAttribute => $model->id,
+                        'ftype'         => $chargeType,
+                        'currency_in'  => $cur,
+                    ]);
                 },
                 'format' => 'raw',
                 'contentOptions' => ['class' => 'text-right'],
@@ -128,6 +107,36 @@ final class ProfitColumns
     }
 
     /**
+     * @param \Closure $pack
+     * @return mixed[]
+     */
+    private static function buildGridColumns(\Closure $pack): array
+    {
+        $profitColumns = static::getColumnNames();
+        foreach ($profitColumns as $profitColumn) {
+            [$attr, $cur] = explode('.', $profitColumn);
+            $columns[$profitColumn] = $pack($attr, $cur);
+        }
+        return $columns;
+    }
+
+    /**
+     * @param ProfitModelInterface[] $profits
+     * @param string $attr
+     * @param string $cur
+     * @return ProfitModelInterface|null
+     */
+    private static function getReducedProfitByCurrency(array $profits, string $attr, string $cur): ?ProfitModelInterface
+    {
+        return array_reduce($profits, function ($result, $profit) use ($attr, $cur) {
+            if ($profit->currency === $cur && !empty($profit->{$attr})) {
+                return $profit;
+            }
+            return $result;
+        }, null);
+    }
+
+    /**
      * @param string $attr
      * @param string $cur
      * @param BoxedGridView $gridView
@@ -137,7 +146,8 @@ final class ProfitColumns
     {
         $models = $gridView->dataProvider->getModels();
         $sum = array_reduce($models, function (float $sum, Model $model) use ($attr, $cur): float {
-            $profit = static::getRedusedProfitByCurrency($model->profit, $attr, $cur);
+            /** @var ProfitOwnerInterface $model */
+            $profit = static::getReducedProfitByCurrency($model->profit, $attr, $cur);
 
             if ($profit && $profit->currency === $cur) {
                 return $sum + $profit->{$attr};

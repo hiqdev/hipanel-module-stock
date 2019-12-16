@@ -17,9 +17,29 @@ use yii\helpers\Html;
 class ProfitColumns
 {
     protected static $chargeTypes = [
-        'rent' => 'monthly,hardware',
-        'leasing' => 'monthly,leasing',
-        'buyout' => 'other,hw_purchase',
+        'rent'      => 'hardware',
+        'leasing'   => 'leasing',
+        'buyout'    => 'hw_purchase',
+        'rack'      => 'rack_unit',
+        'support'   => 'support_time',
+        'overuse'   => [
+            'account_traf',
+            'account_traf_in',
+            'account_traf_max',
+            'backup_traf',
+            'domain_traf',
+            'domain_traf_in',
+            'domain_traf_max',
+            'ip_traf',
+            'ip_traf_in',
+            'ip_traf_max',
+            'server_traf',
+            'server_traf95',
+            'server_traf95_in',
+            'server_traf95_max',
+            'server_traf_in',
+            'server_traf_max',
+        ],
     ];
 
     protected static $profitAttribute = 'profit';
@@ -94,7 +114,7 @@ class ProfitColumns
                     $chargeType = static::$chargeTypes[explode('_', $attr)[0]];
                     return HTML::a($result, ['/finance/charge/index',
                         $linkAttribute => $model->id,
-                        'ftype'        => $chargeType,
+                        'type_in'      => $chargeType,
                         'currency_in'  => $cur,
                     ]);
                 },
@@ -115,6 +135,7 @@ class ProfitColumns
      */
     private static function buildGridColumns(\Closure $pack): array
     {
+        $columns = [];
         $profitColumns = static::getColumnNames();
         foreach ($profitColumns as $profitColumn) {
             [$attr, $cur] = explode('.', $profitColumn);

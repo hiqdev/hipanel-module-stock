@@ -61,6 +61,6 @@ class ClientWithProfit extends Client implements ProfitModelInterface
      */
     public function attributeLabels()
     {
-        return $this->mergeAttributeLabels(array_merge(ProfitColumns::getLabels(), TypedProfitColumns::getLabels()));
+        return $this->mergeAttributeLabels(TypedProfitColumns::getLabels());
     }
 }

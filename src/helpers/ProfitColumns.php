@@ -20,7 +20,10 @@ class ProfitColumns
         'rent'      => 'hardware',
         'leasing'   => 'leasing',
         'buyout'    => 'hw_purchase',
-        'rack'      => 'rack_unit',
+        'rack'      => [
+            'rack',
+            'rack_unit',
+        ],
         'support'   => 'support_time',
         'overuse'   => [
             'account_traf',

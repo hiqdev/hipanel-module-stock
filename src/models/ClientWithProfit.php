@@ -23,6 +23,7 @@ use hipanel\modules\stock\helpers\ProfitColumns;
  * @property string $rack_charge
  * @property string $support_charge
  * @property string $overuse_charge
+ * @property string $traf_charge
  */
 class ClientWithProfit extends Client implements ProfitModelInterface
 {
@@ -50,6 +51,7 @@ class ClientWithProfit extends Client implements ProfitModelInterface
                     'rack_charge',
                     'support_charge',
                     'overuse_charge',
+                    'traf_charge',
                 ],
                 'safe',
             ]

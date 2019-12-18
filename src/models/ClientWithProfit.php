@@ -12,12 +12,17 @@ namespace hipanel\modules\stock\models;
 
 
 use hipanel\base\ModelTrait;
+use hipanel\modules\client\helpers\TypedProfitColumns;
 use hipanel\modules\client\models\Client;
 use hipanel\modules\stock\helpers\ProfitColumns;
 
 /**
  * Class Client
  * @package hipanel\modules\client\models
+ *
+ * @property string $rack_charge
+ * @property string $support_charge
+ * @property string $overuse_charge
  */
 class ClientWithProfit extends Client implements ProfitModelInterface
 {
@@ -42,6 +47,9 @@ class ClientWithProfit extends Client implements ProfitModelInterface
                     "leasing_charge",
                     "buyout_price",
                     "buyout_charge",
+                    'rack_charge',
+                    'support_charge',
+                    'overuse_charge',
                 ],
                 'safe',
             ]
@@ -53,6 +61,6 @@ class ClientWithProfit extends Client implements ProfitModelInterface
      */
     public function attributeLabels()
     {
-        return $this->mergeAttributeLabels(ProfitColumns::getLabels());
+        return $this->mergeAttributeLabels(array_merge(ProfitColumns::getLabels(), TypedProfitColumns::getLabels()));
     }
 }

@@ -14,13 +14,55 @@ use yii\helpers\Html;
  * Class ProfitColumns
  * @package hipanel\modules\stock\helpers
  */
-final class ProfitColumns
+class ProfitColumns
 {
-    const CHARGE_TYPES = [
-        'rent' => 'monthly,hardware',
-        'leasing' => 'monthly,leasing',
-        'buyout' => 'other,hw_purchase',
+    protected static $chargeTypes = [
+        'rent'      => 'hardware',
+        'leasing'   => 'leasing',
+        'buyout'    => 'hw_purchase',
+        'rack'      => [
+            'rack',
+            'rack_unit',
+        ],
+        'support'   => 'support_time',
+        'overuse'   => [
+            'account_du',
+            'account_maxdir',
+            'account_num',
+            'backup_du',
+            'db_num',
+            'domain_num',
+            'ip_num',
+            'mail_du',
+            'mail_letters',
+            'mail_num',
+            'quantity',
+            'server_du',
+            'server_files',
+            'server_sata',
+            'server_ssd',
+        ],
+        'traf'      => [
+            'account_traf',
+            'account_traf_in',
+            'account_traf_max',
+            'backup_traf',
+            'domain_traf',
+            'domain_traf_in',
+            'domain_traf_max',
+            'ip_traf',
+            'ip_traf_in',
+            'ip_traf_max',
+            'server_traf',
+            'server_traf95',
+            'server_traf95_in',
+            'server_traf95_max',
+            'server_traf_in',
+            'server_traf_max',
+        ],
     ];
+
+    protected static $profitAttribute = 'profit';
 
     /**
      * @param string[] $commonColumns
@@ -28,6 +70,7 @@ final class ProfitColumns
      */
     public static function getColumnNames(array $commonColumns = []): array
     {
+        $columns = [];
         foreach (['total', 'unused', 'stock', 'rma'] as $attr) {
             foreach (['usd', 'eur'] as $cur) {
                 $columns[] = "{$attr}_price.{$cur}";
@@ -47,7 +90,7 @@ final class ProfitColumns
     /**
      * @return array
      */
-    public static function getLabels()
+    public static function getLabels(): array
     {
         $labels = [];
         foreach ([
@@ -80,7 +123,7 @@ final class ProfitColumns
             $valueArray = [
                 'value' => function (Model $model) use ($attr, $cur, $linkAttribute): string {
                     /** @var ProfitOwnerInterface $model */
-                    $profit = static::getReducedProfitByCurrency($model->profit, $attr, $cur);
+                    $profit = static::getReducedProfitByCurrency($model->{static::$profitAttribute}, $attr, $cur);
                     if ($profit === null) {
                         return '';
                     }
@@ -88,10 +131,10 @@ final class ProfitColumns
                     if (empty(strpos($attr, 'charge'))) {
                         return $result;
                     }
-                    $chargeType = self::CHARGE_TYPES[explode('_', $attr)[0]];
+                    $chargeType = static::$chargeTypes[explode('_', $attr)[0]];
                     return HTML::a($result, ['/finance/charge/index',
                         $linkAttribute => $model->id,
-                        'ftype'         => $chargeType,
+                        'type_in'      => $chargeType,
                         'currency_in'  => $cur,
                     ]);
                 },
@@ -112,6 +155,7 @@ final class ProfitColumns
      */
     private static function buildGridColumns(\Closure $pack): array
     {
+        $columns = [];
         $profitColumns = static::getColumnNames();
         foreach ($profitColumns as $profitColumn) {
             [$attr, $cur] = explode('.', $profitColumn);
@@ -147,7 +191,7 @@ final class ProfitColumns
         $models = $gridView->dataProvider->getModels();
         $sum = array_reduce($models, function (float $sum, Model $model) use ($attr, $cur): float {
             /** @var ProfitOwnerInterface $model */
-            $profit = static::getReducedProfitByCurrency($model->profit, $attr, $cur);
+            $profit = static::getReducedProfitByCurrency($model->{static::$profitAttribute}, $attr, $cur);
 
             if ($profit && $profit->currency === $cur) {
                 return $sum + $profit->{$attr};

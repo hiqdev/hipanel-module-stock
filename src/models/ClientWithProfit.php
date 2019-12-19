@@ -12,7 +12,7 @@ namespace hipanel\modules\stock\models;
 
 
 use hipanel\base\ModelTrait;
-use hipanel\modules\client\helpers\TypedProfitColumns;
+use hipanel\modules\client\helpers\ClientProfitColumns;
 use hipanel\modules\client\models\Client;
 use hipanel\modules\stock\helpers\ProfitColumns;
 
@@ -63,6 +63,6 @@ class ClientWithProfit extends Client implements ProfitModelInterface
      */
     public function attributeLabels()
     {
-        return $this->mergeAttributeLabels(TypedProfitColumns::getLabels());
+        return $this->mergeAttributeLabels(ClientProfitColumns::getLabels());
     }
 }

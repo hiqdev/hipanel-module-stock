@@ -26,7 +26,7 @@ $showFooter = ($uiModel->representation === 'profit-report')
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
     <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
 
-        <?= $page->setSearchFormData(compact(['types', 'brands', 'states'])) ?>
+        <?= $page->setSearchFormData(compact('uiModel')) ?>
         <?php $page->beginContent('main-actions') ?>
             <?php  if (Yii::$app->user->can('order.create')) : ?>
                 <?= Html::a(Yii::t('hipanel.stock.order', 'Create order'), ['@order/create'], ['class' => 'btn btn-sm btn-success']) ?>

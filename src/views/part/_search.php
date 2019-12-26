@@ -14,6 +14,9 @@ use hiqdev\yii2\daterangepicker\DateRangePicker;
 use yii\helpers\Html;
 
 /**
+ * @var array $locations
+ * @var \yii\web\View $this
+ * @var \hipanel\models\IndexPageUiOptions $uiModel
  * @var \hipanel\widgets\AdvancedSearch $search
  */
 ?>
@@ -131,3 +134,20 @@ use yii\helpers\Html;
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('order_id')->widget(OrderCombo::class) ?>
 </div>
+
+<?php if ($uiModel->representation === 'profit-report'): ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <div class="form-group">
+            <?= Html::tag('label', Yii::t('hipanel', 'Charge time'), ['class' => 'control-label']); ?>
+            <?= DateRangePicker::widget([
+                'model' => $search->model,
+                'attribute' => 'profit_time_from',
+                'attribute2' => 'profit_time_till',
+                'options' => [
+                    'class' => 'form-control',
+                ],
+                'dateFormat' => 'yyyy-mm-dd',
+            ]) ?>
+        </div>
+    </div>
+<?php endif ?>

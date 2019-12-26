@@ -124,6 +124,7 @@ return [
     'Part price' => 'Цена детали',
     'Hide assigned to group' => 'Спрятать модели с группой',
     'In stock' => 'В стоке',
+    'Profit period' => 'Период профита',
     'Reserved' => 'Зарезервированный',
     'Unused' => 'Неиспользуется',
     'selling' => 'продажа',

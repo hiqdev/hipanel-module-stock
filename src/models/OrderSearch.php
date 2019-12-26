@@ -17,6 +17,8 @@ class OrderSearch extends Order
             'seller_no',
             'time_from',
             'time_till',
+            'profit_time_from',
+            'profit_time_till',
         ]);
     }
 }

@@ -9,7 +9,7 @@ use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hiqdev\combo\StaticCombo;
 use hipanel\widgets\RefCombo;
-use hipanel\widgets\DatePicker;
+use hipanel\widgets\DateTimePicker;
 use hiqdev\yii2\daterangepicker\DateRangePicker;
 use yii\helpers\Html;
 
@@ -97,11 +97,11 @@ use yii\helpers\Html;
 <div class="col-md-4 col-sm-6 col-xs-12">
     <div class="form-group">
         <?= Html::tag('label', Yii::t('hipanel:stock', 'Last move date'), ['class' => 'control-label']); ?>
-        <?= DatePicker::widget([
+        <?= DateTimePicker::widget([
             'id' => 'move_time_date-picker',
             'model' => $search->model,
             'attribute' => 'move_time',
-            'pluginOptions' => [
+            'clientOptions' => [
                 'autoclose' => true,
                 'format' => 'yyyy-mm-dd',
             ],

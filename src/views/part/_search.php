@@ -103,6 +103,7 @@ use yii\helpers\Html;
             'attribute' => 'move_time',
             'clientOptions' => [
                 'autoclose' => true,
+                'minView' => 2,
                 'format' => 'yyyy-mm-dd',
             ],
         ]) ?>

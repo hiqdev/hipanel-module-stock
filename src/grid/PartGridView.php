@@ -16,7 +16,10 @@ use hipanel\grid\BoxedGridView;
 use hipanel\grid\CurrencyColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\client\grid\ClientColumn;
+use hipanel\modules\stock\helpers\ProfitColumns;
 use hipanel\modules\stock\models\Move;
+use hipanel\modules\stock\models\Part;
+use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
 use yii\base\Model;
@@ -26,10 +29,19 @@ class PartGridView extends BoxedGridView
 {
     public $locations;
 
+    /**
+     * @return array
+     */
+    private function getProfitColumns(): array
+    {
+        return ProfitColumns::getGridColumns($this, 'object_ids');
+    }
+
     public function columns()
     {
-        return array_merge(parent::columns(), [
+        return array_merge(parent::columns(), $this->getProfitColumns(), [
             'serial' => [
+                'label' => Yii::t('hipanel:stock', 'Serial'),
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'filterAttribute' => 'serial_like',
                 'format' => 'html',
@@ -54,6 +66,7 @@ class PartGridView extends BoxedGridView
                     ]);
                 },
                 'format' => 'raw',
+                'label' => Yii::t('hipanel:stock', 'Part No.'),
                 'value' => function ($model) {
                     return Html::a($model->partno, ['@model/view', 'id' => $model->model_id], [
                         'data' => ['toggle' => 'tooltip'],
@@ -80,6 +93,7 @@ class PartGridView extends BoxedGridView
                 'class' => RefColumn::class,
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'gtype' => 'type,model',
+                'label' => Yii::t('hipanel:stock','Type'),
                 'value' => function ($model) {
                     return $model->model_type_label;
                 },
@@ -88,14 +102,13 @@ class PartGridView extends BoxedGridView
                 'class' => RefColumn::class,
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'gtype' => 'type,brand',
+                'label' => Yii::t('hipanel:stock', 'Manufacturer'),
                 'value' => function ($model) {
                     return $model->model_brand_label;
                 },
             ],
-            'company' => [
-                'value' => function ($model) {
-                    return $model->company;
-                },
+            'company_id' => [
+                'class' => CompanyColumn::class,
             ],
             'last_move' => [
                 'label' => Yii::t('hipanel:stock', 'Last move'),
@@ -152,8 +165,21 @@ class PartGridView extends BoxedGridView
                 'filter' => false,
                 'enableSorting' => false,
             ],
-            'order_no' => [
+            'order_name' => [
+                'attribute' => 'order_id',
+                'filterAttribute' => 'order_id',
+                'filter' => function ($column, $model, $attribute) {
+                    return OrderCombo::widget([
+                        'model' => $model,
+                        'attribute' => $attribute,
+                        'formElementSelector' => 'td',
+                    ]);
+                },
                 'filterOptions' => ['class' => 'narrow-filter'],
+                'format' => 'html',
+                'value' => function (Part $model): string {
+                    return HTML::a($model->order_name, ['@order/view', 'id' => $model->order_id]);
+                }
             ],
             'dc_ticket' => [
                 'filter' => false,
@@ -191,6 +217,7 @@ class PartGridView extends BoxedGridView
                 'nameAttribute' => 'buyer',
                 'idAttribute' => 'buyer_id',
                 'attribute' => 'buyer',
+                'footer' => '<b>' . Yii::t('hipanel:stock', 'TOTAL on screen') . '</b>',
             ],
             'selling_price' => [
                 'filterAttribute' => 'selling_currency',
@@ -234,6 +261,7 @@ class PartGridView extends BoxedGridView
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'filterAttribute' => 'move_descr_ilike',
                 'format' => 'html',
+                'label' => Yii::t('hipanel:stock', 'Move description'),
                 'value' => function ($model) {
                     return Move::prepareDescr($model->move_descr);
                 },

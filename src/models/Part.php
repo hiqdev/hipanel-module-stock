@@ -12,7 +12,6 @@
 namespace hipanel\modules\stock\models;
 
 use hipanel\base\ModelTrait;
-use hipanel\helpers\ArrayHelper;
 use hipanel\helpers\StringHelper;
 use hipanel\models\Ref;
 use Yii;
@@ -21,10 +20,15 @@ use Yii;
  * Class Part
  *
  * @property Model $model
+ * @property string $currency
+ * @property-read PartWithProfit[] $profit
  */
 class Part extends \hipanel\base\Model
 {
     use ModelTrait;
+
+    public const STATE_OK = 'ok';
+    public const STATE_DELETED = 'deleted';
 
     /** @inheritdoc */
     public static $i18nDictionary = 'hipanel:stock';
@@ -42,6 +46,7 @@ class Part extends \hipanel\base\Model
                     'src_name',
                     'dst_name',
                     'order_no',
+                    'order_name',
                     'order_data',
                     'dst_ids',
                     'model_ids',
@@ -70,21 +75,23 @@ class Part extends \hipanel\base\Model
                     'currency',
                     'client',
                     'supplier',
-                    'order_no',
                     'type',
                     'state',
                     'selling_currency',
                     'selling_price',
                     'selling_time',
                     'buyer',
+                    'order_id',
+                    'order_name',
+                    'company',
                 ],
                 'safe',
             ],
             [['price'], 'number'],
-            [['id', 'company_id', 'dst_id', 'model_id', 'client_id', 'buyer_id', 'last_move_id'], 'integer'],
+            [['id', 'company_id', 'dst_id', 'model_id', 'client_id', 'buyer_id', 'last_move_id', 'order_id'], 'integer'],
 
             // Create and copy
-            [['partno', 'src_id', 'dst_id', 'serials', 'move_descr', 'move_type', 'price', 'currency', 'company_id'], 'required', 'on' => ['create', 'copy']],
+            [['partno', 'src_id', 'dst_id', 'serials', 'move_descr', 'price', 'currency', 'company_id'], 'required', 'on' => ['create', 'copy']],
             [['dst_ids'], 'required', 'when' => function ($model) {
                 return empty($model->dst_id);
             }, 'on' => ['create']],
@@ -94,7 +101,7 @@ class Part extends \hipanel\base\Model
             [['id', 'dst_id', 'src_id', 'partno', 'serial'], 'required', 'on' => 'move-by-one'],
 
             // Trash
-            [['id', 'dst_id', 'src_id', 'partno', 'serial', 'order_no'], 'required', 'on' => 'trash'],
+            [['id', 'dst_id', 'src_id', 'partno', 'serial'], 'required', 'on' => 'trash'],
 
             // Replace
             [['id', 'src_id', 'dst_id', 'move_type'], 'required', 'on' => 'replace'],
@@ -129,9 +136,9 @@ class Part extends \hipanel\base\Model
             }],
 
             // Update Order No.
-            [['order_no', 'first_move_id'], 'required', 'on' => 'update-order-no'],
+            [['order_id', 'first_move_id'], 'required', 'on' => 'update-order-no'],
             [['id', 'first_move_id'], 'integer', 'on' => 'update-order-no'],
-            [['order_no'], 'string', 'on' => 'update-order-no'],
+            [['order_id'], 'string', 'on' => 'update-order-no'],
 
             // Change model
             [['id', 'model_id'], 'required', 'on' => 'change-model'],
@@ -162,8 +169,8 @@ class Part extends \hipanel\base\Model
             'move_type_label' => Yii::t('hipanel:stock', 'Move type'),
             'move_descr' => Yii::t('hipanel:stock', 'Move description'),
             'move_type' => Yii::t('hipanel:stock', 'Type'),
+            'order_name' => Yii::t('hipanel:stock', 'Order'),
             'order_data' => Yii::t('hipanel:stock', 'Order'),
-            'order_no' => Yii::t('hipanel:stock', 'Order No.'),
             'src_id' => Yii::t('hipanel:stock', 'Source'),
             'src_name' => Yii::t('hipanel:stock', 'Source'),
             'dst_id' => Yii::t('hipanel:stock', 'Destination'),
@@ -213,6 +220,11 @@ class Part extends \hipanel\base\Model
         return $this->first_move_id === $this->last_move_id;
     }
 
+    public function getProfit()
+    {
+        return $this->hasMany(PartWithProfit::class, ['id' => 'id'])->indexBy('currency');
+    }
+
     /**
      * @param $types array
      * @param $scenario string
@@ -235,32 +247,6 @@ class Part extends \hipanel\base\Model
         }
 
         return $result;
-    }
-
-    public function getCompanies()
-    {
-        $companies = Yii::$app->get('cache')->getOrSet([__METHOD__], function () {
-            $result = ArrayHelper::map(Ref::find()->where([
-                'gtype' => 'type,part_company',
-                'select' => 'full',
-            ])->all(), 'id', function ($model) {
-                return Yii::t('hipanel:stock', $model->label);
-            });
-
-            return $result;
-        }, 86400 * 24); // 24 days
-
-        return $companies;
-    }
-
-    public function getCompany()
-    {
-        $company = null;
-        if ($this->company_id) {
-            $company = $this->getCompanies()[$this->company_id];
-        }
-
-        return $company;
     }
 
     public function getTitle()

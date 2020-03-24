@@ -19,7 +19,7 @@ use yii\bootstrap\Html;
             <?= $form->field($model, "[$model->id]partno")->textInput(['disabled' => true]) ?>
         </div>
         <div class="col-md-4">
-            <?= $form->field($model, "[$model->id]src_name")->textInput(['disabled' => true])->label(Yii::t('hipanel:stock', 'Location')) ?>
+            <?= $form->field($model, "[$model->id]dst_name")->textInput(['disabled' => true])->label(Yii::t('hipanel:stock', 'Location')) ?>
         </div>
         <div class="col-md-4">
             <?= $form->field($model, "[$model->id]serial") ?>

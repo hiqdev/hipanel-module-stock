@@ -26,19 +26,19 @@ class PartSort
 
     private static function byModelType()
     {
-        return function (Part $part) {
+        return static function (Part $part) {
             return ModelSort::byType()(self::toModel($part));
         };
     }
 
     private static function byModelName()
     {
-        return function (Part $a, Part $b) {
+        return static function (Part $a, Part $b) {
             return ModelSort::byName()(self::toModel($a), self::toModel($b));
         };
     }
 
-    private static function toModel(Part $part)
+    private static function toModel(Part $part): Model
     {
         return new Model([
             'type' => $part->model_type,

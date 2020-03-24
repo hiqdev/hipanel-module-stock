@@ -1,22 +1,35 @@
 <?php
 
 use hipanel\helpers\Url;
-use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\stock\grid\PartGridLegend;
 use hipanel\modules\stock\grid\PartGridView;
-use hipanel\modules\stock\widgets\PartLegend;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\Pjax;
+use hipanel\widgets\SummaryWidget;
 use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
+/**
+ * @var \yii\data\ActiveDataProvider $dataProvider
+ * @var \hipanel\models\IndexPageUiOptions $uiModel
+ * @var \hipanel\modules\stock\grid\PartRepresentations $representationCollection
+ * @var string[] $locations
+ * @var float[] $local_sums
+ * @var float[] $total_sums
+ * @var \hipanel\modules\stock\models\PartSearch $model
+ * @var \yii\web\View $this
+ */
+
 $this->title = Yii::t('hipanel:stock', 'Parts');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
+
+$showFooter = ($uiModel->representation === 'profit-report')
+                && (Yii::$app->user->can('order.read-profits'));
 
 ?>
 
@@ -24,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 
     <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
-        <?php $page->setSearchFormData(compact(['types', 'locations', 'brands', 'states'])) ?>
+        <?php $page->setSearchFormData(compact(['types', 'locations', 'brands', 'states', 'uiModel'])) ?>
 
         <?php $page->beginContent('legend') ?>
             <?= GridLegend::widget(['legendItem' => new PartGridLegend($model)]) ?>
@@ -272,28 +285,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $model,
                 'locations' => $locations,
                 'summaryRenderer' => function ($grid, $defaultSummaryCb) use ($local_sums, $total_sums) {
-                    $locals = '';
-                    $totals = '';
-                    if (is_array($total_sums)) {
-                        foreach ($total_sums as $cur => $sum) {
-                            if ($cur && $sum > 0) {
-                                $totals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
-                            }
-                        }
-                    }
-                    if (is_array($local_sums)) {
-                        foreach ($local_sums as $cur => $sum) {
-                            if ($cur && $sum > 0) {
-                                $locals .= ' &nbsp; <b>' . Yii::$app->formatter->asCurrency($sum, $cur) . '</b>';
-                            }
-                        }
-                    }
-
-                    return $defaultSummaryCb() . '<div class="summary">' .
-                        ($totals ? Yii::t('hipanel:stock', 'TOTAL') . ':' . $totals : null) .
-                        ($locals ? '<br><span class="text-muted">' . Yii::t('hipanel', 'on screen') . ':' . $locals . '</span>' : null) .
-                        '</div>';
+                    return $defaultSummaryCb() . SummaryWidget::widget([
+                        'local_sums' => $local_sums,
+                        'total_sums' => $total_sums,
+                    ]);
                 },
+                'showFooter' => $showFooter,
                 'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
             ]) ?>
             <?php $page->endBulkForm() ?>

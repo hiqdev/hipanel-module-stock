@@ -16,6 +16,7 @@ return [
         '@part'           => '/stock/part',
         '@move'           => '/stock/move',
         '@hwconfig'       => '/stock/hwconfig',
+        '@order'          => '/stock/order',
     ],
     'modules' => [
         'stock' => [
@@ -26,6 +27,10 @@ return [
         'i18n' => [
             'translations' => [
                 'hipanel:stock' => [
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/modules/stock/messages',
+                ],
+                'hipanel.stock.order' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => '@hipanel/modules/stock/messages',
                 ],

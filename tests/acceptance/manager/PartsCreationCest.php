@@ -3,11 +3,21 @@
 namespace hipanel\modules\stock\tests\acceptance\manager;
 
 use hipanel\helpers\Url;
+use hipanel\modules\stock\tests\_support\Page\order\OrderPage;
 use hipanel\modules\stock\tests\_support\Page\part\Create;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 
 class PartsCreationCest
 {
+
+    protected $createPage;
+    protected $testOrderData;
+
+    public function _before(Manager $I)
+    {
+        $this->createPage = new Create($I);
+    }
+
     public function ensurePartsPageWorks(Manager $I): void
     {
         $I->login();
@@ -22,7 +32,7 @@ class PartsCreationCest
      */
     public function ensurePartManageButtonsWorks(Manager $I): void
     {
-        $page = new Create($I);
+        $page = $this->createPage;
         $I->needPage(Url::to('@part/create'));
 
         $n = 0;
@@ -58,7 +68,7 @@ class PartsCreationCest
      */
     public function ensureICantCreatePartWithoutData(Manager $I): void
     {
-        $page = new Create($I);
+        $page = $this->createPage;
 
         $I->needPage(Url::to('@part/create'));
         $I->pressButton('Save');
@@ -84,13 +94,15 @@ class PartsCreationCest
      */
     public function ensureICanCreatePart(Manager $I): void
     {
-        $page = new Create($I);
+        $page = $this->createPage;
+        $this->testOrderData = $this->getTestOrderData();
+        $orderPage = new OrderPage($I);
+        $I->needPage(Url::to('@order/create'));
+        $orderPage->setupOrderForm($this->testOrderData);
 
         $I->needPage(Url::to('@part/create'));
-        $partData = $this->getPartData();
-        $page->fillPartFields($partData);
+        $page->fillPartFields($this->getPartData());
         $I->waitForJS("return $.active == 0;", 60);
-
         $I->pressButton('Save');
         $page->seePartWasCreated();
     }
@@ -105,7 +117,7 @@ class PartsCreationCest
      */
     public function ensureICanCreateSeveralParts(Manager $I): void
     {
-        $page = new Create($I);
+        $page = $this->createPage;
 
         $I->needPage(Url::to('@part/create'));
         $page->fillPartFields($this->getPartData());
@@ -123,7 +135,7 @@ class PartsCreationCest
      */
     public function ensureICanCreateAndTrashPart(Manager $I): void
     {
-        $page = new Create($I);
+        $page = $this->createPage;
 
         $I->needPage(Url::to('@part/create'));
         $partData = $this->getPartData();
@@ -143,15 +155,30 @@ class PartsCreationCest
     protected function getPartData(): array
     {
         return [
-            'partno'        => 'MG_TEST_PARTNO',
+            'partno'        => 'E5-2630V3',
             'src_id'        => 'TEST-DS-01',
             'dst_id'        => 'TEST-DS-02',
             'serials'       => 'MG_TEST_PART' . uniqid(),
-            'move_descr'    => 'MG_TEST_MOVE',
-            'type'          => 'direct',
+            'move_descr'    => 'MG TEST MOVE',
+            'order_id'      => $this->testOrderData['no'],
             'price'         => 200,
             'currency'      => 'usd',
             'company_id'    => 'Other'
+        ];
+    }
+    /**
+     * @return array
+     */
+    protected function getTestOrderData(): array
+    {
+        return [
+            'type'      => 'hardware',
+            'seller_id' => 'Test Admin',
+            'buyer_id'  => 'Test User',
+            'state'     => 'OK',
+            'no'        => 'testNO228' .  (string)time(),
+            'time'      => '2019-04-03 01:30',
+            'name'      => 'test name',
         ];
     }
 }

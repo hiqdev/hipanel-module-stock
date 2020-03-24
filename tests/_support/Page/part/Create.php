@@ -51,8 +51,8 @@ class Create extends Authenticated
             ->setValue($partData['price']);
         $I->executeJS(";document.querySelector('div.item:last-child li a[data-value=$partData[currency]]').click();");
 
-        (new Dropdown($I, $base . 'select[id$=type]'))
-            ->setValue($partData['type']);
+        (new Select2($I, $base . 'select[id$=order_id]'))
+            ->setValueLike($partData['order_id']);
         (new Dropdown($I, $base . 'select[id$=company_id]'))
             ->setValue($partData['company_id']);
     }

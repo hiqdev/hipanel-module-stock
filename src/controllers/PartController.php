@@ -551,8 +551,12 @@ class PartController extends CrudController
             return $this->redirect($request->referrer);
         }
         $parts = $action->fetchModels();
+        $partsByModelType = [];
+        foreach (PartSort::byGeneralRules()->values($parts) as $part) {
+            $partsByModelType[$part->model_type_label][] = $part;
+        }
 
-        return $this->renderAjax('modals/sell-by-plan', compact('model', 'parts'));
+        return $this->renderAjax('modals/sell-by-plan', compact('model', 'partsByModelType'));
     }
 
     public function actionCalculateSellTotal()

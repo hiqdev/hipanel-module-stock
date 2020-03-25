@@ -2,13 +2,16 @@
 
 use hipanel\modules\finance\models\Plan;
 use hipanel\modules\finance\widgets\combo\PlanCombo;
+use hipanel\modules\stock\forms\PartSellByPlanForm;
 use yii\bootstrap\ActiveForm;
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\stock\widgets\combo\ContactCombo;
-use hipanel\modules\stock\helpers\PartSort;
 use hipanel\widgets\DateTimePicker;
 use yii\helpers\Url;
 use yii\helpers\Html;
+
+/** @var array $partsByModelType */
+/** @var PartSellByPlanForm $model */
 
 $this->registerJs(/** @lang ECMAScript 6 */
     <<<JS
@@ -59,25 +62,17 @@ JS
 </div>
 
 <div class="parts-for-sell panel panel-default">
-    <div class="panel-heading">
-        <?= Yii::t('hipanel:stock', 'Parts') ?>
-    </div>
-    <?php $byType = []; ?>
-    <?php $parts = PartSort::byGeneralRules()->values($parts); ?>
-    <?php foreach ($parts as $part) : ?>
-        <?php $byType[$part->model_type_label][] = $part ?>
-    <?php endforeach; ?>
-
-    <?php foreach ($byType as $type => $typeParts): ?>
+    <?= Html::tag('div', Yii::t('hipanel:stock', 'Parts'), ['class' => 'panel-heading']) ?>
+    <?php foreach ($partsByModelType as $modelType => $typeParts): ?>
         <table class="table">
             <thead>
             <tr>
-                <th colspan="2"><?= mb_strtoupper($type) ?></th>
+                <th colspan="2"><?= mb_strtoupper($modelType) ?></th>
             </tr>
             </thead>
-            <?php foreach (array_chunk($typeParts, 2) as $row): ?>
+            <?php foreach (array_chunk($typeParts, 2) as $parts): ?>
                 <tr>
-                    <?php foreach ($row as $part) : ?>
+                    <?php foreach ($parts as $part) : ?>
                         <td style="width: 50%">
                             <?= Html::activeHiddenInput($model, "ids[]", ['value' => $part->id]) ?>
                             <?= sprintf('%s @ %s', Html::a($part->title, ['@part/view', 'id' => $part->id], ['tabindex' => -1]), $part->dst_name); ?>

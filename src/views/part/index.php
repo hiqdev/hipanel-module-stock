@@ -6,7 +6,6 @@ use hipanel\modules\stock\grid\PartGridView;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
-use hipanel\widgets\AjaxModal;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\SummaryWidget;
 use yii\bootstrap\Dropdown;
@@ -77,7 +76,7 @@ $showFooter = ($uiModel->representation === 'profit-report')
                     </button>
                     <?= Dropdown::widget([
                         'encodeLabels' => false,
-                        'items' => [
+                        'items' => array_filter([
                             AjaxModalWithTemplatedButton::widget([
                                 'ajaxModalOptions' => [
                                     'bulkPage' => true,
@@ -95,7 +94,7 @@ $showFooter = ($uiModel->representation === 'profit-report')
                                 ],
                                 'toggleButtonTemplate' => '<li>{toggleButton}</li>',
                             ]),
-                            AjaxModalWithTemplatedButton::widget([
+                            Yii::$app->user->can('test.alpha') ? AjaxModalWithTemplatedButton::widget([
                                 'ajaxModalOptions' => [
                                     'bulkPage' => true,
                                     'id' => 'parts-sell-by-plan',
@@ -111,8 +110,8 @@ $showFooter = ($uiModel->representation === 'profit-report')
                                     ],
                                 ],
                                 'toggleButtonTemplate' => '<li>{toggleButton}</li>',
-                            ]),
-                        ]
+                            ]) : null,
+                        ])
                     ]) ?>
                 </div>
             <?php endif ?>

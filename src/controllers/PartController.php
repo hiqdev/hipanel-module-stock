@@ -27,11 +27,13 @@ use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\StringHelper;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\stock\actions\ValidateSellFormAction;
+use hipanel\modules\stock\forms\PartSellByPlanForm;
 use hipanel\modules\stock\forms\PartSellForm;
 use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
 use hiqdev\hiart\ActiveQuery;
+use hiqdev\hiart\Collection;
 use Yii;
 use yii\base\DynamicModel;
 use yii\base\Event;
@@ -61,6 +63,7 @@ class PartController extends CrudController
                     'move' => 'move.create',
                     'move-by-one' => 'move.create',
                     'sell' => 'part.sell',
+                    'sell-by-plan' => 'test.alpha',
                     'delete' => 'part.delete',
                     'calculate-sell-sum' => 'part.sell',
 
@@ -432,6 +435,13 @@ class PartController extends CrudController
                 'validatedInputId' => false,
                 'allowDynamicScenario' => false,
             ],
+            'validate-sell-by-plan-form' => [
+                'class' => ValidateFormAction::class,
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new PartSellByPlanForm(),
+                ],
+            ],
         ]);
     }
 
@@ -522,6 +532,31 @@ class PartController extends CrudController
         });
 
         return $this->renderAjax('modals/sell', compact('model', 'parts', 'currencyOptions'));
+    }
+
+    public function actionSellByPlan()
+    {
+        $model = new PartSellByPlanForm();
+        $action = new SmartUpdateAction('sell-by-plan', $this);
+        $request = Yii::$app->request;
+        $session = Yii::$app->session;
+        if ($model->load($request->post()) && $model->validate()) {
+            try {
+                Part::batchPerform('sell-by-plan', $model->getAttributes());
+                $session->addFlash('success', Yii::t('hipanel:stock', 'Parts have been successfully sold.'));
+            } catch (\Exception $e) {
+                $session->addFlash('error', $e->getMessage());
+            }
+
+            return $this->redirect($request->referrer);
+        }
+        $parts = $action->fetchModels();
+        $partsByModelType = [];
+        foreach (PartSort::byGeneralRules()->values($parts) as $part) {
+            $partsByModelType[$part->model_type_label][] = $part;
+        }
+
+        return $this->renderAjax('modals/sell-by-plan', compact('model', 'partsByModelType'));
     }
 
     public function actionCalculateSellTotal()

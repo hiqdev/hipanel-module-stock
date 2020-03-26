@@ -9,6 +9,7 @@ use hipanel\widgets\DateTimePicker;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\JsExpression;
 
 /**
  * @var Part[] $parts
@@ -120,10 +121,22 @@ JS
 
 <div id="part-sell-fields" class="row">
     <div class="col-md-6">
-        <?= $form->field($model, 'client_id')->widget(ClientCombo::class) ?>
+        <?= $form->field($model, 'client_id')->widget(ClientCombo::class, [
+            'pluginOptions' => [
+                'select2Options' => [
+                    'dropdownParent' => new JsExpression('$(".modal.in")'),
+                ],
+            ],
+        ]) ?>
     </div>
     <div class="col-md-6">
-        <?= $form->field($model, 'contact_id')->widget(ContactCombo::class) ?>
+        <?= $form->field($model, 'contact_id')->widget(ContactCombo::class, [
+            'pluginOptions' => [
+                'select2Options' => [
+                    'dropdownParent' => new JsExpression('$(".modal.in")'),
+                ],
+            ],
+        ]) ?>
     </div>
     <div class="col-md-6">
         <?= $form->field($model, 'time')->widget(DateTimePicker::class, [
@@ -156,6 +169,7 @@ JS
                 'pluginOptions' => [
                     'select2Options' => [
                         'allowClear' => false,
+                        'dropdownParent' => new JsExpression('$(".modal.in")'),
                     ],
                 ],
             ]) ?>

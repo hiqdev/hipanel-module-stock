@@ -9,6 +9,7 @@ use hipanel\modules\stock\widgets\combo\ContactCombo;
 use hipanel\widgets\DateTimePicker;
 use yii\helpers\Url;
 use yii\helpers\Html;
+use yii\web\JsExpression;
 
 /** @var array $partsByModelType */
 /** @var PartSellByPlanForm $model */
@@ -51,12 +52,33 @@ JS
 
 <div id="part-sell-fields" class="row">
     <div class="col-md-6">
-        <?= $form->field($model, 'client_id')->widget(ClientCombo::class) ?>
+        <?= $form->field($model, 'client_id')->widget(ClientCombo::class, [
+            'pluginOptions' => [
+                'select2Options' => [
+                    'dropdownParent' => new JsExpression('$(".modal.in")'),
+                ],
+            ],
+        ]) ?>
         <?= $form->field($model, 'description')->textarea(['rows' => 5]) ?>
     </div>
     <div class="col-md-6">
-        <?= $form->field($model, 'contact_id')->widget(ContactCombo::class) ?>
-        <?= $form->field($model, 'plan_id')->widget(PlanCombo::class, ['tariffType' => [Plan::TYPE_HARDWARE]]) ?>
+        <?= $form->field($model, 'contact_id')->widget(ContactCombo::class, [
+            'pluginOptions' => [
+                'select2Options' => [
+                    'dropdownParent' => new JsExpression('$(".modal.in")'),
+                ],
+            ],
+        ]) ?>
+        <?= $form->field($model, 'plan_id')->widget(PlanCombo::class, [
+            'tariffType' => [
+                Plan::TYPE_HARDWARE,
+            ],
+            'pluginOptions' => [
+                'select2Options' => [
+                    'dropdownParent' => new JsExpression('$(".modal.in")'),
+                ],
+            ],
+        ]) ?>
         <?= $form->field($model, 'time')->widget(DateTimePicker::class, ['clientOptions' => ['todayBtn' => true]]) ?>
     </div>
 </div>

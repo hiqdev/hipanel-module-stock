@@ -1,7 +1,6 @@
 <?php
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
-use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\ContactCombo;
 use hipanel\modules\finance\widgets\combo\BillHwPurchaseCombo;
@@ -12,7 +11,7 @@ use yii\helpers\Url;
 use yii\web\JsExpression;
 
 /**
- * @var Part[] $parts
+ * @var Part[] $partsByModelType
  * @var array $currencyOptions
  */
 $this->registerCss('
@@ -178,14 +177,8 @@ JS
 </div>
 
 <div class="well well-sm parts-for-sell">
-    <legend><?= Yii::t('hipanel:stock', 'Parts') ?></legend>
-    <?php $byType = []; ?>
-    <?php $parts = PartSort::byGeneralRules()->values($parts); ?>
-    <?php foreach ($parts as $part) : ?>
-        <?php $byType[$part->model_type_label][] = $part ?>
-    <?php endforeach; ?>
-
-    <?php foreach ($byType as $type => $typeParts): ?>
+    <?= Html::tag('legend', Yii::t('hipanel:stock', 'Parts')) ?>
+    <?php foreach ($partsByModelType as $type => $typeParts): ?>
         <h3><?= $type ?></h3>
         <?php foreach (array_chunk($typeParts, 2) as $row): ?>
             <div class="row">

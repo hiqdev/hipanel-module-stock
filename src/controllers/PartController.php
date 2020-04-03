@@ -517,7 +517,7 @@ class PartController extends CrudController
         $session = Yii::$app->session;
         if ($model->load($request->post()) && $model->validate()) {
             try {
-                $resp = Part::batchPerform('sell', $model->getAttributes());
+                Part::batchPerform('sell', $model->getAttributes());
                 $session->addFlash('success', Yii::t('hipanel:stock', 'Parts have been successfully sold.'));
             } catch (\Exception $e) {
                 $session->addFlash('error', $e->getMessage());
@@ -526,12 +526,13 @@ class PartController extends CrudController
             return $this->redirect($request->referrer);
         }
         $parts = $action->fetchModels();
+        $partsByModelType = $this->sortByModelType($parts);
         $currencyOptions = $this->getCurrencyTypes();
-        array_walk($currencyOptions, function (&$value, $key) {
+        array_walk($currencyOptions, static function (&$value, $key): void {
             $value = StringHelper::getCurrencySymbol($key);
         });
 
-        return $this->renderAjax('modals/sell', compact('model', 'parts', 'currencyOptions'));
+        return $this->renderAjax('modals/sell', compact('model', 'partsByModelType', 'currencyOptions'));
     }
 
     public function actionSellByPlan()
@@ -551,12 +552,25 @@ class PartController extends CrudController
             return $this->redirect($request->referrer);
         }
         $parts = $action->fetchModels();
-        $partsByModelType = [];
-        foreach (PartSort::byGeneralRules()->values($parts) as $part) {
-            $partsByModelType[$part->model_type_label][] = $part;
-        }
+        $partsByModelType = $this->sortByModelType($parts);
 
         return $this->renderAjax('modals/sell-by-plan', compact('model', 'partsByModelType'));
+    }
+
+    /**
+     * @param Part[] $parts
+     * @return array
+     */
+    private function sortByModelType(array $parts = []): array
+    {
+        $partsByModelType = [];
+        if (!empty($parts)) {
+            foreach (PartSort::byGeneralRules()->values($parts) as $part) {
+                $partsByModelType[$part->model_type_label][] = $part;
+            }
+        }
+
+        return $partsByModelType;
     }
 
     public function actionCalculateSellTotal()

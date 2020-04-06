@@ -80,6 +80,7 @@ $showFooter = ($uiModel->representation === 'profit-report')
                             AjaxModalWithTemplatedButton::widget([
                                 'ajaxModalOptions' => [
                                     'bulkPage' => true,
+                                    'usePost' => true,
                                     'id' => 'parts-sell',
                                     'scenario' => 'sell',
                                     'actionUrl' => ['sell'],
@@ -97,6 +98,7 @@ $showFooter = ($uiModel->representation === 'profit-report')
                             Yii::$app->user->can('test.alpha') ? AjaxModalWithTemplatedButton::widget([
                                 'ajaxModalOptions' => [
                                     'bulkPage' => true,
+                                    'usePost' => true,
                                     'id' => 'parts-sell-by-plan',
                                     'scenario' => 'sell',
                                     'actionUrl' => ['sell-by-plan'],

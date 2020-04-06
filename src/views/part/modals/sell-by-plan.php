@@ -14,16 +14,17 @@ use yii\web\JsExpression;
 /** @var array $partsByModelType */
 /** @var PartSellByPlanForm $model */
 
-$this->registerJs(/** @lang ECMAScript 6 */
-    <<<JS
+$this->registerJs(/** @lang ECMAScript 6 */<<<JS
 function setContactFieldByClientName(selectedClientId, selectedClientName) {
     jQuery.post('/client/contact/search', {return: ['id', 'name', 'email'], select: 'min', client: selectedClientName}).done(function (contacts) {
-        let autoContact = contacts.filter(contact => contact.id === selectedClientId);    
+        const autoContact = contacts.filter(contact => parseInt(contact.id) === parseInt(selectedClientId));
         if (autoContact.length > 0) {
+            const contact = autoContact[0];
+            const login = contact.name.length === 0 ? contact.email : contact.name;
             $('#partsellbyplanform-contact_id')
                 .empty()
-                .append('<option value="' + autoContact[0].id + '">'+ autoContact[0].name + '</option>')
-                .val(autoContact[0]['id'])
+                .append('<option value="' + contact.id + '">'+ login + '</option>')
+                .val(contact.id)
                 .trigger('change');
         } else {
             $('#partsellbyplanform-contact_id').empty();

@@ -95,7 +95,7 @@ $showFooter = ($uiModel->representation === 'profit-report')
                                 ],
                                 'toggleButtonTemplate' => '<li>{toggleButton}</li>',
                             ]),
-                            Yii::$app->user->can('test.alpha') ? AjaxModalWithTemplatedButton::widget([
+                            AjaxModalWithTemplatedButton::widget([
                                 'ajaxModalOptions' => [
                                     'bulkPage' => true,
                                     'usePost' => true,
@@ -112,7 +112,7 @@ $showFooter = ($uiModel->representation === 'profit-report')
                                     ],
                                 ],
                                 'toggleButtonTemplate' => '<li>{toggleButton}</li>',
-                            ]) : null,
+                            ]),
                         ])
                     ]) ?>
                 </div>

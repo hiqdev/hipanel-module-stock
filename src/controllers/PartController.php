@@ -63,7 +63,7 @@ class PartController extends CrudController
                     'move' => 'move.create',
                     'move-by-one' => 'move.create',
                     'sell' => 'part.sell',
-                    'sell-by-plan' => 'test.alpha',
+                    'sell-by-plan' => 'part.sell',
                     'delete' => 'part.delete',
                     'calculate-sell-sum' => 'part.sell',
 

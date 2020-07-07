@@ -124,7 +124,7 @@ JS
                     <?php
                     if (!$model->isNewRecord) {
                         $fileName = '_' . $model->type;
-                        $path = Yii::getAlias('@hipanel/modules/stock/views/model/' . $fileName . '.php');
+                        $path = __DIR__ . '/' . $fileName . '.php';
                         if (in_array($model->type, $this->context->getCustomType()) && is_file($path)) {
                             echo $this->render('_' . $model->type, ['form' => $form, 'model' => $model, 'i' => (int)$i]);
                         }

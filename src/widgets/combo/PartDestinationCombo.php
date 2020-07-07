@@ -38,7 +38,7 @@ class PartDestinationCombo extends DestinationCombo
     {
         parent::init();
         $this->inputOptions['data-destination-field'] = true;
-        $spinner = Yii::$app->assetManager->publish(Yii::getAlias('@hipanel/modules/stock/assets/img/select2-loader.gif'))[1];
+        $spinner = Yii::$app->assetManager->publish(dirname(__DIR__, 2) . '/assets/img/select2-loader.gif')[1];
         $this->view->registerCss("
         .select2-container--open .select2-selection.select2-loading {
             background-image: url('{$spinner}');

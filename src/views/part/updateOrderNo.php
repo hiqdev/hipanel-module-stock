@@ -2,6 +2,7 @@
 
 use hipanel\helpers\Url;
 use hipanel\widgets\DynamicFormWidget;
+use hipanel\modules\stock\widgets\combo\OrderCombo;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\helpers\ArrayHelper;
@@ -43,7 +44,19 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="item">
             <?= Html::activeHiddenInput($model, "[$firstMoveId]first_move_id") ?>
             <div class="box">
-                <div class="box-header with-border"><?= $form->field(reset($group), "[$firstMoveId]order_no") ?></div>
+                <div class="box-header with-border">
+                    <?= $form->field(reset($group), "[$firstMoveId]order_id")->widget(OrderCombo::class, [
+                        'pluginOptions' => [
+                            'select2Options' => $model->isNewRecord ? [] : [
+                                'templateSelection' => new \yii\web\JsExpression("
+                                    function (data, container) {
+                                        return data.text;
+                                    }
+                                "),
+                            ],
+                        ],
+                    ]) ?>
+                </div>
                 <div class="box-body">
                     <?php foreach ($group as $i => $model) : ?>
                         <?= Html::activeHiddenInput($model, "[$firstMoveId][ids]id") ?>

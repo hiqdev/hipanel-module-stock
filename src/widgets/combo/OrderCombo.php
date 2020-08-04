@@ -16,8 +16,12 @@ class OrderCombo extends Combo
     public $url = '/stock/order/search';
 
     /** {@inheritdoc} */
-    public $_return = ['id', 'seller', 'no'];
+    public $_return = ['id'];
 
     /** {@inheritdoc} */
     public $_primaryFilter = 'name_ilike';
+
+    /** {@inheritdoc} */
+    public $_rename = ['text' => 'name'];
+
 }

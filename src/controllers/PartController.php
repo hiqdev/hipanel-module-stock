@@ -255,6 +255,15 @@ class PartController extends CrudController
                         'currencyTypes' => $action->controller->getCurrencyTypes(),
                     ];
                 },
+                'POST html' => [
+                    'save'    => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                        'url'   => function ($action) {
+                            return MoveController::getSearchUrl(['id' => $action->model->id]);
+                        },
+                    ],
+                ],
             ],
             'repair' => [
                 'class' => SmartUpdateAction::class,

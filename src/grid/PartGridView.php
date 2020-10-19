@@ -43,7 +43,7 @@ class PartGridView extends BoxedGridView
             'serial' => [
                 'label' => Yii::t('hipanel:stock', 'Serial'),
                 'filterOptions' => ['class' => 'narrow-filter'],
-                'filterAttribute' => 'serial_like',
+                'filterAttribute' => 'serial_ilike',
                 'format' => 'html',
                 'value' => function ($model) {
                     return Html::a($model->serial, ['@part/view', 'id' => $model->id], ['class' => 'text-bold']);

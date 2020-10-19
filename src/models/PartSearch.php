@@ -26,7 +26,7 @@ class PartSearch extends Part
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
             'model_types', 'model_brands',
             'model_type_like', 'model_brand_like',
-            'partno_like', 'serial_like',
+            'partno_like', 'serial_ilike',
             'order_no_ilike', 'order_data_like',
             'src_name_like', 'dst_name_like', 'move_descr_like', 'move_descr_ilike',
             'create_time_from', 'create_time_till', 'id_in', 'buyer_in', 'partno_inilike', 'partno_in',
@@ -41,7 +41,7 @@ class PartSearch extends Part
             'place_in'          => Yii::t('hipanel:stock', 'Location'),
             'partno_like'       => Yii::t('hipanel:stock', 'Part No.'),
             'partno_inilike'    => Yii::t('hipanel:stock', 'Part No.'),
-            'serial_like'       => Yii::t('hipanel:stock', 'Serial'),
+            'serial_ilike'      => Yii::t('hipanel:stock', 'Serial'),
             'order_data_like'   => Yii::t('hipanel:stock', 'Order'),
             'move_descr_like'   => Yii::t('hipanel:stock', 'Move description'),
             'move_descr_ilike'  => Yii::t('hipanel:stock', 'Move description'),

@@ -95,7 +95,7 @@ class Model extends YiiModel
                 ],
                 'safe',
             ],
-            [['is_favourite', 'show_deleted'], 'boolean'],
+            [['is_favorite', 'show_deleted'], 'boolean'],
             [['id', 'type_id', 'tariff_id', 'group_id'], 'integer'],
 
             // Delete
@@ -126,6 +126,7 @@ class Model extends YiiModel
             'show_deleted' => Yii::t('hipanel:stock', 'Show deleted'),
             'group' => Yii::t('hipanel:stock', 'Group'),
             'group_id' => Yii::t('hipanel:stock', 'Group'),
+            'is_favorite' => Yii::t('hipanel:stock', 'Is favorite'),
             // Chassis
             'UNITS_QTY' => Yii::t('hipanel:stock', 'Units'),
             '35_HDD_QTY' => Yii::t('hipanel:stock', '3.5" HDD'),

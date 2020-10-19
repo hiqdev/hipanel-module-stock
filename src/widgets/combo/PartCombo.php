@@ -20,4 +20,6 @@ class PartCombo extends Combo
 
     /** {@inheritdoc} */
     public $_rename = ['text' => 'serial'];
+
+    public $_primaryFilter = 'serial_ilike';
 }

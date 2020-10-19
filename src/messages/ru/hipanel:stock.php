@@ -149,4 +149,5 @@ return [
     'In order to use the automatic serials generation, the field should look like: <samp>[number of generated serials]_</samp>' => 'Для использования функции автоматического создания серийных номеров поле должно выглядеть так: <samp>[количество необходимых серийников]_</samp>',
     'Sell parts by tariff plan' => 'Продать по тарифу',
     'Tariff plan' => 'Тарифный план',
+    'Is favorite' => 'Популярные',
 ];

@@ -215,6 +215,11 @@ class Part extends \hipanel\base\Model
         ];
     }
 
+    public function isTrashed(): bool
+    {
+        return in_array(mb_strtolower($this->dst_name), ['trash', 'trash_rma'], true);
+    }
+
     public function isDeletable(): bool
     {
         return $this->first_move_id === $this->last_move_id;

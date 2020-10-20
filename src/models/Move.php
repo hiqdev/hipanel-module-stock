@@ -96,4 +96,9 @@ class Move extends \hipanel\base\Model
             return Html::a('HM4::' . $m[1], $m[0]);
         }, $descr);
     }
+
+    public function isTrashed(): bool
+    {
+        return in_array(mb_strtolower($this->dst_name), ['trash', 'trash_rma']);
+    }
 }

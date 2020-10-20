@@ -38,7 +38,7 @@ class PartGridLegend extends BaseGridLegend implements GridLegendInterface
             [
                 'label' => ['hipanel:stock', 'TRASH'],
                 'color' => '#fcf8e3',
-                'rule' => in_array(mb_strtolower($this->model->dst_name), ['trash', 'trash_rma']),
+                'rule' => $this->model->isTrashed(),
             ],
         ];
     }

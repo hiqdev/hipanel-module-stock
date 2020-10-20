@@ -242,6 +242,13 @@ class PartGridView extends BoxedGridView
                         'prompt' => Yii::t('hipanel', '----------'),
                     ]);
                 },
+                'format' => 'raw',
+                'value' => static function (Part $model) {
+                    if ($model->isTrashed()) {
+                        return $model->place;
+                    }
+                    return Html::tag('b', $model->dst_name) . Html::tag('span', $model->place, ['style' => 'margin-left:1em']);
+                },
             ],
             'model_group' => [
                 'label' => Yii::t('hipanel:stock', 'Model group'),

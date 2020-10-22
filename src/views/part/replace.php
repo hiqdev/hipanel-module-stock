@@ -36,7 +36,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'partno',
         'src_id',
         'dst_id',
-        'serials',
+        'serial',
         'move_type',
         'supplier',
         'order_no',
@@ -46,6 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container-items">
     <?php foreach ($models as $i => $model) : ?>
         <?= Html::activeHiddenInput($model, "[$i]id") ?>
+        <?= Html::activeHiddenInput($model, "[$i]move_type") ?>
         <div class="item">
             <?php Box::begin() ?>
             <div class="row input-row margin-bottom">
@@ -63,11 +64,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
                 </div>
                 <div class="col-md-6">
-                    <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
+                    <?= $form->field($model, "[$i]serial")->textInput() ?>
                     <div class="row">
-                        <div class="col-md-4">
-                            <?= $form->field($model, "[$i]move_type")->dropDownList($model->filterTypes($moveTypes, $model->scenario)) ?>
-                        </div>
                         <div class="col-md-4">
                             <?= $form->field($model, "[$i]supplier")->dropDownList($suppliers) ?>
                         </div>

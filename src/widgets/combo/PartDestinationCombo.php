@@ -18,17 +18,19 @@ class PartDestinationCombo extends DestinationCombo
         return parent::getPluginOptions([
             'select2Options' => [
                 'tags' => true,
-                'createTag' => new JsExpression("function (params) {
-                    // Do not create tag if term has not contains dash symbol
-                    if (params.term.includes('-') === false) {
-                        return null;
-                    }
+                'createTag' => new JsExpression("
+                    function (params) {
+                        // Do not create tag if term has not contains dash symbol
+                        if (params.term.includes('-') === false) {
+                            return null;
+                        }
 
-                    return {
-                      id: params.term,
-                      text: params.term
+                        return {
+                          id: params.term,
+                          text: params.term
+                        }
                     }
-                }"),
+                "),
             ],
         ]);
     }
@@ -56,7 +58,7 @@ class PartDestinationCombo extends DestinationCombo
                     url: '/stock/part/resolve-destination-range',
                     data: event.params.args.data,
                     beforeSend: function () {
-                        loading.toggleClass('select2-loading');    
+                        loading.toggleClass('select2-loading');
                     },
                     success: function(event, data) {
                         if (data.length) {
@@ -66,9 +68,9 @@ class PartDestinationCombo extends DestinationCombo
                                 Select2.constructor.__super__.trigger.call(Select2, 'select', event.params.args);
                             });
                         } else {
-                            hipanel.notify.error('Nothing found in the range specified');
+                            hipanel.notify.error('Nothing found in the specified range');
                         }
-                        loading.toggleClass('select2-loading');    
+                        loading.toggleClass('select2-loading');
                     }.bind(null, event),
                     error: function() {
                         hipanel.notify.error('Failed to assign range!');
@@ -94,4 +96,3 @@ class PartDestinationCombo extends DestinationCombo
         ]);
     }
 }
-

@@ -26,6 +26,7 @@ use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\StringHelper;
 use hipanel\modules\server\models\Server;
+use hipanel\modules\stock\actions\ResolveRange;
 use hipanel\modules\stock\actions\ValidateSellFormAction;
 use hipanel\modules\stock\forms\PartSellByPlanForm;
 use hipanel\modules\stock\forms\PartSellForm;
@@ -141,7 +142,7 @@ class PartController extends CrudController
                     }
                     $action->collection->setModel($this->newModel(['scenario' => 'update']));
                     $action->collection->load($parts);
-                }
+                },
             ],
             'update-order-no' => [
                 'class' => SmartUpdateAction::class,
@@ -163,11 +164,11 @@ class PartController extends CrudController
                     }
                     $action->collection->setModel($this->newModel(['scenario' => 'update-order-no']));
                     $action->collection->load($data);
-                }
+                },
             ],
             'index' => [
                 'class' => IndexAction::class,
-                'view'  => 'index',
+                'view' => 'index',
                 'on beforePerform' => function (Event $event) {
                     /** @var ActiveQuery $query */
                     $query = $event->sender->getDataProvider()->query;
@@ -256,10 +257,10 @@ class PartController extends CrudController
                     ];
                 },
                 'POST html' => [
-                    'save'    => true,
+                    'save' => true,
                     'success' => [
                         'class' => RedirectAction::class,
-                        'url'   => function ($action) {
+                        'url' => function ($action) {
                             return MoveController::getSearchUrl(['id' => $action->model->id]);
                         },
                     ],
@@ -453,6 +454,9 @@ class PartController extends CrudController
                     'model' => new PartSellByPlanForm(),
                 ],
             ],
+            'resolve-destination-range' => [
+                'class' => ResolveRange::class,
+            ],
         ]);
     }
 
@@ -591,30 +595,10 @@ class PartController extends CrudController
         $request = Yii::$app->request;
         if ($request->isAjax && $model->load($request->post())) {
             return [
-                'total' => Yii::$app->formatter->asCurrency($model->totalSum, $model->currency)
+                'total' => Yii::$app->formatter->asCurrency($model->totalSum, $model->currency),
             ];
         }
 
         throw new ConflictHttpException();
-    }
-
-    public function actionResolveDestinationRange(): array
-    {
-        $result = [];
-        Yii::$app->response->format = Response::FORMAT_JSON;
-        $range = Yii::$app->request->post('id');
-        if ($range) {
-            $servers = Server::find()->where([
-                'name_like' => $range,
-                'types' => Part::getDestinationSubTypes(),
-                'primary_only' => true,
-            ])->limit(-1)->all();
-
-            foreach ($servers as $server) {
-                $result[] = ['id' => $server->id, 'text' => $server->name];
-            }
-        }
-
-        return $result;
     }
 }

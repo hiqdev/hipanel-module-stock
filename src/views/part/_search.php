@@ -7,6 +7,7 @@ use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
+use hipanel\modules\stock\widgets\RangeCombo;
 use hiqdev\combo\StaticCombo;
 use hipanel\widgets\RefCombo;
 use hipanel\widgets\DateTimePicker;
@@ -62,13 +63,15 @@ use yii\helpers\Html;
 <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('move_descr_ilike') ?></div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('src_name_like')->widget(SourceCombo::class) ?>
+    <?= $search->field('src_name_in')->widget(RangeCombo::class, [
+        'name' => 'src_ids',
+        'useDstTypes' => false,
+    ]) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('dst_name_in')->widget(DestinationCombo::class, [
-        'primaryFilter' => 'name_inilike',
-        'multiple' => true,
+    <?= $search->field('dst_name_in')->widget(RangeCombo::class, [
+        'name' => 'dst_ids',
     ]) ?>
 </div>
 

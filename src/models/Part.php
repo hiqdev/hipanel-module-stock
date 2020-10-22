@@ -210,7 +210,6 @@ class Part extends \hipanel\base\Model
             'repair' => 'move',
             'copy' => 'create',
             'trash' => 'move',
-            'replace' => 'move',
             'move-by-one' => 'move',
         ];
     }

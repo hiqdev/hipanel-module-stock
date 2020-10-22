@@ -269,7 +269,8 @@ class PartController extends CrudController
             'repair' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
-                'data' => function ($action) {
+                'data' => static function ($action, $data) {
+                    array_map(fn ($model) => $model->move_type = 'repair', $data['models']);
                     return [
                         'moveTypes' => $action->controller->getMoveTypes('backrma'),
                         'suppliers' => $action->controller->getSuppliers(),
@@ -331,7 +332,8 @@ class PartController extends CrudController
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'replace',
                 'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
-                'data' => function ($action) {
+                'data' => static function ($action, $data) {
+                    array_map(fn ($model) => $model->move_type = 'replace', $data['models']);
                     return [
                         'moveTypes' => $action->controller->getMoveTypes('backrma'),
                         'suppliers' => $action->controller->getSuppliers(),

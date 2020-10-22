@@ -44,6 +44,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container-items">
     <?php foreach ($models as $i => $model) : ?>
         <?= Html::activeHiddenInput($model, "[$i]id") ?>
+        <?= Html::activeHiddenInput($model, "[$i]move_type") ?>
         <div class="item">
             <?php Box::begin() ?>
             <div class="row input-row margin-bottom">
@@ -62,11 +63,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <div class="col-md-6">
                         <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <?= $form->field($model, "[$i]move_type")->dropDownList($moveTypes) ?>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <?= $form->field($model, "[$i]move_descr") ?>

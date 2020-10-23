@@ -71,14 +71,14 @@ echo \hipanel\grid\GridView::widget([
         [
             'label' => Yii::t('hipanel:stock', 'Manufacturer'),
             'attribute' => 'model_brand_label',
-            'value' => function ($models) {
+            'value' => static function ($models) {
                 return implode(', ', array_unique(array_map(fn ($parts) => reset($parts)->model_brand_label, $models)));
             }
         ],
         [
             'label' => Yii::t('hipanel.finance.price', 'Price'),
             'attribute' => 'price',
-            'value' => function ($models) {
+            'value' => static function ($models) {
                 return implode(', ', array_map(static function ($parts) {
                     $part = reset($parts);
                     if (empty($part->price)) {
@@ -92,7 +92,7 @@ echo \hipanel\grid\GridView::widget([
             'label' => Yii::t('hipanel:stock', 'Order No.'),
             'format' => 'raw',
             'attribute' => 'order_no',
-            'value' => function ($models) {
+            'value' => static function ($models) {
                 return implode(', ', array_map(static function ($parts) {
                     $part = reset($parts);
                     return Html::a($part->order_no, ['@order/view', 'id' => $part->order_id]);

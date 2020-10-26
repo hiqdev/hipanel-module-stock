@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
+use hipanel\modules\stock\forms\PartSellForm;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\ContactCombo;
 use hipanel\modules\finance\widgets\combo\BillHwPurchaseCombo;
@@ -13,7 +14,9 @@ use yii\web\JsExpression;
 /**
  * @var Part[] $partsByModelType
  * @var array $currencyOptions
+ * @var PartSellForm $model
  */
+
 $this->registerCss('
 .part-sell-total-container {
     text-transform: uppercase;
@@ -140,6 +143,7 @@ JS
     <div class="col-md-6">
         <?= $form->field($model, 'time')->widget(DateTimePicker::class, [
             'clientOptions' => [
+                'endDate' => date('Y-m-d'),
                 'todayBtn' => true,
             ],
         ]) ?>

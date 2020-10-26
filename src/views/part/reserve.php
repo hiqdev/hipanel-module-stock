@@ -52,6 +52,7 @@ $scenario = $this->context->action->scenario;
                     <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
                 </div>
                 <div class="col-md-2">
+                    <?php $model->src_id = $model->dst_id ?>
                     <?= $form->field($model, "[$i]src_name")->textInput(['readonly' => true]) ?>
                 </div>
                 <div class="col-md-3">

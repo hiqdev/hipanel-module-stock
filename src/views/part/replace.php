@@ -56,6 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'readonly' => true,
                         ],
                     ]) ?>
+                    <?php $model->src_id = $model->dst_id ?>
                     <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class, [
                         'inputOptions' => [
                             'readonly' => true,

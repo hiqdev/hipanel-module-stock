@@ -13,6 +13,7 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\Model as YiiModel;
 use hipanel\base\ModelTrait;
+use hipanel\modules\stock\Module;
 use Yii;
 
 /**
@@ -62,14 +63,9 @@ class ModelGroup extends YiiModel
         return $this->mergeAttributeLabels($this->getSupportedLimitTypes());
     }
 
-    public function getSupportedLimitTypes()
+    public function getSupportedLimitTypes(): array
     {
-        return [
-            'dtg' => Yii::t('hipanel:stock', 'DTG'),
-            'sdg' => Yii::t('hipanel:stock', 'SDG'),
-            'm3' => Yii::t('hipanel:stock', 'M3'),
-            'twr' => Yii::t('hipanel:stock', 'TWR'),
-        ];
+        return Yii::$container->get(Module::class)->stocksList;
     }
 
     public function getLimitTypesAsAttributes()

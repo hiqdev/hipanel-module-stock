@@ -7,6 +7,12 @@ use hipanel\widgets\IndexPage;
 use hipanel\widgets\MainDetails;
 use yii\helpers\Html;
 
+/**
+ * @var \yii\web\View $this
+ * @var \hipanel\modules\stock\models\ModelGroup $model
+ * @var \hipanel\modules\stock\Module $module
+ */
+
 $this->title = Html::encode($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Model groups'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -66,10 +72,7 @@ $a = array_keys($model->getSupportedLimitTypes());
                             'model',
                             'descr',
                             'partno',
-                            'dtg',
-                            'sdg',
-                            'm3',
-                            'twr',
+                            ...array_keys($module->stocksList),
                             'last_prices',
                         ],
                     ]) ?>

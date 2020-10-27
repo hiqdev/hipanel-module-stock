@@ -13,14 +13,23 @@ namespace hipanel\modules\stock\grid;
 
 use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
-use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\stock\models\Model;
+use hipanel\modules\stock\Module;
 use Yii;
 use yii\helpers\Html;
 
 class ModelGridView extends BoxedGridView
 {
+    private Module $module;
+
+    public function __construct(Module $module, $config = [])
+    {
+        $this->module = $module;
+
+        parent::__construct($config);
+    }
+
     public function columns()
     {
         return array_merge(parent::columns(), [
@@ -67,38 +76,6 @@ class ModelGridView extends BoxedGridView
                 'enableSorting' => false,
                 'filterAttribute' => 'descr_like',
             ],
-            'dtg' => [
-                'enableSorting' => false,
-                'filter' => false,
-                'format' => 'raw',
-                'value' => function (Model $model) {
-                    return $model->renderReserves('dtg');
-                },
-            ],
-            'sdg' => [
-                'enableSorting' => false,
-                'filter' => false,
-                'format' => 'raw',
-                'value' => function (Model $model) {
-                    return $model->renderReserves('sdg');
-                },
-            ],
-            'm3' => [
-                'enableSorting' => false,
-                'filter' => false,
-                'format' => 'raw',
-                'value' => function (Model $model) {
-                    return $model->renderReserves('m3');
-                },
-            ],
-            'twr' => [
-                'enableSorting' => false,
-                'filter' => false,
-                'format' => 'raw',
-                'value' => function (Model $model) {
-                    return $model->renderReserves('twr');
-                },
-            ],
             'last_prices' => [
                 'label' => Yii::t('hipanel:stock', 'Last price'),
                 'enableSorting' => false,
@@ -127,6 +104,22 @@ class ModelGridView extends BoxedGridView
                 'template' => '{view} {update}',
                 'header' => Yii::t('hipanel', 'Actions'),
             ],
-        ]);
+        ], $this->generateStockColumns());
+    }
+
+    private function generateStockColumns(): array
+    {
+        $result = [];
+        foreach ($this->module->stocksList as $name => $label) {
+            $result[$name] = [
+                'enableSorting' => false,
+                'filter' => false,
+                'format' => 'raw',
+                'label' => $label,
+                'value' => fn (Model $model) => $model->renderReserves($name),
+            ];
+        }
+
+        return $result;
     }
 }

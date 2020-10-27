@@ -52,6 +52,9 @@ class ModelGroupController extends CrudController
             ],
             'index' => [
                 'class' => IndexAction::class,
+                'data' => [
+                    'module' => $this->module,
+                ]
             ],
             'create' => [
                 'class' => SmartCreateAction::class,
@@ -71,6 +74,9 @@ class ModelGroupController extends CrudController
             ],
             'view' => [
                 'class' => ViewAction::class,
+                'data' => [
+                    'module' => $this->module,
+                ]
             ],
         ]);
     }

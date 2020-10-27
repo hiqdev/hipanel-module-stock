@@ -12,6 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
  * @var \yii\web\View $this
  * @var \hiqdev\hiart\ActiveDataProvider $dataProvider
  * @var \hipanel\modules\stock\models\ModelGroupSearch $model
+ * @var \hipanel\modules\stock\Module $module
  */
 
 ?>
@@ -50,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $model,
             'boxed' => false,
-            'columns' => array_merge(['checkbox', 'name'], array_keys($model->getSupportedLimitTypes()), ['descr'])
+            'columns' => array_merge(['checkbox', 'name'], array_keys($module->stocksList), ['descr'])
         ]) ?>
         <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>

@@ -9,6 +9,10 @@
  * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
  */
 
+/**
+ * @var array $params
+ */
+
 return [
     'aliases' => [
         '@model'          => '/stock/model',
@@ -38,6 +42,11 @@ return [
         ],
     ],
     'container' => [
+        'singletons' => [
+            \hipanel\modules\stock\Module::class => [
+                'stocksList' => $params['module.stock.stocks_list'] ?? [],
+            ],
+        ],
         'definitions' => [
             \hipanel\modules\dashboard\menus\DashboardMenu::class => [
                 'add' => [

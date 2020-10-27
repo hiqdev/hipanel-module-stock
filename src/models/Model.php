@@ -66,9 +66,6 @@ class Model extends YiiModel
                     'show_hidden_from_user',
                     'dcs',
                     'counters',
-                    'dtg',
-                    'sdg',
-                    'm3',
 
                     // Chassis
                     'UNITS_QTY',
@@ -154,11 +151,6 @@ class Model extends YiiModel
             'model_' => Yii::t('hipanel:stock', 'Model types'),
             'short' => Yii::t('hipanel:stock', 'Short'),
             'tags' => Yii::t('hipanel:stock', 'Tags'),
-            /// STOCKS
-            'dtg' => Yii::t('hipanel:stock', 'DTG'),
-            'sdg' => Yii::t('hipanel:stock', 'SDG'),
-            'm3' => Yii::t('hipanel:stock', 'M3'),
-            'twr' => Yii::t('hipanel:stock', 'TWR'),
         ]);
     }
 
@@ -211,7 +203,7 @@ class Model extends YiiModel
         return sprintf('%s %s %s', $this->type_label, $this->brand_label, $this->model);
     }
 
-    public function isDeleted()
+    public function isDeleted(): bool
     {
         return $this->state === self::STATE_DELETED;
     }

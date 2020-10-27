@@ -16,6 +16,7 @@ use hipanel\grid\BoxedGridView;
 use hipanel\grid\ColspanColumn;
 use hipanel\modules\stock\models\ModelGroup;
 use hipanel\modules\stock\models\ModelGroupSearch;
+use hipanel\modules\stock\Module;
 use Yii;
 use yii\helpers\Html;
 
@@ -23,6 +24,15 @@ class ModelGroupGridView extends BoxedGridView
 {
     /** @var ModelGroupSearch */
     public $filterModel;
+
+    private Module $module;
+
+    public function __construct(Module $module, $config = [])
+    {
+        $this->module = $module;
+
+        parent::__construct($config);
+    }
 
     public function columns()
     {
@@ -100,7 +110,7 @@ class ModelGroupGridView extends BoxedGridView
     protected function getLimitColumns(): array
     {
         $columns = [];
-        foreach ($this->filterModel->getSupportedLimitTypes() as $type => $label) {
+        foreach ($this->module->stocksList as $type => $label) {
             $columns[$type] = [
                 'class' => ColspanColumn::class,
                 'label' => $label,
@@ -110,9 +120,7 @@ class ModelGroupGridView extends BoxedGridView
                 'columns' => [
                     [
                         'format' => 'raw',
-                        'value' => function () {
-                            return '&nbsp;';
-                        },
+                        'value' => fn() => '&nbsp;',
                     ],
                     [
                         'label' => Yii::t('hipanel:stock', 'Stock'),

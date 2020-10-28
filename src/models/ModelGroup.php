@@ -14,6 +14,7 @@ namespace hipanel\modules\stock\models;
 use hipanel\base\Model as YiiModel;
 use hipanel\base\ModelTrait;
 use hipanel\modules\stock\Module;
+use hiqdev\hiart\ActiveQuery;
 use Yii;
 
 /**
@@ -46,9 +47,12 @@ class ModelGroup extends YiiModel
         return [
             [['id', 'num'], 'integer'],
             [['name', 'descr'], 'string'],
+            [['data'], 'safe', 'on' => ['create', 'update', 'copy']],
             [['model_ids', 'limits'], 'each', 'rule' => ['integer']],
             [['name'], 'required', 'on' => ['create', 'update']],
-            [['name'], 'unique', 'on' => ['create', 'update']],
+            [['name'], 'unique', 'filter' => function (ActiveQuery $query): void {
+                $query->andWhere(['ne', 'id', $this->id]);
+            }, 'on' => ['create', 'update']],
             [$limitAttributes, 'integer', 'on' => ['create', 'update', 'copy']],
             [$limitAttributes, 'default', 'value' => 0],
             [['id'], 'required', 'on' => ['update', 'delete']],
@@ -70,13 +74,7 @@ class ModelGroup extends YiiModel
 
     public function getLimitTypesAsAttributes()
     {
-
-        $limitAttributes = array_keys($this->getSupportedLimitTypes());
-        array_walk($limitAttributes, function (&$item) {
-            $item = 'limit_' . $item;
-        });
-
-        return $limitAttributes;
+        return array_keys($this->getSupportedLimitTypes());
     }
 
     public function getModels()
@@ -94,7 +92,7 @@ class ModelGroup extends YiiModel
         parent::afterFind();
 
         foreach ($this->getSupportedLimitTypes() as $attribute => $label) {
-            $this->{'limit_' . $attribute} = $this->limits[$attribute]['limit'];
+            $this->data['limit'][$attribute] = $this->limits[$attribute]['limit'];
         }
     }
 }

@@ -1,9 +1,13 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\modules\stock\models\ModelGroup;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+
+/** @var ModelGroup $model */
+/** @var ModelGroup[] $models */
 
 ?>
 
@@ -60,7 +64,7 @@ use yii\helpers\Html;
 
                         <?php foreach ($model->supportedLimitTypes as $type => $label) : ?>
                             <div class="col-md-1">
-                                <?= $form->field($model, "[$i]limit_$type")->label($label) ?>
+                                <?= $form->field($model, "[$i][data][limit]$type")->label($label) ?>
                             </div>
                         <?php endforeach; ?>
                     </div>

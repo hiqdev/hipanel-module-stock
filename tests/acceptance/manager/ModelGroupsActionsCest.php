@@ -52,14 +52,9 @@ class ModelGroupsActionsCest
                 ->setValue("TEST_" . $this->uniq . "_New_" . $i);
             (new Input($I, "//textarea[contains(@name, 'ModelGroup[$i][descr]')]"))
                 ->setValue("Test description for $i item");
-            (new Input($I, "//input[@name='ModelGroup[$i][limit_dtg]']"))
-                ->setValue(($i + 1) * 10);
-            (new Input($I, "//input[@name='ModelGroup[$i][limit_sdg]']"))
-                ->setValue(($i + 1) * 10);
-            (new Input($I, "//input[@name='ModelGroup[$i][limit_m3]']"))
-                ->setValue(($i + 1) * 10);
-            (new Input($I, "//input[@name='ModelGroup[$i][limit_twr]']"))
-                ->setValue(($i + 1) * 10);
+            foreach (['dtg', 'sdg', 'm3', 'twr_z4c', 'twr_z6g'] as $stock) {
+                (new Input($I, "//input[@name='ModelGroup[$i][data][limit][$stock]']"))->setValue(($i + 1) * 10);
+            }
         }
         $I->pressButton('Save');
         $I->waitForPageUpdate();

@@ -69,6 +69,7 @@ return [
     'Part has been updated' => 'Деталь изменена',
     'Parts' => 'Детали',
     'Parts have been moved' => 'Детали перемещены',
+    'Part has been replaced' => 'Деталь заменена',
     'Parts have been updated' => '',
     'Parts in move' => 'Парты в перемещении',
     'Price changed' => 'Цена изменена',

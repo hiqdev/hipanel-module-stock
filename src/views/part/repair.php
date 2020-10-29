@@ -3,6 +3,7 @@ use hipanel\helpers\Url;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
+use hipanel\modules\stock\widgets\PartSourceWidget;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
@@ -54,10 +55,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'readonly' => true,
                             ],
                         ]) ?>
-                        <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class, [
-                            'inputOptions' => [
-                                'readonly' => true,
-                            ],
+                        <?= PartSourceWidget::widget([
+                            'index' => $i,
+                            'model' => $model,
                         ]) ?>
                         <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
                     </div>

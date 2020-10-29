@@ -1,5 +1,6 @@
 <?php
 
+use hipanel\modules\stock\widgets\PartSourceWidget;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
 use yii\helpers\Html;
@@ -51,9 +52,10 @@ $scenario = $this->context->action->scenario;
                 <div class="col-md-2">
                     <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
                 </div>
-                <div class="col-md-2">
-                    <?= $form->field($model, "[$i]src_name")->textInput(['readonly' => true]) ?>
-                </div>
+                <?= PartSourceWidget::widget([
+                    'index' => $i,
+                    'model' => $model,
+                ]) ?>
                 <div class="col-md-3">
                     <?= $form->field($model, "[$i]reserve")->textInput(['readonly' => $scenario === 'unreserve']) ?>
                 </div>

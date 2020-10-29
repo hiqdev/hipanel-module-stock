@@ -16,6 +16,7 @@ use hipanel\base\ModelTrait;
 use hipanel\modules\stock\Module;
 use hiqdev\hiart\ActiveQuery;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class ModelGroup
@@ -92,7 +93,7 @@ class ModelGroup extends YiiModel
         parent::afterFind();
 
         foreach ($this->getSupportedLimitTypes() as $attribute => $label) {
-            $this->data['limit'][$attribute] = $this->limits[$attribute]['limit'];
+            $this->setAttribute('data', ArrayHelper::merge($this->data ?? [], ['limit' => [$attribute => $this->limits[$attribute]['limit']]]));
         }
     }
 }

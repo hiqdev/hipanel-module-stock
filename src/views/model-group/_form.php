@@ -64,7 +64,7 @@ use yii\helpers\Html;
 
                         <?php foreach ($model->supportedLimitTypes as $type => $label) : ?>
                             <div class="col-md-1">
-                                <?= $form->field($model, "[$i][data][limit]$type")->label($label) ?>
+                                <?= $form->field($model, "[$i]data[limit][$type]")->label($label) ?>
                             </div>
                         <?php endforeach; ?>
                     </div>

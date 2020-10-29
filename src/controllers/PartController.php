@@ -331,7 +331,7 @@ class PartController extends CrudController
             'replace' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'replace',
-                'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
+                'success' => Yii::t('hipanel:stock', 'Part has been replaced'),
                 'data' => static function ($action, $data) {
                     array_map(fn ($model) => $model->move_type = 'replace', $data['models']);
                     return [

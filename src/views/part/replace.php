@@ -52,16 +52,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php Box::begin() ?>
             <div class="row input-row margin-bottom">
                 <div class="col-md-6">
-                    <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class, [
-                        'inputOptions' => [
-                            'readonly' => true,
-                        ],
-                    ]) ?>
                     <?= PartSourceWidget::widget([
                         'index' => $i,
                         'model' => $model,
                     ]) ?>
                     <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
+                    <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class) ?>
                 </div>
                 <div class="col-md-6">
                     <?= $form->field($model, "[$i]serial")->textInput() ?>

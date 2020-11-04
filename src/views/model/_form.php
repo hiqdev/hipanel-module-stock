@@ -119,6 +119,7 @@ JS
                     </div>
                     <?= $form->field($model, "[$i]url") ?>
                     <?= $form->field($model, "[$i]descr")->textarea() ?>
+                    <?= $form->field($model, "[$i]is_favorite")->checkbox() ?>
                 </div>
                 <div class="col-md-4 my-dynamic-content">
                     <?php

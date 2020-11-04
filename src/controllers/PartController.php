@@ -16,6 +16,7 @@ use hipanel\actions\IndexAction;
 use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\RedirectAction;
 use hipanel\actions\RenderAction;
+use hipanel\actions\RenderSummaryAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
@@ -25,7 +26,6 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\StringHelper;
-use hipanel\modules\server\models\Server;
 use hipanel\modules\stock\actions\ResolveRange;
 use hipanel\modules\stock\actions\ValidateSellFormAction;
 use hipanel\modules\stock\forms\PartSellByPlanForm;
@@ -33,6 +33,7 @@ use hipanel\modules\stock\forms\PartSellForm;
 use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
+use hipanel\widgets\SummaryWidget;
 use hiqdev\hiart\ActiveQuery;
 use hiqdev\hiart\Collection;
 use Yii;
@@ -181,12 +182,17 @@ class PartController extends CrudController
                         $query->addSelect('selling');
                     }
                 },
-                'data' => function ($action, $data) {
-                    $local_sums = [];
-                    $total_sums = [];
-                    $representation = $this->indexPageUiOptionsModel->representation;
-                    if ($representation === 'report') {
-                        foreach ($data['dataProvider']->getModels() as $model) {
+                'GET ajax' => [
+                    'class' => RenderSummaryAction::class,
+                    'summary' => function (RenderSummaryAction $action) {
+                        $representation = $this->indexPageUiOptionsModel->representation;
+                        if ($representation !== 'report') {
+                            return '';
+                        }
+                        $dataProvider = $action->parent->getDataProvider();
+                        $local_sums = [];
+                        $total_sums = [];
+                        foreach ($dataProvider->getModels() as $model) {
                             $local_sums[$model->currency] += $model->price;
                         }
                         $query = $action->parent->dataProvider->query;
@@ -194,11 +200,17 @@ class PartController extends CrudController
                         foreach ($query->all() as $model) {
                             $total_sums[$model->currency] += $model->price;
                         }
+
+                        return SummaryWidget::widget([
+                            'local_sums' => $local_sums,
+                            'total_sums' => $total_sums,
+                        ]);
                     }
+                ],
+                'data' => function ($action) {
+                    $representation = $this->indexPageUiOptionsModel->representation;
 
                     return [
-                        'total_sums' => $total_sums,
-                        'local_sums' => $local_sums,
                         'representation' => $representation,
                         'types' => $action->controller->getTypes(),
                         'brands' => $action->controller->getBrands(),

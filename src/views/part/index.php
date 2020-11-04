@@ -7,7 +7,7 @@ use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
-use hipanel\widgets\SummaryWidget;
+use hipanel\widgets\SummaryHook;
 use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
@@ -17,8 +17,6 @@ use yii\helpers\Html;
  * @var \hipanel\models\IndexPageUiOptions $uiModel
  * @var \hipanel\modules\stock\grid\PartRepresentations $representationCollection
  * @var string[] $locations
- * @var float[] $local_sums
- * @var float[] $total_sums
  * @var \hipanel\modules\stock\models\PartSearch $model
  * @var \yii\web\View $this
  */
@@ -285,12 +283,7 @@ $showFooter = ($uiModel->representation === 'profit-report')
                 },
                 'filterModel' => $model,
                 'locations' => $locations,
-                'summaryRenderer' => function ($grid, $defaultSummaryCb) use ($local_sums, $total_sums) {
-                    return $defaultSummaryCb() . SummaryWidget::widget([
-                        'local_sums' => $local_sums,
-                        'total_sums' => $total_sums,
-                    ]);
-                },
+                'summaryRenderer' => static fn($grid, $defaultSummaryCb) => $defaultSummaryCb() . SummaryHook::widget(),
                 'showFooter' => $showFooter,
                 'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
             ]) ?>

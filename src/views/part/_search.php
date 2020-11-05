@@ -2,11 +2,10 @@
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\stock\widgets\combo\CompanyCombo;
-use hipanel\modules\stock\widgets\combo\DestinationCombo;
+use hipanel\modules\stock\widgets\combo\LocationsCombo;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
-use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hipanel\modules\stock\widgets\RangeCombo;
 use hiqdev\combo\StaticCombo;
 use hipanel\widgets\RefCombo;
@@ -15,7 +14,6 @@ use hiqdev\yii2\daterangepicker\DateRangePicker;
 use yii\helpers\Html;
 
 /**
- * @var array $locations
  * @var \yii\web\View $this
  * @var \hipanel\models\IndexPageUiOptions $uiModel
  * @var \hipanel\widgets\AdvancedSearch $search
@@ -80,11 +78,7 @@ use yii\helpers\Html;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('place_in')->widget(StaticCombo::class, [
-        'data' => $locations,
-        'hasId' => true,
-        'multiple' => true,
-    ]) ?>
+    <?= $search->field('place_in')->widget(LocationsCombo::class, ['multiple' => true]) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">

@@ -19,6 +19,7 @@ use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\stock\helpers\ProfitColumns;
 use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\models\Part;
+use hipanel\modules\stock\widgets\combo\LocationsCombo;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use Yii;
@@ -27,8 +28,6 @@ use yii\helpers\Html;
 
 class PartGridView extends BoxedGridView
 {
-    public $locations;
-
     /**
      * @return array
      */
@@ -237,9 +236,10 @@ class PartGridView extends BoxedGridView
             ],
             'place' => [
                 'filter' => function ($column, $model, $attribute) {
-                    return Html::activeDropDownList($model, 'place', $this->locations, [
-                        'class' => 'form-control',
-                        'prompt' => Yii::t('hipanel', '----------'),
+                    return LocationsCombo::widget([
+                        'model' => $model,
+                        'attribute' => $attribute,
+                        'formElementSelector' => 'td',
                     ]);
                 },
                 'format' => 'raw',

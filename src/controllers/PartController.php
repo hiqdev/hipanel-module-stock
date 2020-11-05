@@ -12,6 +12,7 @@
 namespace hipanel\modules\stock\controllers;
 
 use hipanel\actions\Action;
+use hipanel\actions\ComboSearchAction;
 use hipanel\actions\IndexAction;
 use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\RedirectAction;
@@ -214,7 +215,6 @@ class PartController extends CrudController
                         'representation' => $representation,
                         'types' => $action->controller->getTypes(),
                         'brands' => $action->controller->getBrands(),
-                        'locations' => $action->controller->getLocations(),
                         'states' => $action->controller->getStates(),
                     ];
                 },
@@ -469,6 +469,14 @@ class PartController extends CrudController
             'resolve-destination-range' => [
                 'class' => ResolveRange::class,
             ],
+            'locations-list' => [
+                'class' => ComboSearchAction::class,
+                'on beforeSave' => function ($event) {
+                    /** @var Action $action */
+                    $action = $event->sender;
+                    $action->dataProvider->query->andWhere(['groupby' => 'place'])->limit(-1);
+                },
+            ],
         ]);
     }
 
@@ -499,17 +507,6 @@ class PartController extends CrudController
     public function getBrands()
     {
         return $this->getRefs('type,brand', 'hipanel:stock');
-    }
-
-    public function getLocations()
-    {
-        $query = $this->searchModel()->search([])->query->andWhere(['groupby' => 'place'])->limit(-1);
-        $res = [];
-        foreach ($query->all() as $model) {
-            $res[$model->place] = $model->place . '   - ' . Yii::t('hipanel', '{0, plural, one{# item} other{# items}}', $model->count);
-        }
-
-        return $res;
     }
 
     public function getMoveTypes($group = null)

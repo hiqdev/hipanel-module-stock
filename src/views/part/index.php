@@ -16,7 +16,6 @@ use yii\helpers\Html;
  * @var \yii\data\ActiveDataProvider $dataProvider
  * @var \hipanel\models\IndexPageUiOptions $uiModel
  * @var \hipanel\modules\stock\grid\PartRepresentations $representationCollection
- * @var string[] $locations
  * @var \hipanel\modules\stock\models\PartSearch $model
  * @var \yii\web\View $this
  */
@@ -34,7 +33,7 @@ $showFooter = ($uiModel->representation === 'profit-report')
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 
     <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
-        <?php $page->setSearchFormData(compact(['types', 'locations', 'brands', 'states', 'uiModel'])) ?>
+        <?php $page->setSearchFormData(compact(['types', 'brands', 'states', 'uiModel'])) ?>
 
         <?php $page->beginContent('legend') ?>
             <?= GridLegend::widget(['legendItem' => new PartGridLegend($model)]) ?>
@@ -282,7 +281,6 @@ $showFooter = ($uiModel->representation === 'profit-report')
                     return GridLegend::create(new PartGridLegend($model))->gridRowOptions();
                 },
                 'filterModel' => $model,
-                'locations' => $locations,
                 'summaryRenderer' => static fn($grid, $defaultSummaryCb) => $defaultSummaryCb() . SummaryHook::widget(),
                 'showFooter' => $showFooter,
                 'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),

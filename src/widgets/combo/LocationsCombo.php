@@ -26,7 +26,7 @@ class LocationsCombo extends Combo
     public $url = '/stock/part/locations-list';
 
     /** {@inheritdoc} */
-    public $_return = ['id', 'place', 'count'];
+    public $_return = ['place', 'count'];
 
     /** {@inheritdoc} */
     public $_rename = ['text' => 'place'];
@@ -38,6 +38,17 @@ class LocationsCombo extends Combo
     {
         return parent::getPluginOptions([
             'select2Options' => [
+                'ajax' => [
+                    'processResults' => new JsExpression("function (data) {
+                        data.forEach(elem => {
+                            elem.id = elem.place;
+                        });
+                        
+                        return {
+                            results: data
+                        };
+                    }"),
+                ],
                 'minimumResultsForSearch' => 100,
                 'templateResult' => new JsExpression("data => {
                     if (data.loading) {

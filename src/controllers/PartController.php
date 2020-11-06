@@ -17,7 +17,7 @@ use hipanel\actions\IndexAction;
 use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\RedirectAction;
 use hipanel\actions\RenderAction;
-use hipanel\actions\RenderSummaryAction;
+use hipanel\actions\VariantsAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
@@ -34,12 +34,14 @@ use hipanel\modules\stock\forms\PartSellForm;
 use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
+use hipanel\widgets\CountEnabler;
 use hipanel\widgets\SummaryWidget;
 use hiqdev\hiart\ActiveQuery;
 use hiqdev\hiart\Collection;
 use Yii;
 use yii\base\DynamicModel;
 use yii\base\Event;
+use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\web\ConflictHttpException;
 use yii\web\Response;
@@ -184,29 +186,39 @@ class PartController extends CrudController
                     }
                 },
                 'GET ajax' => [
-                    'class' => RenderSummaryAction::class,
-                    'summary' => function (RenderSummaryAction $action) {
-                        $representation = $this->indexPageUiOptionsModel->representation;
-                        if ($representation !== 'report') {
-                            return '';
-                        }
-                        $dataProvider = $action->parent->getDataProvider();
-                        $local_sums = [];
-                        $total_sums = [];
-                        foreach ($dataProvider->getModels() as $model) {
-                            $local_sums[$model->currency] += $model->price;
-                        }
-                        $query = $action->parent->dataProvider->query;
-                        $query->andWhere(['groupby' => 'total_price']);
-                        foreach ($query->all() as $model) {
-                            $total_sums[$model->currency] += $model->price;
-                        }
+                    'class' => VariantsAction::class,
+                    'variants' => [
+                        'pager' => fn(VariantsAction $action): string => CountEnabler::widget([
+                            'dataProvider' => $action->parent->getDataProvider(),
+                            'content' => fn($grid): string => $grid->renderPager(),
+                        ]),
+                        'summary' => function (VariantsAction $action): string {
+                            $representation = $this->indexPageUiOptionsModel->representation;
+                            if ($representation !== 'report') {
+                                return '';
+                            }
+                            $dataProvider = $action->parent->getDataProvider();
+                            $defaultSummary = CountEnabler::widget([
+                                'dataProvider' => $dataProvider,
+                                'content' => fn ($grid): string => $grid->renderSummary(),
+                            ]);
+                            $local_sums = [];
+                            $total_sums = [];
+                            foreach ($dataProvider->getModels() as $model) {
+                                $local_sums[$model->currency] += $model->price;
+                            }
+                            $query = $dataProvider->query;
+                            $query->andWhere(['groupby' => 'total_price']);
+                            foreach ($query->all() as $model) {
+                                $total_sums[$model->currency] += $model->price;
+                            }
 
-                        return SummaryWidget::widget([
-                            'local_sums' => $local_sums,
-                            'total_sums' => $total_sums,
-                        ]);
-                    }
+                            return $defaultSummary . SummaryWidget::widget([
+                                'local_sums' => $local_sums,
+                                'total_sums' => $total_sums,
+                            ]);
+                        }
+                    ],
                 ],
                 'data' => function ($action) {
                     $representation = $this->indexPageUiOptionsModel->representation;

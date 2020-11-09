@@ -173,6 +173,33 @@ class PartController extends CrudController
             'index' => [
                 'class' => IndexAction::class,
                 'view' => 'index',
+                'responseVariants' => [
+                    'summary' => function (VariantsAction $action): string {
+                        $dataProvider = $action->parent->getDataProvider();
+                        $defaultSummary = CountEnabler::widget([
+                            'dataProvider' => $dataProvider,
+                            'content' => fn(GridView $grid): string => $grid->renderSummary(),
+                        ]);
+                        if ($this->indexPageUiOptionsModel->representation !== 'report') {
+                            return $defaultSummary;
+                        }
+                        $local_sums = [];
+                        $total_sums = [];
+                        foreach ($dataProvider->getModels() as $model) {
+                            $local_sums[$model->currency] += $model->price;
+                        }
+                        $query = $dataProvider->query;
+                        $query->andWhere(['groupby' => 'total_price']);
+                        foreach ($query->all() as $model) {
+                            $total_sums[$model->currency] += $model->price;
+                        }
+
+                        return $defaultSummary . SummaryWidget::widget([
+                            'local_sums' => $local_sums,
+                            'total_sums' => $total_sums,
+                        ]);
+                    },
+                ],
                 'on beforePerform' => function (Event $event) {
                     /** @var ActiveQuery $query */
                     $query = $event->sender->getDataProvider()->query;
@@ -185,41 +212,6 @@ class PartController extends CrudController
                         $query->addSelect('selling');
                     }
                 },
-                'GET ajax' => [
-                    'class' => VariantsAction::class,
-                    'variants' => [
-                        'pager' => fn(VariantsAction $action): string => CountEnabler::widget([
-                            'dataProvider' => $action->parent->getDataProvider(),
-                            'content' => fn($grid): string => $grid->renderPager(),
-                        ]),
-                        'summary' => function (VariantsAction $action): string {
-                            $representation = $this->indexPageUiOptionsModel->representation;
-                            if ($representation !== 'report') {
-                                return '';
-                            }
-                            $dataProvider = $action->parent->getDataProvider();
-                            $defaultSummary = CountEnabler::widget([
-                                'dataProvider' => $dataProvider,
-                                'content' => fn ($grid): string => $grid->renderSummary(),
-                            ]);
-                            $local_sums = [];
-                            $total_sums = [];
-                            foreach ($dataProvider->getModels() as $model) {
-                                $local_sums[$model->currency] += $model->price;
-                            }
-                            $query = $dataProvider->query;
-                            $query->andWhere(['groupby' => 'total_price']);
-                            foreach ($query->all() as $model) {
-                                $total_sums[$model->currency] += $model->price;
-                            }
-
-                            return $defaultSummary . SummaryWidget::widget([
-                                'local_sums' => $local_sums,
-                                'total_sums' => $total_sums,
-                            ]);
-                        }
-                    ],
-                ],
                 'data' => function ($action) {
                     $representation = $this->indexPageUiOptionsModel->representation;
 

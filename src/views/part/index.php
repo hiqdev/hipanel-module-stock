@@ -271,7 +271,6 @@ $showFooter = ($uiModel->representation === 'profit-report')
         <?= PartGridView::widget([
             'boxed' => false,
             'dataProvider' => $dataProvider,
-            'pager' => ['class' => PagerHook::class],
             'tableOptions' => [
                 'class' => 'table table-striped table-bordered table-condensed'
             ],
@@ -279,7 +278,6 @@ $showFooter = ($uiModel->representation === 'profit-report')
                 return GridLegend::create(new PartGridLegend($model))->gridRowOptions();
             },
             'filterModel' => $model,
-            'summaryRenderer' => static fn($grid, $defaultSummaryCb) => SummaryHook::widget(),
             'showFooter' => $showFooter,
             'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
         ]) ?>

@@ -34,7 +34,7 @@ use hipanel\modules\stock\forms\PartSellForm;
 use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
-use hipanel\widgets\CountEnabler;
+use hipanel\widgets\SynchronousCountEnabler;
 use hipanel\widgets\SummaryWidget;
 use hiqdev\hiart\ActiveQuery;
 use hiqdev\hiart\Collection;
@@ -174,9 +174,9 @@ class PartController extends CrudController
                 'class' => IndexAction::class,
                 'view' => 'index',
                 'responseVariants' => [
-                    'summary' => function (VariantsAction $action): string {
+                    IndexAction::VARIANT_SUMMARY_RESPONSE => function (VariantsAction $action): string {
                         $dataProvider = $action->parent->getDataProvider();
-                        $defaultSummary = CountEnabler::widget([
+                        $defaultSummary = SynchronousCountEnabler::widget([
                             'dataProvider' => $dataProvider,
                             'content' => fn(GridView $grid): string => $grid->renderSummary(),
                         ]);

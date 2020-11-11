@@ -22,6 +22,7 @@ use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\LocationsCombo;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
+use hipanel\widgets\SummaryHook;
 use Yii;
 use yii\base\Model;
 use yii\helpers\Html;
@@ -92,7 +93,7 @@ class PartGridView extends BoxedGridView
                 'class' => RefColumn::class,
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'gtype' => 'type,model',
-                'label' => Yii::t('hipanel:stock','Type'),
+                'label' => Yii::t('hipanel:stock', 'Type'),
                 'value' => function ($model) {
                     return $model->model_type_label;
                 },
@@ -178,7 +179,7 @@ class PartGridView extends BoxedGridView
                 'format' => 'html',
                 'value' => function (Part $model): string {
                     return HTML::a($model->order_name, ['@order/view', 'id' => $model->order_id]);
-                }
+                },
             ],
             'dc_ticket' => [
                 'filter' => false,
@@ -247,6 +248,7 @@ class PartGridView extends BoxedGridView
                     if ($model->isTrashed()) {
                         return $model->place;
                     }
+
                     return Html::tag('b', $model->dst_name) . Html::tag('span', $model->place, ['style' => 'margin-left:1em']);
                 },
             ],
@@ -257,7 +259,7 @@ class PartGridView extends BoxedGridView
                 'format' => 'raw',
                 'value' => function (Model $model) {
                     return Html::a(Html::encode($model->model->group), ['@model-group/view', 'id' => $model->model->group_id]);
-                }
+                },
             ],
             'actions' => [
                 'class' => ActionColumn::class,

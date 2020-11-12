@@ -91,11 +91,11 @@ echo \hipanel\grid\GridView::widget([
         [
             'label' => Yii::t('hipanel:stock', 'Order No.'),
             'format' => 'raw',
-            'attribute' => 'order_no',
+            'attribute' => 'first_move',
             'value' => static function ($models) {
                 return implode(', ', array_map(static function ($parts) {
                     $part = reset($parts);
-                    return Html::a($part->order_no, ['@order/view', 'id' => $part->order_id]);
+                    return Html::a($part->first_move, ['@order/view', 'id' => $part->order_id]);
                 }, $models));
             },
         ],

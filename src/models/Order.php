@@ -55,7 +55,7 @@ class Order extends Model
             'type' => Yii::t('hipanel.stock.order', 'Type'),
             'seller_id' => Yii::t('hipanel.stock.order', 'Seller'),
             'buyer_id' => Yii::t('hipanel.stock.order', 'Buyer'),
-            'name' => Yii::t('hipanel.stock.order', 'Order No.'),
+            'name' => Yii::t('hipanel.stock.order', 'Order'),
         ], ProfitColumns::getLabels()));
     }
 

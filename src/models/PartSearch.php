@@ -27,7 +27,7 @@ class PartSearch extends Part
             'model_types', 'model_brands',
             'model_type_like', 'model_brand_like',
             'partno_like', 'serial_ilike',
-            'order_no_ilike', 'order_data_like',
+            'first_move_ilike', 'order_data_like',
             'src_name_like', 'dst_name_like', 'move_descr_like', 'move_descr_ilike',
             'create_time_from', 'create_time_till', 'id_in', 'buyer_in', 'partno_inilike', 'partno_in',
             'profit_time_from', 'profit_time_till',

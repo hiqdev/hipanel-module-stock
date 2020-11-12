@@ -45,7 +45,7 @@ class Part extends \hipanel\base\Model
                     'model_brand_label',
                     'src_name',
                     'dst_name',
-                    'order_no',
+                    'first_move',
                     'order_name',
                     'order_data',
                     'dst_ids',
@@ -185,7 +185,8 @@ class Part extends \hipanel\base\Model
             'selling_currency' => Yii::t('hipanel:stock', 'Selling currency'),
             'selling_price' => Yii::t('hipanel:stock', 'Selling price'),
             'selling_time' => Yii::t('hipanel:stock', 'Selling time'),
-            'price' => Yii::t('hipanel:stock', 'Purchase price')
+            'price' => Yii::t('hipanel:stock', 'Purchase price'),
+            'order_id' => Yii::t('hipanel:stock', 'First move'),
         ]);
     }
 

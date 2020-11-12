@@ -64,6 +64,7 @@ return [
     'NL Amsterdam SDG' => '',
     'Order' => 'Заказ',
     'Order No.' => 'Номер заказа',
+    'First move' => 'Первое перемещение',
     'Part No.' => 'Артикул',
     'Part has been created' => 'Деталь создана',
     'Part has been updated' => 'Деталь изменена',

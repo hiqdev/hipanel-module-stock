@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'dst_id',
         'serials',
         'move_type',
-        'order_no',
+        'first_move',
         'move_descr',
     ],
 ]) ?>

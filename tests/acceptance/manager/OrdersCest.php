@@ -16,18 +16,11 @@ use hipanel\modules\stock\tests\_support\Page\order\OrderPage;
 
 class OrdersCest
 {
-    /**
-     * @var string
-     */
-    private $order_id;
-    /**
-     * @var OrderPage
-     */
-    private $page;
-    /**
-     * @var array
-     */
-    private $values;
+    private string $order_id;
+
+    private OrderPage $page;
+
+    private array $values;
 
     public function _before(Manager $I): void
     {
@@ -40,35 +33,51 @@ class OrdersCest
         $I->needPage(Url::to('@order'));
         $I->see('Orders', 'h1');
         $this->page->ensureICanSeeAdvancedSearchBox();
-        $this->page->ensureICanSeeBulkSearchBox();
+        $this->page->ensureICanSeeColumns();
+    }
+
+    public function ensureICantCreateEmptyOrder(Manager $I): void
+    {
+        $I->needPage(Url::to('@order/create'));
+        $I->click('Save');
+        $I->waitForPageUpdate();
+        $I->waitForText('# cannot be blank.');
+        $I->waitForText('Time cannot be blank.');
+        $I->waitForText('Seller cannot be blank.');
+        $I->waitForText('Buyer cannot be blank.');
     }
 
     public function ensureICanCreateOrder(Manager $I): void
     {
         $I->needPage(Url::to('@order/create'));
-        $I->click('Save');
-        $I->waitForPageUpdate();
-        $I->waitForText('No. cannot be blank.');
-        $I->waitForText('Lead time cannot be blank.');
         $this->page->setupOrderForm($this->values);
         $this->order_id = $this->page->seeOrderWasCreated();
     }
 
+    /**
+     * @depends ensureICanCreateOrder
+     */
     public function ensureICantCreateOrderWithSameNoResellerCombo(Manager $I): void
     {
         $I->needPage(Url::to('@order/create'));
         $this->page->setupOrderForm($this->values);
-        $I->closeNotification('The combination No. and Reseller has already been taken.');
+        $I->waitForText('The combination No. and Reseller has already been taken.');
     }
 
+    /**
+     * @depends ensureICanCreateOrder
+     */
     public function ensureICanSeeViewPage(Manager $I): void
     {
         $I->needPage(Url::to('@order/view?id=' . $this->order_id));
-        $I->see($this->values['no'], 'h1');
+        $I->see($this->values['name'], 'h1');
 
         $this->page->ensureICanSeePartsTable();
     }
 
+    /**
+     * @depends ensureICanCreateOrder
+     */
     public function ensureICanUpdateOrder(Manager $I): void
     {
         $page = $this->page;
@@ -78,6 +87,9 @@ class OrdersCest
         $I->closeNotification('Order has been updated');
     }
 
+    /**
+     * @depends ensureICanCreateOrder
+     */
     public function ensureICanDeleteOrder(Manager $I): void
     {
         $I->needPage(Url::to('@order/view?id='.$this->order_id));
@@ -87,6 +99,9 @@ class OrdersCest
         $I->closeNotification('Order has been deleted');
     }
 
+    /**
+     * @depends ensureICanDeleteOrder
+     */
     public function ensureICanFullDeleteOrder(Manager $I): void
     {
         $this->ensureICanDeleteOrder($I);

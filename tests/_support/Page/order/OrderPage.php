@@ -26,25 +26,25 @@ class OrderPage extends Authenticated
         (new IndexPage($I))->containsFilters([
             Dropdown::asAdvancedSearch($I, 'Type'),
             Dropdown::asAdvancedSearch($I, 'State'),
-            Select2::asAdvancedSearch($I, 'Reseller'),
+            Select2::asAdvancedSearch($I, 'Seller'),
             Select2::asAdvancedSearch($I, 'Buyer'),
-            Input::asAdvancedSearch($I, 'No.'),
+            Input::asAdvancedSearch($I, '#'),
             Input::asAdvancedSearch($I, 'Order'),
         ]);
     }
 
-    public function ensureICanSeeBulkSearchBox(): void
+    public function ensureICanSeeColumns(): void
     {
         $I = $this->tester;
         (new IndexPage($I))->containsColumns([
             'Type',
             'State',
-            'Reseller',
+            'Seller',
             'Buyer',
-            'No.',
             'Order',
-            'Lead time',
-            'Parts'
+            'Company',
+            'Parts',
+            'Time',
         ]);
     }
 

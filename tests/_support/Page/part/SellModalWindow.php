@@ -18,13 +18,11 @@ class SellModalWindow extends Authenticated
 
         $base = 'div.modal-body[data-action-url$=sell] ';
 
-        (new Select2($I, $base . 'select[id$=client_id]'))
-            ->setValue($sellData['client_id']);
+        (new Select2($I, $base . 'select[id$=contact_id]'))
+            ->setValue($sellData['contact_id']);
 
-        $I->click($base . 'div[class$=date]>span:last-child');
-        $I->click('td.day.active');
-        $I->click('span.hour.active');
-        $I->click('span.minute.active');
+        (new Input($I, $base . ' input[name*=time]'))
+            ->setValue($sellData['time']);
 
         (new Input($I, $base . 'textarea[id$=description]'))
             ->setValue($sellData['descr']);

@@ -4,6 +4,7 @@ namespace hipanel\modules\stock\tests\_support\Page\part;
 
 use Facebook\WebDriver\WebDriverElement;
 use hipanel\tests\_support\Page\Authenticated;
+use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
@@ -24,6 +25,11 @@ class Create extends Authenticated
             return;
         }
         $this->fillPartFields($modelData);
+    }
+
+    public function pressSaveButton(): void
+    {
+        $this->tester->pressButton('Save');
     }
 
     public function fillPartFields($partData): void
@@ -51,36 +57,24 @@ class Create extends Authenticated
             ->setValue($partData['price']);
         $I->executeJS(";document.querySelector('div.item:last-child li a[data-value=$partData[currency]]').click();");
 
-        (new Select2($I, $base . 'select[id$=order_id]'))
-            ->setValueLike($partData['order_id']);
         (new Dropdown($I, $base . 'select[id$=company_id]'))
             ->setValue($partData['company_id']);
     }
 
     /**
      * Checks whether a part was created successfully and returns its id.
-     *
-     * @return string - id of created model.
      */
-    public function seePartWasCreated(): string
+    public function seePartWasCreated(): void
     {
         $I = $this->tester;
 
         $I->closeNotification('Part has been created');
-        $I->seeInCurrentUrl('/stock/part/view?id=');
-
-        return $I->grabFromCurrentUrl('~id=(\d+)~');
-    }
-
-    /**
-     * Checks whether a parts were created successfully.
-     */
-    public function seePartsWereCreated(): void
-    {
-        $I = $this->tester;
-
-        $I->closeNotification('Part has been created');
-        $I->seeInCurrentUrl('/stock/part/index');
+        $I->seeInCurrentUrl('/stock/move/index?MoveSearch%5Bid%5D=');
+        $movePage = new IndexPage($I);
+        $moveId = $movePage->getRowDataKeyByNumber(1);
+        $I->assertNotEmpty($moveId);
+        $I->click("//tbody//tr/td/a[starts-with(@href, '/stock/part/view')]");
+        $I->waitForPageUpdate();
     }
 
     /**

@@ -50,8 +50,9 @@ class Create extends Authenticated
 
         (new Input($I, $base . 'input[id$=partno]'))
             ->setValue($modelData['partno']);
+        $I->waitForPageUpdate();
 
-        (new Select2($I, $base . 'select[id*=group_id]'))
+        (new Select2($I, $base . 'select[id$=group_id]'))
             ->setValue($modelData['group_id']);
 
         (new Input($I, $base . 'input[id$=url]'))
@@ -97,6 +98,7 @@ class Create extends Authenticated
     {
         $selector = 'div.item:last-child button[class*=\'add-item btn\']';
         $this->clickElement($selector);
+        $this->tester->waitForPageUpdate();
     }
 
     /**

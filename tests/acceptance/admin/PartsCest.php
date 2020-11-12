@@ -4,7 +4,6 @@ namespace hipanel\modules\stock\tests\acceptance\admin;
 
 use hipanel\helpers\Url;
 use hipanel\tests\_support\Page\IndexPage;
-use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
 use hipanel\tests\_support\Step\Acceptance\Admin;
@@ -44,12 +43,8 @@ class PartsCest
             Input::asAdvancedSearch($I, 'Move description'),
             Select2::asAdvancedSearch($I, 'Source'),
             Select2::asAdvancedSearch($I, 'Destination'),
-            Input::asAdvancedSearch($I, 'Order No.'),
-            (Dropdown::asAdvancedSearch($I, 'Company'))->withItems([
-                'Company',
-                'DataWeb',
-                'Other',
-            ]),
+            Select2::asAdvancedSearch($I, 'First move'),
+            Select2::asAdvancedSearch($I, 'Company'),
             Select2::asAdvancedSearch($I, 'Location'),
             Select2::asAdvancedSearch($I, 'Currency'),
             Input::asAdvancedSearch($I, 'Limit'),
@@ -84,7 +79,7 @@ class PartsCest
             'Last move',
             'Type / Date',
             'Move description',
-            'Order No.',
+            'First move',
         ], 'common');
         $this->index->containsColumns([
             'Type',

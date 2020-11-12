@@ -27,23 +27,20 @@ class PartsSellingCest
     public function ensureICanSellParts(Manager $I): void
     {
         $partIndex      = new IndexPage($I);
-        $sellModal      = new SellModalWindow($I);
-        $this->sellData = $this->getSellData($I->getUsername());
-
         $I->needPage(Url::to('@part'));
 
+        $this->sellData = $this->getSellData();
         $partIndex->filterBy(Input::asTableFilter($I, 'Serial'), 'MG_TEST_PART');
-
         for ($i = 0; $i < count($this->sellData['prices']); $i++) {
             $partIndex->selectTableRowByNumber($i + 1);
         }
-
-        $I->pressButton('Sell parts');
+        $I->click("//button[contains(text(), 'Sell parts')]");
+        $I->click("//a[text()='Sell parts']");
         $I->waitForPageUpdate();
+
+        $sellModal      = new SellModalWindow($I);
         $sellModal->fillSellWindowFields($this->sellData);
-
         $I->pressButton('Sell');
-
         $sellModal->seePartsWereSold();
     }
 
@@ -79,14 +76,15 @@ class PartsSellingCest
             $this->sellData['descr']);
     }
 
-    protected function getSellData($userName): array
+    protected function getSellData(): array
     {
         return [
-            'client_id' => $userName,
+            'contact_id'=> 'Test Manager',
             'currency'  => 'eur',
             'descr'     => 'test description ' . uniqid(),
             'type'      => 'HW purchase',
-            'prices'    => [250, 300, 442]
+            'prices'    => [250, 300, 442],
+            'time'      => (new \DateTime())->format('Y-m-d H:i'),
         ];
     }
 }

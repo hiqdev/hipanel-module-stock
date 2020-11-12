@@ -3,7 +3,6 @@
 namespace hipanel\modules\stock\tests\acceptance\manager;
 
 use hipanel\helpers\Url;
-use hipanel\modules\stock\tests\_support\Page\order\OrderPage;
 use hipanel\modules\stock\tests\_support\Page\part\Create;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 
@@ -94,16 +93,10 @@ class PartsCreationCest
      */
     public function ensureICanCreatePart(Manager $I): void
     {
-        $page = $this->createPage;
-        $this->testOrderData = $this->getTestOrderData();
-        $orderPage = new OrderPage($I);
-        $I->needPage(Url::to('@order/create'));
-        $orderPage->setupOrderForm($this->testOrderData);
-
         $I->needPage(Url::to('@part/create'));
+        $page = $this->createPage;
         $page->fillPartFields($this->getPartData());
-        $I->waitForJS("return $.active == 0;", 60);
-        $I->pressButton('Save');
+        $page->pressSaveButton();
         $page->seePartWasCreated();
     }
 
@@ -122,9 +115,8 @@ class PartsCreationCest
         $I->needPage(Url::to('@part/create'));
         $page->fillPartFields($this->getPartData());
         $page->addPart($this->getPartData());
-
-        $I->pressButton('Save');
-        $page->seePartsWereCreated();
+        $page->pressSaveButton();
+        $page->seePartWasCreated();
     }
 
     /**
@@ -138,10 +130,8 @@ class PartsCreationCest
         $page = $this->createPage;
 
         $I->needPage(Url::to('@part/create'));
-        $partData = $this->getPartData();
-        $page->fillPartFields($partData);
-
-        $I->pressButton('Save');
+        $page->fillPartFields($this->getPartData());
+        $page->pressSaveButton();
         $page->seePartWasCreated();
 
         $I->click("//a[contains(text(), 'Delete')]");
@@ -160,25 +150,9 @@ class PartsCreationCest
             'dst_id'        => 'TEST-DS-02',
             'serials'       => 'MG_TEST_PART' . uniqid(),
             'move_descr'    => 'MG TEST MOVE',
-            'order_id'      => $this->testOrderData['no'],
             'price'         => 200,
             'currency'      => 'usd',
             'company_id'    => 'Other'
-        ];
-    }
-    /**
-     * @return array
-     */
-    protected function getTestOrderData(): array
-    {
-        return [
-            'type'      => 'hardware',
-            'seller_id' => 'Test Admin',
-            'buyer_id'  => 'Test User',
-            'state'     => 'OK',
-            'no'        => 'testNO228' .  (string)time(),
-            'time'      => '2019-04-03 01:30',
-            'name'      => 'test name',
         ];
     }
 }

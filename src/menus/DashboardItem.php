@@ -10,32 +10,41 @@
 
 namespace hipanel\modules\stock\menus;
 
-use hipanel\modules\dashboard\DashboardInterface;
+use hipanel\helpers\Url;
+use hipanel\modules\client\ClientWithCounters;
+use hiqdev\yii2\menus\Menu;
 use Yii;
 
-class DashboardItem extends \hiqdev\yii2\menus\Menu
+class DashboardItem extends Menu
 {
-    protected $dashboard;
+    protected ClientWithCounters $clientWithCounters;
 
-    public function __construct(DashboardInterface $dashboard, $config = [])
+    public function __construct(ClientWithCounters $clientWithCounters, $config = [])
     {
-        $this->dashboard = $dashboard;
+        $this->clientWithCounters = $clientWithCounters;
         parent::__construct($config);
     }
 
     public function items()
     {
-        return [
-            'part' => [
-                'label' => $this->render('dashboardPartItem'),
+        $items = [];
+        if (Yii::$app->user->can('part.read')) {
+            $items['part'] = [
+                'label' => $this->render('dashboardPartItem', array_merge($this->clientWithCounters->getWidgetData('part'), [
+                    'route' => Url::toRoute('@model/index'),
+                ])),
                 'encode' => false,
-                'visible' => Yii::$app->user->can('part.read'),
-            ],
-            'model' => [
-                'label' => $this->render('dashboardModelItem'),
+            ];
+        }
+        if (Yii::$app->user->can('model.read')) {
+            $items['model'] = [
+                'label' => $this->render('dashboardModelItem', array_merge($this->clientWithCounters->getWidgetData('model'), [
+                    'route' => Url::toRoute('@part/index'),
+                ])),
                 'encode' => false,
-                'visible' => Yii::$app->user->can('model.read'),
-            ],
-        ];
+            ];
+        }
+
+        return $items;
     }
 }

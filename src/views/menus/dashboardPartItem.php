@@ -1,10 +1,13 @@
 <?php
 
+use hipanel\modules\dashboard\widgets\ObjectsCountWidget;
 use hipanel\modules\dashboard\widgets\SmallBox;
 use hipanel\modules\dashboard\widgets\SearchForm;
 use hipanel\modules\stock\models\PartSearch;
 use yii\helpers\Html;
 use yii\helpers\Url;
+
+/** @var string $entityName */
 
 ?>
 
@@ -15,8 +18,7 @@ use yii\helpers\Url;
         'boxColor' => SmallBox::COLOR_YELLOW,
     ]) ?>
     <?php $box->beginBody() ?>
-    <br>
-    <br>
+    <?= ObjectsCountWidget::widget(compact('route', 'ownCount', 'entityName')) ?>
     <?= SearchForm::widget([
         'formOptions' => [
             'id' => 'part-search',

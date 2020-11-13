@@ -174,6 +174,7 @@ class PartController extends CrudController
                 'class' => IndexAction::class,
                 'view' => 'index',
                 'responseVariants' => [
+                    'get-total-count' => fn(VariantsAction $action): int => Part::find()->count(),
                     IndexAction::VARIANT_SUMMARY_RESPONSE => function (VariantsAction $action): string {
                         $dataProvider = $action->parent->getDataProvider();
                         $defaultSummary = SynchronousCountEnabler::widget([

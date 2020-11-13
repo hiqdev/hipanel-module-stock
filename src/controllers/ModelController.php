@@ -17,6 +17,7 @@ use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
+use hipanel\actions\VariantsAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
@@ -56,6 +57,9 @@ class ModelController extends CrudController
                         'states' => $action->controller->getStates(),
                     ];
                 },
+                'responseVariants' => [
+                    'get-total-count' => fn(VariantsAction $action): int => Model::find()->count(),
+                ],
             ],
             'view' => [
                 'class' => ViewAction::class,

@@ -78,6 +78,7 @@ echo \hipanel\grid\GridView::widget([
         [
             'label' => Yii::t('hipanel.finance.price', 'Price'),
             'attribute' => 'price',
+            'visible' => Yii::$app->user->can('part.read'),
             'value' => static function ($models) {
                 return implode(', ', array_map(static function ($parts) {
                     $part = reset($parts);

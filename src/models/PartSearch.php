@@ -32,6 +32,7 @@ class PartSearch extends Part
             'create_time_from', 'create_time_till', 'id_in', 'buyer_in', 'partno_inilike', 'partno_in',
             'profit_time_from', 'profit_time_till',
             'company',
+            'order_name_ilike',
         ]);
     }
 
@@ -49,6 +50,7 @@ class PartSearch extends Part
             'dst_name_like'     => Yii::t('hipanel:stock', 'Destination'),
             'id_in'             => Yii::t('hipanel:stock', 'Parts'),
             'buyer_in'          => Yii::t('hipanel:stock', 'Buyers'),
+            'order_name_ilike'  => Yii::t('hipanel:stock', 'Order'),
         ]);
     }
 }

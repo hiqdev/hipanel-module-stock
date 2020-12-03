@@ -133,6 +133,10 @@ use yii\helpers\Html;
     <?= $search->field('order_id')->widget(OrderCombo::class) ?>
 </div>
 
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field('order_name_ilike') ?>
+</div>
+
 <?php if ($uiModel->representation === 'profit-report'): ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">

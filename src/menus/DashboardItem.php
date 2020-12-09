@@ -31,7 +31,7 @@ class DashboardItem extends Menu
         if (Yii::$app->user->can('part.read')) {
             $items['part'] = [
                 'label' => $this->render('dashboardPartItem', array_merge($this->clientWithCounters->getWidgetData('part'), [
-                    'route' => Url::toRoute('@model/index'),
+                    'route' => Url::toRoute('@part/index'),
                 ])),
                 'encode' => false,
             ];
@@ -39,7 +39,7 @@ class DashboardItem extends Menu
         if (Yii::$app->user->can('model.read')) {
             $items['model'] = [
                 'label' => $this->render('dashboardModelItem', array_merge($this->clientWithCounters->getWidgetData('model'), [
-                    'route' => Url::toRoute('@part/index'),
+                    'route' => Url::toRoute('@model/index'),
                 ])),
                 'encode' => false,
             ];

@@ -177,10 +177,7 @@ class PartController extends CrudController
                     'get-total-count' => fn(VariantsAction $action): int => Part::find()->count(),
                     IndexAction::VARIANT_SUMMARY_RESPONSE => function (VariantsAction $action): string {
                         $dataProvider = $action->parent->getDataProvider();
-                        $defaultSummary = SynchronousCountEnabler::widget([
-                            'dataProvider' => $dataProvider,
-                            'content' => fn(GridView $grid): string => $grid->renderSummary(),
-                        ]);
+                        $defaultSummary = (new SynchronousCountEnabler($dataProvider, fn(GridView $grid): string => $grid->renderSummary()))();
                         if ($this->indexPageUiOptionsModel->representation !== 'report') {
                             return $defaultSummary;
                         }

@@ -73,9 +73,11 @@ use yii\helpers\Html;
     ]) ?>
 </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('company_id')->widget(CompanyCombo::class) ?>
-</div>
+<?php if (Yii::$app->user->can('sale.create')): ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('company_id')->widget(CompanyCombo::class) ?>
+    </div>
+<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('place_in')->widget(LocationsCombo::class, ['multiple' => true]) ?>
@@ -89,7 +91,9 @@ use yii\helpers\Html;
     ]) ?>
 </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('limit') ?></div>
+<?php if (Yii::$app->user->can('part.create')): ?>
+    <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('limit') ?></div>
+<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <div class="form-group">
@@ -123,7 +127,9 @@ use yii\helpers\Html;
     </div>
 </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('reserve_ilike') ?></div>
+<?php if (Yii::$app->user->can('move.read')): ?>
+    <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('reserve_ilike') ?></div>
+<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('buyer_in')->widget(ClientCombo::class, [
@@ -131,13 +137,15 @@ use yii\helpers\Html;
     ]) ?>
 </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('order_id')->widget(OrderCombo::class) ?>
-</div>
+<?php if (Yii::$app->user->can('order.read')): ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('order_id')->widget(OrderCombo::class) ?>
+    </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('order_name_ilike') ?>
-</div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('order_name_ilike') ?>
+    </div>
+<?php endif ?>
 
 <?php if ($uiModel->representation === 'profit-report'): ?>
     <div class="col-md-4 col-sm-6 col-xs-12">

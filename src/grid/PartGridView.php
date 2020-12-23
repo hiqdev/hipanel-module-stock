@@ -68,15 +68,20 @@ class PartGridView extends BoxedGridView
                 'format' => 'raw',
                 'label' => Yii::t('hipanel:stock', 'Part No.'),
                 'value' => function ($model) {
-                    return Html::a($model->partno, ['@model/view', 'id' => $model->model_id], [
-                        'data' => ['toggle' => 'tooltip'],
-                        'title' => "{$model->model_type_label} {$model->model_brand_label} / {$model->model_label}",
-                    ]);
+                    if (Yii::$app->user->can('model.read')) {
+                        return Html::a($model->partno, ['@model/view', 'id' => $model->model_id], [
+                            'data' => ['toggle' => 'tooltip'],
+                            'title' => "{$model->model_type_label} {$model->model_brand_label} / {$model->model_label}",
+                        ]);
+                    }
+
+                    return $model->partno;
                 },
             ],
             'reserve' => [
                 'attribute' => 'reserve',
                 'format' => 'text',
+                'visible' => Yii::$app->user->can('move.create'),
                 'contentOptions' => [
                     'style' => 'word-break: break-all;',
                 ],
@@ -86,7 +91,11 @@ class PartGridView extends BoxedGridView
                 'format' => 'raw',
                 'label' => Yii::t('hipanel:stock', 'Model'),
                 'value' => function ($model) {
-                    return Html::a($model->model_label, ['@model/view', 'id' => $model->model_id]);
+                    if (Yii::$app->user->can('model.read')) {
+                        return Html::a($model->model_label, ['@model/view', 'id' => $model->model_id]);
+                    }
+
+                    return $model->model_label;
                 },
             ],
             'model_type' => [
@@ -109,11 +118,13 @@ class PartGridView extends BoxedGridView
             ],
             'company_id' => [
                 'class' => CompanyColumn::class,
+                'visible' => Yii::$app->user->can('order.create'),
             ],
             'last_move' => [
                 'label' => Yii::t('hipanel:stock', 'Last move'),
                 'sortAttribute' => 'dst_name',
                 'format' => 'html',
+                'visible' => Yii::$app->user->can('move.read'),
                 'value' => function ($model) {
                     return Html::tag('b', $model->dst_name) . '&nbsp;←&nbsp;' . $model->src_name;
                 },
@@ -164,10 +175,12 @@ class PartGridView extends BoxedGridView
             'order_data' => [
                 'filter' => false,
                 'enableSorting' => false,
+                'visible' => Yii::$app->user->can('order.read'),
             ],
             'order_name' => [
                 'attribute' => 'order_id',
                 'filterAttribute' => 'order_id',
+                'visible' => Yii::$app->user->can('order.read'),
                 'filter' => function ($column, $model, $attribute) {
                     return OrderCombo::widget([
                         'model' => $model,
@@ -177,6 +190,7 @@ class PartGridView extends BoxedGridView
                 },
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'format' => 'html',
+                'visible' => Yii::$app->user->can('order.read'),
                 'value' => function (Part $model): string {
                     return HTML::a($model->order_name, ['@order/view', 'id' => $model->order_id]);
                 },
@@ -185,6 +199,7 @@ class PartGridView extends BoxedGridView
                 'filter' => false,
                 'enableSorting' => false,
                 'format' => 'html',
+                'visible' => Yii::$app->user->can('move.read'),
                 'value' => function ($model) {
                     $out = '';
                     if ($model['move_remote_ticket']) {
@@ -203,6 +218,7 @@ class PartGridView extends BoxedGridView
             'price' => [
                 'class' => CurrencyColumn::class,
                 'filterAttribute' => 'currency',
+                'visible' => Yii::$app->user->can('order.read'),
                 'filter' => function ($column, $model, $attribute) {
                     $values = ['usd' => 'USD', 'eur' => 'EUR'];
 
@@ -271,10 +287,14 @@ class PartGridView extends BoxedGridView
                 'filterAttribute' => 'move_descr_ilike',
                 'format' => 'html',
                 'label' => Yii::t('hipanel:stock', 'Move description'),
+                'visible' => Yii::$app->user->can('move.read'),
                 'value' => function ($model) {
                     return Move::prepareDescr($model->move_descr);
                 },
             ],
+            'first_move' => [
+                'visible' => Yii::$app->user->can('move.read'),
+            ]
         ]);
     }
 }

@@ -38,7 +38,7 @@ class PartRepresentations extends RepresentationCollection
                     'move_descr', 'order_data', 'dc_ticket',
                 ],
             ] : '',
-            'selling' => [
+            'selling' => Yii::$app->user->can('order.read-profits') ? [
                 'label' => Yii::t('hipanel:stock', 'selling'),
                 'columns' => [
                     'checkbox',
@@ -51,7 +51,7 @@ class PartRepresentations extends RepresentationCollection
                     'selling_price',
                     'selling_time',
                 ]
-            ],
+            ] : null,
             'profit-report' => Yii::$app->user->can('order.read-profits') ? [
                 'label' => Yii::t('hipanel', 'profit report'),
                 'columns' => ProfitColumns::getColumnNames(['checkbox', 'buyer', 'company_id', 'serial', 'partno']),

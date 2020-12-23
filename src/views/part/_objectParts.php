@@ -45,8 +45,11 @@ echo \hipanel\grid\GridView::widget([
             'value' => function ($models) {
                 $models_partno = [];
                 foreach ($models as $model_id => $parts) {
-                    $modelLink = Html::a(reset($parts)->partno, ['@model/view', 'id' => $model_id]);
-                    $models_partno[] = (count($parts) > 1 ? count($parts) . 'x' : '') . $modelLink;
+                    $modelLink = Yii::$app->user->can('model.read')
+                        ? Html::a(reset($parts)->partno, ['@model/view', 'id' => $model_id])
+                        : reset($parts)->partno;
+
+                    $models_partno[] = (count($parts) > 1 ? count($parts) . 'x ' : '') . $modelLink;
                 }
 
                 return implode(', ', $models_partno);
@@ -78,7 +81,7 @@ echo \hipanel\grid\GridView::widget([
         [
             'label' => Yii::t('hipanel.finance.price', 'Price'),
             'attribute' => 'price',
-            'visible' => Yii::$app->user->can('part.read'),
+            'visible' => Yii::$app->user->can('order.read'),
             'value' => static function ($models) {
                 return implode(', ', array_map(static function ($parts) {
                     $part = reset($parts);
@@ -93,6 +96,7 @@ echo \hipanel\grid\GridView::widget([
             'label' => Yii::t('hipanel:stock', 'Order No.'),
             'format' => 'raw',
             'attribute' => 'first_move',
+            'visible' => Yii::$app->user->can('order.read'),
             'value' => static function ($models) {
                 return implode(', ', array_map(static function ($parts) {
                     $part = reset($parts);

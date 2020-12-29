@@ -38,7 +38,7 @@ class PartRepresentations extends RepresentationCollection
                     'move_descr', 'order_data', 'dc_ticket',
                 ],
             ] : '',
-            'selling' => Yii::$app->user->can('order.read-profits') ? [
+            'selling' => Yii::$app->user->can('order.create') ? [
                 'label' => Yii::t('hipanel:stock', 'selling'),
                 'columns' => [
                     'checkbox',

@@ -43,12 +43,13 @@ class PartsCest
             Input::asAdvancedSearch($I, 'Move description'),
             Select2::asAdvancedSearch($I, 'Source'),
             Select2::asAdvancedSearch($I, 'Destination'),
-            Select2::asAdvancedSearch($I, 'First move'),
-            Select2::asAdvancedSearch($I, 'Company'),
             Select2::asAdvancedSearch($I, 'Location'),
             Select2::asAdvancedSearch($I, 'Currency'),
             Input::asAdvancedSearch($I, 'Limit'),
+            Input::asAdvancedSearch($I, 'Reserve'),
             Select2::asAdvancedSearch($I, 'Buyers'),
+            Select2::asAdvancedSearch($I, 'First move'),
+            Input::asAdvancedSearch($I, 'Order'),
         ]);
     }
 
@@ -90,14 +91,5 @@ class PartsCest
             'Purchase price',
             'Place',
         ], 'report');
-        $this->index->containsColumns([
-            'Buyer',
-            'Last move',
-            'Type',
-            'Part No.',
-            'Serial',
-            'Purchase price',
-            'Selling time',
-        ], 'selling');
     }
 }

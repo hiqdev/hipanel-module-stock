@@ -31,6 +31,7 @@ use yii\widgets\DetailView;
         <?php $box->beginBody() ?>
         <?= DetailView::widget([
             'model' => $settings,
+            'template' => '<tr><th{captionOptions} width="50%">{label}</th><td{contentOptions} width="50%" align="center">{value}</td></tr>'
         ]) ?>
         <?php $box->endBody() ?>
     <?php endforeach ?>

@@ -2,9 +2,11 @@
 
 namespace hipanel\modules\stock\menus;
 
+use hipanel\menus\AbstractDetailMenu;
+use hipanel\modules\stock\widgets\HardwareSettingsButton;
 use Yii;
 
-class ModelDetailMenu extends \hipanel\menus\AbstractDetailMenu
+class ModelDetailMenu extends AbstractDetailMenu
 {
     public $model;
 
@@ -16,6 +18,10 @@ class ModelDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'icon' => 'fa-pencil',
                 'url' => ['@model/update', 'id' => $this->model->id],
                 'visible' => Yii::$app->user->can('model.update') && !$this->model->isDeleted(),
+            ],
+            [
+                'label' => HardwareSettingsButton::widget(['id' => $this->model->id, 'type' => $this->model->type]),
+                'encode' => false,
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Delete'),

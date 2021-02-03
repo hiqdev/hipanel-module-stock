@@ -11,7 +11,9 @@
 
 namespace hipanel\modules\stock\controllers;
 
+use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
+use hipanel\actions\SearchAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartPerformAction;
@@ -21,8 +23,13 @@ use hipanel\actions\VariantsAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
+use hipanel\modules\stock\actions\HardwareSettingsAction;
+use hipanel\modules\stock\models\HardwareSettings;
 use hipanel\modules\stock\models\Model;
+use hipanel\modules\stock\models\Settings;
 use Yii;
+use yii\base\Event;
+use yii\helpers\ArrayHelper;
 
 class ModelController extends CrudController
 {
@@ -64,6 +71,9 @@ class ModelController extends CrudController
             'view' => [
                 'class' => ViewAction::class,
                 'findOptions' => ['with_counters' => 1],
+            ],
+            'hardware-settings' => [
+                'class' => HardwareSettingsAction::class,
             ],
             'create' => [
                 'class' => SmartCreateAction::class,

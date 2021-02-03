@@ -3,6 +3,7 @@
 use hipanel\modules\stock\grid\ModelGridView;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\modules\stock\menus\ModelDetailMenu;
+use hipanel\modules\stock\widgets\HardwareSettingsDetail;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\MainDetails;
 use yii\data\ArrayDataProvider;
@@ -37,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]) ?>
             </div>
         </div>
+        <?= HardwareSettingsDetail::widget(['id' => $model->id, 'type' => $model->type]) ?>
     </div>
 
     <div class="col-md-9">

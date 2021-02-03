@@ -3,6 +3,8 @@
 use hipanel\modules\stock\grid\MoveGridView;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\modules\stock\menus\PartDetailMenu;
+use hipanel\modules\stock\models\Part;
+use hipanel\modules\stock\widgets\HardwareSettingsDetail;
 use hipanel\widgets\Box;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\MainDetails;
@@ -22,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= MainDetails::widget([
             'title' => $model->model_type_label . ' ' . $model->model_brand_label,
             'subTitle' => (function () use ($model) {
-                if ($model->state !== \hipanel\modules\stock\models\Part::STATE_OK) {
+                if ($model->state !== Part::STATE_OK) {
                     $state = Yii::t('hipanel', 'Deleted');
                     $label = "<br /><span class=\"label label-danger\">{$state}</span>";
                 }
@@ -65,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                     <?php $box->endBody() ?>
                 <?php $box->end() ?>
-
+                <?= HardwareSettingsDetail::widget(['id' => $model->model_id, 'type' => $model->model_type]) ?>
             </div>
         </div>
     </div>

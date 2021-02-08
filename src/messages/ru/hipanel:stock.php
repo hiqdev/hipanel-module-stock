@@ -152,4 +152,5 @@ return [
     'Sell parts by tariff plan' => 'Продать по тарифу',
     'Tariff plan' => 'Тарифный план',
     'Is favorite' => 'Популярные',
+    'Hardware properties' => 'Конфигурация',
 ];

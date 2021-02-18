@@ -14,6 +14,8 @@ class HardwareSettingsButton extends Widget
 
     public string $type;
 
+    public array $toggleButton = [];
+
     public function run(): string
     {
         return AjaxModalWithTemplatedButton::widget([
@@ -25,11 +27,11 @@ class HardwareSettingsButton extends Widget
                 'actionUrl' => $this->getUrl(),
                 'size' => Modal::SIZE_LARGE,
                 'handleSubmit' => $this->getUrl(),
-                'toggleButton' => [
+                'toggleButton' => array_merge([
                     'tag' => 'a',
                     'label' => Html::tag('i', null, ['class' => 'fa fa-fw fa-cogs pull-right']) . Yii::t('hipanel:stock', 'Hardware properties'),
                     'style' => 'cursor: pointer;',
-                ],
+                ], $this->toggleButton),
             ],
             'toggleButtonTemplate' => '{toggleButton}',
         ]);

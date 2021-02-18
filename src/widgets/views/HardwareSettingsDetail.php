@@ -1,5 +1,6 @@
 <?php
 
+use hipanel\modules\stock\widgets\HardwareSettingsButton;
 use hipanel\widgets\Box;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -16,7 +17,18 @@ use yii\widgets\DetailView;
 ]) ?>
 
 <?php $box->beginHeader() ?>
-<?= $box->renderTitle(Yii::t('hipanel:stock', 'Hardware properties')) ?>
+    <?= $box->renderTitle(Yii::t('hipanel:stock', 'Hardware properties')) ?>
+    <div class="box-tools pull-right">
+        <?= HardwareSettingsButton::widget([
+            'id' => $this->context->id,
+            'type' => $this->context->type,
+            'toggleButton' => [
+                'tag' => 'button',
+                'class' => 'btn btn-xs',
+                'label' => Yii::t('hipanel:stock', 'Edit properties'),
+            ]
+        ]) ?>
+    </div>
 <?php $box::endHeader() ?>
 
 <?php if (empty($props)) : ?>

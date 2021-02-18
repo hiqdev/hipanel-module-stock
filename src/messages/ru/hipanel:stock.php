@@ -153,4 +153,5 @@ return [
     'Tariff plan' => 'Тарифный план',
     'Is favorite' => 'Популярные',
     'Hardware properties' => 'Конфигурация',
+    'Edit properties' => 'Редактировать свойства',
 ];

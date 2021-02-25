@@ -93,6 +93,20 @@ echo \hipanel\grid\GridView::widget([
             }
         ],
         [
+            'label' => Yii::t('hipanel', 'Date'),
+            'attribute' => 'move_time',
+            'format' => 'raw',
+            'value' => static fn(array $models) => implode(', ', array_map(static function ($parts) {
+                $part = reset($parts);
+                if (empty($part->price)) {
+                    return '';
+                }
+
+                return Html::tag('nobr', Yii::$app->formatter->asDate($part->move_time));
+            }, $models)),
+            'visible' => Yii::$app->user->can('order.read'),
+        ],
+        [
             'label' => Yii::t('hipanel:stock', 'Order No.'),
             'format' => 'raw',
             'attribute' => 'first_move',

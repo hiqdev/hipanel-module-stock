@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'model' => $model,
                     'columns' => [
                         'type', 'brand', 'model',
-                        'partno', 'descr',
+                        'partno', 'short', 'descr',
                         'last_prices', 'model_group'
                     ],
                 ]) ?>

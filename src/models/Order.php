@@ -14,6 +14,7 @@ use hipanel\base\ModelTrait;
 use hipanel\base\Model;
 use hipanel\models\Ref;
 use hipanel\modules\stock\models\query\OrderQuery;
+use hiqdev\hiart\ActiveQuery;
 use Yii;
 use yii\db\Query;
 use hipanel\modules\stock\helpers\ProfitColumns;
@@ -33,11 +34,14 @@ class Order extends Model
         return array_merge(parent::rules(), [
             [['id', 'state_id', 'buyer_id', 'seller_id', 'type_id'], 'integer', 'on' => ['create', 'update']],
             [['name', 'no', 'state', 'seller', 'buyer', 'state', 'type'], 'string', 'on' => ['create', 'update']],
-            [['state', 'type', 'seller_id', 'buyer_id', 'no', 'time'], 'required', 'on' => ['create', 'update']],
+            [['state', 'type', 'seller_id', 'buyer_id', 'no', 'time', 'name'], 'required', 'on' => ['create', 'update']],
             [['id'], 'required', 'on' => ['update', 'delete']],
             [['time'], 'datetime', 'format' => 'php:Y-m-d H:i', 'on' => ['create', 'update']],
             [['seller_no', 'company'], 'string'],
             [['company_id'], 'integer'],
+            [['name'], 'unique', 'filter' => function (ActiveQuery $query): void {
+                $query->andWhere(['ne', 'id', $this->id]);
+            }, 'on' => ['create', 'update']],
             ['no', 'unique', 'targetAttribute' => ['no', 'seller_id'],
                 'filter' => function (Query $query) {
                     $query->andWhere(['ne', 'id', $this->id]);

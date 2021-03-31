@@ -73,6 +73,7 @@ class OrderController extends CrudController
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,
+                'validatedInputId' => false,
             ],
             'profit-view' => [
                 'view'  => 'profit-view',

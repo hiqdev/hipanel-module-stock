@@ -1,15 +1,20 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\modules\stock\models\Part;
 use hipanel\widgets\DynamicFormWidget;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\helpers\ArrayHelper;
 
+/** @var Part[] $models */
+/** @var Part $model */
+
 $this->title = Yii::t('hipanel:stock', 'Update Order No.');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$partsByFirstMoveId = ArrayHelper::index($models, null, ['first_move_id']);
 
 ?>
 
@@ -37,15 +42,15 @@ $this->params['breadcrumbs'][] = $this->title;
     ],
 ]) ?>
 <p class="text-warning">
-   <?= Yii::t('hipanel:stock', 'This operation will change the description of all the Moves and will affect other parts of the Move, even if they were not selected.') ?>
+    <?= Yii::t('hipanel:stock', 'This operation will change the description of all the Moves and will affect other parts of the Move, even if they were not selected.') ?>
 </p>
 <div class="container-items">
-    <?php foreach (ArrayHelper::index($models, null, ['first_move_id']) as $firstMoveId => $group) : ?>
+    <?php foreach ($partsByFirstMoveId as $firstMoveId => $parts) : ?>
         <div class="item">
             <?= Html::activeHiddenInput($model, "[$firstMoveId]first_move_id") ?>
             <div class="box">
                 <div class="box-header with-border">
-                    <?= $form->field(reset($group), "[$firstMoveId]order_id")->widget(OrderCombo::class, [
+                    <?= $form->field($model, "[$firstMoveId]order_id")->widget(OrderCombo::class, [
                         'pluginOptions' => [
                             'select2Options' => $model->isNewRecord ? [] : [
                                 'templateSelection' => new \yii\web\JsExpression("
@@ -58,9 +63,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]) ?>
                 </div>
                 <div class="box-body">
-                    <?php foreach ($group as $i => $model) : ?>
-                        <?= Html::activeHiddenInput($model, "[$firstMoveId][ids]id") ?>
-                        <?= Html::tag('span', Html::encode($model->title), ['class' => 'label label-primary']) ?>
+                    <?php foreach ($parts as $part) : ?>
+                        <?= Html::activeHiddenInput($part, "[$firstMoveId]ids[]", ['value' => $part->id]) ?>
+                        <?= Html::tag('span', Html::encode($part->title), ['class' => 'label label-primary']) ?>
                     <?php endforeach; ?>
                 </div>
             </div>

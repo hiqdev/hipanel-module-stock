@@ -123,7 +123,6 @@ class OrdersCest
     protected function updateValues(): void
     {
         $this->values['no'] .= '1';
-        $this->values['name'] = '';
         $this->values['state'] = 'New';
     }
 }

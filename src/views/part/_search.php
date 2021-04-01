@@ -64,12 +64,20 @@ use yii\helpers\Html;
     <?= $search->field('src_name_in')->widget(RangeCombo::class, [
         'name' => 'src_ids',
         'useDstTypes' => false,
+        'options' => [
+            'rename' => ['text' => 'name', 'name' => 'id'],
+            'replaceIdToName' => true,
+        ],
     ]) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('dst_name_in')->widget(RangeCombo::class, [
         'name' => 'dst_ids',
+        'options' => [
+            'rename' => ['text' => 'name', 'name' => 'id'],
+            'replaceIdToName' => true,
+        ],
     ]) ?>
 </div>
 
@@ -115,11 +123,11 @@ use yii\helpers\Html;
     <div class="form-group">
         <?= Html::tag('label', Yii::t('hipanel:stock', 'Created range'), ['class' => 'control-label']) ?>
         <?= DateRangePicker::widget([
-            'id' => 'create_time-date-range-picker',
             'model' => $search->model,
             'attribute' => 'create_time_from',
             'attribute2' => 'create_time_till',
             'options' => [
+                'id' => 'create_time-date-range-picker',
                 'class' => 'form-control',
             ],
             'dateFormat' => 'yyyy-MM-dd',

@@ -2,6 +2,7 @@
 
 namespace hipanel\modules\stock\widgets;
 
+use hipanel\helpers\ArrayHelper;
 use hipanel\modules\stock\widgets\combo\PartDestinationCombo;
 use yii\base\Widget;
 use yii\db\ActiveRecordInterface;
@@ -13,6 +14,8 @@ class RangeCombo extends Widget
     public string $attribute;
 
     public bool $useDstTypes = true;
+
+    public array $options = [];
 
     public ActiveRecordInterface $model;
 
@@ -29,6 +32,7 @@ class RangeCombo extends Widget
                 'select2Options' => ['placeholder' => $this->model->getAttributeLabel($this->attribute)],
             ],
         ]);
+        $options = ArrayHelper::merge($options, $this->options);
         if (!$this->useDstTypes) {
             $options['filter'] = [];
         }

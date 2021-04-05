@@ -5,12 +5,15 @@ namespace hipanel\modules\stock\widgets\combo;
 use hipanel\helpers\ArrayHelper;
 use hipanel\modules\stock\models\Part;
 use Yii;
+use yii\helpers\Json;
 use yii\web\JsExpression;
 
 class PartDestinationCombo extends DestinationCombo
 {
     /** {@inheritdoc} */
     public $name = 'dst_ids';
+
+    public bool $replaceIdToName = false;
 
     /** {@inheritdoc} */
     public function getPluginOptions($options = []): array
@@ -41,6 +44,7 @@ class PartDestinationCombo extends DestinationCombo
         parent::init();
         $this->inputOptions['data-destination-field'] = true;
         $spinner = Yii::$app->assetManager->publish(dirname(__DIR__, 2) . '/assets/img/select2-loader.gif')[1];
+        $replaceIdToName = Json::htmlEncode($this->replaceIdToName);
         $this->view->registerCss("
         .select2-container--open .select2-selection.select2-loading {
             background-image: url('{$spinner}');
@@ -64,6 +68,10 @@ class PartDestinationCombo extends DestinationCombo
                         if (data.length) {
                             delete event.params.args.prevented;
                             $(data).each(function(i, datum) {
+                                const replaceIdToName = {$replaceIdToName};
+                                if (replaceIdToName && datum.id !== datum.text) { 
+                                    datum.id = datum.text; 
+                                }
                                 event.params.args.data = datum;
                                 Select2.constructor.__super__.trigger.call(Select2, 'select', event.params.args);
                             });
@@ -77,7 +85,7 @@ class PartDestinationCombo extends DestinationCombo
                     }
                 });
                 event.preventDefault();
-                
+
                 return false;
             }
         }

@@ -29,6 +29,14 @@ class OrderQuery extends ActiveQuery
         return $this;
     }
 
+    public function withFiles(): self
+    {
+        $this->joinWith('files');
+        $this->andWhere(['with_files' => true]);
+
+        return $this;
+    }
+
     /**
      * @return $this
      */

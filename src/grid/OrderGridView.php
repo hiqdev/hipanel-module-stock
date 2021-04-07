@@ -144,8 +144,8 @@ class OrderGridView extends BoxedGridView
                 'format' => 'raw',
                 'filter' => false,
                 'contentOptions' => [
-                    'class' => 'text-right',
-                    'style' => 'width:1%; white-space:nowrap;',
+                    'class' => 'text-center',
+                    'style' => 'width:1%; white-space:nowrap; vertical-align: middle;',
                 ],
                 'label' => Yii::t('hipanel.stock.order', 'Parts'),
                 'value' => function (Order $order) {

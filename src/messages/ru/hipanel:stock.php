@@ -17,6 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'File attachments' => 'Прикрепленные файлы',
     '2.5" HDD' => '',
     '3.5" HDD' => '',
     'Brand' => 'Бренд',

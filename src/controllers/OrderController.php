@@ -63,9 +63,21 @@ class OrderController extends CrudController
             'update' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel.stock.order', 'Order has been updated'),
+                'on beforeFetch' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->withFiles();
+                },
             ],
             'view' => [
                 'class' => ViewAction::class,
+                'on beforePerform' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->withFiles();
+                },
             ],
             'delete' => [
                 'class' => SmartDeleteAction::class,

@@ -19,6 +19,7 @@ class OrderSearch extends Order
             'time_till',
             'profit_time_from',
             'profit_time_till',
+            'with_files',
         ]);
     }
 }

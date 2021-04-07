@@ -6,11 +6,15 @@
 use hipanel\modules\stock\grid\OrderGridView;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\modules\stock\menus\OrderDetailMenu;
+use hipanel\modules\stock\models\Order;
+use hipanel\modules\stock\widgets\OrderFileRender;
 use hipanel\widgets\Box;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\MainDetails;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
+
+/** @var $model Order */
 
 $this->title = Html::encode($model->pageTitle);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel.stock.order', 'Orders'), 'url' => ['index']];
@@ -29,7 +33,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]) ?>
             </div>
             <div class="col-md-12">
-                <?php $box = Box::begin(['renderBody' => false]) ?>
+                <?php $box = Box::begin([
+                        'renderBody' => false,
+                        'bodyOptions' => ['class' => 'no-padding'],
+                        'options' => ['class' => 'box-widget'],
+                    ]) ?>
                     <?php $box->beginHeader() ?>
                         <?= $box->renderTitle(Yii::t('hipanel.stock.order', 'Details')) ?>
                     <?php $box->endHeader() ?>
@@ -50,6 +58,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php $box->end() ?>
             </div>
 
+            <div class="col-md-12">
+                <?php if ($model->files) : ?>
+                    <div class="box box-widget">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">
+                                <?= Yii::t('hipanel:stock', 'File attachments') ?>
+                            </h3>
+                        </div>
+                        <div class="box-body no-padding">
+                            <ul class="nav nav-stacked">
+                                <?php foreach ($model->files as $file) : ?>
+                                    <li>
+                                        <?= OrderFileRender::widget(['file' => $file]) ?>
+                                    </li>
+                                <?php endforeach ?>
+                            </ul>
+                        </div>
+                    </div>
+                <?php endif ?>
+            </div>
         </div>
     </div>
 

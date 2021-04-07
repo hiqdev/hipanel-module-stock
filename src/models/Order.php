@@ -12,6 +12,7 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\ModelTrait;
 use hipanel\base\Model;
+use hipanel\behaviors\File;
 use hipanel\models\Ref;
 use hipanel\modules\stock\models\query\OrderQuery;
 use hiqdev\hiart\ActiveQuery;
@@ -28,6 +29,20 @@ use hipanel\modules\stock\helpers\ProfitColumns;
 class Order extends Model
 {
     use ModelTrait;
+
+    public const MAX_FILES_COUNT = 5;
+
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => File::class,
+                'attribute' => 'file',
+                'targetAttribute' => 'file_ids',
+                'scenarios' => ['create', 'update'],
+            ],
+        ];
+    }
 
     public function rules()
     {
@@ -48,12 +63,15 @@ class Order extends Model
                 },
                 'message' => Yii::t('hipanel.stock.order', 'The combination No. and Reseller has already been taken.'),
                 'on' => ['create', 'update']],
+            [['file_ids'], 'safe'],
+            [['file'], 'file', 'maxFiles' => self::MAX_FILES_COUNT],
         ]);
     }
 
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels(array_merge([
+            'file' => Yii::t('hipanel.stock.order', 'File attachments'),
             'no' => Yii::t('hipanel.stock.order', '#'),
             'state' => Yii::t('hipanel.stock.order', 'State'),
             'type' => Yii::t('hipanel.stock.order', 'Type'),
@@ -91,6 +109,20 @@ class Order extends Model
     public function getPartsProfit()
     {
         return $this->hasMany(PartWithProfit::class, ['id' => 'id']);
+    }
+
+    public function getFiles(): ActiveQuery
+    {
+        return $this->hasMany(\hipanel\models\File::class, ['object_id' => 'id']);
+    }
+
+    public function getFileCount(): int
+    {
+        if ($this->isNewRecord) {
+            return 0;
+        }
+
+        return count($this->files);
     }
 
     /**

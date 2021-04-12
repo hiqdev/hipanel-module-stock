@@ -3,6 +3,7 @@
 namespace hipanel\modules\stock\tests\acceptance\manager;
 
 use hipanel\helpers\Url;
+use hipanel\modules\stock\tests\_support\Page\modelGroup\Create;
 use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Step\Acceptance\Manager;
@@ -12,24 +13,45 @@ use hipanel\tests\_support\Step\Acceptance\Manager;
  */
 class ModelGroupsActionsCest
 {
+    const ADDITIONAL_FORMS = 2;
+
     /**
      * @var IndexPage
      */
     private $index;
+    /**
+     * @var Create
+     */
+    private $create;
 
     /**
      * @var string
      */
     private $uniq;
 
+    /**
+     * @var array
+     */
+    private $stocks;
+
     public function __construct()
     {
         $this->uniq = uniqid();
+        $this->stocks = \Yii::$app->params['module.stock.stocks_list'];
     }
 
     public function _before(Manager $I)
     {
         $this->index = new IndexPage($I);
+        $this->create = new Create($I);
+    }
+
+    public function ensureValidationWorks(Manager $I): void
+    {
+        $this->create->toPage();
+        $I->pressButton('Save');
+        $I->waitForPageUpdate();
+        $I->waitForText('Name cannot be blank.');
     }
 
     /**
@@ -41,19 +63,17 @@ class ModelGroupsActionsCest
      */
     public function ensureCreateModelGroupWorks(Manager $I): void
     {
-        $I->needPage(Url::to('@model-group/create'));
-        $I->pressButton('Save');
-        $I->waitForPageUpdate();
-        $I->waitForText('Name cannot be blank.');
-        $I->click("//button[contains(@class, 'add-item')]");
-        $I->click("//button[contains(@class, 'add-item')]");
-        foreach (range(0,2) as $i) {
+        $this->create->toPage();
+        $this->create->addAdditionalForms(self::ADDITIONAL_FORMS);
+//        $this->fillInputAndPressSaveButton();
+        foreach (range(0,self::ADDITIONAL_FORMS) as $i) {
             (new Input($I, "//input[@name='ModelGroup[$i][name]']"))
                 ->setValue("TEST_" . $this->uniq . "_New_" . $i);
             (new Input($I, "//textarea[contains(@name, 'ModelGroup[$i][descr]')]"))
                 ->setValue("Test description for $i item");
-            foreach (['dtg', 'sdg', 'm3', 'twr_z4c', 'twr_z6g'] as $stock) {
-                (new Input($I, "//input[@name='ModelGroup[$i][data][limit][$stock]']"))->setValue(($i + 1) * 10);
+            foreach (array_keys($this->stocks) as $stock) {
+                (new Input($I, "//input[@name='ModelGroup[$i][data][limit][$stock]']"))
+                    ->setValue(($i + 1) * 10);
             }
         }
         $I->pressButton('Save');

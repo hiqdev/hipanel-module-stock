@@ -9,6 +9,7 @@ use hipanel\modules\stock\models\Order;
 use hipanel\modules\stock\widgets\combo\ContactCombo;
 use hipanel\widgets\DateTimePicker;
 use hipanel\widgets\Box;
+use hipanel\widgets\FileInput;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -68,6 +69,26 @@ use yii\helpers\Url;
         <?php Box::end() ?>
 
     </div>
+
+    <?php if ($model->fileCount < Order::MAX_FILES_COUNT) : ?>
+        <div class="col-md-6">
+            <?php Box::begin() ?>
+            <?= $form->field($model, 'file[]')->widget(FileInput::class, [
+                'options' => [
+                    'multiple' => true,
+                ],
+                'pluginOptions' => [
+                    'previewFileType' => 'any',
+                    'showRemove' => true,
+                    'showUpload' => false,
+                    'initialPreviewShowDelete' => true,
+                    'maxFileCount' => Order::MAX_FILES_COUNT - $model->fileCount,
+                    'msgFilesTooMany' => Yii::t('hipanel', 'Number of files selected for upload ({n}) exceeds maximum allowed limit of {m}'),
+                ],
+            ]) ?>
+            <?php Box::end() ?>
+        </div>
+    <?php endif ?>
 </div>
 
 <div class='row'>

@@ -62,7 +62,7 @@ class OrderGridView extends BoxedGridView
     {
         return array_merge(parent::columns(), $this->getProfitColumns(), [
             'name_profit' => [
-                'format' => 'raw',
+                'format' => 'html',
                 'label' => Yii::t('hipanel:stock', 'Order No.'),
                 'filterAttribute' => 'name_ilike',
                 'value' => function (Order $order): string {
@@ -90,6 +90,7 @@ class OrderGridView extends BoxedGridView
             'seller' => [
                 'attribute' => 'seller_id',
                 'filterAttribute' => 'seller_id',
+                /** todo: refactor */
                 'format' => 'raw',
                 'filter' => function (DataColumn $column, OrderSearch $model, string $attribute) {
                     return ContactCombo::widget([
@@ -105,6 +106,7 @@ class OrderGridView extends BoxedGridView
             'buyer' => [
                 'attribute' => 'buyer_id',
                 'filterAttribute' => 'buyer_id',
+                /** todo: refactor */
                 'format' => 'raw',
                 'filter' => function (DataColumn $column, OrderSearch $model, string $attribute) {
                     return ContactCombo::widget([
@@ -120,7 +122,6 @@ class OrderGridView extends BoxedGridView
             'type' => [
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'class' => RefColumn::class,
-                'format' => 'raw',
                 'gtype' => 'type,zorder',
                 'i18nDictionary' => 'hipanel.stock.order',
                 'value' => function (Order $model) {
@@ -130,7 +131,6 @@ class OrderGridView extends BoxedGridView
             'state' => [
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'class' => RefColumn::class,
-                'format' => 'raw',
                 'gtype' => 'state,zorder',
                 'i18nDictionary' => 'hipanel.stock.order',
                 'value' => function (Order $model) {
@@ -141,6 +141,7 @@ class OrderGridView extends BoxedGridView
                 'filterAttribute' => 'no_ilike',
             ],
             'parts' => [
+                /** todo: refactor */
                 'format' => 'raw',
                 'filter' => false,
                 'contentOptions' => [

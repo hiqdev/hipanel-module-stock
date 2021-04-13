@@ -65,7 +65,7 @@ class PartGridView extends BoxedGridView
                         'formElementSelector' => 'td',
                     ]);
                 },
-                'format' => 'raw',
+                'format' => 'html',
                 'label' => Yii::t('hipanel:stock', 'Part No.'),
                 'value' => function ($model) {
                     if (Yii::$app->user->can('model.read')) {
@@ -88,7 +88,7 @@ class PartGridView extends BoxedGridView
             ],
             'model' => [
                 'attribute' => 'model',
-                'format' => 'raw',
+                'format' => 'html',
                 'label' => Yii::t('hipanel:stock', 'Model'),
                 'value' => function ($model) {
                     if (Yii::$app->user->can('model.read')) {
@@ -132,7 +132,7 @@ class PartGridView extends BoxedGridView
             'move_type_and_date' => [
                 'label' => Yii::t('hipanel', 'Type') . ' / ' . Yii::t('hipanel', 'Date'),
                 'sortAttribute' => 'move_time',
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function ($model) {
                     $linkToMove = Html::a($model->move_type_label, [
                         '@move/index',
@@ -167,7 +167,7 @@ class PartGridView extends BoxedGridView
             'create_date' => [
                 'attribute' => 'create_time',
                 'filter' => false,
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function ($model) {
                     return Html::tag('nobr', Yii::$app->formatter->asDate($model->create_time));
                 },
@@ -238,7 +238,7 @@ class PartGridView extends BoxedGridView
             'selling_price' => [
                 'filterAttribute' => 'selling_currency',
                 'filter' => false,
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function ($model) {
                     return Yii::$app->formatter->asCurrency($model->selling_price, $model->selling_currency);
                 },
@@ -246,7 +246,7 @@ class PartGridView extends BoxedGridView
             ],
             'selling_time' => [
                 'filter' => false,
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function ($model) {
                     return Html::tag('nobr', Yii::$app->formatter->asDateTime($model->selling_time));
                 },
@@ -259,7 +259,7 @@ class PartGridView extends BoxedGridView
                         'formElementSelector' => 'td',
                     ]);
                 },
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => static function (Part $model) {
                     if ($model->isTrashed()) {
                         return $model->place;
@@ -272,7 +272,7 @@ class PartGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:stock', 'Model group'),
                 'enableSorting' => false,
                 'filter' => false,
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function (Model $model) {
                     return Html::a(Html::encode($model->model->group), ['@model-group/view', 'id' => $model->model->group_id]);
                 },

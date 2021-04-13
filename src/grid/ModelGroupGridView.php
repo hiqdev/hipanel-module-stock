@@ -42,7 +42,7 @@ class ModelGroupGridView extends BoxedGridView
                 'label' => '',
                 'columns' => [
                     [
-                        'format' => 'raw',
+                        'format' => 'html',
                         'value' => function () {
                             return '&nbsp;';
                         },
@@ -50,7 +50,6 @@ class ModelGroupGridView extends BoxedGridView
                     [
                         'label' => Yii::t('hipanel:stock', 'Stock'),
                         'contentOptions' => ['class' => 'text-center'],
-                        'format' => 'raw',
                         'value' => function () {
                             return Yii::t('hipanel:stock', 'Stock');
                         }
@@ -58,7 +57,6 @@ class ModelGroupGridView extends BoxedGridView
                     [
                         'label' => Yii::t('hipanel:stock', 'RMA'),
                         'contentOptions' => ['class' => 'text-center'],
-                        'format' => 'raw',
                         'value' => function () {
                             return Yii::t('hipanel:stock', 'RMA');
                         }
@@ -66,13 +64,12 @@ class ModelGroupGridView extends BoxedGridView
                     [
                         'label' => Yii::t('hipanel:stock', 'Limit'),
                         'contentOptions' => ['class' => 'text-center'],
-                        'format' => 'raw',
                         'value' => function () {
                             return Yii::t('hipanel:stock', 'Limit');
                         }
                     ],
                     [
-                        'format' => 'raw',
+                        'format' => 'html',
                         'value' => function () {
                             return '&nbsp;';
                         },
@@ -90,7 +87,7 @@ class ModelGroupGridView extends BoxedGridView
                     'class' => 'text-right',
                 ],
                 'filterAttribute' => 'name_ilike',
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function ($model) {
                     return Html::a(Html::encode($model->name), ['@model-group/view', 'id' => $model->id], ['class' => 'text-bold']);
                 }
@@ -119,13 +116,13 @@ class ModelGroupGridView extends BoxedGridView
                 ],
                 'columns' => [
                     [
-                        'format' => 'raw',
+                        'format' => 'html',
                         'value' => fn() => '&nbsp;',
                     ],
                     [
                         'label' => Yii::t('hipanel:stock', 'Stock'),
                         'contentOptions' => ['class' => 'text-center'],
-                        'format' => 'raw',
+                        'format' => 'html',
                         'value' => function (ModelGroup $model) use ($type) {
                             $html = '';
 
@@ -140,7 +137,7 @@ class ModelGroupGridView extends BoxedGridView
                     [
                         'label' => Yii::t('hipanel:stock', 'RMA'),
                         'contentOptions' => ['class' => 'text-center'],
-                        'format' => 'raw',
+                        'format' => 'html',
                         'value' => function (ModelGroup $model) use ($type) {
                             $html = '';
 
@@ -158,13 +155,13 @@ class ModelGroupGridView extends BoxedGridView
                             $short = $model->limits[$type]['limit'] > $model->limits[$type]['stock'];
                             return ['class' => 'text-center' . ($short ? ' bg-danger' : '')];
                         },
-                        'format' => 'raw',
+                        'format' => 'html',
                         'value' => function (ModelGroup $model) use ($type) {
                             return Html::tag('strong', $model->limits[$type]['limit']);
                         }
                     ],
                     [
-                        'format' => 'raw',
+                        'format' => 'html',
                         'value' => function () {
                             return '&nbsp;';
                         },

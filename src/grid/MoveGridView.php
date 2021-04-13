@@ -55,6 +55,7 @@ class MoveGridView extends BoxedGridView
                 'filter' => false,
             ],
             'parts' => [
+                /** todo: refactor */
                 'format' => 'raw',
                 'filter' => false,
                 'enableSorting' => false,

@@ -65,7 +65,7 @@ class ModelGridView extends BoxedGridView
             'partno' => [
                 'enableSorting' => false,
                 'filterAttribute' => 'partno_like',
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function (Model $model) {
                     return Html::a(Html::encode($model->partno), [
                         '@model/view', 'id' => $model->id
@@ -89,12 +89,10 @@ class ModelGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:stock', 'Group'),
                 'enableSorting' => false,
                 'filter' => false,
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function (Model $model) {
-                    $groupName = Html::encode($model->group);
-
-                    return Html::a($groupName, ['@model-group/view', 'id' => $model->group_id], [
-                        'title' => $groupName,
+                    return Html::a($model->group, ['@model-group/view', 'id' => $model->group_id], [
+                        'title' => $model->group,
                         'style' => 'display: inline-block; width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'
                     ]);
                 }
@@ -114,7 +112,7 @@ class ModelGridView extends BoxedGridView
             $result[$name] = [
                 'enableSorting' => false,
                 'filter' => false,
-                'format' => 'raw',
+                'format' => 'html',
                 'label' => $label,
                 'value' => fn (Model $model) => $model->renderReserves($name),
             ];

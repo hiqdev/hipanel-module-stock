@@ -90,8 +90,7 @@ class OrderGridView extends BoxedGridView
             'seller' => [
                 'attribute' => 'seller_id',
                 'filterAttribute' => 'seller_id',
-                /** todo: refactor */
-                'format' => 'raw',
+                'format' => 'html',
                 'filter' => function (DataColumn $column, OrderSearch $model, string $attribute) {
                     return ContactCombo::widget([
                         'model' => $model,
@@ -106,8 +105,7 @@ class OrderGridView extends BoxedGridView
             'buyer' => [
                 'attribute' => 'buyer_id',
                 'filterAttribute' => 'buyer_id',
-                /** todo: refactor */
-                'format' => 'raw',
+                'format' => 'html',
                 'filter' => function (DataColumn $column, OrderSearch $model, string $attribute) {
                     return ContactCombo::widget([
                         'model' => $model,
@@ -122,6 +120,7 @@ class OrderGridView extends BoxedGridView
             'type' => [
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'class' => RefColumn::class,
+                'format' => 'html',
                 'gtype' => 'type,zorder',
                 'i18nDictionary' => 'hipanel.stock.order',
                 'value' => function (Order $model) {
@@ -131,6 +130,7 @@ class OrderGridView extends BoxedGridView
             'state' => [
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'class' => RefColumn::class,
+                'format' => 'html',
                 'gtype' => 'state,zorder',
                 'i18nDictionary' => 'hipanel.stock.order',
                 'value' => function (Order $model) {

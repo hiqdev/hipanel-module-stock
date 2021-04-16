@@ -141,7 +141,6 @@ class OrderGridView extends BoxedGridView
                 'filterAttribute' => 'no_ilike',
             ],
             'parts' => [
-                /** todo: refactor */
                 'format' => 'raw',
                 'filter' => false,
                 'contentOptions' => [

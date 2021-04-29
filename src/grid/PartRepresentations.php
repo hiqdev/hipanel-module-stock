@@ -20,6 +20,14 @@ class PartRepresentations extends RepresentationCollection
                     'order_name', 'company_id',
                 ],
             ],
+            'brief' => [
+                'label' => Yii::t('hipanel', 'brief'),
+                'columns' => [
+                    'checkbox',
+                    'model_type', 'model_brand', 'partno', 'serial',
+                    'last_move', 'move_type_and_date', 'move_descr',
+                ],
+            ],
             'report' => [
                 'label' => Yii::t('hipanel', 'report'),
                 'columns' => [

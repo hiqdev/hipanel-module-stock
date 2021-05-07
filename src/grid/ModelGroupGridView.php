@@ -42,7 +42,7 @@ class ModelGroupGridView extends BoxedGridView
                 'label' => '',
                 'columns' => [
                     [
-                        'format' => 'html',
+                        'format' => 'raw',
                         'value' => function () {
                             return '&nbsp;';
                         },
@@ -69,7 +69,6 @@ class ModelGroupGridView extends BoxedGridView
                         }
                     ],
                     [
-                        'format' => 'html',
                         'value' => function () {
                             return '&nbsp;';
                         },
@@ -87,7 +86,7 @@ class ModelGroupGridView extends BoxedGridView
                     'class' => 'text-right',
                 ],
                 'filterAttribute' => 'name_ilike',
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function ($model) {
                     return Html::a(Html::encode($model->name), ['@model-group/view', 'id' => $model->id], ['class' => 'text-bold']);
                 }
@@ -116,13 +115,13 @@ class ModelGroupGridView extends BoxedGridView
                 ],
                 'columns' => [
                     [
-                        'format' => 'html',
+                        'format' => 'raw',
                         'value' => fn() => '&nbsp;',
                     ],
                     [
                         'label' => Yii::t('hipanel:stock', 'Stock'),
                         'contentOptions' => ['class' => 'text-center'],
-                        'format' => 'html',
+                        'format' => 'raw',
                         'value' => function (ModelGroup $model) use ($type) {
                             $html = '';
 
@@ -130,14 +129,14 @@ class ModelGroupGridView extends BoxedGridView
                                 $html .= $model->limits[$type]['res_stock'] . '+';
                             }
 
-                            $html .= Html::tag('strong', $model->limits[$type]['stock'], ['class' => 'text-error']);
+                            $html .= Html::tag('strong', Html::encode($model->limits[$type]['stock']), ['class' => 'text-error']);
                             return $html;
                         }
                     ],
                     [
                         'label' => Yii::t('hipanel:stock', 'RMA'),
                         'contentOptions' => ['class' => 'text-center'],
-                        'format' => 'html',
+                        'format' => 'raw',
                         'value' => function (ModelGroup $model) use ($type) {
                             $html = '';
 
@@ -145,7 +144,7 @@ class ModelGroupGridView extends BoxedGridView
                                 $html .= $model->limits[$type]['res_rma'] . '+';
                             }
 
-                            $html .= Html::tag('strong', $model->limits[$type]['rma'], ['class' => 'text-danger']);
+                            $html .= Html::tag('strong', Html::encode($model->limits[$type]['rma']), ['class' => 'text-danger']);
                             return $html;
                         }
                     ],
@@ -155,13 +154,13 @@ class ModelGroupGridView extends BoxedGridView
                             $short = $model->limits[$type]['limit'] > $model->limits[$type]['stock'];
                             return ['class' => 'text-center' . ($short ? ' bg-danger' : '')];
                         },
-                        'format' => 'html',
+                        'format' => 'raw',
                         'value' => function (ModelGroup $model) use ($type) {
-                            return Html::tag('strong', $model->limits[$type]['limit']);
+                            return Html::tag('strong', Html::encode($model->limits[$type]['limit']));
                         }
                     ],
                     [
-                        'format' => 'html',
+                        'format' => 'raw',
                         'value' => function () {
                             return '&nbsp;';
                         },

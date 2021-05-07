@@ -62,11 +62,11 @@ class OrderGridView extends BoxedGridView
     {
         return array_merge(parent::columns(), $this->getProfitColumns(), [
             'name_profit' => [
-                'format' => 'html',
+                'format' => 'raw',
                 'label' => Yii::t('hipanel:stock', 'Order No.'),
                 'filterAttribute' => 'name_ilike',
                 'value' => function (Order $order): string {
-                    return Html::a($order->name, ['profit-view', 'id' => $order->id], ['class' => 'bold']);
+                    return Html::a(Html::encode($order->name), ['profit-view', 'id' => $order->id], ['class' => 'bold']);
                 },
                 'footer' => '<b>' . Yii::t('hipanel:stock', 'TOTAL on screen') . '</b>',
             ],
@@ -90,7 +90,7 @@ class OrderGridView extends BoxedGridView
             'seller' => [
                 'attribute' => 'seller_id',
                 'filterAttribute' => 'seller_id',
-                'format' => 'html',
+                'format' => 'raw',
                 'filter' => function (DataColumn $column, OrderSearch $model, string $attribute) {
                     return ContactCombo::widget([
                         'model' => $model,
@@ -99,13 +99,13 @@ class OrderGridView extends BoxedGridView
                     ]);
                 },
                 'value' => function (Order $model) {
-                    return Html::a($model->seller, ['@client/view', 'id' => $model->seller_id]);
+                    return Html::a(Html::encode($model->seller), ['@client/view', 'id' => $model->seller_id]);
                 }
             ],
             'buyer' => [
                 'attribute' => 'buyer_id',
                 'filterAttribute' => 'buyer_id',
-                'format' => 'html',
+                'format' => 'raw',
                 'filter' => function (DataColumn $column, OrderSearch $model, string $attribute) {
                     return ContactCombo::widget([
                         'model' => $model,
@@ -114,13 +114,13 @@ class OrderGridView extends BoxedGridView
                     ]);
                 },
                 'value' => function (Order $model) {
-                    return Html::a($model->buyer, ['@client/view', 'id' => $model->buyer_id]);
+                    return Html::a(Html::encode($model->buyer), ['@client/view', 'id' => $model->buyer_id]);
                 }
             ],
             'type' => [
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'class' => RefColumn::class,
-                'format' => 'html',
+                'format' => 'raw',
                 'gtype' => 'type,zorder',
                 'i18nDictionary' => 'hipanel.stock.order',
                 'value' => function (Order $model) {
@@ -130,7 +130,7 @@ class OrderGridView extends BoxedGridView
             'state' => [
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'class' => RefColumn::class,
-                'format' => 'html',
+                'format' => 'raw',
                 'gtype' => 'state,zorder',
                 'i18nDictionary' => 'hipanel.stock.order',
                 'value' => function (Order $model) {

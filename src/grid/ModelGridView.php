@@ -65,7 +65,7 @@ class ModelGridView extends BoxedGridView
             'partno' => [
                 'enableSorting' => false,
                 'filterAttribute' => 'partno_like',
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function (Model $model) {
                     return Html::a(Html::encode($model->partno), [
                         '@model/view', 'id' => $model->id
@@ -80,7 +80,7 @@ class ModelGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:stock', 'Last price'),
                 'enableSorting' => false,
                 'filter' => false,
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function (Model $model) {
                     return $model->showModelPrices($model->last_prices);
                 },
@@ -89,10 +89,11 @@ class ModelGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:stock', 'Group'),
                 'enableSorting' => false,
                 'filter' => false,
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function (Model $model) {
-                    return Html::a($model->group, ['@model-group/view', 'id' => $model->group_id], [
-                        'title' => $model->group,
+                    $group = Html::encode($model->group);
+                    return Html::a($group, ['@model-group/view', 'id' => $model->group_id], [
+                        'title' => $group,
                         'style' => 'display: inline-block; width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'
                     ]);
                 }
@@ -112,7 +113,7 @@ class ModelGridView extends BoxedGridView
             $result[$name] = [
                 'enableSorting' => false,
                 'filter' => false,
-                'format' => 'html',
+                'format' => 'raw',
                 'label' => $label,
                 'value' => fn (Model $model) => $model->renderReserves($name),
             ];

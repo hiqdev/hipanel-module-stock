@@ -294,7 +294,19 @@ class PartGridView extends BoxedGridView
             ],
             'first_move' => [
                 'visible' => Yii::$app->user->can('move.read'),
-            ]
+            ],
+            'last_move_with_descr' => [
+                'label' => Yii::t('hipanel:stock', 'Last move with descr'),
+                'format' => 'raw',
+                'visible' => Yii::$app->user->can('move.read'),
+                'contentOptions' => ['style' => 'display: flex; flex-direction: row; justify-content: space-between; flex-wrap: nowrap;'],
+                'value' => function ($model) {
+                    $move = Html::tag('span', Html::tag('b', $model->dst_name) . '&nbsp;←&nbsp;' . $model->src_name);
+                    $descr = Move::prepareDescr($model->move_descr);
+
+                    return implode("", [$move, $descr]);
+                },
+            ],
         ]);
     }
 }

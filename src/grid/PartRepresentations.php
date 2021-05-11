@@ -64,6 +64,13 @@ class PartRepresentations extends RepresentationCollection
                 'label' => Yii::t('hipanel', 'profit report'),
                 'columns' => ProfitColumns::getColumnNames(['checkbox', 'buyer', 'company_id', 'serial', 'partno']),
             ] : null,
+            'admin' => Yii::$app->user->can('admin') ? [
+                'label' => 'admin',
+                'columns' => [
+                    'checkbox',
+                    'model_type', 'model_brand', 'partno', 'serial', 'place', 'reserve', 'last_move_with_descr', 'move_time',
+                ],
+            ] : null,
         ]);
     }
 }

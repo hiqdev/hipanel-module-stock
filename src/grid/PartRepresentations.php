@@ -10,6 +10,7 @@ class PartRepresentations extends RepresentationCollection
 {
     protected function fillRepresentations()
     {
+        $user = Yii::$app->user;
         $this->representations = array_filter([
             'common' => [
                 'label' => Yii::t('hipanel', 'common'),
@@ -36,7 +37,7 @@ class PartRepresentations extends RepresentationCollection
                     'create_date', 'price', 'place',
                 ],
             ],
-            'detailed' => Yii::$app->user->can('tmp disabled') ? [
+            'detailed' => $user->can('tmp disabled') ? [
                 'label' => Yii::t('hipanel', 'detailed'),
                 'columns' => [
                     'checkbox',
@@ -46,7 +47,7 @@ class PartRepresentations extends RepresentationCollection
                     'move_descr', 'order_data', 'dc_ticket',
                 ],
             ] : '',
-            'selling' => Yii::$app->user->can('order.create') ? [
+            'selling' => $user->can('order.create') ? [
                 'label' => Yii::t('hipanel:stock', 'selling'),
                 'columns' => [
                     'checkbox',
@@ -60,11 +61,11 @@ class PartRepresentations extends RepresentationCollection
                     'selling_time',
                 ]
             ] : null,
-            'profit-report' => Yii::$app->user->can('order.read-profits') ? [
+            'profit-report' => $user->can('order.read-profits') ? [
                 'label' => Yii::t('hipanel', 'profit report'),
                 'columns' => ProfitColumns::getColumnNames(['checkbox', 'buyer', 'company_id', 'serial', 'partno']),
             ] : null,
-            'admin' => Yii::$app->user->can('admin') ? [
+            'admin' => $user->can('admin') && $user->can('order.create') ? [
                 'label' => 'admin',
                 'columns' => [
                     'checkbox',

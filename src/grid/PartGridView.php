@@ -301,10 +301,10 @@ class PartGridView extends BoxedGridView
                 'visible' => Yii::$app->user->can('move.read'),
                 'contentOptions' => ['style' => 'display: flex; flex-direction: row; justify-content: space-between; flex-wrap: nowrap;'],
                 'value' => function ($model) {
-                    $move = Html::tag('span', Html::tag('b', $model->dst_name) . '&nbsp;←&nbsp;' . $model->src_name);
-                    $descr = Move::prepareDescr($model->move_descr);
+                    $move = Html::tag('span', Html::tag('b', Html::encode($model->dst_name)) . '&nbsp;←&nbsp;' . Html::encode($model->src_name));
+                    $descr = Move::prepareDescr(Html::encode($model->move_descr));
 
-                    return implode("", [$move, $descr]);
+                    return implode('', [$move, $descr]);
                 },
             ],
         ]);

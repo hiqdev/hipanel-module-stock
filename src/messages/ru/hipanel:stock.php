@@ -155,4 +155,6 @@ return [
     'Is favorite' => 'Популярные',
     'Hardware properties' => 'Конфигурация',
     'Edit properties' => 'Редактировать свойства',
+    'Last move with descr' => 'Последнее перемещение с опис.',
+    'Administrative' => 'Административный',
 ];

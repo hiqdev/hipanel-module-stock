@@ -2,7 +2,7 @@
 
 use hiqdev\combo\StaticCombo;
 
-$this->registerCss('label > .option-input { top: 6px; margin-right: .3rem; }'); // fix label display for checkbox
+$this->registerCss('label > .option-input { margin-right: .3rem; }'); // fix label display for checkbox
 
 ?>
 

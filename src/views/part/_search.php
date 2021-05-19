@@ -135,7 +135,7 @@ use yii\helpers\Html;
     </div>
 </div>
 
-<?php if (Yii::$app->user->can('move.read')): ?>
+<?php if (Yii::$app->user->can('order.read')): ?>
     <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('reserve_ilike') ?></div>
 <?php endif ?>
 

@@ -268,7 +268,7 @@ class PartGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:stock', 'Model group'),
                 'enableSorting' => false,
                 'filter' => false,
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function (Model $model) {
                     return Html::a(Html::encode($model->model->group), ['@model-group/view', 'id' => $model->model->group_id]);
                 },

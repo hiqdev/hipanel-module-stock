@@ -6,6 +6,11 @@ use hipanel\widgets\AmountWithCurrency;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
+/**
+ * @var \yii\base\Model $model
+ * @var \yii\base\Model[] $models
+ */
+
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -23,7 +28,11 @@ use yii\helpers\Html;
             'data' => $models,
             'visibleCount' => count($models),
             'formatter' => function ($model) {
-                return $model->partno . sprintf(' (%s/<b>%s</b>)', $model->serial, $model->src_name);
+                [$partno, $serial, $src_name] = array_map(
+                    fn ($el) => Html::encode($el),
+                    [$model->partno, $model->serial, $model->src_name]
+                );
+                return sprintf('%s (%s/<b>%s</b>)', $partno, $serial, $src_name);
             },
             'delimiter' => ',&nbsp; ',
         ]) ?>

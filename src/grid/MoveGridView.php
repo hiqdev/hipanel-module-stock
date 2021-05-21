@@ -71,7 +71,7 @@ class MoveGridView extends BoxedGridView
                             ],
                         ],
                         'formatter' => function ($item) {
-                            return Html::a($item['partno'] . ':' . $item['serial'], ['@part/view', 'id' => $item['part_id']], ['class' => 'text-nowrap']);
+                            return Html::a(sprintf("%s:%s", Html::encode($item['partno']), Html::encode($item['serial'])), ['@part/view', 'id' => $item['part_id']], ['class' => 'text-nowrap']);
                         },
                     ]);
                 },

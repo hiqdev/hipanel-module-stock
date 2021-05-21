@@ -164,4 +164,14 @@ JS
             $this->tester->waitForText("$field cannot be blank.");
         }
     }
+    public function updateModelWithNewPartNoData($newModelData) 
+    {
+        $I = $this->tester;
+        $I->click("//a[contains(text(), 'Update')]");
+        $tempValue = 'UPD_TEST' . $newModelData['uid'];
+        (new Input($I, "//input[@value='".$newModelData['partno']."']"))
+            ->setValue($tempValue);
+        $I->pressButton('Save');
+        return $tempValue;
+    }
 }

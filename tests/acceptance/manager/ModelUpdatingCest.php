@@ -19,7 +19,6 @@ class ModelUpdatingCest
     {
         $page = new Create($I);
         $I->needPage(Url::to('@model/create'));
-        $I->wait(5);
         $modelData = $this->getModelData('RAM', 'Kingston', '32GB DDR3');
         $page->fillModelFields($modelData);
         $I->pressButton('Save');

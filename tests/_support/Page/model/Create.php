@@ -168,10 +168,9 @@ JS
     {
         $I = $this->tester;
         $I->click("//a[contains(text(), 'Update')]");
-        $tempValue = $newModelData['newpartnpo'];
-        (new Input($I, "//input[@value='".$newModelData['partno']."']"))
-            ->setValue($tempValue);
+        (new Input($I, "//input[@value='{$newModelData['partno']}']"))
+            ->setValue($newModelData['newpartnpo']);
         $I->pressButton('Save');
-        return $tempValue;
+        return $newModelData['newpartnpo'];
     }
 }

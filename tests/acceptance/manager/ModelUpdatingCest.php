@@ -18,21 +18,15 @@ class ModelUpdatingCest
     public function ensureICanCreateSeveralModel(Manager $I):void
     {
         $page = new Create($I);
-        $newValue = 'UPD_TEST';
-
         $I->needPage(Url::to('@model/create'));
         $modelData = $this->getModelData('RAM', 'Kingston', '32GB DDR3');
         $page->fillModelFields($modelData);
         $I->pressButton('Save');
         $urlDetails = $page->seeModelWasCreated();
-        $I->click("//a[contains(text(), 'Update')]");
-
-        $newValue .= $modelData['uid'];
-        (new Input($I, "//input[@value='".$modelData['partno']."']"))
-            ->setValue($newValue);
-        $I->pressButton('Save');
+        $newValue = $page->updateModelWithNewPartNoData($modelData);
         $I->waitForPageUpdate();
-        $I->seeInCurrentUrl('stock/model/view?id='.$urlDetails);
+        $this->ensureCurrentUrlIsCorrect($I, $urlDetails);
+
         $I->see($newValue, '//td/a');
     }
 
@@ -47,15 +41,20 @@ class ModelUpdatingCest
         $uid = uniqid();
 
         return [
-            'uid'       => $uid,
-            'type'      => $type,
-            'brand'     => $brand,
-            'group_id'  => $groupId,
-            'model'     => 'MG_TEST_MODEL' . $uid,
-            'partno'    => 'UP_TEST_' . $uid,
-            'url'       => 'test_url',
-            'short'     => 'Short description',
-            'descr'     => 'Extended description'
+            'uid'         => $uid,
+            'type'        => $type,
+            'brand'       => $brand,
+            'group_id'    => $groupId,
+            'model'       => 'MG_TEST_MODEL' . $uid,
+            'partno'      => 'UP_TEST_' . $uid,
+            'url'         => 'test_url',
+            'short'       => 'Short description',
+            'descr'       => 'Extended description',
+            'newpartnpo'  => 'UPD_TEST' . $uid,
         ];
+    }
+    private function ensureCurrentUrlIsCorrect(Manager $I, $urlId): void 
+    {
+        $I->seeInCurrentUrl('stock/model/view?id=' . $urlId);
     }
 }

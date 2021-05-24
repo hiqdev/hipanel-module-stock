@@ -168,7 +168,7 @@ JS
     {
         $I = $this->tester;
         $I->click("//a[contains(text(), 'Update')]");
-        $tempValue = 'UPD_TEST' . $newModelData['uid'];
+        $tempValue = $newModelData['newpartnpo'];
         (new Input($I, "//input[@value='".$newModelData['partno']."']"))
             ->setValue($tempValue);
         $I->pressButton('Save');

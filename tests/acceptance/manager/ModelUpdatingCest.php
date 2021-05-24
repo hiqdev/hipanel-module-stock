@@ -41,15 +41,16 @@ class ModelUpdatingCest
         $uid = uniqid();
 
         return [
-            'uid'       => $uid,
-            'type'      => $type,
-            'brand'     => $brand,
-            'group_id'  => $groupId,
-            'model'     => 'MG_TEST_MODEL' . $uid,
-            'partno'    => 'UP_TEST_' . $uid,
-            'url'       => 'test_url',
-            'short'     => 'Short description',
-            'descr'     => 'Extended description'
+            'uid'         => $uid,
+            'type'        => $type,
+            'brand'       => $brand,
+            'group_id'    => $groupId,
+            'model'       => 'MG_TEST_MODEL' . $uid,
+            'partno'      => 'UP_TEST_' . $uid,
+            'url'         => 'test_url',
+            'short'       => 'Short description',
+            'descr'       => 'Extended description',
+            'newpartnpo'  => 'UPD_TEST'. $uid,
         ];
     }
     private function ensureCurrentUrlIsCorrect(Manager $I, $urlId): void 

@@ -167,7 +167,7 @@ JS
     public function updateModelWithNewPartNoData($newModelData) 
     {
         $I = $this->tester;
-        $I->click("//a[contains(text(), 'Update')]");
+        $I->click('Update');
         $tempValue = 'UPD_TEST' . $newModelData['uid'];
         (new Input($I, "//input[@value='".$newModelData['partno']."']"))
             ->setValue($tempValue);

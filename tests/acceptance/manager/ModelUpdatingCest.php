@@ -55,6 +55,6 @@ class ModelUpdatingCest
     }
     private function ensureCurrentUrlIsCorrect(Manager $I, $urlId): void 
     {
-        $I->seeInCurrentUrl('stock/model/view?id='.$urlId);
+        $I->seeInCurrentUrl('stock/model/view?id=' . $urlId);
     }
 }

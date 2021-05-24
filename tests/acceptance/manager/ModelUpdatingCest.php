@@ -50,7 +50,7 @@ class ModelUpdatingCest
             'url'         => 'test_url',
             'short'       => 'Short description',
             'descr'       => 'Extended description',
-            'newpartnpo'  => 'UPD_TEST'. $uid,
+            'newpartnpo'  => 'UPD_TEST' . $uid,
         ];
     }
     private function ensureCurrentUrlIsCorrect(Manager $I, $urlId): void 

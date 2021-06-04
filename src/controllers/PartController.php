@@ -144,7 +144,7 @@ class PartController extends CrudController
                     foreach ($parts as $id => $part) {
                         $parts[$id]['model_id'] = $model_id;
                     }
-                    $action->collection->setModel($this->newModel(['scenario' => 'update']));
+                    $action->collection->setModel($this->newModel(['scenario' => 'change-model']));
                     $action->collection->load($parts);
                 },
             ],

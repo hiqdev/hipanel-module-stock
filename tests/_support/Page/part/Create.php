@@ -8,6 +8,7 @@ use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
+use hipanel\tests\_support\Page\Widget\Input\MultipleSelect2;
 
 class Create extends Authenticated
 {
@@ -44,7 +45,7 @@ class Create extends Authenticated
         (new Select2($I, $base . 'select[id$=src_id]'))
             ->setValue($partData['src_id']);
 
-        (new Select2($I, $base . 'select[id$=dst_ids]'))
+        (new MultipleSelect2($I, $base . 'select[id$=dst_ids]'))
             ->setValue($partData['dst_id']);
 
         (new Input($I, $base . 'input[id$=serials]'))

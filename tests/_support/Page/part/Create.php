@@ -9,6 +9,7 @@ use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\MultipleSelect2;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
+use hipanel\tests\_support\Page\Widget\Input\MultipleSelect2;
 
 class Create extends Authenticated
 {

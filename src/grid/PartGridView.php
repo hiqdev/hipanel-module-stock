@@ -44,9 +44,9 @@ class PartGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:stock', 'Serial'),
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'filterAttribute' => 'serial_ilike',
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function ($model) {
-                    return Html::a($model->serial, ['@part/view', 'id' => $model->id], ['class' => 'text-bold']);
+                    return Html::a(Html::encode($model->serial), ['@part/view', 'id' => $model->id], ['class' => 'text-bold']);
                 },
             ],
             'main' => [
@@ -69,9 +69,9 @@ class PartGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:stock', 'Part No.'),
                 'value' => function ($model) {
                     if (Yii::$app->user->can('model.read')) {
-                        return Html::a($model->partno, ['@model/view', 'id' => $model->model_id], [
+                        return Html::a(Html::encode($model->partno), ['@model/view', 'id' => $model->model_id], [
                             'data' => ['toggle' => 'tooltip'],
-                            'title' => "{$model->model_type_label} {$model->model_brand_label} / {$model->model_label}",
+                            'title' => Html::encode("{$model->model_type_label} {$model->model_brand_label} / {$model->model_label}"),
                         ]);
                     }
 
@@ -91,11 +91,12 @@ class PartGridView extends BoxedGridView
                 'format' => 'raw',
                 'label' => Yii::t('hipanel:stock', 'Model'),
                 'value' => function ($model) {
+                    $modelLabel = Html::encode($model->model_label);
                     if (Yii::$app->user->can('model.read')) {
-                        return Html::a($model->model_label, ['@model/view', 'id' => $model->model_id]);
+                        return Html::a($modelLabel, ['@model/view', 'id' => $model->model_id]);
                     }
 
-                    return $model->model_label;
+                    return $modelLabel;
                 },
             ],
             'model_type' => [
@@ -123,10 +124,10 @@ class PartGridView extends BoxedGridView
             'last_move' => [
                 'label' => Yii::t('hipanel:stock', 'Last move'),
                 'sortAttribute' => 'dst_name',
-                'format' => 'html',
+                'format' => 'raw',
                 'visible' => Yii::$app->user->can('move.read'),
                 'value' => function ($model) {
-                    return Html::tag('b', $model->dst_name) . '&nbsp;←&nbsp;' . $model->src_name;
+                    return Html::tag('b', Html::encode($model->dst_name)) . '&nbsp;←&nbsp;' . Html::encode($model->src_name);
                 },
             ],
             'move_type_and_date' => [
@@ -134,9 +135,9 @@ class PartGridView extends BoxedGridView
                 'sortAttribute' => 'move_time',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    $linkToMove = Html::a($model->move_type_label, [
+                    $linkToMove = Html::a(Html::encode($model->move_type_label), [
                         '@move/index',
-                        'MoveSearch' => ['serial_like' => $model->serial],
+                        'MoveSearch' => ['serial_like' => Html::encode($model->serial)],
                     ], ['class' => 'text-bold']);
 
                     return $linkToMove . ' ' . Html::tag('nobr', Yii::$app->formatter->asDate($model->move_time));
@@ -145,10 +146,7 @@ class PartGridView extends BoxedGridView
             'move_type_label' => [
                 'filter' => false,
                 'enableSorting' => false,
-                'format' => 'html',
-                'value' => function ($model) {
-                    return $model->move_type_label;
-                },
+                'attribute' => 'move_type_label',
             ],
             'move_time' => [
                 'filter' => false,
@@ -180,7 +178,6 @@ class PartGridView extends BoxedGridView
             'order_name' => [
                 'attribute' => 'order_id',
                 'filterAttribute' => 'order_id',
-                'visible' => Yii::$app->user->can('order.read'),
                 'filter' => function ($column, $model, $attribute) {
                     return OrderCombo::widget([
                         'model' => $model,
@@ -189,27 +186,27 @@ class PartGridView extends BoxedGridView
                     ]);
                 },
                 'filterOptions' => ['class' => 'narrow-filter'],
-                'format' => 'html',
+                'format' => 'raw',
                 'visible' => Yii::$app->user->can('order.read'),
                 'value' => function (Part $model): string {
-                    return HTML::a($model->order_name, ['@order/view', 'id' => $model->order_id]);
+                    return HTML::a(Html::encode($model->order_name), ['@order/view', 'id' => $model->order_id]);
                 },
             ],
             'dc_ticket' => [
                 'filter' => false,
                 'enableSorting' => false,
-                'format' => 'html',
+                'format' => 'raw',
                 'visible' => Yii::$app->user->can('move.read'),
                 'value' => function ($model) {
                     $out = '';
                     if ($model['move_remote_ticket']) {
-                        $out .= $model['move_remote_ticket'] . '<br>';
+                        $out .= Html::encode($model['move_remote_ticket']) . '<br>';
                     }
                     if ($model['move_hm_ticket']) {
-                        $out .= $model['move_hm_ticket'] . '<br>';
+                        $out .= Html::encode($model['move_hm_ticket']) . '<br>';
                     }
                     if ($model['move_remotehands_label']) {
-                        $out .= $model['move_remotehands_label'] . '<br>';
+                        $out .= Html::encode($model['move_remotehands_label']) . '<br>';
                     }
 
                     return $out;
@@ -238,7 +235,6 @@ class PartGridView extends BoxedGridView
             'selling_price' => [
                 'filterAttribute' => 'selling_currency',
                 'filter' => false,
-                'format' => 'raw',
                 'value' => function ($model) {
                     return Yii::$app->formatter->asCurrency($model->selling_price, $model->selling_currency);
                 },
@@ -262,10 +258,10 @@ class PartGridView extends BoxedGridView
                 'format' => 'raw',
                 'value' => static function (Part $model) {
                     if ($model->isTrashed()) {
-                        return $model->place;
+                        return Html::encode($model->place);
                     }
 
-                    return Html::tag('b', $model->dst_name) . Html::tag('span', $model->place, ['style' => 'margin-left:1em']);
+                    return Html::tag('b', Html::encode($model->dst_name)) . Html::tag('span', Html::encode($model->place), ['style' => 'margin-left:1em']);
                 },
             ],
             'model_group' => [
@@ -285,7 +281,7 @@ class PartGridView extends BoxedGridView
             'move_descr' => [
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'filterAttribute' => 'move_descr_ilike',
-                'format' => 'html',
+                'format' => 'raw',
                 'label' => Yii::t('hipanel:stock', 'Move description'),
                 'visible' => Yii::$app->user->can('move.read'),
                 'value' => function ($model) {
@@ -294,7 +290,19 @@ class PartGridView extends BoxedGridView
             ],
             'first_move' => [
                 'visible' => Yii::$app->user->can('move.read'),
-            ]
+            ],
+            'last_move_with_descr' => [
+                'label' => Yii::t('hipanel:stock', 'Last move with descr'),
+                'format' => 'raw',
+                'visible' => Yii::$app->user->can('move.read'),
+                'contentOptions' => ['style' => 'display: flex; flex-direction: row; justify-content: space-between; flex-wrap: nowrap;'],
+                'value' => function ($model) {
+                    $move = Html::tag('span', Html::tag('b', Html::encode($model->dst_name)) . '&nbsp;←&nbsp;' . Html::encode($model->src_name));
+                    $descr = Move::prepareDescr(Html::encode($model->move_descr));
+
+                    return implode('', [$move, $descr]);
+                },
+            ],
         ]);
     }
 }

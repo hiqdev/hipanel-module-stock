@@ -80,7 +80,7 @@ class ModelGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:stock', 'Last price'),
                 'enableSorting' => false,
                 'filter' => false,
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function (Model $model) {
                     return $model->showModelPrices($model->last_prices);
                 },
@@ -91,10 +91,9 @@ class ModelGridView extends BoxedGridView
                 'filter' => false,
                 'format' => 'raw',
                 'value' => function (Model $model) {
-                    $groupName = Html::encode($model->group);
-
-                    return Html::a($groupName, ['@model-group/view', 'id' => $model->group_id], [
-                        'title' => $groupName,
+                    $group = Html::encode($model->group);
+                    return Html::a($group, ['@model-group/view', 'id' => $model->group_id], [
+                        'title' => $group,
                         'style' => 'display: inline-block; width: 120px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;'
                     ]);
                 }

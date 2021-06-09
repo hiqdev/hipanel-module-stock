@@ -164,4 +164,13 @@ JS
             $this->tester->waitForText("$field cannot be blank.");
         }
     }
+    public function updateModelWithNewPartNoData($newModelData) 
+    {
+        $I = $this->tester;
+        $I->click('Update');
+        (new Input($I, "//input[@value='{$newModelData['partno']}']"))
+            ->setValue($newModelData['newpartnpo']);
+        $I->pressButton('Save');
+        return $newModelData['newpartnpo'];
+    }
 }

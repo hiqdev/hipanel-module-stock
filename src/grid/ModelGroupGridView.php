@@ -50,7 +50,6 @@ class ModelGroupGridView extends BoxedGridView
                     [
                         'label' => Yii::t('hipanel:stock', 'Stock'),
                         'contentOptions' => ['class' => 'text-center'],
-                        'format' => 'raw',
                         'value' => function () {
                             return Yii::t('hipanel:stock', 'Stock');
                         }
@@ -58,7 +57,6 @@ class ModelGroupGridView extends BoxedGridView
                     [
                         'label' => Yii::t('hipanel:stock', 'RMA'),
                         'contentOptions' => ['class' => 'text-center'],
-                        'format' => 'raw',
                         'value' => function () {
                             return Yii::t('hipanel:stock', 'RMA');
                         }
@@ -66,13 +64,11 @@ class ModelGroupGridView extends BoxedGridView
                     [
                         'label' => Yii::t('hipanel:stock', 'Limit'),
                         'contentOptions' => ['class' => 'text-center'],
-                        'format' => 'raw',
                         'value' => function () {
                             return Yii::t('hipanel:stock', 'Limit');
                         }
                     ],
                     [
-                        'format' => 'raw',
                         'value' => function () {
                             return '&nbsp;';
                         },
@@ -133,7 +129,7 @@ class ModelGroupGridView extends BoxedGridView
                                 $html .= $model->limits[$type]['res_stock'] . '+';
                             }
 
-                            $html .= Html::tag('strong', $model->limits[$type]['stock'], ['class' => 'text-error']);
+                            $html .= Html::tag('strong', Html::encode($model->limits[$type]['stock']), ['class' => 'text-error']);
                             return $html;
                         }
                     ],
@@ -148,7 +144,7 @@ class ModelGroupGridView extends BoxedGridView
                                 $html .= $model->limits[$type]['res_rma'] . '+';
                             }
 
-                            $html .= Html::tag('strong', $model->limits[$type]['rma'], ['class' => 'text-danger']);
+                            $html .= Html::tag('strong', Html::encode($model->limits[$type]['rma']), ['class' => 'text-danger']);
                             return $html;
                         }
                     ],
@@ -160,7 +156,7 @@ class ModelGroupGridView extends BoxedGridView
                         },
                         'format' => 'raw',
                         'value' => function (ModelGroup $model) use ($type) {
-                            return Html::tag('strong', $model->limits[$type]['limit']);
+                            return Html::tag('strong', Html::encode($model->limits[$type]['limit']));
                         }
                     ],
                     [

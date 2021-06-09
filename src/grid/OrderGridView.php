@@ -66,7 +66,7 @@ class OrderGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:stock', 'Order No.'),
                 'filterAttribute' => 'name_ilike',
                 'value' => function (Order $order): string {
-                    return Html::a($order->name, ['profit-view', 'id' => $order->id], ['class' => 'bold']);
+                    return Html::a(Html::encode($order->name), ['profit-view', 'id' => $order->id], ['class' => 'bold']);
                 },
                 'footer' => '<b>' . Yii::t('hipanel:stock', 'TOTAL on screen') . '</b>',
             ],
@@ -99,7 +99,7 @@ class OrderGridView extends BoxedGridView
                     ]);
                 },
                 'value' => function (Order $model) {
-                    return Html::a($model->seller, ['@client/view', 'id' => $model->seller_id]);
+                    return Html::a(Html::encode($model->seller), ['@client/view', 'id' => $model->seller_id]);
                 }
             ],
             'buyer' => [
@@ -114,7 +114,7 @@ class OrderGridView extends BoxedGridView
                     ]);
                 },
                 'value' => function (Order $model) {
-                    return Html::a($model->buyer, ['@client/view', 'id' => $model->buyer_id]);
+                    return Html::a(Html::encode($model->buyer), ['@client/view', 'id' => $model->buyer_id]);
                 }
             ],
             'type' => [
@@ -154,7 +154,7 @@ class OrderGridView extends BoxedGridView
                         'delimiter' => '<br />',
                         'visibleCount' => 0,
                         'formatter' => function (Part $part, $idx) use ($order) {
-                            return Html::a($part->title, Url::toRoute(['@part/view', 'id' => $part->id]), [
+                            return Html::a(Html::encode($part->title), Url::toRoute(['@part/view', 'id' => $part->id]), [
                                 'class' => 'text-bold',
                                 'target' => '_blank',
                             ]);

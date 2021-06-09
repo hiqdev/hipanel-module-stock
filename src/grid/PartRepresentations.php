@@ -10,14 +10,23 @@ class PartRepresentations extends RepresentationCollection
 {
     protected function fillRepresentations()
     {
+        $user = Yii::$app->user;
         $this->representations = array_filter([
             'common' => [
                 'label' => Yii::t('hipanel', 'common'),
                 'columns' => [
                     'checkbox',
-                    'model_type', 'model_brand', 'partno', 'serial',
+                    'model_type', 'model_brand', 'model', 'partno', 'serial',
                     'last_move', 'move_type_and_date', 'move_descr',
                     'order_name', 'company_id',
+                ],
+            ],
+            'brief' => [
+                'label' => Yii::t('hipanel', 'brief'),
+                'columns' => [
+                    'checkbox',
+                    'model_type', 'model_brand', 'partno', 'serial',
+                    'last_move', 'move_type_and_date', 'move_descr',
                 ],
             ],
             'report' => [
@@ -28,7 +37,7 @@ class PartRepresentations extends RepresentationCollection
                     'create_date', 'price', 'place',
                 ],
             ],
-            'detailed' => Yii::$app->user->can('tmp disabled') ? [
+            'detailed' => $user->can('tmp disabled') ? [
                 'label' => Yii::t('hipanel', 'detailed'),
                 'columns' => [
                     'checkbox',
@@ -38,7 +47,7 @@ class PartRepresentations extends RepresentationCollection
                     'move_descr', 'order_data', 'dc_ticket',
                 ],
             ] : '',
-            'selling' => Yii::$app->user->can('order.create') ? [
+            'selling' => $user->can('order.create') ? [
                 'label' => Yii::t('hipanel:stock', 'selling'),
                 'columns' => [
                     'checkbox',
@@ -52,9 +61,16 @@ class PartRepresentations extends RepresentationCollection
                     'selling_time',
                 ]
             ] : null,
-            'profit-report' => Yii::$app->user->can('order.read-profits') ? [
+            'profit-report' => $user->can('order.read-profits') ? [
                 'label' => Yii::t('hipanel', 'profit report'),
                 'columns' => ProfitColumns::getColumnNames(['checkbox', 'buyer', 'company_id', 'serial', 'partno']),
+            ] : null,
+            'admin' => $user->can('admin') && $user->can('order.create') ? [
+                'label' => Yii::t('hipanel:stock', 'Administrative'),
+                'columns' => [
+                    'checkbox',
+                    'model_type', 'model_brand', 'partno', 'serial', 'place', 'reserve', 'last_move_with_descr', 'move_time',
+                ],
             ] : null,
         ]);
     }

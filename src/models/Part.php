@@ -104,7 +104,7 @@ class Part extends \hipanel\base\Model
             [['id', 'dst_id', 'src_id', 'partno', 'serial', 'move_descr'], 'required', 'on' => 'trash'],
 
             // Replace
-            [['id', 'src_id', 'dst_id', 'move_type'], 'required', 'on' => 'replace'],
+            [['id', 'src_id', 'dst_id', 'move_type', 'serial', 'partno'], 'required', 'on' => 'replace'],
 
             // Repair
             [['id', 'src_id', 'dst_id', 'move_type'], 'required', 'on' => 'repair'],

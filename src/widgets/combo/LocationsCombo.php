@@ -43,7 +43,7 @@ class LocationsCombo extends Combo
                         data.forEach(elem => {
                             elem.id = elem.place;
                         });
-                        
+
                         return {
                             results: data
                         };
@@ -56,7 +56,7 @@ class LocationsCombo extends Combo
                     }
                     const place = '<b>' + data.place + '</b>&nbsp;&nbsp;';
                     const count = '<span class=\"text-muted\">(' + data.count + ')</span>';
-                    
+
                     return place + count;
                 }"),
                 'escapeMarkup' => new JsExpression('function (markup) {

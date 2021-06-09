@@ -158,20 +158,20 @@ class Model extends YiiModel
     {
         $out = '';
         if (!empty($this->counters[$dc]['stock'])) {
-            $out .= Html::tag('b', $this->counters[$dc]['stock'], ['title' => Yii::t('hipanel:stock', 'In stock')]);
+            $out .= Html::tag('b', Html::encode($this->counters[$dc]['stock']), ['title' => Yii::t('hipanel:stock', 'In stock')]);
         }
         if (!empty($this->counters[$dc]['reserved'])) {
-            $out .= '+' . Html::tag('b', $this->counters[$dc]['reserved'], [
+            $out .= '+' . Html::tag('b', Html::encode($this->counters[$dc]['reserved']), [
                     'class' => 'text-info', 'title' => Yii::t('hipanel:stock', 'Reserved')
                 ]);
         }
         if (!empty($this->counters[$dc]['unused'])) {
-            $out .= '+' . Html::tag('b', $this->counters[$dc]['unused'], [
+            $out .= '+' . Html::tag('b', Html::encode($this->counters[$dc]['unused']), [
                     'class' => 'text-success', 'title' => Yii::t('hipanel:stock', 'Unused')
                 ]);
         }
         if (!empty($this->counters[$dc]['rma'])) {
-            $out .= '/' . Html::tag('b', $this->counters[$dc]['rma'], [
+            $out .= '/' . Html::tag('b', Html::encode($this->counters[$dc]['rma']), [
                     'class' => 'text-danger', 'title' => Yii::t('hipanel:stock', 'RMA')
                 ]);
         }

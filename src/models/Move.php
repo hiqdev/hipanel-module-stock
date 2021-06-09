@@ -93,7 +93,7 @@ class Move extends \hipanel\base\Model
     public static function prepareDescr($descr)
     {
         return preg_replace_callback('@https://\S+/(\d+)/?(#\S+)?@', function ($m) {
-            return Html::a('HM4::' . $m[1], $m[0]);
+            return Html::a('HM4::' . Html::encode($m[1]), Html::encode($m[0]));
         }, $descr);
     }
 

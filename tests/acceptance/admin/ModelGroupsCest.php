@@ -13,10 +13,12 @@ class ModelGroupsCest
      * @var IndexPage
      */
     private $index;
+    private $stocksList;
 
     public function _before(Admin $I)
     {
         $this->index = new IndexPage($I);
+        $this->stocksList = \Yii::$app->params['module.stock.stocks_list'];
     }
 
     public function ensureIndexPageWorks(Admin $I)
@@ -45,10 +47,7 @@ class ModelGroupsCest
         ]);
         $this->index->containsColumns([
             'Name',
-            'DTG',
-            'SDG',
-            'M3',
-            'TWR',
+            ...array_values($this->stocksList),
             'Description',
         ]);
     }

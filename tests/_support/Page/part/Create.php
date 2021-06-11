@@ -2,7 +2,6 @@
 
 namespace hipanel\modules\stock\tests\_support\Page\part;
 
-use Facebook\WebDriver\WebDriverElement;
 use hipanel\tests\_support\Page\Authenticated;
 use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;

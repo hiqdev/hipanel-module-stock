@@ -4,46 +4,31 @@ namespace hipanel\modules\stock\tests\acceptance\manager;
 
 use hipanel\helpers\Url;
 use hipanel\modules\stock\tests\_support\Page\modelGroup\Create;
-use hipanel\tests\_support\Page\IndexPage;
-use hipanel\tests\_support\Page\Widget\Input\Input;
+use hipanel\modules\stock\tests\_support\Page\modelGroup\Index;
+use hipanel\modules\stock\tests\_support\Page\modelGroup\Update;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 
-/**
- * @property string uni
- */
 class ModelGroupsActionsCest
 {
     const ADDITIONAL_FORMS = 2;
 
-    /**
-     * @var IndexPage
-     */
-    private $index;
-    /**
-     * @var Create
-     */
-    private $create;
-
-    /**
-     * @var string
-     */
-    private $uniq;
-
-    /**
-     * @var array
-     */
-    private $stocks;
+    private Index $index;
+    private Create $create;
+    private Update $update;
+    private string $nameTemplate;
+    private array $stocks = [];
 
     public function __construct()
     {
-        $this->uniq = uniqid();
-        $this->stocks = \Yii::$app->params['module.stock.stocks_list'];
+        $this->nameTemplate = 'TEST_' . uniqid() . '_';
     }
 
     public function _before(Manager $I)
     {
-        $this->index = new IndexPage($I);
+        $this->index = new Index($I);
         $this->create = new Create($I);
+        $this->update = new Update($I);
+        $this->stocks = \Yii::$app->params['module.stock.stocks_list'];
     }
 
     public function ensureValidationWorks(Manager $I): void
@@ -65,29 +50,22 @@ class ModelGroupsActionsCest
     {
         $this->create->toPage();
         $this->create->addAdditionalForms(self::ADDITIONAL_FORMS);
-//        $this->fillInputAndPressSaveButton();
-        foreach (range(0,self::ADDITIONAL_FORMS) as $i) {
-            (new Input($I, "//input[@name='ModelGroup[$i][name]']"))
-                ->setValue("TEST_" . $this->uniq . "_New_" . $i);
-            (new Input($I, "//textarea[contains(@name, 'ModelGroup[$i][descr]')]"))
-                ->setValue("Test description for $i item");
-            foreach (array_keys($this->stocks) as $stock) {
-                (new Input($I, "//input[@name='ModelGroup[$i][data][limit][$stock]']"))
-                    ->setValue(($i + 1) * 10);
-            }
-        }
-        $I->pressButton('Save');
-        $I->waitForPageUpdate();
-        $I->closeNotification('Created');
-        $I->seeInCurrentUrl('/stock/model-group/index');
 
-        $name = 'TEST_' . $this->uniq . '_';
-        $selector = "//input[contains(@name, 'ModelGroupSearch[name_ilike]')]";
-        $this->index->filterBy(new Input($I, $selector), $name);
-        $count = $this->index->countRowsInTableBody();
-        foreach (range(1, $count) as $i) {
-            $I->see(($i) * 10, "//tbody/tr[$i]");
+        foreach (range(0,self::ADDITIONAL_FORMS) as $i) {
+            /** stock list can't be added in provider because of codeception app initialization */
+            $this->create->addModelGroupItem([
+                'num' => $i,
+                'name' => $this->nameTemplate . 'New_' . $i,
+                'description' => "Test description for $i item",
+                'stockList' => array_combine(
+                    array_keys($this->stocks),
+                    array_map(fn ($i) => (string)($i * 10), range(1, count($this->stocks)))
+                ),
+            ]);
         }
+        $this->create->save();
+
+        $this->index->checkfilterByName($this->nameTemplate);
     }
 
     /**
@@ -98,9 +76,10 @@ class ModelGroupsActionsCest
      */
     public function ensureCopyModelGroupWorks(Manager $I): void
     {
-        $count = $this->filterModelsByNameAndSelectThem($I, 'New');
+        $I->needPage(Url::to('@model-group'));
+        $count = $this->index->filterModelsByNameAndSelectThem($I, $this->nameTemplate . 'New');
         $I->pressButton('Copy');
-        $this->fillInputAndPressSaveButton($I, $count, 'Copy');
+        $this->update->fillInputAndPressSaveButton($I, $count, $this->nameTemplate . 'Copy');
         $I->closeNotification('Created');
         $I->seeInCurrentUrl('/stock/model-group/index');
     }
@@ -113,13 +92,13 @@ class ModelGroupsActionsCest
      */
     public function ensureUpdateModelGroupWorks(Manager $I): void
     {
-        $count = $this->filterModelsByNameAndSelectThem($I, 'Copy');
+        $I->needPage(Url::to('@model-group'));
+        $count = $this->index->filterModelsByNameAndSelectThem($I, $this->nameTemplate . 'Copy');
         $I->pressButton('Update');
-        $this->fillInputAndPressSaveButton($I, $count, 'Updated');
+        $this->update->fillInputAndPressSaveButton($I, $count, $this->nameTemplate . 'Updated');
         $I->closeNotification('Updated');
         $I->seeInCurrentUrl('/stock/model-group/index');
     }
-
 
     /**
      * Deleting all test ModelGroup
@@ -129,47 +108,12 @@ class ModelGroupsActionsCest
      */
     public function ensureDeleteModelGroupWorks(Manager $I): void
     {
-        $this->filterModelsByNameAndSelectThem($I, '');
+        $I->needPage(Url::to('@model-group'));
+        $this->index->filterModelsByNameAndSelectThem($I, $this->nameTemplate);
         $I->pressButton('Delete');
         $I->acceptPopup();
         $I->closeNotification('Deleted');
         $I->see('No results found.', '//tbody');
-    }
-
-    /**
-     * @param Manager $I
-     * @param string $lastOperations
-     * @return int
-     * @throws \Codeception\Exception\ModuleException
-     */
-    private function filterModelsByNameAndSelectThem(Manager $I, string $lastOperations): int
-    {
-        $name = 'TEST_' . $this->uniq . '_' . $lastOperations;
-        $selector = "//input[contains(@name, 'ModelGroupSearch[name_ilike]')]";
-
-        $I->needPage(Url::to('@model-group'));
-        $this->index->filterBy(new Input($I, $selector), $name);
-        $count = $this->index->countRowsInTableBody();
-        foreach (range(1, $count) as $i) {
-            $this->index->selectTableRowByNumber($i);
-        }
-        return $count;
-    }
-
-    /**
-     * @param Manager $I
-     * @param int $count
-     * @param string $action
-     * @throws \Codeception\Exception\ModuleException
-     */
-    private function fillInputAndPressSaveButton(Manager $I, int $count, string $action): void
-    {
-        foreach (range(0, $count - 1) as $i) {
-            (new Input($I, "//input[@name='ModelGroup[$i][name]']"))
-                ->setValue("TEST_" . $this->uniq . "_" . $action . "_" . $i);
-        }
-        $I->pressButton('Save');
-        $I->waitForPageUpdate();
     }
 }
 

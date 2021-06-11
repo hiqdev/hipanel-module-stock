@@ -2,12 +2,10 @@
 
 namespace hipanel\modules\stock\tests\_support\Page\part;
 
-use Facebook\WebDriver\WebDriverElement;
 use hipanel\tests\_support\Page\Authenticated;
 use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
-use hipanel\tests\_support\Page\Widget\Input\MultipleSelect2;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
 use hipanel\tests\_support\Page\Widget\Input\MultipleSelect2;
 

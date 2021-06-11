@@ -5,6 +5,7 @@ namespace hipanel\modules\stock\tests\acceptance\manager;
 use hipanel\helpers\Url;
 use hipanel\modules\stock\tests\_support\Page\model\Create;
 use hipanel\tests\_support\Page\IndexPage;
+use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 
@@ -122,7 +123,8 @@ class ModelsCest
     {
         $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@model'));
-        $partIndex->checkFilterBy('brand', 'AMD');
+        $filterBy = new Dropdown($I, "tr.filters select[name*=brand]");
+        $partIndex->checkFilterBy($filterBy, 'AMD');
     }
 
     /**

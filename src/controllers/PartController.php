@@ -133,7 +133,7 @@ class PartController extends CrudController
             ],
             'change-model' => [
                 'class' => SmartUpdateAction::class,
-                'scenario' => 'update',
+                'scenario' => 'change-model',
                 'success' => Yii::t('hipanel:stock', 'Parts have been updated'),
                 'view' => 'changeModel',
                 'on beforeSave' => function (Event $event) {

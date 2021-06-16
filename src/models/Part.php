@@ -212,6 +212,7 @@ class Part extends \hipanel\base\Model
             'copy' => 'create',
             'trash' => 'move',
             'move-by-one' => 'move',
+            'change-model'=> 'update',
         ];
     }
 

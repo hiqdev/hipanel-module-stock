@@ -16,19 +16,19 @@ class ModelGridLegend extends BaseGridLegend implements GridLegendInterface
         return [
             'stock' => [
                 'label' => ['hipanel:stock', 'In stock'],
-                'color' => '#8B5CF6'
+                'color' => '#000000'
             ],
             'reserved' => [
                 'label' => ['hipanel:stock', 'Reserved'],
-                'color' => '#10B981',
+                'color' => '#9400D6',
             ],
             'unused' => [
                 'label' => ['hipanel:stock', 'Unused'],
-                'color' => '#F59E0B',
+                'color' => '#008000',
             ],
             'rma' => [
                 'label' => ['hipanel:stock', 'RMA'],
-                'color' => '#EF4444',
+                'color' => '#FF0000',
             ],
         ];
     }

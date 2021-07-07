@@ -27,6 +27,7 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\StringHelper;
+use hipanel\modules\stock\actions\FastMoveAction;
 use hipanel\modules\stock\actions\ResolveRange;
 use hipanel\modules\stock\actions\ValidateSellFormAction;
 use hipanel\modules\stock\forms\PartSellByPlanForm;
@@ -81,6 +82,9 @@ class PartController extends CrudController
     public function actions()
     {
         return array_merge(parent::actions(), [
+            'fast-move' => [
+                'class' => FastMoveAction::class,
+            ],
             'bulk-set-serial' => [
                 'class' => PrepareBulkAction::class,
                 'view' => '_setSerial',

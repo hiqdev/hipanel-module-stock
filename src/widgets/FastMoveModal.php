@@ -34,7 +34,7 @@ final class FastMoveModal extends Widget
             echo $form->field($model, 'partno')->widget(PartnoCombo::class);
             echo $form->field($model, 'src_id')->widget(SourceCombo::class);
             echo $form->field($model, 'quantity')->input('number', ['min' => 1]);
-            echo $form->field($model, 'destinations')->textarea()->hint(Yii::t('hipanel:stock', 'Type server names using a space, comma or on a new line'));
+            echo $form->field($model, 'dst')->textarea()->hint(Yii::t('hipanel:stock', 'Type server names using a space, comma or on a new line'));
 
             echo Html::submitButton(Yii::t('hipanel:stock', 'Move'), ['class' => 'btn btn-success btn-block']);
 

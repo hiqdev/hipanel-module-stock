@@ -29,14 +29,9 @@ final class FastMoveAction extends Action
         $form = new FastMoveForm();
         $controller = $this->controller;
         try {
-            if ($controller->request->isPost && $form->load($controller->request->post())) {
-                $parts = $form->multiplyByDestinations();
-                $payload = [];
-                foreach ($parts as $part) {
-                    $payload[] = $part->getAttributes(['src_id', 'dst', 'partno', 'quantity']);
-                }
-                Part::batchPerform('bulk-move', $payload);
-                $this->session->setFlash('success', Yii::t('hipanel:stock', '{0} ', count($parts)));
+            if ($controller->request->isPost && $form->load($controller->request->post()) && $form->validate()) {
+                Part::batchPerform('bulk-move', $form->getAttributes());
+                $this->session->setFlash('success', Yii::t('hipanel:stock', 'Parts has been moved'));
             } else {
                 throw new RuntimeException('The from data is broken, try again please');
             }

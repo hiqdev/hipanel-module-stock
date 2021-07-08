@@ -47,7 +47,7 @@ JS
 
     public function seePartsWereSold(): void
     {
-        $this->tester->closeNotification('Parts have been successfully sold.');
+        $this->tester->closeNotification('Parts has been successfully sold.');
     }
 
 }

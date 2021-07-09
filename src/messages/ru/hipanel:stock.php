@@ -158,6 +158,6 @@ return [
     'Last move with descr' => 'Последнее перемещение с опис.',
     'Administrative' => 'Административный',
     'Fast move' => 'Быстрое перемещение',
-    'Type server names using a space, comma or on a new line' => 'Введите имена серверов через пробел, запятую или с новой строки.',
+    'Type server names, delimited with a space, comma or a new line' => 'Введите имена серверов через пробел, запятую или с новой строки.',
     'Servers' => 'Имена серверов',
 ];

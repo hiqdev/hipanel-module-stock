@@ -46,7 +46,7 @@ final class FastMoveModal extends Widget
 
     public function run(): string
     {
-        if (!Yii::$app->user->can('part.create')) {
+        if (!Yii::$app->user->can('move.create')) {
             return '';
         }
 

@@ -31,7 +31,7 @@ final class FastMoveAction extends Action
         try {
             if ($controller->request->isPost && $form->load($controller->request->post()) && $form->validate()) {
                 Part::batchPerform('bulk-move', $form->getAttributes());
-                $this->session->setFlash('success', Yii::t('hipanel:stock', 'Parts has been moved'));
+                $this->session->setFlash('success', Yii::t('hipanel:stock', 'Parts have been moved'));
             } else {
                 throw new RuntimeException('The from data is broken, try again please');
             }

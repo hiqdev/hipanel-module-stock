@@ -138,7 +138,7 @@ class PartController extends CrudController
             'change-model' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'change-model',
-                'success' => Yii::t('hipanel:stock', 'Parts has been updated'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been updated'),
                 'view' => 'changeModel',
                 'on beforeSave' => function (Event $event) {
                     /** @var \hipanel\actions\Action $action */
@@ -155,7 +155,7 @@ class PartController extends CrudController
             'update-order-no' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'update-order-no',
-                'success' => Yii::t('hipanel:stock', 'Parts has been updated'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been updated'),
                 'view' => 'updateOrderNo',
                 'on beforeSave' => function (Event $event) {
                     /** @var \hipanel\actions\Action $action */
@@ -286,7 +286,7 @@ class PartController extends CrudController
             ],
             'repair' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:stock', 'Parts has been moved'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'data' => static function ($action, $data) {
                     array_map(fn ($model) => $model->move_type = 'repair', $data['models']);
                     return [
@@ -299,7 +299,7 @@ class PartController extends CrudController
             'copy' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'copy',
-                'success' => Yii::t('hipanel', 'Parts has been copied'),
+                'success' => Yii::t('hipanel', 'Parts have been copied'),
                 'GET html | POST selection' => [
                     'class' => RenderAction::class,
                     'data' => function ($action, $originalData) {
@@ -329,7 +329,7 @@ class PartController extends CrudController
             'trash' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'trash',
-                'success' => Yii::t('hipanel:stock', 'Parts has been moved'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'data' => function ($action) {
                     return [
                         'moveTypes' => $action->controller->getMoveTypes('trash'),
@@ -370,17 +370,17 @@ class PartController extends CrudController
             ],
             'reserve' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:stock', 'Parts has been updated'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been updated'),
             ],
             'unreserve' => [
                 'class' => SmartUpdateAction::class,
                 'view' => 'reserve',
-                'success' => Yii::t('hipanel:stock', 'Parts has been updated'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been updated'),
             ],
             'move-by-one' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'move-by-one',
-                'success' => Yii::t('hipanel:stock', 'Parts has been moved'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'view' => 'moveByOne',
                 'data' => function ($action) {
                     return [
@@ -391,7 +391,7 @@ class PartController extends CrudController
             ],
             'rma' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:stock', 'Parts has been moved to RMA'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been moved to RMA'),
                 'scenario' => 'move-by-one',
                 'view' => 'moveByOne',
                 'data' => function ($action) {
@@ -403,7 +403,7 @@ class PartController extends CrudController
             ],
             'move' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:stock', 'Parts has been moved'),
+                'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'findOptions' => ['limit' => 'all'],
                 'GET html | POST selection' => [
                     'class' => RenderAction::class,
@@ -548,7 +548,7 @@ class PartController extends CrudController
         if ($model->load($request->post()) && $model->validate()) {
             try {
                 Part::batchPerform('sell', $model->getAttributes());
-                $session->addFlash('success', Yii::t('hipanel:stock', 'Parts has been successfully sold.'));
+                $session->addFlash('success', Yii::t('hipanel:stock', 'Parts have been successfully sold.'));
             } catch (\Exception $e) {
                 $session->addFlash('error', $e->getMessage());
             }
@@ -574,7 +574,7 @@ class PartController extends CrudController
         if ($model->load($request->post()) && $model->validate()) {
             try {
                 Part::batchPerform('sell-by-plan', $model->getAttributes());
-                $session->addFlash('success', Yii::t('hipanel:stock', 'Parts has been successfully sold.'));
+                $session->addFlash('success', Yii::t('hipanel:stock', 'Parts have been successfully sold.'));
             } catch (\Exception $e) {
                 $session->addFlash('error', $e->getMessage());
             }

@@ -1,8 +1,12 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\stock\grid\PartGridLegend;
 use hipanel\modules\stock\grid\PartGridView;
+use hipanel\modules\stock\grid\PartRepresentations;
+use hipanel\modules\stock\models\PartSearch;
+use hipanel\modules\stock\widgets\FastMoveModal;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
@@ -10,14 +14,16 @@ use hipanel\widgets\PagerHook;
 use hipanel\widgets\SummaryHook;
 use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
+use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
+use yii\web\View;
 
 /**
- * @var \yii\data\ActiveDataProvider $dataProvider
- * @var \hipanel\models\IndexPageUiOptions $uiModel
- * @var \hipanel\modules\stock\grid\PartRepresentations $representationCollection
- * @var \hipanel\modules\stock\models\PartSearch $model
- * @var \yii\web\View $this
+ * @var ActiveDataProvider $dataProvider
+ * @var IndexPageUiOptions $uiModel
+ * @var PartRepresentations $representationCollection
+ * @var PartSearch $model
+ * @var View $this
  */
 
 $this->title = Yii::t('hipanel:stock', 'Parts');
@@ -39,6 +45,7 @@ $showFooter = ($uiModel->representation === 'profit-report')
     <?php $page->beginContent('main-actions') ?>
         <?php if (Yii::$app->user->can('part.create')) : ?>
             <?= Html::a(Yii::t('hipanel', 'Create'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
+            <?= FastMoveModal::widget() ?>
         <?php endif ?>
     <?php $page->endContent() ?>
 

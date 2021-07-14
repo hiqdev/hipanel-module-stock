@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace hipanel\modules\stock\forms;
 
 use hipanel\base\Model;
-use hipanel\helpers\ArrayHelper;
-use hipanel\modules\server\models\Server;
 use Yii;
 
 final class FastMoveForm extends Model
@@ -16,7 +14,7 @@ final class FastMoveForm extends Model
         return [
             [['dst', 'partno'], 'string'],
             [['src_id', 'quantity'], 'integer'],
-            [['src_id', 'quantity', 'partno', 'destinations'], 'required'],
+            [['src_id', 'quantity', 'partno', 'dst'], 'required'],
         ];
     }
 
@@ -26,6 +24,7 @@ final class FastMoveForm extends Model
             'partno' => Yii::t('hipanel:stock', 'Part No.'),
             'src_id' => Yii::t('hipanel:stock', 'Source'),
             'quantity' => Yii::t('hipanel', 'Quantity'),
+            'dst' => Yii::t('hipanel:stock', 'Destination'),
         ];
     }
 }

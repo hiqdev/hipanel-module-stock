@@ -10,12 +10,11 @@ use hipanel\modules\stock\widgets\FastMoveModal;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
-use hipanel\widgets\PagerHook;
-use hipanel\widgets\SummaryHook;
 use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
+use yii\web\JsExpression;
 use yii\web\View;
 
 /**
@@ -29,13 +28,25 @@ use yii\web\View;
 $this->title = Yii::t('hipanel:stock', 'Parts');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
+$insteadPerPageRender = static function (IndexPage $indexPage): string {
+    return Html::input('number', 'per-page', $indexPage->getUiModel()->per_page, [
+        'class' => 'form-control',
+        'style' => ['display' => 'inline-block', 'width' => '110px'],
+        'placeholder' => Yii::t('hipanel', 'Per page'),
+        'onChange' => new JsExpression("(() => {
+            const url = new window.URL(window.location.href);
+            url.searchParams.set('per_page', this.value);
+            window.location = url.href;
+        })()"),
+    ]);
+};
 
 $showFooter = ($uiModel->representation === 'profit-report')
                 && (Yii::$app->user->can('order.read-profits'));
 
 ?>
 
-<?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
+<?php $page = IndexPage::begin(compact('model', 'dataProvider', 'insteadPerPageRender')) ?>
     <?php $page->setSearchFormData(compact(['types', 'brands', 'states', 'uiModel'])) ?>
 
     <?php $page->beginContent('legend') ?>

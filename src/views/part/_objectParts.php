@@ -118,5 +118,16 @@ echo \hipanel\grid\GridView::widget([
                 }, $models));
             },
         ],
+        [
+            'attribute' => 'company',
+            'label' => Yii::t('hipanel:stock', 'Company'),
+            'value' => static function (array $models): string {
+                return implode(', ', array_map(static function ($parts) {
+                    $part = reset($parts);
+
+                    return $part->company ?? '--';
+                }, $models));
+            },
+        ],
     ],
 ]);

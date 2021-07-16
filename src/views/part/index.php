@@ -14,7 +14,6 @@ use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
-use yii\web\JsExpression;
 use yii\web\View;
 
 /**
@@ -28,18 +27,43 @@ use yii\web\View;
 $this->title = Yii::t('hipanel:stock', 'Parts');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
-$insteadPerPageRender = static function (IndexPage $indexPage): string {
-    return Html::input('number', 'per-page', $indexPage->getUiModel()->per_page, [
-        'class' => 'form-control',
-        'style' => ['display' => 'inline-block', 'width' => '110px'],
-        'placeholder' => Yii::t('hipanel', 'Per page'),
-        'onChange' => new JsExpression("(() => {
-            const url = new window.URL(window.location.href);
-            url.searchParams.set('per_page', this.value);
-            window.location = url.href;
-        })()"),
-    ]);
-};
+$this->registerJs('(() => {
+  const input = document.querySelector("input[name=per-page]");
+  const debounce = (func, wait, immediate) => {
+    let timeout;
+
+    return function executedFunction() {
+      const context = this;
+      const args = arguments;
+
+      const later = function () {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+
+      const callNow = immediate && !timeout;
+
+      clearTimeout(timeout);
+
+      timeout = setTimeout(later, wait);
+
+      if (callNow) func.apply(context, args);
+    };
+  };
+  const reloadPage = debounce(event => {
+    const url = new window.URL(window.location.href);
+    url.searchParams.set("per_page", event.target.value);
+    window.location = url.href;
+  }, 250);
+  input.addEventListener("change", reloadPage);
+})();');
+$insteadPerPageRender = static fn(IndexPage $indexPage): string => Html::input('number', 'per-page', $indexPage->getUiModel()->per_page, [
+    'style' => ['display' => 'inline-block', 'width' => '110px'],
+    'placeholder' => Yii::t('hipanel', 'Per page'),
+    'class' => 'form-control',
+    'max' => 999,
+    'min' => 1,
+]);
 
 $showFooter = ($uiModel->representation === 'profit-report')
                 && (Yii::$app->user->can('order.read-profits'));

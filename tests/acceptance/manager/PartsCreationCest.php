@@ -145,7 +145,7 @@ class PartsCreationCest
     protected function getPartData(): array
     {
         return [
-            'partno'        => 'E5620',
+            'partno'        => 'CHASSIS EPYC 7402P',
             'src_id'        => 'TEST-DS-01',
             'dst_id'        => 'TEST-DS-02',
             'serials'       => 'MG_TEST_PART' . uniqid(),

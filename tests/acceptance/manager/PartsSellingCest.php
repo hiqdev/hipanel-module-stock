@@ -5,6 +5,7 @@ namespace hipanel\modules\stock\tests\acceptance\manager;
 use hipanel\helpers\Url;
 use hipanel\modules\stock\tests\_support\Page\part\SellModalWindow;
 use hipanel\tests\_support\Page\IndexPage;
+use hipanel\modules\stock\tests\_support\Page\part\Create;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
@@ -20,6 +21,19 @@ class PartsSellingCest
         $I->needPage(Url::to('@part'));
     }
 
+    public function ensureICanCreatePart(Manager $I): void
+    {
+        $page = new Create($I);
+        $this->sellData = $this->getSellData();
+
+        foreach ($this->sellData['prices'] as $part) {
+            $I->needPage(Url::to('@part/create'));
+            $page->fillPartFields($this->getPartData());
+            $page->pressSaveButton();
+            $page->seePartWasCreated();
+        }
+    }
+
     /**
      * @param Manager $I
      * @throws \Codeception\Exception\ModuleException
@@ -29,7 +43,6 @@ class PartsSellingCest
         $partIndex      = new IndexPage($I);
         $I->needPage(Url::to('@part'));
 
-        $this->sellData = $this->getSellData();
         $partIndex->filterBy(Input::asTableFilter($I, 'Serial'), 'MG_TEST_PART');
         for ($i = 0; $i < count($this->sellData['prices']); $i++) {
             $partIndex->selectTableRowByNumber($i + 1);
@@ -74,6 +87,20 @@ class PartsSellingCest
 
         $billPage->filterBy(Input::asTableFilter($I, 'Description'),
             $this->sellData['descr']);
+    }
+
+    protected function getPartData(): array
+    {
+        return [
+            'partno'        => 'CHASSIS EPYC 7402P',
+            'src_id'        => 'TEST-DS-01',
+            'dst_id'        => 'TEST-DS-02',
+            'serials'       => 'MG_TEST_PART' . uniqid(),
+            'move_descr'    => 'MG TEST MOVE',
+            'price'         => 200,
+            'currency'      => 'usd',
+            'company_id'    => 'Other'
+        ];
     }
 
     protected function getSellData(): array

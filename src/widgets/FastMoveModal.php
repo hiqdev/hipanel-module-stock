@@ -13,6 +13,7 @@ use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\JsExpression;
 use yii\web\View;
 
 final class FastMoveModal extends Widget
@@ -30,9 +31,16 @@ final class FastMoveModal extends Widget
             $form = ActiveForm::begin([
                 'action' => Url::to(['@part/fast-move']),
             ]);
+            $fixSelect2InBootstrapModalOptions = [
+                'pluginOptions' => [
+                    'select2Options' => [
+                        'dropdownParent' => new JsExpression('$("#' . $this->getId() . '")'),
+                    ],
+                ],
+            ];
 
-            echo $form->field($model, 'partno')->widget(PartnoCombo::class);
-            echo $form->field($model, 'src_id')->widget(SourceCombo::class);
+            echo $form->field($model, 'partno')->widget(PartnoCombo::class, $fixSelect2InBootstrapModalOptions);
+            echo $form->field($model, 'src_id')->widget(SourceCombo::class, $fixSelect2InBootstrapModalOptions);
             echo $form->field($model, 'quantity')->input('number', ['min' => 1]);
             echo $form->field($model, 'dst')->textarea()->hint(Yii::t('hipanel:stock', 'Type server names, delimited with a space, comma or a new line'));
 

@@ -18,7 +18,7 @@ class PartsCest
     protected $testOrderData;
     protected array $sellData;
 
-    public function _before(Manager $I)
+    public function _before(Manager $I): void
     {
         $this->createPage = new Create($I);
     }

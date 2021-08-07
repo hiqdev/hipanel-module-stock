@@ -14,15 +14,6 @@ use hipanel\tests\_support\Step\Acceptance\Manager;
 class PartsCest
 {
 
-    protected Create $createPage;
-    protected $testOrderData;
-    protected array $sellData;
-
-    public function _before(Manager $I): void
-    {
-        $this->createPage = new Create($I);
-    }
-
     public function ensurePartsPageWorks(Manager $I): void
     {
         $I->login();
@@ -37,7 +28,7 @@ class PartsCest
      */
     public function ensurePartManageButtonsWorks(Manager $I): void
     {
-        $page = $this->createPage;
+        $page = new Create($I);
         $I->needPage(Url::to('@part/create'));
 
         $n = 0;
@@ -73,7 +64,7 @@ class PartsCest
      */
     public function ensureICantCreatePartWithoutData(Manager $I): void
     {
-        $page = $this->createPage;
+        $page = new Create($I);
 
         $I->needPage(Url::to('@part/create'));
         $I->pressButton('Save');
@@ -99,9 +90,11 @@ class PartsCest
      */
     public function ensureICanCreatePart(Manager $I): void
     {
+        $page = new Create($I);
+
         $I->needPage(Url::to('@part/create'));
-        $page = $this->createPage;
         $page->fillPartFields($this->getPartData());
+        $I->wait(3);
         $page->pressSaveButton();
         $page->seePartWasCreated();
     }
@@ -116,7 +109,7 @@ class PartsCest
      */
     public function ensureICanCreateSeveralParts(Manager $I): void
     {
-        $page = $this->createPage;
+        $page = new Create($I);
 
         $I->needPage(Url::to('@part/create'));
         $page->fillPartFields($this->getPartData());
@@ -133,7 +126,7 @@ class PartsCest
      */
     public function ensureICanCreateAndTrashPart(Manager $I): void
     {
-        $page = $this->createPage;
+        $page = new Create($I);
 
         $I->needPage(Url::to('@part/create'));
         $page->fillPartFields($this->getPartData());
@@ -150,46 +143,37 @@ class PartsCest
      */
     public function ensureICanSellParts(Manager $I, Example $example): void
     {
-        $partIndex      = new IndexPage($I);
+        $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@part'));
-        $this->sellData = iterator_to_array($example->getIterator());
+        $sellData = iterator_to_array($example->getIterator());
 
         $partIndex->filterBy(Input::asTableFilter($I, 'Serial'), 'MG_TEST_PART');
-        for ($i = 0; $i < count($this->sellData['prices']); $i++) {
+        for ($i = 0; $i < count($sellData['prices']); $i++) {
             $partIndex->selectTableRowByNumber($i + 1);
         }
         $I->click("//button[contains(text(), 'Sell parts')]");
         $I->click("//a[text()='Sell parts']");
         $I->waitForPageUpdate();
 
-        $sellModal      = new SellModalWindow($I);
-        $sellModal->fillSellWindowFields($this->sellData);
+        $sellModal = new SellModalWindow($I);
+        $sellModal->fillSellWindowFields($sellData);
         $I->pressButton('Sell');
         $sellModal->seePartsWereSold();
+
+        $this->ensureSellingBillWasCreated($I, $sellData);
     }
 
-    public function ensureSellingBillWasCreated(Manager $I): void
+    private function ensureSellingBillWasCreated(Manager $I, array $sellData): void
     {
         $billPage = new IndexPage($I);
 
         $I->needPage(Url::to('@bill'));
 
-        $this->filterTable($I);
+        $billPage->filterTable($sellData);
         $billPage->openRowMenuByNumber(1);
         $billPage->chooseRowMenuOption('View');
 
-        $I->seeNumberOfElements('tr table  tr[data-key]', count($this->sellData['prices']));
-    }
-
-    protected function filterTable(Manager $I): void
-    {
-        $billPage = new IndexPage($I);
-
-        $billPage->filterBy(Dropdown::asTableFilter($I, 'Type'),
-            '-- ' . $this->sellData['type']);
-
-        $billPage->filterBy(Input::asTableFilter($I, 'Description'),
-            $this->sellData['descr']);
+        $I->seeNumberOfElements('tr table  tr[data-key]', count($sellData['prices']));
     }
 
     /**
@@ -212,7 +196,7 @@ class PartsCest
     protected function getSellData(): array
     {
         return [
-            'sellInfo' => [
+            [
                 'contact_id'=> 'Test Manager',
                 'currency'  => 'eur',
                 'descr'     => 'test description ' . uniqid(),

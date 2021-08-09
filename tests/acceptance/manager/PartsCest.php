@@ -3,19 +3,17 @@
 namespace hipanel\modules\stock\tests\acceptance\manager;
 
 use hipanel\helpers\Url;
+use Codeception\Example;
+use hipanel\tests\_support\Page\IndexPage;
+use hipanel\modules\stock\tests\_support\Page\part\SellModalWindow;
+use hipanel\tests\_support\Page\Widget\Input\Dropdown;
+use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\modules\stock\tests\_support\Page\part\Create;
 use hipanel\tests\_support\Step\Acceptance\Manager;
+use DateTime;
 
-class PartsCreationCest
+class PartsCest
 {
-
-    protected $createPage;
-    protected $testOrderData;
-
-    public function _before(Manager $I)
-    {
-        $this->createPage = new Create($I);
-    }
 
     public function ensurePartsPageWorks(Manager $I): void
     {
@@ -31,7 +29,7 @@ class PartsCreationCest
      */
     public function ensurePartManageButtonsWorks(Manager $I): void
     {
-        $page = $this->createPage;
+        $page = new Create($I);
         $I->needPage(Url::to('@part/create'));
 
         $n = 0;
@@ -67,7 +65,7 @@ class PartsCreationCest
      */
     public function ensureICantCreatePartWithoutData(Manager $I): void
     {
-        $page = $this->createPage;
+        $page = new Create($I);
 
         $I->needPage(Url::to('@part/create'));
         $I->pressButton('Save');
@@ -93,9 +91,11 @@ class PartsCreationCest
      */
     public function ensureICanCreatePart(Manager $I): void
     {
+        $page = new Create($I);
+
         $I->needPage(Url::to('@part/create'));
-        $page = $this->createPage;
         $page->fillPartFields($this->getPartData());
+        $I->wait(3);
         $page->pressSaveButton();
         $page->seePartWasCreated();
     }
@@ -110,7 +110,7 @@ class PartsCreationCest
      */
     public function ensureICanCreateSeveralParts(Manager $I): void
     {
-        $page = $this->createPage;
+        $page = new Create($I);
 
         $I->needPage(Url::to('@part/create'));
         $page->fillPartFields($this->getPartData());
@@ -127,7 +127,7 @@ class PartsCreationCest
      */
     public function ensureICanCreateAndTrashPart(Manager $I): void
     {
-        $page = $this->createPage;
+        $page = new Create($I);
 
         $I->needPage(Url::to('@part/create'));
         $page->fillPartFields($this->getPartData());
@@ -137,6 +137,44 @@ class PartsCreationCest
         $I->click("//a[contains(text(), 'Delete')]");
         $I->acceptPopup();
         $I->closeNotification('Part has been deleted');
+    }
+
+    /**
+     * @dataProvider getSellData
+     */
+    public function ensureICanSellParts(Manager $I, Example $example): void
+    {
+        $partIndex = new IndexPage($I);
+        $I->needPage(Url::to('@part'));
+        $sellData = iterator_to_array($example->getIterator());
+
+        $partIndex->filterBy(Input::asTableFilter($I, 'Serial'), 'MG_TEST_PART');
+        for ($i = 0; $i < count($sellData['prices']); $i++) {
+            $partIndex->selectTableRowByNumber($i + 1);
+        }
+        $I->click("//button[contains(text(), 'Sell parts')]");
+        $I->click("//a[text()='Sell parts']");
+        $I->waitForPageUpdate();
+
+        $sellModal = new SellModalWindow($I);
+        $sellModal->fillSellWindowFields($sellData);
+        $I->pressButton('Sell');
+        $sellModal->seePartsWereSold();
+
+        $this->ensureSellingBillWasCreated($I, $sellData);
+    }
+
+    private function ensureSellingBillWasCreated(Manager $I, array $sellData): void
+    {
+        $billPage = new IndexPage($I);
+
+        $I->needPage(Url::to('@bill'));
+
+        $billPage->filterTable($sellData);
+        $billPage->openRowMenuByNumber(1);
+        $billPage->chooseRowMenuOption('View');
+
+        $I->seeNumberOfElements('tr table  tr[data-key]', count($sellData['prices']));
     }
 
     /**
@@ -153,6 +191,20 @@ class PartsCreationCest
             'price'         => 200,
             'currency'      => 'usd',
             'company_id'    => 'Other'
+        ];
+    }
+
+    protected function getSellData(): array
+    {
+        return [
+            [
+                'contact_id'=> 'Test Manager',
+                'currency'  => 'eur',
+                'descr'     => 'test description ' . uniqid(),
+                'type'      => 'HW purchase',
+                'prices'    => [250, 300, 442],
+                'time'      => (new DateTime())->format('Y-m-d H:i'),
+            ]
         ];
     }
 }

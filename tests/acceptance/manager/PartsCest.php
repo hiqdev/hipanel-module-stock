@@ -10,6 +10,7 @@ use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\modules\stock\tests\_support\Page\part\Create;
 use hipanel\tests\_support\Step\Acceptance\Manager;
+use DateTime;
 
 class PartsCest
 {
@@ -202,7 +203,7 @@ class PartsCest
                 'descr'     => 'test description ' . uniqid(),
                 'type'      => 'HW purchase',
                 'prices'    => [250, 300, 442],
-                'time'      => (new \DateTime())->format('Y-m-d H:i'),
+                'time'      => (new DateTime())->format('Y-m-d H:i'),
             ]
         ];
     }

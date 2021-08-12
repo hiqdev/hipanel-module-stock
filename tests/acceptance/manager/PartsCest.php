@@ -170,7 +170,12 @@ class PartsCest
 
         $I->needPage(Url::to('@bill'));
 
-        $billPage->filterTable($sellData);
+        $billPage->filterBy(Dropdown::asTableFilter($I, 'Type'),
+            '-- ' . $sellData['type']);
+
+        $billPage->filterBy(Input::asTableFilter($I, 'Description'),
+            $sellData['descr']);
+
         $billPage->openRowMenuByNumber(1);
         $billPage->chooseRowMenuOption('View');
 

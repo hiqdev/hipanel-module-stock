@@ -126,6 +126,10 @@ class Part extends \hipanel\base\Model
             [['id', 'serial'], 'required', 'on' => 'set-serial'],
             [['serial'], 'filter', 'filter' => 'trim', 'on' => 'set-serial'],
 
+            // Set real serials
+            [['ids', 'serials'], 'required', 'on' => 'set-real-serials'],
+            [['serials'], 'validateRealSerials', 'on' => 'set-real-serials'],
+
             // Unique serial for update, set-serial
             [['serial'], 'unique', 'on' => ['set-serial', 'update'], 'when' => function ($model) {
                 if ($model->isAttributeChanged('serial')) {
@@ -188,6 +192,13 @@ class Part extends \hipanel\base\Model
             'price' => Yii::t('hipanel:stock', 'Purchase price'),
             'order_id' => Yii::t('hipanel:stock', 'First move'),
         ]);
+    }
+
+    public function validateRealSerials(string $attribute): void
+    {
+        if (count($this->getExtractedSerials()) !== count($this->ids ?? [])) {
+            $this->addError($attribute, Yii::t('hipanel:stock', 'Serial numbers should have been put in the same amount as the selected parts'));
+        }
     }
 
     public function transformToSymbols($currencyCodes = [])
@@ -294,4 +305,8 @@ class Part extends \hipanel\base\Model
         return $type;
     }
 
+    public function getExtractedSerials(): array
+    {
+        return preg_split("/[\s,;]+/", $this->serials ?? []);
+    }
 }

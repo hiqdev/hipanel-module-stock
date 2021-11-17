@@ -20,7 +20,7 @@ class HardwareSettingsAction extends Action
         if ($request->isPost && !$request->isAjax && $model->load($request->post())) {
             try {
                 HardwareSettings::perform('set-hardware-settings', $model->getAttributes());
-                $session->addFlash('success', Yii::t('hipanel:stock', 'Settings has been changed'));
+                $session->addFlash('success', Yii::t('hipanel:stock', 'Settings have been changed'));
             } catch (Exception $e) {
                 $session->addFlash('error', $e->getMessage());
             }

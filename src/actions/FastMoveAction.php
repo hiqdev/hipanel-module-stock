@@ -36,7 +36,7 @@ final class FastMoveAction extends Action
                 $errors = $form->getFirstErrors();
                 throw new RuntimeException(reset($errors));
             } else {
-                throw new RuntimeException('The from data is broken, try again please');
+                throw new RuntimeException('The form data is broken, try again please');
             }
         } catch (Exception $e) {
             $this->session->setFlash('error', $e->getMessage());

@@ -182,6 +182,22 @@ $showFooter = ($uiModel->representation === 'profit-report')
                         ]) : null,
                         Yii::$app->user->can('part.update') ? AjaxModalWithTemplatedButton::widget([
                             'ajaxModalOptions' => [
+                                'id' => 'set-real-serials-modal',
+                                'bulkPage' => true,
+                                'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set real serials'), ['class' => 'modal-title']),
+                                'scenario' => 'set-real-serial',
+                                'actionUrl' => ['set-real-serials'],
+                                'size' => Modal::SIZE_LARGE,
+                                'handleSubmit' => Url::toRoute('set-real-serials'),
+                                'toggleButton' => [
+                                    'tag' => 'a',
+                                    'label' => Yii::t('hipanel:stock', 'Set real serials'),
+                                ],
+                            ],
+                            'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                        ]) : null,
+                        Yii::$app->user->can('part.update') ? AjaxModalWithTemplatedButton::widget([
+                            'ajaxModalOptions' => [
                                 'id' => 'bulk-set-price-modal',
                                 'bulkPage' => true,
                                 'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set price'), ['class' => 'modal-title']),

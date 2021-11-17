@@ -29,6 +29,7 @@ use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\StringHelper;
 use hipanel\modules\stock\actions\FastMoveAction;
 use hipanel\modules\stock\actions\ResolveRange;
+use hipanel\modules\stock\actions\SetRealSerialsAction;
 use hipanel\modules\stock\actions\ValidateSellFormAction;
 use hipanel\modules\stock\forms\PartSellByPlanForm;
 use hipanel\modules\stock\forms\PartSellForm;
@@ -90,6 +91,9 @@ class PartController extends CrudController
                 'class' => PrepareBulkAction::class,
                 'view' => '_setSerial',
                 'scenario' => 'set-serial',
+            ],
+            'set-real-serials' => [
+                'class' => SetRealSerialsAction::class,
             ],
             'set-serial' => [
                 'class' => SmartPerformAction::class,

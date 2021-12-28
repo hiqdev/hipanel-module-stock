@@ -170,6 +170,10 @@ class PartGridView extends BoxedGridView
                     return Html::tag('nobr', Yii::$app->formatter->asDate($model->create_time));
                 },
             ],
+            'device_location' => [
+                'filterAttribute' => 'device_location_like',
+                'attribute' => 'device_location',
+            ],
             'order_data' => [
                 'filter' => false,
                 'enableSorting' => false,

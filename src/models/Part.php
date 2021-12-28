@@ -84,6 +84,7 @@ class Part extends \hipanel\base\Model
                     'order_id',
                     'order_name',
                     'company',
+                    'device_location',
                 ],
                 'safe',
             ],
@@ -191,6 +192,7 @@ class Part extends \hipanel\base\Model
             'selling_time' => Yii::t('hipanel:stock', 'Selling time'),
             'price' => Yii::t('hipanel:stock', 'Purchase price'),
             'order_id' => Yii::t('hipanel:stock', 'First move'),
+            'device_location' => Yii::t('hipanel:stock', 'DC location'),
         ]);
     }
 

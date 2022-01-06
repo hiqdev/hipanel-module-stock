@@ -17,7 +17,7 @@ class PartRepresentations extends RepresentationCollection
                 'columns' => [
                     'checkbox',
                     'model_type', 'model_brand', 'model', 'partno', 'serial',
-                    'last_move', 'move_type_and_date', 'move_descr',
+                    'last_move', 'move_type_and_date', 'device_location', 'move_descr',
                     'order_name', 'company_id',
                 ],
             ],
@@ -43,7 +43,7 @@ class PartRepresentations extends RepresentationCollection
                     'checkbox',
                     'model_type', 'model_brand',
                     'partno', 'serial',
-                    'last_move', 'move_type_and_date',
+                    'last_move', 'move_type_and_date', 'device_location',
                     'move_descr', 'order_data', 'dc_ticket',
                 ],
             ] : '',

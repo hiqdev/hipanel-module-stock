@@ -164,5 +164,5 @@ return [
     'Serials delimited with a space, comma or a new line' => 'Серийные номера, разделенные пробелом, запятой или новой строкой',
     'Serial numbers should have been put in the same amount as the selected parts' => 'Серийных номеров должны быть столько же сколько выбранных деталей',
     '{0, plural, one{# part} few{# parts} other{# parts}} were discarded because they already have a real serial number or changes are not available (RMA, Trash)' => '{0, plural, one{1 деталь была отсеяна} few{# детали были отсеяны} other{# деталей были отсеяны}}, потому что настоящий серийный номер уже установлен или не удаться сделать изменения по другим причинам (RMA, Trash)',
-    'DC location' -> 'Расположение',
+    'DC location' => 'Расположение',
 ];

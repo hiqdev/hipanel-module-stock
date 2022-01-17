@@ -158,7 +158,7 @@ class PartsCest
 
         $sellModal = new SellModalWindow($I);
         $sellModal->fillSellWindowFields($sellData);
-        $I->pressButton('Sell');
+        $I->click('Sell');
         $sellModal->seePartsWereSold();
 
         $this->ensureSellingBillWasCreated($I, $sellData);

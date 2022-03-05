@@ -237,6 +237,7 @@ class PartGridView extends BoxedGridView
                 'footer' => '<b>' . Yii::t('hipanel:stock', 'TOTAL on screen') . '</b>',
             ],
             'selling_price' => [
+                'format' => 'raw',
                 'filterAttribute' => 'selling_currency',
                 'filter' => false,
                 'value' => function ($model) {

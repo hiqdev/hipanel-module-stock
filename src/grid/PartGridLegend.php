@@ -23,17 +23,17 @@ class PartGridLegend extends BaseGridLegend implements GridLegendInterface
             'reserve' => [
                 'label' => ['hipanel:stock', 'Reserve'],
                 'color' => '#d9edf7',
-                'rule' => isset($this->model->reserve) ? boolval($this->model->reserve) : false,
+                'rule' => isset($this->model->reserve) && (bool)$this->model->reserve,
             ],
             [
                 'label' => ['hipanel:stock', 'Stock'],
                 'color' => '#dff0d8',
-                'rule' => StringHelper::startsWith(mb_strtolower($this->model->dst_name), 'stock_') && empty($this->model->reserve),
+                'rule' => isset($this->model->dst_name) && StringHelper::startsWith(mb_strtolower($this->model->dst_name), 'stock_') && empty($this->model->reserve),
             ],
             [
                 'label' => ['hipanel:stock', 'RMA'],
                 'color' => '#f2dede',
-                'rule' => StringHelper::startsWith(mb_strtolower($this->model->dst_name), 'rma_'),
+                'rule' => isset($this->model->dst_name) && StringHelper::startsWith(mb_strtolower($this->model->dst_name), 'rma_'),
             ],
             [
                 'label' => ['hipanel:stock', 'TRASH'],

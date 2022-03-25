@@ -88,12 +88,17 @@ class ModelGroup extends YiiModel
         return array_keys($this->limits);
     }
 
-    public function afterFind()
+    public function afterFind(): void
     {
         parent::afterFind();
 
         foreach ($this->getSupportedLimitTypes() as $attribute => $label) {
-            $this->setAttribute('data', ArrayHelper::merge($this->data ?? [], ['limit' => [$attribute => $this->limits[$attribute]['limit']]]));
+            $limit = [
+                'limit' => [
+                    $attribute => $this->limits[$attribute]['limit'] ?? null,
+                ],
+            ];
+            $this->setAttribute('data', ArrayHelper::merge($this->data ?? [], $limit));
         }
     }
 }

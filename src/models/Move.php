@@ -85,20 +85,24 @@ class Move extends \hipanel\base\Model
         ]);
     }
 
-    public function getDescription()
+    public function getDescription(): array|string|null
     {
         return static::prepareDescr($this->descr);
     }
 
-    public static function prepareDescr($descr)
+    public static function prepareDescr(?string $descr): array|string|null
     {
-        return preg_replace_callback('@https://\S+/(\d+)/?(#\S+)?@', function ($m) {
+        if (empty($descr)) {
+            return null;
+        }
+
+        return preg_replace_callback('@https://\S+/(\d+)/?(#\S+)?@', static function ($m) {
             return Html::a('HM4::' . Html::encode($m[1]), Html::encode($m[0]));
         }, $descr);
     }
 
     public function isTrashed(): bool
     {
-        return in_array(mb_strtolower($this->dst_name), ['trash', 'trash_rma'], true);
+        return !empty($this->dst_name) && in_array(mb_strtolower($this->dst_name), ['trash', 'trash_rma'], true);
     }
 }

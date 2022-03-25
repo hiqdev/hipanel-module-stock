@@ -272,7 +272,7 @@ class PartController extends CrudController
                     }
                     $action->collection->load($newParts);
                 },
-                'data' => function ($action) {
+                'data' => function ($action, $d) {
                     return [
                         'moveTypes' => $action->controller->getMoveTypes('add'),
                         'suppliers' => $action->controller->getSuppliers(),
@@ -467,6 +467,7 @@ class PartController extends CrudController
             ],
             'validate-sell-form' => [
                 'class' => ValidateSellFormAction::class,
+                'scenario' => 'default',
                 'validatedInputId' => false,
                 'allowDynamicScenario' => false,
             ],

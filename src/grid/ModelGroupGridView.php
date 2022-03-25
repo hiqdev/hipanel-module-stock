@@ -42,6 +42,7 @@ class ModelGroupGridView extends BoxedGridView
                 'label' => '',
                 'columns' => [
                     [
+                        'label' => ' ',
                         'format' => 'raw',
                         'value' => function () {
                             return '&nbsp;';
@@ -69,6 +70,8 @@ class ModelGroupGridView extends BoxedGridView
                         }
                     ],
                     [
+                        'label' => ' ',
+                        'format' => 'raw',
                         'value' => function () {
                             return '&nbsp;';
                         },
@@ -115,6 +118,7 @@ class ModelGroupGridView extends BoxedGridView
                 ],
                 'columns' => [
                     [
+                        'label' => ' ',
                         'format' => 'raw',
                         'value' => fn() => '&nbsp;',
                     ],
@@ -125,11 +129,14 @@ class ModelGroupGridView extends BoxedGridView
                         'value' => function (ModelGroup $model) use ($type) {
                             $html = '';
 
-                            if ($model->limits[$type]['res_stock']) {
-                                $html .= $model->limits[$type]['res_stock'] . '+';
+                            if (isset($model->limits[$type]['res_stock'])) {
+                                $html .= Html::encode($model->limits[$type]['res_stock']) . '+';
                             }
 
-                            $html .= Html::tag('strong', Html::encode($model->limits[$type]['stock']), ['class' => 'text-error']);
+                            if (isset($model->limits[$type]['stock'])) {
+                                $html .= Html::tag('strong', Html::encode($model->limits[$type]['stock']), ['class' => 'text-error']);
+                            }
+
                             return $html;
                         }
                     ],
@@ -140,26 +147,29 @@ class ModelGroupGridView extends BoxedGridView
                         'value' => function (ModelGroup $model) use ($type) {
                             $html = '';
 
-                            if ($model->limits[$type]['res_rma']) {
-                                $html .= $model->limits[$type]['res_rma'] . '+';
+                            if (isset($model->limits[$type]['res_rma'])) {
+                                $html .= Html::encode($model->limits[$type]['res_rma']) . '+';
+                            }
+                            if (isset($model->limits[$type]['rma'])) {
+                                $html .= Html::tag('strong', Html::encode($model->limits[$type]['rma']), ['class' => 'text-danger']);
                             }
 
-                            $html .= Html::tag('strong', Html::encode($model->limits[$type]['rma']), ['class' => 'text-danger']);
                             return $html;
                         }
                     ],
                     [
                         'label' => Yii::t('hipanel:stock', 'Limit'),
                         'contentOptions' => function (ModelGroup $model) use ($type) {
-                            $short = $model->limits[$type]['limit'] > $model->limits[$type]['stock'];
+                            $short = ($model->limits[$type]['limit'] ?? 0) > ($model->limits[$type]['stock'] ?? 0);
                             return ['class' => 'text-center' . ($short ? ' bg-danger' : '')];
                         },
                         'format' => 'raw',
                         'value' => function (ModelGroup $model) use ($type) {
-                            return Html::tag('strong', Html::encode($model->limits[$type]['limit']));
+                            return isset($model->limits[$type]['limit']) ? Html::tag('strong', Html::encode($model->limits[$type]['limit'])) : null;
                         }
                     ],
                     [
+                        'label' => ' ',
                         'format' => 'raw',
                         'value' => function () {
                             return '&nbsp;';

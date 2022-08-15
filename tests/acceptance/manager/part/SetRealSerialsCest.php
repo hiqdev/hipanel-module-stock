@@ -14,6 +14,7 @@ class SetRealSerialsCest
 
     public function _before(Manager $I): void
     {
+        $I->markTestSkipped('Moved to PW');
         $I->login();
         $this->index = new IndexPage($I);
     }

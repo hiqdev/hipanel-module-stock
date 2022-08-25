@@ -1,25 +1,47 @@
 import { test } from "@hipanel-core/fixtures";
-import { expect } from "@playwright/test";
-import PartsPage from "@hipanel-module-stock/e2e/pages/PartsPage";
+import {expect, Page} from "@playwright/test";
 import Index from "@hipanel-core/page/Index";
 
-test("Ensure I can change serial to real @hipanel-module-stock @manager", async ({ managerPage }) => {
+test.describe("Ensure I can change serial to real @hipanel-module-stock @manager", () => {
 
-  const indexPage = new Index(managerPage);
-  const partsPage = new PartsPage(managerPage);
+  let indexPage: Index
 
-  await partsPage.gotoParts({partno: 'SC815TQ-600WB', dst_name_in: 'TEST-DS-02'});
+  test.beforeEach(async ({ managerPage }) => {
+    indexPage = new Index(managerPage);
+    await managerPage.goto('/stock/part/index?PartSearch[partno]=SC815TQ-600WB&PartSearch[dst_name_in]=TEST-DS-02');
+    await expect(managerPage).toHaveTitle('Parts');
+    await indexPage.hasRowsOnTable(1);
+  });
 
-  await indexPage.hasTitle('Parts');
-  await indexPage.hasRowsOnTable(1);
+  test("Set serial as part ID", async ({ managerPage }) => {
+    await indexPage.chooseNumberRowOnTable(1);
+    await indexPage.clickDropdownBulkButton('Bulk actions', 'Set serial');
+    await setSerialAsPartId(managerPage);
+  });
 
-  await indexPage.chooseNumberRowOnTable(1);
-  await indexPage.clickDropdownBulkButton('Bulk actions', 'Set serial');
-  await partsPage.setSerialAsPartId();
-
-  await indexPage.chooseNumberRowOnTable(1)
-  await indexPage.clickDropdownBulkButton('Bulk actions', 'Set real serials');
-  await partsPage.tryToSetTwoRealSerialsForOnePart('test_real_serials_1');
-  await partsPage.setRealSerial('test_real_serials_1');
-
+  test("Set real serial for one part", async ({ managerPage }) => {
+    await indexPage.chooseNumberRowOnTable(1);
+    await indexPage.clickDropdownBulkButton('Bulk actions', 'Set real serials');
+    await tryToSetTwoRealSerialsForOnePart('test_real_serials_1', managerPage);
+    await setRealSerial('test_real_serials_1', managerPage);
+  });
 });
+
+async function setSerialAsPartId(page: Page) {
+  const id = await page.locator('#set-serial-form input[id*=id]').inputValue();
+  await page.locator('#set-serial-form div[class*=serial] input').fill(id);
+  await page.locator('text=Submit').click();
+  await expect(page.locator(`td:has-text("${id}")`)).toHaveCount(1);
+}
+
+async function tryToSetTwoRealSerialsForOnePart(realSerial: string, page: Page) {
+  await page.locator('textarea[id*=serials]').fill(`${realSerial}, ${realSerial}`);
+  await page.locator('text=Save').click();
+  await expect(page.locator('text=Serial numbers should have been put in the same amount as the selected parts')).toHaveCount(1);
+}
+
+async function setRealSerial(realSerial: string, page: Page) {
+  await page.locator('textarea[id*=serials]').fill(`${realSerial}`);
+  await page.locator('text=Save').click();
+  await expect(page.locator(`td:has-text("${realSerial}")`)).toHaveCount(1);
+}

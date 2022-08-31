@@ -7,14 +7,37 @@ use hipanel\modules\stock\tests\_support\Page\model\Create;
 use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
+use hipanel\tests\_support\Page\Widget\Input\Select2;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 
 class ModelsCest
 {
+    private IndexPage $index;
+    private Create $createPage;
+    private array $stocksList;
+
+    public function _before(Manager $I): void
+    {
+        $this->index = new IndexPage($I);
+        $this->createPage = new Create($I);
+        $this->stocksList = \Yii::$app->params['module.stock.stocks_list'];
+    }
+
     public function ensureModelsPageWorks(Manager $I): void
     {
         $I->login();
         $I->needPage(Url::to('@model'));
+    }
+
+    public function ensureIndexPageWorks(Manager $I): void
+    {
+        $I->login();
+        $I->needPage(Url::to('@model'));
+        $I->see('Models', 'h1');
+        $I->seeLink('Create model', Url::to('create'));
+        $this->ensureICanSeeAdvancedSearchBox($I);
+        $this->ensureICanSeeLegendBox();
+        $this->ensureICanSeeBulkSearchBox();
     }
 
     /**
@@ -25,29 +48,28 @@ class ModelsCest
      */
     public function ensureModelManageButtonsWorks(Manager $I): void
     {
-        $page = new Create($I);
         $I->needPage(Url::to('@model/create'));
 
         $n = 0;
 
         $I->seeNumberOfElements('div.item', ++$n);
 
-        $page->addModel();
+        $this->createPage->addModel();
         $I->seeNumberOfElements('div.item', ++$n);
 
-        $page->addModel();
+        $this->createPage->addModel();
         $I->seeNumberOfElements('div.item', ++$n);
 
-        $page->copyModel();
+        $this->createPage->copyModel();
         $I->seeNumberOfElements('div.item', ++$n);
 
-        $page->removeModel();
+        $this->createPage->removeModel();
         $I->seeNumberOfElements('div.item', --$n);
 
-        $page->removeModel();
+        $this->createPage->removeModel();
         $I->seeNumberOfElements('div.item', --$n);
 
-        $page->removeModel();
+        $this->createPage->removeModel();
         $I->seeNumberOfElements('div.item', --$n);
     }
 
@@ -61,12 +83,10 @@ class ModelsCest
      */
     public function ensureICantCreateModelWithoutData(Manager $I): void
     {
-        $page = new Create($I);
-
         $I->needPage(Url::to('@model/create'));
         $I->pressButton('Save');
 
-        $page->containsBlankFieldsError(['Type', 'Model', 'Part No.']);
+        $this->createPage->containsBlankFieldsError(['Type', 'Model', 'Part No.']);
     }
 
     /**
@@ -79,17 +99,15 @@ class ModelsCest
      */
     public function ensureICanCreateSeveralModel(Manager $I):void
     {
-        $page = new Create($I);
-
         $I->needPage(Url::to('@model/create'));
         $modelData = $this->getModelData('SSD', 'Kingston', '1-2TB OLD SSD');
-        $page->fillModelFields($modelData);
+        $this->createPage->fillModelFields($modelData);
 
         $modelData = $this->getModelData('CPU', 'AMD', 'X11_1xCPU');
-        $page->addModel($modelData);
+        $this->createPage->addModel($modelData);
 
         $I->pressButton('Save');
-        $page->seeModelsWereCreated();
+        $this->createPage->seeModelsWereCreated();
     }
 
     /**
@@ -102,14 +120,12 @@ class ModelsCest
      */
     public function ensureICanCreateModel(Manager $I): void
     {
-        $page = new Create($I);
-
         $I->needPage(Url::to('@model/create'));
         $modelData = $this->getModelData('RAM', 'Kingston', '32GB DDR3');
-        $page->fillModelFields($modelData);
+        $this->createPage->fillModelFields($modelData);
 
         $I->pressButton('Save');
-        $page->seeModelWasCreated();
+        $this->createPage->seeModelWasCreated();
     }
 
 
@@ -121,10 +137,9 @@ class ModelsCest
      */
     public function ensureFilteredByBrandWork(Manager $I): void
     {
-        $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@model'));
         $filterBy = new Dropdown($I, "tr.filters select[name*=brand]");
-        $partIndex->checkFilterBy($filterBy, 'AMD');
+        $this->index->checkFilterBy($filterBy, 'AMD');
     }
 
     /**
@@ -135,9 +150,8 @@ class ModelsCest
      */
     public function ensureSortedByTypeWork(Manager $I): void
     {
-        $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@model'));
-        $partIndex->checkSortingBy('Type');
+        $this->index->checkSortingBy('Type');
     }
 
     /**
@@ -149,19 +163,16 @@ class ModelsCest
      */
     public function ensureICanCreateAndDeleteModel(Manager $I): void
     {
-        $createPage = new Create($I);
-        $indexPage  = new IndexPage($I);
-
         $I->needPage(Url::to('@model/create'));
         $modelData = $this->getModelData('other', 'noname', '32GB DDR3');
-        $createPage->fillModelFields($modelData);
+        $this->createPage->fillModelFields($modelData);
         $I->pressButton('Save');
-        $createPage->seeModelWasCreated();
+        $this->createPage->seeModelWasCreated();
 
         $I->needPage(Url::to('@model'));
-        $indexPage->filterBy((Input::asAdvancedSearch($I, 'Model')), $modelData['model']);
+        $this->index->filterBy((Input::asAdvancedSearch($I, 'Model')), $modelData['model']);
 
-        $indexPage->selectTableRowByNumber(1);
+        $this->index->selectTableRowByNumber(1);
 
         $I->pressButton('Delete');
         $I->acceptPopup();
@@ -177,14 +188,13 @@ class ModelsCest
      */
     protected function filterModelsByNameAndSelectThem(Manager $I, $name): void
     {
-        $page = new IndexPage($I);
         $selector = "//thead/tr/td/input[contains(@name, 'ModelSearch[model_like]')]";
 
         $I->needPage(Url::to('@model'));
-        $page->filterBy(new Input($I, $selector), $name);
-        $count = $page->countRowsInTableBody();
+        $this->index->filterBy(new Input($I, $selector), $name);
+        $count = $this->index->countRowsInTableBody();
         foreach (range(1, $count) as $i) {
-            $page->selectTableRowByNumber($i);
+            $this->index->selectTableRowByNumber($i);
         }
         $I->pressButton('Search');
     }
@@ -203,5 +213,50 @@ class ModelsCest
             'short'     => 'Short description',
             'descr'     => 'Extended description'
         ];
+    }
+
+    private function ensureICanSeeAdvancedSearchBox(Manager $I): void
+    {
+        $this->index->containsFilters([
+            Select2::asAdvancedSearch($I, 'Type'),
+            Select2::asAdvancedSearch($I, 'Brand'),
+            Select2::asAdvancedSearch($I, 'Status'),
+            Input::asAdvancedSearch($I, 'Filter'),
+            Input::asAdvancedSearch($I, 'Model'),
+            Input::asAdvancedSearch($I, 'Description'),
+            Input::asAdvancedSearch($I, 'Part No.'),
+            Input::asAdvancedSearch($I, 'Group'),
+        ]);
+    }
+
+    private function ensureICanSeeLegendBox(): void
+    {
+        $this->index->containsLegend([
+            'In stock',
+            'Reserved',
+            'Unused',
+            'RMA',
+        ]);
+    }
+
+    private function ensureICanSeeBulkSearchBox(): void
+    {
+        $this->index->containsBulkButtons([
+            'Show for users',
+            'Hide from users',
+            'Update',
+            'Copy',
+            'Delete',
+        ]);
+        $this->index->containsColumns([
+            'Type',
+            'Brand',
+            'Model',
+            'Description',
+            'Part No.',
+            ...array_values($this->stocksList),
+            'Last price',
+            'Group',
+        ]);
     }
 }

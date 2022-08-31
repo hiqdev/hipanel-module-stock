@@ -9,16 +9,37 @@ use hipanel\modules\stock\tests\_support\Page\part\SellModalWindow;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\modules\stock\tests\_support\Page\part\Create;
+use hipanel\tests\_support\Page\Widget\Input\Select2;
+use hipanel\tests\_support\Step\Acceptance\Admin;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 use DateTime;
 
 class PartsCest
 {
+    private IndexPage $index;
+    private Create $createPage;
+
+    public function _before(Manager $I): void
+    {
+        $this->index = new IndexPage($I);
+        $this->createPage = new Create($I);
+    }
 
     public function ensurePartsPageWorks(Manager $I): void
     {
         $I->login();
         $I->needPage(Url::to('@part'));
+    }
+
+    public function ensureIndexPageWorks(Manager $I): void
+    {
+        $I->login();
+        $I->needPage(Url::to('@part'));
+        $I->see('Parts', 'h1');
+        $I->seeLink('Create', Url::to('create'));
+        $this->ensureICanSeeAdvancedSearchBox($I);
+        $this->ensureICanSeeLegendBox();
+        $this->ensureICanSeeBulkSearchBox();
     }
 
     /**
@@ -29,29 +50,29 @@ class PartsCest
      */
     public function ensurePartManageButtonsWorks(Manager $I): void
     {
-        $page = new Create($I);
+        $this->createPage = new Create($I);
         $I->needPage(Url::to('@part/create'));
 
         $n = 0;
 
         $I->seeNumberOfElements('div.item', ++$n);
 
-        $page->addPart();
+        $this->createPage->addPart();
         $I->seeNumberOfElements('div.item', ++$n);
 
-        $page->addPart();
+        $this->createPage->addPart();
         $I->seeNumberOfElements('div.item', ++$n);
 
-        $page->copyPart();
+        $this->createPage->copyPart();
         $I->seeNumberOfElements('div.item', ++$n);
 
-        $page->removePart();
+        $this->createPage->removePart();
         $I->seeNumberOfElements('div.item', --$n);
 
-        $page->removePart();
+        $this->createPage->removePart();
         $I->seeNumberOfElements('div.item', --$n);
 
-        $page->removePart();
+        $this->createPage->removePart();
         $I->seeNumberOfElements('div.item', --$n);
     }
 
@@ -65,12 +86,10 @@ class PartsCest
      */
     public function ensureICantCreatePartWithoutData(Manager $I): void
     {
-        $page = new Create($I);
-
         $I->needPage(Url::to('@part/create'));
         $I->pressButton('Save');
 
-        $page->containsBlankFieldsError([
+        $this->createPage->containsBlankFieldsError([
             'Part No.',
             'Source',
             'Destination',
@@ -91,13 +110,11 @@ class PartsCest
      */
     public function ensureICanCreatePart(Manager $I): void
     {
-        $page = new Create($I);
-
         $I->needPage(Url::to('@part/create'));
-        $page->fillPartFields($this->getPartData());
+        $this->createPage->fillPartFields($this->getPartData());
         $I->wait(3);
-        $page->pressSaveButton();
-        $page->seePartWasCreated();
+        $this->createPage->pressSaveButton();
+        $this->createPage->seePartWasCreated();
     }
 
     /**
@@ -110,13 +127,11 @@ class PartsCest
      */
     public function ensureICanCreateSeveralParts(Manager $I): void
     {
-        $page = new Create($I);
-
         $I->needPage(Url::to('@part/create'));
-        $page->fillPartFields($this->getPartData());
-        $page->addPart($this->getPartData());
-        $page->pressSaveButton();
-        $page->seePartWasCreated();
+        $this->createPage->fillPartFields($this->getPartData());
+        $this->createPage->addPart($this->getPartData());
+        $this->createPage->pressSaveButton();
+        $this->createPage->seePartWasCreated();
     }
 
     /**
@@ -127,12 +142,10 @@ class PartsCest
      */
     public function ensureICanCreateAndTrashPart(Manager $I): void
     {
-        $page = new Create($I);
-
         $I->needPage(Url::to('@part/create'));
-        $page->fillPartFields($this->getPartData());
-        $page->pressSaveButton();
-        $page->seePartWasCreated();
+        $this->createPage->fillPartFields($this->getPartData());
+        $this->createPage->pressSaveButton();
+        $this->createPage->seePartWasCreated();
 
         $I->click("//a[contains(text(), 'Delete')]");
         $I->acceptPopup();
@@ -144,13 +157,12 @@ class PartsCest
      */
     public function ensureICanSellParts(Manager $I, Example $example): void
     {
-        $partIndex = new IndexPage($I);
         $I->needPage(Url::to('@part'));
         $sellData = iterator_to_array($example->getIterator());
 
-        $partIndex->filterBy(Input::asTableFilter($I, 'Serial'), 'MG_TEST_PART');
+        $this->index->filterBy(Input::asTableFilter($I, 'Serial'), 'MG_TEST_PART');
         for ($i = 0; $i < count($sellData['prices']); $i++) {
-            $partIndex->selectTableRowByNumber($i + 1);
+            $this->index->selectTableRowByNumber($i + 1);
         }
         $I->click("//button[contains(text(), 'Sell parts')]");
         $I->click("//a[text()='Sell parts']");
@@ -166,20 +178,80 @@ class PartsCest
 
     private function ensureSellingBillWasCreated(Manager $I, array $sellData): void
     {
-        $billPage = new IndexPage($I);
-
         $I->needPage(Url::to('@bill'));
 
-        $billPage->filterBy(Dropdown::asTableFilter($I, 'Type'),
+        $this->index->filterBy(Dropdown::asTableFilter($I, 'Type'),
             '-- ' . $sellData['type']);
 
-        $billPage->filterBy(Input::asTableFilter($I, 'Description'),
+        $this->index->filterBy(Input::asTableFilter($I, 'Description'),
             $sellData['descr']);
 
-        $billPage->openRowMenuByNumber(1);
-        $billPage->chooseRowMenuOption('View');
+        $this->index->openRowMenuByNumber(1);
+        $this->index->chooseRowMenuOption('View');
 
         $I->seeNumberOfElements('tr table  tr[data-key]', count($sellData['prices']));
+    }
+
+    private function ensureICanSeeAdvancedSearchBox(Manager $I): void
+    {
+        $this->index->containsFilters([
+            Select2::asAdvancedSearch($I, 'Part No.'),
+            Select2::asAdvancedSearch($I, 'Types'),
+            Select2::asAdvancedSearch($I, 'Status'),
+            Select2::asAdvancedSearch($I, 'Manufacturers'),
+            Input::asAdvancedSearch($I, 'Serial'),
+            Select2::asAdvancedSearch($I, 'Parts'),
+            Input::asAdvancedSearch($I, 'Move description'),
+            Select2::asAdvancedSearch($I, 'Source'),
+            Select2::asAdvancedSearch($I, 'Destination'),
+            Select2::asAdvancedSearch($I, 'Location'),
+            Select2::asAdvancedSearch($I, 'Currency'),
+            Input::asAdvancedSearch($I, 'Limit'),
+            Input::asAdvancedSearch($I, 'Reserve'),
+            Select2::asAdvancedSearch($I, 'Buyers'),
+            Select2::asAdvancedSearch($I, 'First move'),
+            Input::asAdvancedSearch($I, 'Order'),
+        ]);
+    }
+
+    private function ensureICanSeeLegendBox(): void
+    {
+        $this->index->containsLegend([
+            'Inuse',
+            'Reserve',
+            'Stock',
+            'RMA',
+            'TRASH',
+        ]);
+    }
+
+    private function ensureICanSeeBulkSearchBox(): void
+    {
+        $this->index->containsBulkButtons([
+            'RMA',
+            'Move',
+            'Bulk actions',
+            'Trash',
+        ]);
+        $this->index->containsColumns([
+            'Type',
+            'Manufacturer',
+            'Part No.',
+            'Serial',
+            'Last move',
+            'Type / Date',
+            'Move description',
+            'First move',
+        ], 'common');
+        $this->index->containsColumns([
+            'Type',
+            'Manufacturer',
+            'Part No.',
+            'Serial',
+            'Created',
+            'Purchase price',
+            'Place',
+        ], 'report');
     }
 
     /**

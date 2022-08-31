@@ -9,19 +9,16 @@ use hipanel\tests\_support\Step\Acceptance\Manager;
 
 class ModelGroupsCest
 {
-    /**
-     * @var IndexPage
-     */
-    private $index;
-    private $stocksList;
+    private IndexPage $index;
+    private array $stocksList;
 
-    public function _before(Manager $I)
+    public function _before(Manager $I): void
     {
         $this->index = new IndexPage($I);
         $this->stocksList = \Yii::$app->params['module.stock.stocks_list'];
     }
 
-    public function ensureIndexPageWorks(Manager $I)
+    public function ensureIndexPageWorks(Manager $I): void
     {
         $I->needPage(Url::to('@model-group'));
         $I->see('Model groups', 'h1');
@@ -72,14 +69,14 @@ class ModelGroupsCest
             $I->seeElement("//tbody/tr[$i]", ['data-key' => $dataKey[$i - 1]]);
         }
     }
-    private function ensureICanSeeAdvancedSearchBox(Manager $I)
+    private function ensureICanSeeAdvancedSearchBox(Manager $I): void
     {
         $this->index->containsFilters([
             Input::asAdvancedSearch($I, 'Name'),
         ]);
     }
 
-    private function ensureICanSeeBulkSearchBox()
+    private function ensureICanSeeBulkSearchBox(): void
     {
         $this->index->containsBulkButtons([
             'Update',

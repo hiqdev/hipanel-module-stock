@@ -126,9 +126,7 @@ class PartGridView extends BoxedGridView
                 'sortAttribute' => 'dst_name',
                 'format' => 'raw',
                 'visible' => Yii::$app->user->can('move.read'),
-                'value' => function ($model) {
-                    return Html::tag('b', Html::encode($model->dst_name)) . '&nbsp;←&nbsp;' . Html::encode($model->src_name);
-                },
+                'value' => static fn($model) => self::lastMove($model),
             ],
             'move_type_and_date' => [
                 'label' => Yii::t('hipanel', 'Type') . ' / ' . Yii::t('hipanel', 'Date'),
@@ -219,7 +217,7 @@ class PartGridView extends BoxedGridView
             'price' => [
                 'class' => CurrencyColumn::class,
                 'filterAttribute' => 'currency',
-                'visible' => Yii::$app->user->can('order.read'),
+                'visible' => Yii::$app->user->can('stock.master'),
                 'filter' => function ($column, $model, $attribute) {
                     $values = ['usd' => 'USD', 'eur' => 'EUR'];
 
@@ -294,7 +292,7 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'first_move' => [
-                'visible' => Yii::$app->user->can('move.read'),
+                'visible' => Yii::$app->user->can('stock.master'),
             ],
             'last_move_with_descr' => [
                 'label' => Yii::t('hipanel:stock', 'Last move with descr'),
@@ -302,12 +300,20 @@ class PartGridView extends BoxedGridView
                 'visible' => Yii::$app->user->can('move.read'),
                 'contentOptions' => ['style' => 'display: flex; flex-direction: row; justify-content: space-between; flex-wrap: nowrap;'],
                 'value' => function ($model) {
-                    $move = Html::tag('span', Html::tag('b', Html::encode($model->dst_name)) . '&nbsp;←&nbsp;' . Html::encode($model->src_name));
+                    $move = Html::tag('span', self::lastMove($model));
                     $descr = Move::prepareDescr(Html::encode($model->move_descr));
 
                     return implode('', [$move, $descr]);
                 },
             ],
         ]);
+    }
+
+    public static function lastMove(Part|Move $model): string
+    {
+        return implode('&nbsp;←&nbsp;', array_filter([
+            Html::tag('b', Html::encode($model->dst_name)),
+            Yii::$app->user->can('stock.master') ? Html::encode($model->src_name) : null,
+        ]));
     }
 }

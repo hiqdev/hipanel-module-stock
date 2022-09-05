@@ -38,9 +38,7 @@ class MoveGridView extends BoxedGridView
                 'format' => 'html',
                 'enableSorting' => false,
                 'filter' => false,
-                'value' => function ($model) {
-                    return sprintf('<b>%s</b>&nbsp;←&nbsp;%s', $model->dst_name, $model->src_name);
-                },
+                'value' => static fn($model) => PartGridView::lastMove($model),
             ],
             'descr' => [
                 'format' => 'html',

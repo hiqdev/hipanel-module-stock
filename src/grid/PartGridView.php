@@ -217,7 +217,7 @@ class PartGridView extends BoxedGridView
             'price' => [
                 'class' => CurrencyColumn::class,
                 'filterAttribute' => 'currency',
-                'visible' => Yii::$app->user->can('stock.master'),
+                'visible' => Yii::$app->user->can('move.read-all'),
                 'filter' => function ($column, $model, $attribute) {
                     $values = ['usd' => 'USD', 'eur' => 'EUR'];
 
@@ -292,7 +292,7 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'first_move' => [
-                'visible' => Yii::$app->user->can('stock.master'),
+                'visible' => Yii::$app->user->can('move.read-all'),
             ],
             'last_move_with_descr' => [
                 'label' => Yii::t('hipanel:stock', 'Last move with descr'),
@@ -313,7 +313,7 @@ class PartGridView extends BoxedGridView
     {
         return implode('&nbsp;←&nbsp;', array_filter([
             Html::tag('b', Html::encode($model->dst_name)),
-            Yii::$app->user->can('stock.master') ? Html::encode($model->src_name) : null,
+            Yii::$app->user->can('move.read-all') ? Html::encode($model->src_name) : null,
         ]));
     }
 }

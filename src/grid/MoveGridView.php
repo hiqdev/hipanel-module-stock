@@ -11,8 +11,8 @@
 
 namespace hipanel\modules\stock\grid;
 
-use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
+use hipanel\modules\stock\models\Part;
 use hipanel\widgets\ArraySpoiler;
 use Yii;
 use yii\helpers\Html;

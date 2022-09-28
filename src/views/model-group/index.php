@@ -1,25 +1,27 @@
 <?php
 
 use hipanel\modules\stock\grid\ModelGroupGridView;
+use hipanel\modules\stock\models\ModelGroupSearch;
+use hipanel\modules\stock\Module;
 use hipanel\widgets\IndexPage;
-use hipanel\widgets\Pjax;
+use hiqdev\hiart\ActiveDataProvider;
 use yii\helpers\Html;
+use yii\web\View;
+
+/**
+ * @var View $this
+ * @var ActiveDataProvider $dataProvider
+ * @var ModelGroupSearch $model
+ * @var Module $module
+ */
 
 $this->title = Yii::t('hipanel:stock', 'Model groups');
 $this->params['breadcrumbs'][] = $this->title;
 
-/**
- * @var \yii\web\View $this
- * @var \hiqdev\hiart\ActiveDataProvider $dataProvider
- * @var \hipanel\modules\stock\models\ModelGroupSearch $model
- * @var \hipanel\modules\stock\Module $module
- */
 
 ?>
 
-<?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
-
-<?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
+<?php $page = IndexPage::begin(['model' => $model, 'dataProvider' => $dataProvider]) ?>
     <?php $page->beginContent('main-actions') ?>
         <?php if (Yii::$app->user->can('model.create')) : ?>
             <?= Html::a(Yii::t('hipanel:stock', 'Create group'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
@@ -56,4 +58,3 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>
 <?php $page->end() ?>
-<?php Pjax::end() ?>

@@ -1,11 +1,24 @@
 <?php
 
+use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\stock\grid\ModelGridLegend;
 use hipanel\modules\stock\grid\ModelGridView;
+use hipanel\modules\stock\models\ModelSearch;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
-use hipanel\widgets\Pjax;
+use hiqdev\higrid\representations\RepresentationCollection;
+use hiqdev\hiart\ActiveDataProvider;
 use yii\helpers\Html;
+
+/**
+ * @var ModelSearch $model
+ * @var RepresentationCollection $representationCollection
+ * @var ActiveDataProvider $dataProvider
+ * @var IndexPageUiOptions $uiModel
+ * @var array $types
+ * @var array $brands
+ * @var array $states
+ */
 
 $this->title = Yii::t('hipanel:stock', 'Models');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
@@ -13,11 +26,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
-<?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
-
 <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
 
-    <?= $page->setSearchFormData(compact(['types', 'brands', 'states'])) ?>
+    <?php $page->setSearchFormData(['types' => $types, 'brands' => $brands, 'states' => $states]) ?>
     <?php $page->beginContent('main-actions') ?>
         <?php if (Yii::$app->user->can('model.create')) : ?>
             <?= Html::a(Yii::t('hipanel:stock', 'Create model'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
@@ -61,4 +72,3 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>
 <?php $page->end() ?>
-<?php Pjax::end() ?>

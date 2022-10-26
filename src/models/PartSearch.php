@@ -34,6 +34,7 @@ class PartSearch extends Part
             'company',
             'order_name_ilike',
             'device_location_like',
+            'move_type_and_date',
         ]);
     }
 

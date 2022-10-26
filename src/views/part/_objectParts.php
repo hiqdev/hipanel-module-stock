@@ -13,6 +13,7 @@
  * @var array $data
  */
 
+use hipanel\grid\RefColumn;
 use hipanel\helpers\StringHelper;
 use yii\helpers\Html;
 
@@ -72,8 +73,10 @@ echo \hipanel\grid\GridView::widget([
             },
         ],
         [
+            'class' => RefColumn::class,
             'label' => Yii::t('hipanel:stock', 'Manufacturer'),
             'attribute' => 'model_brand_label',
+            'i18nDictionary' => 'hipanel:stock',
             'value' => static function ($models) {
                 return implode(', ', array_unique(array_map(fn ($parts) => reset($parts)->model_brand_label, $models)));
             }

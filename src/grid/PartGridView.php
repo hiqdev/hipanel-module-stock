@@ -50,13 +50,16 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'main' => [
+                'class' => RefColumn::class,
                 'label' => Yii::t('hipanel', 'Type') . ' / ' . Yii::t('hipanel:stock', 'Manufacturer'),
                 'sortAttribute' => 'model_type',
+                'i18nDictionary' => 'hipanel:stock',
                 'value' => function ($model) {
                     return $model->model_type_label . ' ' . $model->model_brand_label;
                 },
             ],
             'partno' => [
+                'class' => RefColumn::class,
                 'filterAttribute' => 'partno_like',
                 'filter' => function ($column, $model, $attribute) {
                     return PartnoCombo::widget([
@@ -65,6 +68,7 @@ class PartGridView extends BoxedGridView
                         'formElementSelector' => 'td',
                     ]);
                 },
+                'i18nDictionary' => 'hipanel:stock',
                 'format' => 'raw',
                 'label' => Yii::t('hipanel:stock', 'Part No.'),
                 'value' => function ($model) {
@@ -103,6 +107,7 @@ class PartGridView extends BoxedGridView
                 'class' => RefColumn::class,
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'gtype' => 'type,model',
+                'i18nDictionary' => 'hipanel:stock',
                 'label' => Yii::t('hipanel:stock', 'Type'),
                 'value' => function ($model) {
                     return $model->model_type_label;
@@ -113,8 +118,9 @@ class PartGridView extends BoxedGridView
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'gtype' => 'type,brand',
                 'label' => Yii::t('hipanel:stock', 'Manufacturer'),
+                'i18nDictionary' => 'hipanel:stock',
                 'value' => function ($model) {
-                    return $model->model_brand_label;
+                    return Html::encode($model->model_brand_label);
                 },
             ],
             'company_id' => [
@@ -129,9 +135,11 @@ class PartGridView extends BoxedGridView
                 'value' => static fn($model) => self::lastMove($model),
             ],
             'move_type_and_date' => [
+                'class' => RefColumn::class,
                 'label' => Yii::t('hipanel', 'Type') . ' / ' . Yii::t('hipanel', 'Date'),
                 'sortAttribute' => 'move_time',
                 'format' => 'raw',
+                'i18nDictionary' => 'hipanel:stock',
                 'value' => function ($model) {
                     $linkToMove = Html::a(Html::encode($model->move_type_label), [
                         '@move/index',

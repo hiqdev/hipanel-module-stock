@@ -12,6 +12,7 @@
 namespace hipanel\modules\stock\grid;
 
 use hipanel\grid\BoxedGridView;
+use hipanel\grid\RefColumn;
 use hipanel\modules\stock\models\Part;
 use hipanel\widgets\ArraySpoiler;
 use Yii;
@@ -41,9 +42,11 @@ class MoveGridView extends BoxedGridView
                 'value' => static fn($model) => PartGridView::lastMove($model),
             ],
             'descr' => [
+                'class' => RefColumn::class,
                 'format' => 'html',
                 'enableSorting' => false,
                 'filter' => false,
+                'i18nDictionary' => 'hipanel:stock',
                 'value' => function ($model) {
                     return sprintf('<b>%s</b><br>%s', $model->type_label, $model->getDescription());
                 },

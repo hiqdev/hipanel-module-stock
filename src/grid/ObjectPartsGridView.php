@@ -26,6 +26,11 @@ class ObjectPartsGridView extends BoxedGridView
             'pagination' => false,
             'allModels' => $this->data,
             'sort' => false,
+            'key' => function ($models) {
+                foreach ($models as $parts) {
+                    return reset($parts)->model_type;
+                }
+            },
         ]);
         $this->columns = array_keys($this->columns());
         $this->formater = Yii::$app->formatter;
@@ -36,13 +41,19 @@ class ObjectPartsGridView extends BoxedGridView
     {
         return [
             'type' => [
+                'class' => RefColumn::class,
                 'attribute' => 'type',
                 'format' => 'html',
                 'label' => Yii::t('hipanel:stock', 'Type'),
                 'options' => [
                     'style' => 'width: 20%',
                 ],
-                'value' => static fn($models, $key) => Html::tag('strong', Yii::t('hipanel:stock', $key)),
+                'i18nDictionary' => 'hipanel:stock',
+                'value' => function ($models) {
+                    foreach ($models as $parts) {
+                        return Html::tag('strong', Yii::t('hipanel:stock', reset($parts)->model_type_label));
+                    }
+                },
             ],
             'model' => [
                 'label' => Yii::t('hipanel:stock', 'Model'),

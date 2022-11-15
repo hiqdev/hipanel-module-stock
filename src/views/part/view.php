@@ -8,13 +8,18 @@ use hipanel\modules\stock\widgets\HardwareSettingsDetail;
 use hipanel\widgets\Box;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\MainDetails;
+use hiqdev\hiart\ActiveDataProvider;
 use yii\helpers\Html;
-use yii\helpers\Url;
 
-$this->title = Html::encode($model->title);
+/**
+ * @var Part $model
+ * @var ActiveDataProvider $moveDataProvider
+ */
+
+$this->title = Html::encode(Yii::t('hipanel', $model->title));
 $this->params['subtitle'] = Yii::t('hipanel', 'detailed information');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Parts'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = Yii::t('hipanel', $this->title);
 
 ?>
 
@@ -22,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-lg-3">
 
         <?= MainDetails::widget([
-            'title' => $model->model_type_label . ' ' . $model->model_brand_label,
+            'title' => Yii::t('hipanel:stock', $model->model_type_label . ' ' . $model->model_brand_label),
             'subTitle' => (function () use ($model) {
                 if ($model->state !== Part::STATE_OK) {
                     $state = Yii::t('hipanel', 'Deleted');

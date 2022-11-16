@@ -22,7 +22,6 @@ use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\LocationsCombo;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
-use hipanel\widgets\SummaryHook;
 use Yii;
 use yii\base\Model;
 use yii\helpers\Html;
@@ -113,6 +112,13 @@ class PartGridView extends BoxedGridView
                     return $model->model_type_label;
                 },
             ],
+            'model_type_label' => [
+                'class' => RefColumn::class,
+                'i18nDictionary' => 'hipanel:stock',
+                'filter' => false,
+                'enableSorting' => false,
+                'attribute' => 'model_type_label',
+            ],
             'model_brand' => [
                 'class' => RefColumn::class,
                 'filterOptions' => ['class' => 'narrow-filter'],
@@ -122,6 +128,13 @@ class PartGridView extends BoxedGridView
                 'value' => function ($model) {
                     return Html::encode($model->model_brand_label);
                 },
+            ],
+            'model_brand_label' => [
+                'class' => RefColumn::class,
+                'i18nDictionary' => 'hipanel:stock',
+                'filter' => false,
+                'enableSorting' => false,
+                'attribute' => 'model_brand_label',
             ],
             'company_id' => [
                 'class' => CompanyColumn::class,
@@ -150,6 +163,8 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'move_type_label' => [
+                'class' => RefColumn::class,
+                'i18nDictionary' => 'hipanel:stock',
                 'filter' => false,
                 'enableSorting' => false,
                 'attribute' => 'move_type_label',

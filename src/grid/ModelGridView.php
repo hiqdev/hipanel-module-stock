@@ -54,6 +54,7 @@ class ModelGridView extends BoxedGridView
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'class' => RefColumn::class,
                 'gtype' => 'type,brand',
+                'i18nDictionary' => 'hipanel.stock.order',
                 'value' => function ($model) {
                     return $model->brand_label;
                 },

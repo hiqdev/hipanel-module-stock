@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= MainDetails::widget([
             'title' => $this->title,
             'icon' => 'fa-cube',
-            'subTitle' => Html::encode($model->type_label . ' / ' . $model->brand_label),
+            'subTitle' => Html::encode(Yii::t('hipanel:stock', $model->type_label) . ' / ' . $model->brand_label),
             'menu' => ModelDetailMenu::widget(['model' => $model], ['linkTemplate' => '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>&nbsp;{label}</a>']),
         ]) ?>
 

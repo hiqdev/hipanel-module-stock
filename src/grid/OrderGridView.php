@@ -154,7 +154,7 @@ class OrderGridView extends BoxedGridView
                         'delimiter' => '<br />',
                         'visibleCount' => 0,
                         'formatter' => function (Part $part, $idx) use ($order) {
-                            return Html::a(Html::encode($part->title), Url::toRoute(['@part/view', 'id' => $part->id]), [
+                            return Html::a(Yii::t('hipanel.stock.order', Html::encode($part->title)), Url::toRoute(['@part/view', 'id' => $part->id]), [
                                 'class' => 'text-bold',
                                 'target' => '_blank',
                             ]);

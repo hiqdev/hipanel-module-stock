@@ -2,7 +2,7 @@ import { test } from "@hipanel-core/fixtures";
 import {expect, Page} from "@playwright/test";
 import Index from "@hipanel-core/page/Index";
 
-test.describe("Ensure I can change serial to real @hipanel-module-stock @manager", () => {
+test.describe("Ensure I can change serial to real @hipanel-module-stock", () => {
 
   let indexPage: Index
 
@@ -13,13 +13,13 @@ test.describe("Ensure I can change serial to real @hipanel-module-stock @manager
     await indexPage.hasRowsOnTable(1);
   });
 
-  test("Set serial as part ID", async ({ managerPage }) => {
+  test("Set serial as part ID @manager", async ({ managerPage }) => {
     await indexPage.chooseNumberRowOnTable(1);
     await indexPage.clickDropdownBulkButton('Bulk actions', 'Set serial');
     await setSerialAsPartId(managerPage);
   });
 
-  test("Set real serial for one part", async ({ managerPage }) => {
+  test("Set real serial for one part @manager", async ({ managerPage }) => {
     await indexPage.chooseNumberRowOnTable(1);
     await indexPage.clickDropdownBulkButton('Bulk actions', 'Set real serials');
     await tryToSetTwoRealSerialsForOnePart('test_real_serials_1', managerPage);

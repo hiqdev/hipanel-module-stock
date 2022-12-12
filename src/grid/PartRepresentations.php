@@ -18,7 +18,8 @@ class PartRepresentations extends RepresentationCollection
                     'checkbox',
                     'model_type', 'model_brand', 'model', 'partno', 'serial',
                     'last_move', 'move_type_and_date', 'device_location', 'move_descr',
-                    'order_name', 'company_id',
+                    $user->can('order.read') ? 'order_name' : null,
+                    $user->can('order.read') ? 'company_id' : null,
                 ],
             ],
             'brief' => [
@@ -44,7 +45,9 @@ class PartRepresentations extends RepresentationCollection
                     'model_type', 'model_brand',
                     'partno', 'serial',
                     'last_move', 'move_type_and_date', 'device_location',
-                    'move_descr', 'order_data', 'dc_ticket',
+                    'move_descr',
+                    $user->can('order.read') ? 'order_data' : null,
+                    'dc_ticket',
                 ],
             ] : '',
             'selling' => $user->can('order.create') ? [

@@ -17,17 +17,20 @@ class PartRepresentations extends RepresentationCollection
                 'columns' => [
                     'checkbox',
                     'model_type', 'model_brand', 'model', 'partno', 'serial',
-                    'last_move', 'move_type_and_date', 'device_location', 'move_descr',
-                    'order_name', 'company_id',
+                    'last_move', 'move_type_and_date', 'device_location',
+                    $user->can('move.read') ? 'move_descr' : null,
+                    $user->can('order.read') ? 'order_name' : null,
+                    $user->can('order.read') ? 'company_id' : null,
                 ],
             ],
             'brief' => [
                 'label' => Yii::t('hipanel', 'brief'),
-                'columns' => [
+                'columns' => array_filter([
                     'checkbox',
                     'model_type', 'model_brand', 'partno', 'serial',
-                    'last_move', 'move_type_and_date', 'move_descr',
-                ],
+                    'last_move', 'move_type_and_date',
+                    $user->can('move.read') ? 'move_descr' : null,
+                ]),
             ],
             'report' => [
                 'label' => Yii::t('hipanel', 'report'),
@@ -39,13 +42,15 @@ class PartRepresentations extends RepresentationCollection
             ],
             'detailed' => $user->can('tmp disabled') ? [
                 'label' => Yii::t('hipanel', 'detailed'),
-                'columns' => [
+                'columns' => array_filter([
                     'checkbox',
                     'model_type', 'model_brand',
                     'partno', 'serial',
                     'last_move', 'move_type_and_date', 'device_location',
-                    'move_descr', 'order_data', 'dc_ticket',
-                ],
+                    $user->can('move.read') ? 'move_descr' :null,
+                    $user->can('order.read') ? 'order_data' : null,
+                    'dc_ticket',
+                ]),
             ] : '',
             'selling' => $user->can('order.create') ? [
                 'label' => Yii::t('hipanel:stock', 'selling'),
@@ -69,7 +74,9 @@ class PartRepresentations extends RepresentationCollection
                 'label' => Yii::t('hipanel:stock', 'Administrative'),
                 'columns' => [
                     'checkbox',
-                    'model_type', 'model_brand', 'partno', 'serial', 'place', 'reserve', 'last_move_with_descr', 'move_time',
+                    'model_type', 'model_brand', 'partno', 'serial', 'place', 'reserve',
+                    $user->can('move.read') ? 'last_move_with_descr' : 'last_move',
+                    'move_time',
                 ],
             ] : null,
         ]);

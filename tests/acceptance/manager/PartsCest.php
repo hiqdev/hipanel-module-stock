@@ -6,11 +6,10 @@ use hipanel\helpers\Url;
 use Codeception\Example;
 use hipanel\tests\_support\Page\IndexPage;
 use hipanel\modules\stock\tests\_support\Page\part\SellModalWindow;
-use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\modules\stock\tests\_support\Page\part\Create;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
-use hipanel\tests\_support\Step\Acceptance\Admin;
+use hipanel\tests\_support\Page\Widget\Input\VueTreeSelect;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 use DateTime;
 
@@ -161,7 +160,7 @@ class PartsCest
         $sellData = iterator_to_array($example->getIterator());
 
         $this->index->filterBy(Input::asTableFilter($I, 'Serial'), 'MG_TEST_PART');
-        for ($i = 0; $i < count($sellData['prices']); $i++) {
+        for ($i = 0, $iMax = count($sellData['prices']); $i < $iMax; $i++) {
             $this->index->selectTableRowByNumber($i + 1);
         }
         $I->click("//button[contains(text(), 'Sell parts')]");
@@ -180,11 +179,8 @@ class PartsCest
     {
         $I->needPage(Url::to('@bill'));
 
-        $this->index->filterBy(Dropdown::asTableFilter($I, 'Type'),
-            '-- ' . $sellData['type']);
-
-        $this->index->filterBy(Input::asTableFilter($I, 'Description'),
-            $sellData['descr']);
+        $this->index->filterBy(VueTreeSelect::asTableFilter($I, 'Type'), $sellData['type']);
+        $this->index->filterBy(Input::asTableFilter($I, 'Description'), $sellData['descr']);
 
         $this->index->openRowMenuByNumber(1);
         $this->index->chooseRowMenuOption('View');
@@ -280,7 +276,7 @@ class PartsCest
                 'descr'     => 'test description ' . uniqid(),
                 'type'      => 'HW purchase',
                 'prices'    => [250, 300, 442],
-                'time'      => (new DateTime())->format('Y-m-d H:i'),
+                'time'      => (new DateTime())->modify('-1 day')->format('Y-m-d H:i'),
             ]
         ];
     }

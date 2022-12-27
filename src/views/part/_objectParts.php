@@ -10,11 +10,23 @@
  */
 
 /**
- * @var array $data
+ * @var Part[] $parts
  */
 
 use hipanel\modules\stock\grid\ObjectPartsGridView;
+use hipanel\modules\stock\models\Part;
+use yii\widgets\Pjax;
 
 ?>
 
-<?= ObjectPartsGridView::widget(['data' => $data]) ?>
+<?php Pjax::begin([
+    'options' => ['id' => 'configuration_' . mt_rand()],
+    'enablePushState' => false,
+    'enableReplaceState' => false,
+    'scrollTo' => true,
+    'timeout' => 999_999,
+]) ?>
+
+<?= ObjectPartsGridView::widget(['parts' => $parts]) ?>
+
+<?php Pjax::end() ?>

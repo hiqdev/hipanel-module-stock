@@ -24,14 +24,14 @@ class PartSearch extends Part
     public function searchAttributes()
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
-            'model_types', 'model_brands',
+            'model_types', 'model_type', 'model_brands',
             'model_type_like', 'model_brand_like',
             'partno_like', 'serial_ilike',
             'first_move_ilike', 'order_data_like',
             'src_name_like', 'dst_name_like', 'move_descr_like', 'move_descr_ilike',
             'create_time_from', 'create_time_till', 'id_in', 'buyer_in', 'partno_inilike', 'partno_in',
             'profit_time_from', 'profit_time_till',
-            'company',
+            'company', 'model_brand',
             'order_name_ilike',
             'device_location_like',
             'move_type_and_date',

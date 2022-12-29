@@ -499,10 +499,8 @@ class PartController extends CrudController
     public function actionRenderObjectParts($id)
     {
         $parts = Part::find()->joinWith('model')->where(['dst_id' => $id])->limit(-1)->all();
-        $parts = PartSort::byGeneralRules()->values($parts);
-        $data = ArrayHelper::index($parts, 'id', ['model_type_label', 'model_id']);
 
-        return $this->renderAjax('_objectParts', ['data' => $data]);
+        return $this->renderAjax('_objectParts', ['parts' => $parts]);
     }
 
     public function getTypes()

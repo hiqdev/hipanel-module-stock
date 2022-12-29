@@ -42,6 +42,9 @@
             "homepage": "http://hiqdev.com/"
         }
     ],
+    "require": {
+        "yii2mod/yii2-array-query": "*"
+    },
     "require-dev": {
         "hiqdev/hidev-php": "dev-master",
         "hiqdev/hidev-hiqdev": "dev-master"

@@ -179,7 +179,6 @@ class PartsCest
     {
         $I->needPage(Url::to('@bill'));
 
-        $this->index->filterBy(VueTreeSelect::asTableFilter($I, 'Type'), $sellData['type']);
         $this->index->filterBy(Input::asTableFilter($I, 'Description'), $sellData['descr']);
 
         $this->index->openRowMenuByNumber(1);

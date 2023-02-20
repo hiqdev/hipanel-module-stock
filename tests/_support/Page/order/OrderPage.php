@@ -1,12 +1,4 @@
 <?php
-/**
- * hipanel.advancedhosters.com
- *
- * @link      http://hipanel.advancedhosters.com/
- * @package   hipanel.advancedhosters.com
- * @license   proprietary
- * @copyright Copyright (c) 2016-2019, AdvancedHosters (https://advancedhosters.com/)
- */
 
 namespace hipanel\modules\stock\tests\_support\Page\order;
 

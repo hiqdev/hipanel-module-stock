@@ -11,9 +11,7 @@
 
 namespace hipanel\modules\stock\controllers;
 
-use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
-use hipanel\actions\SearchAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartPerformAction;
@@ -24,15 +22,23 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\modules\stock\actions\HardwareSettingsAction;
-use hipanel\modules\stock\models\HardwareSettings;
+use hipanel\modules\stock\helpers\StockLocationsProvider;
 use hipanel\modules\stock\models\Model;
-use hipanel\modules\stock\models\Settings;
+use hipanel\modules\stock\Module;
 use Yii;
-use yii\base\Event;
-use yii\helpers\ArrayHelper;
 
 class ModelController extends CrudController
 {
+    public function __construct(
+        $id,
+        Module $module,
+        private readonly StockLocationsProvider $locationsProvider,
+        array $config = []
+    )
+    {
+        parent::__construct($id, $module, $config);
+    }
+
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
@@ -56,7 +62,7 @@ class ModelController extends CrudController
         return array_merge(parent::actions(), [
             'index' => [
                 'class' => IndexAction::class, // with_counters
-                'findOptions' => ['with_counters' => 1],
+                'findOptions' => ['with_counters' => 1, 'locations' => $this->locationsProvider->getLocations()],
                 'data' => function ($action) {
                     return [
                         'types' => $action->controller->getTypes(),
@@ -120,7 +126,9 @@ class ModelController extends CrudController
             'delete' => [
                 'class' => SmartDeleteAction::class,
                 'success' => Yii::t('hipanel:stock', 'Model(s) deleted'),
-                'error' => Yii::t('hipanel:stock', 'An error occurred when trying to delete {object}', ['{object}' => Yii::t('hipanel:stock', 'model')]),
+                'error' => Yii::t('hipanel:stock',
+                    'An error occurred when trying to delete {object}',
+                    ['{object}' => Yii::t('hipanel:stock', 'model')]),
             ],
         ]);
     }
@@ -133,12 +141,11 @@ class ModelController extends CrudController
             $validFormNames = $this->getCustomType();
             if (in_array($subFormName, $validFormNames, true)) {
                 return $this->renderAjax('_' . $subFormName, ['model' => new Model(), 'i' => $itemNumber]);
-            } else {
-                return '';
             }
-        } else {
             return '';
         }
+
+        return '';
     }
 
     public function getTypes()
@@ -164,5 +171,14 @@ class ModelController extends CrudController
     public function getCustomType()
     {
         return ['server', 'chassis', 'motherboard', 'ram', 'hdd', 'cpu'];
+    }
+
+    public function actionSaveLocations()
+    {
+        if ($this->request->isPost) {
+            $locations = $this->request->post('locations', []);
+            $this->locationsProvider->setLocations($locations);
+        }
+        Yii::$app->end();
     }
 }

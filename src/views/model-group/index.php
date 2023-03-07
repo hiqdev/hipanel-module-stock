@@ -57,4 +57,4 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
         <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>
-<?php $page->end() ?>
+<?php IndexPage::end() ?>

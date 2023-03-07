@@ -72,7 +72,9 @@ $this->params['breadcrumbs'][] = Yii::t('hipanel', $this->title);
                         </div>
                     <?php $box->endBody() ?>
                 <?php $box->end() ?>
-                <?= HardwareSettingsDetail::widget(['id' => $model->model_id, 'type' => $model->model_type]) ?>
+                <?php if (Yii::$app->user->can('model.update')) : ?>
+                    <?= HardwareSettingsDetail::widget(['id' => $model->model_id, 'type' => $model->model_type]) ?>
+                <?php endif ?>
             </div>
         </div>
     </div>

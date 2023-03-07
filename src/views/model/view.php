@@ -38,7 +38,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]) ?>
             </div>
         </div>
-        <?= HardwareSettingsDetail::widget(['id' => $model->id, 'type' => $model->type]) ?>
+        <?php if (Yii::$app->user->can('model.update')) : ?>
+            <?= HardwareSettingsDetail::widget(['id' => $model->id, 'type' => $model->type]) ?>
+        <?php endif ?>
     </div>
 
     <div class="col-md-9">

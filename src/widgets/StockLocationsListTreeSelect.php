@@ -1,0 +1,210 @@
+<?php
+declare(strict_types=1);
+
+namespace hipanel\modules\stock\widgets;
+
+use hipanel\components\SettingsStorage;
+use hipanel\modules\stock\helpers\StockLocationsProvider;
+use hipanel\widgets\HookTrait;
+use hipanel\widgets\VueTreeSelectInput;
+use Yii;
+use yii\base\InvalidConfigException;
+use yii\helpers\Html;
+use yii\helpers\Json;
+
+// TODO: 1. AuthCond 2. Stocks naming the same for columns and tree select items 3. forward `locations` to API
+class StockLocationsListTreeSelect extends VueTreeSelectInput
+{
+    use HookTrait;
+
+    public $name = 'stocks';
+
+    public function __construct(
+        private readonly SettingsStorage $storage,
+        private readonly StockLocationsProvider $provider,
+        $config = []
+    )
+    {
+        parent::__construct($config);
+    }
+
+    /**
+     * @throws InvalidConfigException
+     */
+    public function init(): void
+    {
+        $this->value = $this->provider->getLocations();
+        parent::init();
+        $this->registerVueContainer();
+    }
+
+    public function run()
+    {
+        $activeInput = Html::hiddenInput($this->name, null, [
+            'v-model' => 'value',
+            'data' => [
+                'value' => $this->value,
+                'options' => Json::encode($this->buildOptions()),
+            ],
+        ]);
+
+        return sprintf(/** @lang HTML */ '
+            <div id="%s" style="margin-bottom: 1em;">
+                <treeselect
+                  :options="options"
+                  :show-count="true"
+                  :always-open="false"
+                  :append-to-body="true"
+                  :disable-branch-nodes="false"
+                  :multiple="true"
+                  value-consists-of="BRANCH_PRIORITY"
+                  delimiter=","
+                  auto-select-ancestors="true"
+                  :clearable="false"
+                  :allow-selecting-disabled-descendants="true"
+                  search-nested
+                  placeholder="%s"
+                  v-model="value"
+                  z-index="1100"
+                  @input="onChange"
+                  @close="updateColumns"
+                >
+                    <div slot="value-label" slot-scope="{ node }" v-html="node.raw.label"></div>
+                </treeselect>
+                %s
+            </div>
+        ',
+            $this->getId(),
+            Yii::t('hipanel:stock', 'Choose stock columns'),
+            $activeInput
+        );
+    }
+
+    private function registerVueContainer(): void
+    {
+        $this->view->registerJs(
+            sprintf(/** @lang JavaScript */ "
+                ;(() => {
+                    const container = $('#%s');
+                    new Vue({
+                        el: container.get(0),
+                        data: {
+                            value: container.find('input[type=hidden]').data('value'),
+                            options: container.find('input[type=hidden]').data('options'),
+                            allowUpdate: false
+                        },
+                        methods: {
+                          onChange: function(value) {
+                            $.post('save-locations', {locations: value}).done(() => {
+                              this.allowUpdate = true;
+                            }).fail(function(err) {
+                              console.error(err.responseText);
+                              hipanel.notify.error('Failed to save locations!');
+                            });
+                          },
+                          updateColumns: function () {
+                            const allowUpdate = this.allowUpdate;
+                            this.\$nextTick(function () {
+                              if (allowUpdate) {
+                                if (this.value.length) {
+                                  this.allowUpdate = false;
+                                  $.pjax.reload({container: '#actualize-locations', async: true});
+                                } else {
+                                  location.reload();
+                                }
+                              }
+                            });
+                          }
+                        }
+                    });
+                })();",
+                $this->getId()
+            )
+        );
+    }
+
+    private function buildOptions(): array
+    {
+        $stockLocationsList = $this->provider->getLocationsList();
+        $options = array_merge(
+            $this->buildDataCentersTree($stockLocationsList),
+            $this->buildCHWTree($stockLocationsList)
+        );
+
+        return $options ?? [];
+    }
+
+    private function buildDataCentersTree(mixed $stockLocationsList): array
+    {
+        $children = [];
+        $groups = array_filter(
+            $stockLocationsList,
+            static fn($l) => $l['category'] === 'stock_group' && $l['id'] !== 'stock:ANY'
+        );
+        $stocks = array_filter(
+            $stockLocationsList,
+            static fn($l) => $l['category'] === 'stock' && $l['id'] !== 'stock:ANY'
+        );
+        foreach ($groups as $g) {
+            $children[$g['location_name']]['id'] = $g['id'];
+            $children[$g['location_name']]['label'] = $this->provider->getLabel($g);
+        }
+        foreach ($stocks as $s) {
+            if (isset($children[$s['location_name']])) {
+                $children[$s['location_name']]['children'][$s['id']] = [
+                    'id' => $s['id'],
+                    'label' => $this->provider->getLabel($s),
+                ];
+            } else {
+                $children[$s['location_name']] = [
+                    'id' => $s['id'],
+                    'label' => $this->provider->getLabel($s),
+                ];
+            }
+        }
+        if ($children === []) {
+            return [];
+        }
+
+        return [
+            [
+                'id' => 'stock:ANY',
+                'label' => 'Any stocks',
+                'children' => $this->removeKeysRecursively(array_values($children)),
+            ],
+        ];
+    }
+
+    private function buildCHWTree(mixed $stockLocationsList): array
+    {
+        $children = [];
+        $locations = array_filter(
+            $stockLocationsList,
+            static fn($l) => in_array($l['category'], ['chwbox', 'chwbox_group']) && $l['id'] !== 'chwbox'
+        );
+        foreach ($locations as $l) {
+            $l['customer'] = $this->provider->getCustomer($l);
+            if ($l['category'] === 'chwbox_group' && $l['location_type'] === 'chwbox_group' && $l['location_name'] === $l['customer']) {
+                $children[$l['customer']]['id'] = $l['id'];
+                $children[$l['customer']]['label'] = $this->provider->getLabel($l);
+            } else if ($l['category'] === 'chwbox_group' && $l['location_name'] !== $l['customer']) {
+                $children[$l['customer']]['children'][$l['location_name']]['id'] = $l['id'];
+                $children[$l['customer']]['children'][$l['location_name']]['label'] = $this->provider->getLabel($l);
+            } else if ($l['category'] === 'chwbox') {
+                $children[$l['customer']]['children'][$l['location_name']]['children'][$l['id']]['id'] = $l['id'];
+                $children[$l['customer']]['children'][$l['location_name']]['children'][$l['id']]['label'] = $this->provider->getLabel($l);
+            }
+        }
+        if ($children === []) {
+            return [];
+        }
+
+        return [
+            [
+                'id' => 'chwbox',
+                'label' => 'Any Customer HW Boxes',
+                'children' => $this->removeKeysRecursively(array_values($children)),
+            ],
+        ];
+    }
+}

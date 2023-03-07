@@ -14,6 +14,8 @@ namespace hipanel\modules\stock\models;
 use hipanel\base\Model as YiiModel;
 use hipanel\base\ModelTrait;
 use hipanel\modules\stock\grid\ModelGridLegend;
+use hipanel\modules\stock\models\query\ModelQuery;
+use hiqdev\hiart\ActiveQuery;
 use Yii;
 use yii\helpers\Html;
 
@@ -155,33 +157,17 @@ class Model extends YiiModel
         ]);
     }
 
-    public function renderReserves($dc): string
+    public function renderReserves(string $dc): string
     {
         $out = '';
         $legendItems = (new ModelGridLegend($this))->items();
-        if (!empty($this->counters[$dc]['stock'])) {
-            $out .= Html::tag('b', Html::encode($this->counters[$dc]['stock']), [
-                'style' => "color: {$legendItems['stock']['color']}",
-                'title' => Yii::t('hipanel:stock', 'In stock'),
-            ]);
-        }
-        if (!empty($this->counters[$dc]['reserved'])) {
-            $out .= '+' . Html::tag('b', Html::encode($this->counters[$dc]['reserved']), [
-                    'style' => "color: {$legendItems['reserved']['color']}",
-                    'title' => Yii::t('hipanel:stock', 'Reserved'),
+        foreach ($legendItems as $state => $item) {
+            if (!empty($this->counters[$dc][$state])) {
+                $out .= $item['prefix'] . Html::tag('b', Html::encode($this->counters[$dc][$state]), [
+                    'style' => "color: {$item['color']}",
+                    'title' => $item['label'],
                 ]);
-        }
-        if (!empty($this->counters[$dc]['unused'])) {
-            $out .= '+' . Html::tag('b', Html::encode($this->counters[$dc]['unused']), [
-                    'style' => "color: {$legendItems['unused']['color']}",
-                    'title' => Yii::t('hipanel:stock', 'Unused'),
-                ]);
-        }
-        if (!empty($this->counters[$dc]['rma'])) {
-            $out .= '/' . Html::tag('b', Html::encode($this->counters[$dc]['rma']), [
-                    'style' => "color: {$legendItems['rma']['color']}",
-                    'title' => Yii::t('hipanel:stock', 'RMA'),
-                ]);
+            }
         }
 
         return $out;

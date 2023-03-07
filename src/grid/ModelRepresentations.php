@@ -2,18 +2,14 @@
 
 namespace hipanel\modules\stock\grid;
 
-use hipanel\modules\stock\Module;
+use hipanel\modules\stock\helpers\StockLocationsProvider;
 use hiqdev\higrid\representations\RepresentationCollection;
 use Yii;
 
 class ModelRepresentations extends RepresentationCollection
 {
-    private Module $module;
-
-    public function __construct(Module $module)
+    public function __construct(private readonly StockLocationsProvider $provider)
     {
-        $this->module = $module;
-
         parent::__construct();
     }
 
@@ -30,7 +26,7 @@ class ModelRepresentations extends RepresentationCollection
                     'descr',
                     'partno',
 
-                    ...array_keys($this->module->stocksList),
+                    ...array_values($this->provider->getLocations()),
 
                     'last_prices',
                     'model_group',

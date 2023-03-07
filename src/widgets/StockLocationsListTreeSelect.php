@@ -12,7 +12,6 @@ use yii\base\InvalidConfigException;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
-// TODO: 1. AuthCond 2. Stocks naming the same for columns and tree select items 3. forward `locations` to API
 class StockLocationsListTreeSelect extends VueTreeSelectInput
 {
     use HookTrait;

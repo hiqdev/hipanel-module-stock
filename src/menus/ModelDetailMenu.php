@@ -22,6 +22,7 @@ class ModelDetailMenu extends AbstractDetailMenu
             [
                 'label' => HardwareSettingsButton::widget(['id' => $this->model->id, 'type' => $this->model->type]),
                 'encode' => false,
+                'visible' => Yii::$app->user->can('model.update'),
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Delete'),

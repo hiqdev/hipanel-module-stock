@@ -14,14 +14,14 @@ class PartRepresentations extends RepresentationCollection
         $this->representations = array_filter([
             'common' => [
                 'label' => Yii::t('hipanel', 'common'),
-                'columns' => [
+                'columns' => array_filter([
                     'checkbox',
                     'model_type', 'model_brand', 'model', 'partno', 'serial',
                     'last_move', 'move_type_and_date', 'device_location',
                     $user->can('move.read') ? 'move_descr' : null,
                     $user->can('order.read') ? 'order_name' : null,
                     $user->can('order.read') ? 'company_id' : null,
-                ],
+                ]),
             ],
             'brief' => [
                 'label' => Yii::t('hipanel', 'brief'),

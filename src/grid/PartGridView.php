@@ -154,10 +154,13 @@ class PartGridView extends BoxedGridView
                 'format' => 'raw',
                 'i18nDictionary' => 'hipanel:stock',
                 'value' => function ($model) {
-                    $linkToMove = Html::a(Html::encode($model->move_type_label), [
-                        '@move/index',
-                        'MoveSearch' => ['serial_like' => Html::encode($model->serial)],
-                    ], ['class' => 'text-bold']);
+                    $linkToMove = $model->move_type_label;
+                    if (Yii::$app->user->can('move.read')) {
+                        $linkToMove = Html::a(Html::encode($linkToMove), [
+                            '@move/index',
+                            'MoveSearch' => ['serial_like' => Html::encode($model->serial)],
+                        ], ['class' => 'text-bold']);
+                    }
 
                     return $linkToMove . ' ' . Html::tag('nobr', Yii::$app->formatter->asDate($model->move_time));
                 },

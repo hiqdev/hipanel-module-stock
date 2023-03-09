@@ -4,8 +4,10 @@ use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\stock\grid\ModelGridLegend;
 use hipanel\modules\stock\grid\ModelGridView;
 use hipanel\modules\stock\models\ModelSearch;
+use hipanel\modules\stock\widgets\StockLocationsListTreeSelect;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
+use hipanel\widgets\Pjax;
 use hiqdev\higrid\representations\RepresentationCollection;
 use hiqdev\hiart\ActiveDataProvider;
 use yii\helpers\Html;
@@ -33,6 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if (Yii::$app->user->can('model.create')) : ?>
             <?= Html::a(Yii::t('hipanel:stock', 'Create model'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
         <?php endif ?>
+        <?= StockLocationsListTreeSelect::widget() ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('legend') ?>
@@ -63,12 +66,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $page->beginContent('table') ?>
         <?php $page->beginBulkForm() ?>
-        <?= ModelGridView::widget([
-            'dataProvider' => $dataProvider,
-            'filterModel' => $model,
-            'boxed' => false,
-            'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
-        ]) ?>
+        <?php Pjax::begin(['id' => 'actualize-locations']) ?>
+            <?= ModelGridView::widget([
+                'dataProvider' => $dataProvider,
+                'filterModel' => $model,
+                'boxed' => false,
+                'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
+            ]) ?>
+        <?php Pjax::end() ?>
         <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>
-<?php $page->end() ?>
+
+<?php IndexPage::end() ?>

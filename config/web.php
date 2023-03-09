@@ -43,6 +43,7 @@ return [
     ],
     'container' => [
         'singletons' => [
+            hipanel\modules\stock\helpers\StockLocationsProvider::class => hipanel\modules\stock\helpers\StockLocationsProvider::class,
             \hipanel\modules\stock\Module::class => [
                 'stocksList' => $params['module.stock.stocks_list'] ?? [],
             ],

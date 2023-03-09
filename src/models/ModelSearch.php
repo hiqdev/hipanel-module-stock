@@ -24,7 +24,7 @@ class ModelSearch extends Model
     public function searchAttributes()
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
-            'group_like', 'filter_like', 'hide_unavailable', 'hide_group_assigned', 'partno_inilike',
+            'group_like', 'filter_like', 'hide_unavailable', 'hide_group_assigned', 'partno_inilike', 'locations'
         ]);
     }
 

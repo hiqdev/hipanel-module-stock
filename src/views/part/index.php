@@ -56,6 +56,9 @@ $this->registerJs('(() => {
     window.location = url.href;
   }, 250);
   input.addEventListener("change", reloadPage);
+  $("#form-advancedsearch-part-search").on("afterValidate", function (e) {
+    $(this).data("yiiActiveForm").validated = true;
+  });
 })();');
 $insteadPerPageRender = static fn(IndexPage $indexPage): string => Html::input('number', 'per-page', $indexPage->getUiModel()->per_page, [
     'style' => ['display' => 'inline-block', 'width' => '110px'],
@@ -72,6 +75,14 @@ $showFooter = ($uiModel->representation === 'profit-report')
 
 <?php $page = IndexPage::begin(compact('model', 'dataProvider', 'insteadPerPageRender')) ?>
     <?php $page->setSearchFormData(compact(['types', 'brands', 'states', 'uiModel'])) ?>
+    <?php $page->setSearchFormOptions([
+        'formOptions' => [
+            'enableClientValidation' => false,
+            'enableAjaxValidation' => true,
+            'validateOnType' => true,
+            'validationUrl' => Url::toRoute(['validate-search-form', 'scenario' => 'search']),
+        ],
+    ]) ?>
 
     <?php $page->beginContent('legend') ?>
         <?= GridLegend::widget(['legendItem' => new PartGridLegend($model)]) ?>

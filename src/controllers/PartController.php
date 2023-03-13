@@ -36,6 +36,7 @@ use hipanel\modules\stock\forms\PartSellForm;
 use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
+use hipanel\modules\stock\models\PartSearch;
 use hipanel\widgets\SynchronousCountEnabler;
 use hipanel\widgets\SummaryWidget;
 use hiqdev\hiart\ActiveQuery;
@@ -464,6 +465,19 @@ class PartController extends CrudController
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,
+            ],
+            'validate-search-form' => [
+                'class' => ValidateFormAction::class,
+                'validatedInputId' => false,
+                'collectionLoader' => function (ValidateFormAction $action) {
+                    $formName = $action->collection->getModel()->formName();
+                    $data = $action->controller->request->get($formName);
+                    $action->collection->load([$data]);
+                },
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new PartSearch(),
+                ],
             ],
             'validate-sell-form' => [
                 'class' => ValidateSellFormAction::class,

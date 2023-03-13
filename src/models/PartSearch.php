@@ -13,7 +13,9 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\SearchModelTrait;
 use hipanel\helpers\ArrayHelper;
+use hipanel\helpers\StringHelper;
 use Yii;
+use yii\helpers\Inflector;
 
 class PartSearch extends Part
 {
@@ -54,6 +56,38 @@ class PartSearch extends Part
             'buyer_in'          => Yii::t('hipanel:stock', 'Buyers'),
             'order_name_ilike'  => Yii::t('hipanel:stock', 'Order'),
             'device_location_like' => Yii::t('hipanel:stock', 'DC location'),
+        ]);
+    }
+
+    public function rules(): array
+    {
+        return array_merge(parent::rules(), [
+            [['dst_name', 'src_name'], 'filter', 'filter' => 'trim', 'on' => 'search'],
+            [
+                ['dst_name', 'src_name'],
+                function ($attribute) {
+                    $required = StringHelper::mexplode($this->{$attribute});
+                    $searchParams = [
+                        'limit' => 'all',
+                        'name_inilike' => $this->{$attribute},
+                    ];
+                    if ($attribute === 'dst_name') {
+                        $searchParams['types'] = self::getDestinationSubTypes();
+                    }
+                    $directions = Move::batchPerform('get-directions', $searchParams);
+                    $diff = array_diff($required, ArrayHelper::getColumn($directions, 'name'));
+                    if (!empty($diff)) {
+                        $this->addError(
+                            $attribute,
+                            Yii::t('hipanel:stock', "No {0} were found for: {1}", [
+                                Inflector::pluralize($this->getAttributeLabel($attribute)),
+                                implode(', ', $diff)
+                            ])
+                        );
+                    }
+                },
+                'on' => 'search',
+            ],
         ]);
     }
 }

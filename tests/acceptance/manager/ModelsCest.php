@@ -38,6 +38,7 @@ class ModelsCest
         $this->ensureICanSeeAdvancedSearchBox($I);
         $this->ensureICanSeeLegendBox();
         $this->ensureICanSeeBulkSearchBox();
+        $this->ensureICanSeeStockColumns($I);
     }
 
     /**
@@ -254,9 +255,27 @@ class ModelsCest
             'Model',
             'Description',
             'Part No.',
-            ...array_values($this->stocksList),
             'Last price',
             'Group',
         ]);
+    }
+
+    private function ensureICanSeeStockColumns(Manager $I): void
+    {
+        $dataOptions = $I->grabAttributeFrom('input[name=stocks]', 'data-options');
+        $dataOptionsArray = json_decode($dataOptions, true);
+        foreach ($this->stocksList as $value) {
+            $I->assertTrue($this->recursiveArraySearch($value, $dataOptionsArray), "Does not contain '{$value}' in stock columns");
+        }
+    }
+
+    private function recursiveArraySearch(string $needle, array $haystack): bool
+    {
+        foreach($haystack as $value) {
+            if($needle === $value || (is_array($value) && $this->recursiveArraySearch($needle,$value) !== false)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -1,29 +1,42 @@
 <?php
 
+use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\stock\widgets\combo\CompanyCombo;
 use hipanel\modules\stock\widgets\combo\LocationsCombo;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
-use hipanel\modules\stock\widgets\RangeCombo;
+use hipanel\widgets\AdvancedSearch;
 use hiqdev\combo\StaticCombo;
 use hipanel\widgets\RefCombo;
 use hipanel\widgets\DateTimePicker;
 use hiqdev\yii2\daterangepicker\DateRangePicker;
 use yii\helpers\Html;
+use yii\web\View;
 
 /**
- * @var \yii\web\View $this
- * @var \hipanel\models\IndexPageUiOptions $uiModel
- * @var \hipanel\widgets\AdvancedSearch $search
+ * @var View $this
+ * @var IndexPageUiOptions $uiModel
+ * @var AdvancedSearch $search
  */
+
+$this->registerJs(<<<"JS"
+(() => {
+  $("#{$search->getForm()->getId()}").on("afterValidate", function () {
+    $(this).data("yiiActiveForm").validated = true;
+  });
+})();
+JS
+)
+
 ?>
 
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('partno_inilike')->widget(PartnoCombo::class, [
-        'multiple' => true, 'primaryFilter' => 'partno_inilike',
+        'multiple' => true,
+        'primaryFilter' => 'partno_inilike',
     ]) ?>
 </div>
 
@@ -61,24 +74,11 @@ use yii\helpers\Html;
 <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('move_descr_ilike') ?></div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('src_name_in')->widget(RangeCombo::class, [
-        'name' => 'src_ids',
-        'useDstTypes' => false,
-        'options' => [
-            'rename' => ['text' => 'name', 'name' => 'id'],
-            'replaceIdToName' => true,
-        ],
-    ]) ?>
+    <?= $search->field('src_name')->textarea() ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('dst_name_in')->widget(RangeCombo::class, [
-        'name' => 'dst_ids',
-        'options' => [
-            'rename' => ['text' => 'name', 'name' => 'id'],
-            'replaceIdToName' => true,
-        ],
-    ]) ?>
+    <?= $search->field('dst_name')->textarea() ?>
 </div>
 
 <?php if (Yii::$app->user->can('sale.create')): ?>
@@ -109,7 +109,6 @@ use yii\helpers\Html;
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <div class="form-group">
-        <?= Html::tag('label', Yii::t('hipanel:stock', 'Last move date'), ['class' => 'control-label']); ?>
         <?= DateTimePicker::widget([
             'id' => 'move_time_date-picker',
             'model' => $search->model,
@@ -119,13 +118,15 @@ use yii\helpers\Html;
                 'minView' => 2,
                 'format' => 'yyyy-mm-dd',
             ],
+            'options' => [
+                'placeholder' => Yii::t('hipanel:stock', 'Last move date'),
+            ],
         ]) ?>
     </div>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <div class="form-group">
-        <?= Html::tag('label', Yii::t('hipanel:stock', 'Created range'), ['class' => 'control-label']) ?>
         <?= DateRangePicker::widget([
             'model' => $search->model,
             'attribute' => 'create_time_from',
@@ -133,6 +134,7 @@ use yii\helpers\Html;
             'options' => [
                 'id' => 'create_time-date-range-picker',
                 'class' => 'form-control',
+                'placeholder' => Yii::t('hipanel:stock', 'Created range'),
             ],
             'dateFormat' => 'yyyy-MM-dd',
         ]) ?>

@@ -62,7 +62,7 @@ class PartsUpdatingCest
                 'serials'       => 'MG_TEST_PART' . $uid,
                 'move_descr'    => 'MG_TEST_MOVE',
                 'type'          => 'FROM OLD STOCK',
-                'price'         => 42,
+                'price'         => '42',
                 'priceNew'      => '142.42',
                 'currency'      => 'usd',
                 'company_id'    => 'Other'

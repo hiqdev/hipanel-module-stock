@@ -15,18 +15,31 @@
 
 use hipanel\modules\stock\grid\ObjectPartsGridView;
 use hipanel\modules\stock\models\Part;
-use yii\widgets\Pjax;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+
+$groups = ArrayHelper::index($parts, null, 'partno');
+$user = Yii::$app->user;
 
 ?>
 
-<?php Pjax::begin([
-    'options' => ['id' => 'configuration_' . mt_rand()],
-    'enablePushState' => false,
-    'enableReplaceState' => false,
-    'scrollTo' => true,
-    'timeout' => 999_999,
-]) ?>
+<table class="table table-condensed table-ultra-condensed">
 
-<?= ObjectPartsGridView::widget(['parts' => $parts]) ?>
+    <caption><?= Yii::t('hipanel:stock', 'Parts') ?></caption>
 
-<?php Pjax::end() ?>
+    <?php foreach ($groups as $partno => $group) : ?>
+        <tr>
+            <th class="active" style="text-align: right; vertical-align: middle; width: 10%;">
+                <?= Yii::t('hipanel:stock', reset($group)->model_type_label) ?>
+            </th>
+            <th style="vertical-align: middle; width: 15%;">
+                <?php $label = $user->can('model.read') ? Html::a($partno, ['@model/view', 'id' => reset($group)->model_id]) : $partno ?>
+                <?= count($groups[$partno]) > 1 ? sprintf("<mark>%d</mark><small>x</small> %s", count($groups[$partno]), $label) : $label ?>
+            </th>
+            <td class="no-padding">
+                <?= ObjectPartsGridView::widget(['parts' => $group]) ?>
+            </td>
+        </tr>
+    <?php endforeach ?>
+
+</table>

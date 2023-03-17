@@ -27,7 +27,6 @@ class ObjectPartsGridView extends BoxedGridView
         $params = Yii::$app->request->queryParams;
         if ($this->filterModel->load($params) && $this->filterModel->validate()) {
             $query->andFilterWhere(['model_type' => $this->filterModel->model_type]);
-            $query->andFilterWhere(['partno' => $this->filterModel->partno]);
             $query->andFilterWhere(['model_brand' => $this->filterModel->model_brand]);
             $query->andFilterWhere(['order_name' => $this->filterModel->order_name]);
             $query->andFilterWhere(['company' => $this->filterModel->company]);
@@ -36,17 +35,24 @@ class ObjectPartsGridView extends BoxedGridView
             $query->andFilterWhere(['like', 'serial', $this->filterModel->serial]);
             $query->andFilterWhere(['like', 'move_time', $this->filterModel->move_time]);
         }
-
+        $models = $query->indexBy('id')->all();
         $this->dataProvider = new ArrayDataProvider([
-            'allModels' => $query->indexBy('id')->all(),
+            'allModels' => $models,
             'modelClass' => $this->filterModel,
+            'pagination' => ['pageSize' => -1],
             'sort' => [
-                'attributes' => ['partno', 'serial', 'move_time', 'price', 'order_name'],
+                'attributes' => ['serial', 'move_time', 'price', 'order_name'],
                 'defaultOrder' => ['move_time' => SORT_DESC],
             ],
             'key' => fn(Part $part): string => (string)$part->id,
         ]);
         $this->columns = array_keys($this->columns());
+        $this->showFooter = false;
+        $this->showHeader = false;
+        $this->summary = false;
+        $this->layout = '{items}';
+        $this->tableOptions['class'] = 'table table-condensed table-ultra-condensed';
+        $this->tableOptions['style'] = 'margin-bottom: 0;';
         $this->formater = Yii::$app->formatter;
         parent::init();
     }
@@ -56,25 +62,8 @@ class ObjectPartsGridView extends BoxedGridView
         $user = Yii::$app->user;
 
         return [
-            'model_type' => [
-                'label' => Yii::t('hipanel:stock', 'Type'),
-                'attribute' => 'model_type',
-                'value' => static fn(Part $part): string => Yii::t('hipanel:stock', $part->model_type_label),
-                'filter' => $this->dropdownFor('model_type', 'model_type_label'),
-            ],
-            'partno' => [
-                'label' => Yii::t('hipanel:stock', 'Model'),
-                'attribute' => 'partno',
-                'format' => 'raw',
-                'value' => static function (Part $part) use ($user): string {
-                    return $user->can('model.read') ?
-                        Html::a($part->partno,
-                            ['@model/view', 'id' => $part->model_id],
-                            ['data-pjax' => 0]) : $part->partno;
-                },
-                'filter' => $this->dropdownFor('partno'),
-            ],
             'serial' => [
+                'contentOptions' => ['style' => 'width: 30%'],
                 'label' => Yii::t('hipanel:stock', 'Serials'),
                 'attribute' => 'serial',
                 'format' => 'raw',
@@ -84,40 +73,46 @@ class ObjectPartsGridView extends BoxedGridView
                 },
             ],
             'model_brand' => [
+                'contentOptions' => ['style' => 'width: 10%'],
                 'label' => Yii::t('hipanel:stock', 'Manufacturer'),
                 'attribute' => 'model_brand',
                 'value' => static fn(Part $part): string => Yii::t('hipanel:stock', $part->model_brand_label),
                 'filter' => $this->dropdownFor('model_brand', 'model_brand_label'),
             ],
             'price' => [
+                'contentOptions' => ['style' => 'width: 10%'],
                 'label' => Yii::t('hipanel:stock', 'Price'),
                 'attribute' => 'price',
                 'value' => fn(Part $part): ?string => !empty($part->price) ? $this->formatter->asCurrency($part->price,
                     $part->currency) : null,
                 'filter' => $this->dropdownFor('currency'),
+                'visible' => $user->can('move.read-all'),
             ],
             'move_time' => [
+                'contentOptions' => ['style' => 'width: 20%'],
                 'label' => Yii::t('hipanel:stock', 'Sale time'),
                 'attribute' => 'move_time',
                 'format' => ['datetime', 'php:Y-m-d H:i'],
-                'visible' => Yii::$app->user->can('order.read'),
+                'visible' => $user->can('order.read'),
             ],
             'order_name' => [
+                'contentOptions' => ['style' => 'width: 20%'],
                 'label' => Yii::t('hipanel:stock', 'Order No.'),
                 'attribute' => 'order_name',
                 'format' => 'raw',
-                'visible' => Yii::$app->user->can('order.read'),
                 'value' => static fn(Part $part): ?string => !empty($part->order_name) ? Html::a($part->order_name,
                     ['@order/view', 'id' => $part->order_id],
                     ['data-pjax' => 0]) : null,
                 'filter' => $this->dropdownFor('order_name'),
+                'visible' => $user->can('order.read'),
             ],
             'company' => [
+                'contentOptions' => ['style' => 'width: 10%'],
                 'label' => Yii::t('hipanel:stock', 'Company'),
                 'attribute' => 'company',
-                'visible' => Yii::$app->user->can('part.create'),
                 'value' => 'company',
                 'filter' => $this->dropdownFor('company'),
+                'visible' => $user->can('part.create'),
             ],
         ];
     }

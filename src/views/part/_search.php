@@ -2,6 +2,7 @@
 
 use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\client\widgets\combo\ClientCombo;
+use hipanel\modules\server\widgets\combo\HubCombo;
 use hipanel\modules\stock\widgets\combo\CompanyCombo;
 use hipanel\modules\stock\widgets\combo\LocationsCombo;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
@@ -74,11 +75,18 @@ JS
 <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('move_descr_ilike') ?></div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('src_name')->textarea() ?>
+    <?= $search->field('src_name_in')->textarea() ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('dst_name')->textarea() ?>
+    <?= $search->field('dst_name_in')->textarea() ?>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field('rack_in')->widget(HubCombo::class, [
+        'multiple' => true,
+        'hubType' => 'rack',
+    ]) ?>
 </div>
 
 <?php if (Yii::$app->user->can('sale.create')): ?>

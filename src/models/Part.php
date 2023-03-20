@@ -88,6 +88,7 @@ class Part extends \hipanel\base\Model
                 ],
                 'safe',
             ],
+            [['src_name_in', 'dst_name_in'], 'safe'], // need to register fields in yiiActiveForm.js to validate AdvancedSearchForm
             [['price'], 'number'],
             [['id', 'company_id', 'dst_id', 'model_id', 'client_id', 'buyer_id', 'last_move_id', 'order_id'], 'integer'],
 

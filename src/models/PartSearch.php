@@ -15,7 +15,6 @@ use hipanel\base\SearchModelTrait;
 use hipanel\helpers\ArrayHelper;
 use hipanel\helpers\StringHelper;
 use Yii;
-use yii\helpers\Inflector;
 
 class PartSearch extends Part
 {
@@ -37,6 +36,7 @@ class PartSearch extends Part
             'order_name_ilike',
             'device_location_like',
             'move_type_and_date',
+            'rack', 'rack_in', 'rack_ilike',
         ]);
     }
 
@@ -56,22 +56,24 @@ class PartSearch extends Part
             'buyer_in'          => Yii::t('hipanel:stock', 'Buyers'),
             'order_name_ilike'  => Yii::t('hipanel:stock', 'Order'),
             'device_location_like' => Yii::t('hipanel:stock', 'DC location'),
+            'rack'              => Yii::t('hipanel:server', 'Rack'),
+            'rack_in'           => Yii::t('hipanel:server', 'Rack'),
         ]);
     }
 
     public function rules(): array
     {
         return array_merge(parent::rules(), [
-            [['dst_name', 'src_name'], 'filter', 'filter' => 'trim', 'on' => 'search'],
+            [['dst_name_in', 'src_name_in'], 'filter', 'filter' => 'trim', 'on' => 'search'],
             [
-                ['dst_name', 'src_name'],
+                ['dst_name_in', 'src_name_in'],
                 function ($attribute) {
                     $required = StringHelper::mexplode($this->{$attribute});
                     $searchParams = [
                         'limit' => 'all',
                         'name_inilike' => $this->{$attribute},
                     ];
-                    if ($attribute === 'dst_name') {
+                    if (str_contains($attribute, 'dst_name')) {
                         $searchParams['types'] = self::getDestinationSubTypes();
                     }
                     $directions = Move::batchPerform('get-directions', $searchParams);
@@ -80,7 +82,7 @@ class PartSearch extends Part
                         $this->addError(
                             $attribute,
                             Yii::t('hipanel:stock', "No {0} were found for: {1}", [
-                                Inflector::pluralize($this->getAttributeLabel($attribute)),
+                                $this->getAttributeLabel($attribute),
                                 implode(', ', $diff)
                             ])
                         );

@@ -56,9 +56,6 @@ $this->registerJs('(() => {
     window.location = url.href;
   }, 250);
   input.addEventListener("change", reloadPage);
-  $("#form-advancedsearch-part-search").on("afterValidate", function (e) {
-    $(this).data("yiiActiveForm").validated = true;
-  });
 })();');
 $insteadPerPageRender = static fn(IndexPage $indexPage): string => Html::input('number', 'per-page', $indexPage->getUiModel()->per_page, [
     'style' => ['display' => 'inline-block', 'width' => '110px'],

@@ -500,7 +500,9 @@ class PartController extends CrudController
     {
         $parts = Part::find()->joinWith('model')->where(['dst_id' => $id])->limit(-1)->all();
 
-        return $this->renderAjax('_objectParts', ['parts' => $parts]);
+        return $this->renderPartial('_objectParts', [
+            'parts' => PartSort::byGeneralRules()->values($parts)
+        ]);
     }
 
     public function getTypes()

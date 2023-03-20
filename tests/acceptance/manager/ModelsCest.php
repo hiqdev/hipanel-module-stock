@@ -272,10 +272,11 @@ class ModelsCest
     private function recursiveArraySearch(string $needle, array $haystack): bool
     {
         foreach ($haystack as $value) {
-            if($needle === $value || (is_array($value) && $this->recursiveArraySearch($needle, $value) !== false)) {
+            if ($needle === $value || (is_array($value) && $this->recursiveArraySearch($needle, $value) !== false)) {
                 return true;
             }
         }
+        
         return false;
     }
 }

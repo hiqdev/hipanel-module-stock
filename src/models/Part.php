@@ -12,6 +12,7 @@
 namespace hipanel\modules\stock\models;
 
 use hipanel\base\ModelTrait;
+use hipanel\helpers\ArrayHelper;
 use hipanel\helpers\StringHelper;
 use hipanel\models\Ref;
 use Yii;
@@ -88,7 +89,32 @@ class Part extends \hipanel\base\Model
                 ],
                 'safe',
             ],
-            [['src_name_in', 'dst_name_in'], 'safe'], // need to register fields in yiiActiveForm.js to validate AdvancedSearchForm
+            [['dst_name_in', 'src_name_in'], 'filter', 'filter' => 'trim', 'on' => 'search'],
+            [
+                ['dst_name_in', 'src_name_in'],
+                function ($attribute) {
+                    $required = StringHelper::mexplode($this->{$attribute});
+                    $searchParams = [
+                        'limit' => 'all',
+                        'name_inilike' => $this->{$attribute},
+                    ];
+                    if (str_contains($attribute, 'dst_name')) {
+                        $searchParams['types'] = self::getDestinationSubTypes();
+                    }
+                    $directions = Move::batchPerform('get-directions', $searchParams);
+                    $diff = array_diff($required, ArrayHelper::getColumn($directions, 'name'));
+                    if (!empty($diff)) {
+                        $this->addError(
+                            $attribute,
+                            Yii::t('hipanel:stock', "No {0} were found for: {1}", [
+                                $this->getAttributeLabel($attribute),
+                                implode(', ', $diff)
+                            ])
+                        );
+                    }
+                },
+                'on' => 'search',
+            ],
             [['price'], 'number'],
             [['id', 'company_id', 'dst_id', 'model_id', 'client_id', 'buyer_id', 'last_move_id', 'order_id'], 'integer'],
 

@@ -42,13 +42,11 @@ class MoveGridView extends BoxedGridView
                 'value' => static fn($model) => PartGridView::lastMove($model),
             ],
             'descr' => [
-                'class' => RefColumn::class,
                 'format' => 'html',
                 'enableSorting' => false,
                 'filter' => false,
-                'i18nDictionary' => 'hipanel:stock',
                 'value' => function ($model) {
-                    return sprintf('<b>%s</b><br>%s', $model->type_label, $model->getDescription());
+                    return sprintf('<b>%s</b><br>%s', Yii::t('hipanel:stock', $model->type_label), $model->getDescription());
                 },
             ],
             'data' => [

@@ -58,7 +58,6 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'partno' => [
-                'class' => RefColumn::class,
                 'filterAttribute' => 'partno_like',
                 'filter' => function ($column, $model, $attribute) {
                     return PartnoCombo::widget([
@@ -67,18 +66,23 @@ class PartGridView extends BoxedGridView
                         'formElementSelector' => 'td',
                     ]);
                 },
-                'i18nDictionary' => 'hipanel:stock',
                 'format' => 'raw',
                 'label' => Yii::t('hipanel:stock', 'Part No.'),
-                'value' => function ($model) {
+                'value' => static function (Part $model): string {
+                    $partNo = Html::encode($model->partno);
                     if (Yii::$app->user->can('model.read')) {
-                        return Html::a(Html::encode($model->partno), ['@model/view', 'id' => $model->model_id], [
+                        return Html::a($partNo, ['@model/view', 'id' => $model->model_id], [
                             'data' => ['toggle' => 'tooltip'],
-                            'title' => Html::encode("{$model->model_type_label} {$model->model_brand_label} / {$model->model_label}"),
+                            'title' => Html::encode(sprintf(
+                                "%s %s / %s",
+                                Yii::t('hipanel:stock', $model->model_type_label),
+                                Yii::t('hipanel:stock', $model->model_brand_label),
+                                Yii::t('hipanel:stock', $model->model_label),
+                            )),
                         ]);
                     }
 
-                    return $model->partno;
+                    return $partNo;
                 },
             ],
             'reserve' => [
@@ -148,13 +152,11 @@ class PartGridView extends BoxedGridView
                 'value' => static fn($model) => self::lastMove($model),
             ],
             'move_type_and_date' => [
-                'class' => RefColumn::class,
                 'label' => Yii::t('hipanel', 'Type') . ' / ' . Yii::t('hipanel', 'Date'),
                 'sortAttribute' => 'move_time',
                 'format' => 'raw',
-                'i18nDictionary' => 'hipanel:stock',
                 'value' => function ($model) {
-                    $linkToMove = $model->move_type_label;
+                    $linkToMove = Yii::t('hipanel:stock', $model->move_type_label);
                     if (Yii::$app->user->can('move.read')) {
                         $linkToMove = Html::a(Html::encode($linkToMove), [
                             '@move/index',
@@ -162,7 +164,7 @@ class PartGridView extends BoxedGridView
                         ], ['class' => 'text-bold']);
                     }
 
-                    return $linkToMove . ' ' . Html::tag('nobr', Yii::$app->formatter->asDate($model->move_time));
+                    return $linkToMove . ' ' . Html::tag('nobr', $this->formatter->asDate($model->move_time));
                 },
             ],
             'move_type_label' => [

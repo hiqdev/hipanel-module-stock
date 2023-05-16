@@ -57,6 +57,7 @@ class Move extends \hipanel\base\Model
                     'descr_like',
                     'with_parts',
                     'name',
+                    'replaced_part'
                 ],
                 'safe',
             ],
@@ -87,7 +88,16 @@ class Move extends \hipanel\base\Model
 
     public function getDescription(): array|string|null
     {
-        return static::prepareDescr($this->descr);
+        $replacedPartLink = null;
+        if ($replacedPart = $this->getReplacedPart()) {
+            $replacedPartLink = Html::a(
+                Html::encode($replacedPart->serial),
+                ['@part/view', 'id' => $replacedPart->id],
+                ['class' => 'text-bold']
+            );
+        }
+
+        return implode('<br>', [static::prepareDescr($this->descr), $replacedPartLink]);
     }
 
     public static function prepareDescr(?string $descr): array|string|null
@@ -104,5 +114,16 @@ class Move extends \hipanel\base\Model
     public function isTrashed(): bool
     {
         return !empty($this->dst_name) && in_array(mb_strtolower($this->dst_name), ['trash', 'trash_rma'], true);
+    }
+
+    public function getReplacedPart(): ?Part
+    {
+        if (empty($this->replaced_part)) {
+            return null;
+        }
+        $part = new Part();
+        $part->setAttributes($this->replaced_part, false);
+
+        return $part;
     }
 }

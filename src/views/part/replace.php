@@ -61,19 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="col-md-6">
                     <?= $form->field($model, "[$i]serial")->textInput() ?>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <?= $form->field($model, "[$i]supplier")->dropDownList($suppliers) ?>
-                        </div>
-                        <div class="col-md-4">
-                            <?= $form->field($model, "[$i]first_move") ?>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?= $form->field($model, "[$i]move_descr") ?>
-                        </div>
-                    </div>
+                    <?= $form->field($model, "[$i]move_descr")->textarea() ?>
                 </div>
             </div>
             <?php Box::end() ?>

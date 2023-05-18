@@ -169,6 +169,15 @@ JS
     </div>
 <?php endif ?>
 
+<?php if (Yii::$app->user->can('move.read')): ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('first_move_ilike') ?>
+    </div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('last_move_ilike') ?>
+    </div>
+<?php endif ?>
+
 <?php if ($uiModel->representation === 'profit-report'): ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <div class="form-group">

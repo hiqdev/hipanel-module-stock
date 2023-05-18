@@ -57,7 +57,8 @@ class Move extends \hipanel\base\Model
                     'descr_like',
                     'with_parts',
                     'name',
-                    'replaced_part'
+                    'replaced_part',
+                    'replace_part',
                 ],
                 'safe',
             ],
@@ -95,9 +96,13 @@ class Move extends \hipanel\base\Model
                 ['@part/view', 'id' => $replacedPart->id],
                 ['class' => 'text-bold']
             );
+            $replace = Yii::t('hipanel:stock', '{type}: {part}', [
+                'type' => Yii::t('hipanel:stock', $this->type_label),
+                'part' => $replacedPartLink,
+            ]);
         }
 
-        return implode('<br>', [static::prepareDescr($this->descr), $replacedPartLink]);
+        return implode('<br>', [static::prepareDescr($this->descr), $replace ?? '']);
     }
 
     public static function prepareDescr(?string $descr): array|string|null
@@ -118,11 +123,16 @@ class Move extends \hipanel\base\Model
 
     public function getReplacedPart(): ?Part
     {
-        if (empty($this->replaced_part)) {
+        foreach (['replace_part', 'replaced_part'] as $try) {
+            if (!empty($this->{$try})) {
+                $attribute = $try;
+            }
+        }
+        if (empty($attribute)) {
             return null;
         }
         $part = new Part();
-        $part->setAttributes($this->replaced_part, false);
+        $part->setAttributes($this->{$attribute}, false);
 
         return $part;
     }

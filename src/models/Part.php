@@ -133,6 +133,14 @@ class Part extends \hipanel\base\Model
 
             // Replace
             [['id', 'src_id', 'dst_id', 'move_type', 'serial', 'partno'], 'required', 'on' => 'replace'],
+            [['serial'], 'unique', 'on' => 'replace'],
+            [
+                ['serial'],
+                'match',
+                'pattern' => '/^[a-zA-Z0-9]+$/u',
+                'on' => 'replace',
+                'message' => Yii::t('hipanel:stock', 'The input format must match /^[a-zA-Z0-9]+$/'),
+            ],
 
             // Repair
             [['id', 'src_id', 'dst_id', 'move_type'], 'required', 'on' => 'repair'],
@@ -218,7 +226,7 @@ class Part extends \hipanel\base\Model
             'selling_price' => Yii::t('hipanel:stock', 'Selling price'),
             'selling_time' => Yii::t('hipanel:stock', 'Selling time'),
             'price' => Yii::t('hipanel:stock', 'Purchase price'),
-            'order_id' => Yii::t('hipanel:stock', 'First move'),
+            'order_id' => Yii::t('hipanel:stock', 'Order'),
             'device_location' => Yii::t('hipanel:stock', 'DC location'),
         ]);
     }

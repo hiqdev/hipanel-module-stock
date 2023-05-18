@@ -36,6 +36,7 @@ class PartSearch extends Part
             'device_location_like',
             'move_type_and_date',
             'rack', 'rack_in', 'rack_ilike',
+            'last_move_ilike',
         ]);
     }
 
@@ -57,6 +58,8 @@ class PartSearch extends Part
             'device_location_like' => Yii::t('hipanel:stock', 'DC location'),
             'rack'              => Yii::t('hipanel:server', 'Rack'),
             'rack_in'           => Yii::t('hipanel:server', 'Rack'),
+            'first_move_ilike'   => Yii::t('hipanel:stock', 'First move (order)'),
+            'last_move_ilike'   => Yii::t('hipanel:stock', 'Last move'),
         ]);
     }
 }

@@ -9,7 +9,7 @@ use hipanel\modules\stock\tests\_support\Page\part\SellModalWindow;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\modules\stock\tests\_support\Page\part\Create;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
-use hipanel\tests\_support\Page\Widget\Input\VueTreeSelect;
+use hipanel\tests\_support\Page\Widget\Input\Textarea;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 use DateTime;
 
@@ -197,14 +197,15 @@ class PartsCest
             Input::asAdvancedSearch($I, 'Serial'),
             Select2::asAdvancedSearch($I, 'Parts'),
             Input::asAdvancedSearch($I, 'Move description'),
-            Select2::asAdvancedSearch($I, 'Source'),
-            Select2::asAdvancedSearch($I, 'Destination'),
+            Textarea::asAdvancedSearch($I, 'Source'),
+            Textarea::asAdvancedSearch($I, 'Destination'),
             Select2::asAdvancedSearch($I, 'Location'),
             Select2::asAdvancedSearch($I, 'Currency'),
             Input::asAdvancedSearch($I, 'Limit'),
             Input::asAdvancedSearch($I, 'Reserve'),
             Select2::asAdvancedSearch($I, 'Buyers'),
-            Select2::asAdvancedSearch($I, 'First move'),
+            Input::asAdvancedSearch($I, 'First move'),
+            Input::asAdvancedSearch($I, 'Last move'),
             Input::asAdvancedSearch($I, 'Order'),
         ]);
     }
@@ -236,7 +237,7 @@ class PartsCest
             'Last move',
             'Type / Date',
             'Move description',
-            'First move',
+            'Order',
         ], 'common');
         $this->index->containsColumns([
             'Type',

@@ -49,9 +49,9 @@ class StockLocationsProvider
         return [];
     }
 
-    public function getIcon(string $type): string
+    public function getIcon(string $location_type): string
     {
-        $name = match ($type) {
+        $name = match ($location_type) {
             'chwbox' => 'fa-user',
             'chwbox_group' => 'fa-users',
             'deleted' => 'fa-ban',
@@ -61,6 +61,10 @@ class StockLocationsProvider
             'supplier' => 'fa-shopping-cart',
             'trash' => 'fa-trash-o',
             'used' => 'fa-recycle',
+            'rack' => 'fa-server',
+            'cage' => 'fa-navicon fa-rotate-90',
+            'building' => 'fa-university',
+            'dc' => 'fa-building-o',
             default => 'fa-cubes',
         };
 
@@ -94,7 +98,7 @@ class StockLocationsProvider
 
     public function getCustomer(array $location): string
     {
-        $customers = explode(',', str_replace(['{', '}'], '', $location['customers']));
+        $customers = explode(',', str_replace(['{', '}'], '', $location['customers'] ?? ''));
 
         return reset($customers);
     }

@@ -47,6 +47,13 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
             ],
         ]);
 
+        $this->view->registerCss(<<<CSS
+.vue-treeselect__option,
+.vue-treeselect__label-container {
+    width: auto;
+}
+CSS);
+
         return sprintf(/** @lang HTML */ '
             <div id="%s" style="margin-bottom: 1em;">
                 <treeselect
@@ -127,10 +134,60 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
         $stockLocationsList = $this->provider->getLocationsList();
         $options = array_merge(
             $this->buildDataCentersTree($stockLocationsList),
-            $this->buildCHWTree($stockLocationsList)
+            $this->buildCHWTree($stockLocationsList),
+            $this->buildRacksTree($stockLocationsList),
         );
 
         return $options ?? [];
+    }
+
+    private function buildRacksTree(array $stockLocationsList): array
+    {
+        $filterByLocationType = function (array $list, string $type) {
+            return array_filter($list, function (array $item) use ($type) {
+                return str_starts_with($item['category'], 'location') && $item['location_type'] === $type;
+            });
+        };
+
+        $dcs = $filterByLocationType($stockLocationsList, 'dc');
+        $buildings = $filterByLocationType($stockLocationsList, 'building');
+        $cages = $filterByLocationType($stockLocationsList, 'cage');
+        $racks = $filterByLocationType($stockLocationsList, 'rack');
+
+        $result = $this->nestRackTreeChildren([$dcs, $buildings, $cages, $racks]);
+
+        return [
+            [
+                'id' => 'location:ANY',
+                'label' => Yii::t('hipanel:stock', 'DC, Building, Cage, Rack'),
+                'children' => $this->removeKeysRecursively(array_values($result)),
+            ]
+        ];
+    }
+
+    private function nestRackTreeChildren($dataOrders, string $parent_location = null): array|null
+    {
+        $children = [];
+        if ($dataOrders === []) {
+            return null;
+        }
+
+        $next = array_shift($dataOrders);
+        foreach ($next as $item) {
+            if ($parent_location === null || str_starts_with($item['location_name'], $parent_location)) {
+                $children[$item['location_name']] = [
+                    'id' => $item['id'],
+                    'label' => $this->provider->getLabel($item),
+                ];
+
+                $nested = $this->nestRackTreeChildren($dataOrders, $item['location_name']);
+                if ($nested !== null) {
+                    $children[$item['location_name']]['children'] = $nested;
+                }
+            }
+        }
+
+        return $children;
     }
 
     private function buildDataCentersTree(mixed $stockLocationsList): array

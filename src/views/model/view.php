@@ -10,7 +10,7 @@ use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
 
 $this->title = $model->partno;
-$this->params['subtitle'] = Yii::t('hipanel:stock', 'Model details') . ' ' . Html::encode($model->name);
+$this->params['subtitle'] = Yii::t('hipanel:stock', 'Model details') . ' ' . Yii::t('hipanel:stock', Html::encode($model->name));
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Models'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= MainDetails::widget([
             'title' => $this->title,
             'icon' => 'fa-cube',
-            'subTitle' => Html::encode(Yii::t('hipanel:stock', $model->type_label) . ' / ' . $model->brand_label),
+            'subTitle' => Html::encode(Yii::t('hipanel:stock', $model->type_label) . ' / ' . Yii::t('hipanel:stock', $model->brand_label)),
             'menu' => ModelDetailMenu::widget(['model' => $model], ['linkTemplate' => '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>&nbsp;{label}</a>']),
         ]) ?>
 

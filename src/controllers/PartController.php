@@ -194,11 +194,17 @@ class PartController extends CrudController
                         $local_sums = [];
                         $total_sums = [];
                         foreach ($dataProvider->getModels() as $model) {
+                            if (!isset($local_sums[$model->currency])) {
+                                $local_sums[$model->currency] = 0;
+                            }
                             $local_sums[$model->currency] += $model->price;
                         }
                         $query = $dataProvider->query;
                         $query->andWhere(['groupby' => 'total_price']);
                         foreach ($query->all() as $model) {
+                            if (!isset($total_sums[$model->currency])) {
+                                $total_sums[$model->currency] = 0;
+                            }
                             $total_sums[$model->currency] += $model->price;
                         }
 

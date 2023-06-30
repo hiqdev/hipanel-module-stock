@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'data' => $models,
             'visibleCount' => count($models),
             'formatter' => function ($model) {
-                return Html::tag('span', Html::encode($model->title), ['class' => 'label label-default']);
+                return Html::tag('span', Yii::t('hipanel:stock', Html::encode($model->title)), ['class' => 'label label-default']);
             },
             'delimiter' => ',&nbsp; ',
         ]) ?>

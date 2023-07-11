@@ -113,8 +113,13 @@ class Move extends \hipanel\base\Model
             return preg_replace_callback('@https://\S+/(\d+)/?(#\S+)?@', static function ($m) {
                 return Html::a('HM4::' . Html::encode($m[1]), Html::encode($m[0]));
             }, $descr);
+        } else if (str_contains($descr, 'youtrack')) {
+            $urlPattern = '/(http|https)\:\/\/?youtrack.ahback.com\/issue\/([A-Z]+\-\d+)[a-zA-Z0-9\&\.\/\?\:@\-_=#]*/';
+            return preg_replace_callback($urlPattern, function ($url) {
+                return Html::a($url[2], $url[0]);
+            }, $descr);
         } else if (str_contains($descr, 'http')) {
-            $urlPattern = '/((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\&\.\/\?\:@\-_=#])*/';
+            $urlPattern = '/(http|https)\:\/\/?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.[a-zA-Z0-9\&\.\/\?\:@\-_=#]*/';
             return preg_replace_callback($urlPattern, function ($url) {
                 return Html::a($url[0], $url[0]);
             }, $descr);

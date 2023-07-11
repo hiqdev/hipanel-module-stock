@@ -89,7 +89,6 @@ class Move extends \hipanel\base\Model
 
     public function getDescription(): array|string|null
     {
-        $replacedPartLink = null;
         if ($replacedPart = $this->getReplacedPart()) {
             $replacedPartLink = Html::a(
                 Html::encode($replacedPart->serial),
@@ -110,10 +109,24 @@ class Move extends \hipanel\base\Model
         if (empty($descr)) {
             return null;
         }
+        $urlPattern = '/(http|https)\:\/\/?[a-zA-Z0-9\.\/\?\:@\-_=#]+[a-zA-Z0-9\&\.\/\?\:@\-_=#]*/';
+        if (str_contains($descr, '//hm4')) {
+            return preg_replace_callback('@https://\S+/(\d+)/?(#\S+)?@', static function ($m) {
+                return Html::a('HM4::' . Html::encode($m[1]), Html::encode($m[0]));
+            }, $descr);
+        } else if (str_contains($descr, 'http') && preg_match('/([A-Z]+\-\d+)/', $descr)) {
+            return preg_replace_callback($urlPattern, function ($url) {
+                preg_match('/([A-Z]+\-\d+)/', $url[0], $matches);
+                return Html::a($matches[1], $url[0]);
+            }, $descr);
+        } else if (str_contains($descr, 'http')) {
+            return preg_replace_callback($urlPattern, function ($url) {
+                return Html::a($url[0], $url[0]);
+            }, $descr);
 
-        return preg_replace_callback('@https://\S+/(\d+)/?(#\S+)?@', static function ($m) {
-            return Html::a('HM4::' . Html::encode($m[1]), Html::encode($m[0]));
-        }, $descr);
+        }
+
+        return $descr;
     }
 
     public function isTrashed(): bool

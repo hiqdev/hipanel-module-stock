@@ -114,7 +114,11 @@ class Move extends \hipanel\base\Model
                 return Html::a('HM4::' . Html::encode($m[1]), Html::encode($m[0]));
             }, $descr);
         } else if (str_contains($descr, 'http')) {
-            return Html::a($descr, $descr);
+            $urlPattern = '/((http|https)\:\/\/)?[a-zA-Z0-9\.\/\?\:@\-_=#]+\.([a-zA-Z0-9\&\.\/\?\:@\-_=#])*/';
+            return preg_replace_callback($urlPattern, function ($url) {
+                return Html::a($url[0], $url[0]);
+            }, $descr);
+
         }
 
         return $descr;

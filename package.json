@@ -1,0 +1,23 @@
+{
+  "name": "hipanel-module-stock/mobile",
+  "version": "0.0.1",
+  "description": "**Stock Module for Hipanel**",
+  "main": "src/assets/Mobile/index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "npx mix watch",
+    "dev": "npx mix",
+    "prod": "npx mix --production"
+  },
+  "author": "Andrii Klochok",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "ky": "^0.33.3",
+    "laravel-mix": "^6.0.49",
+    "vue": "^3.3.4",
+    "vue-loader": "^16.8.3"
+  }
+}

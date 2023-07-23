@@ -11,4 +11,5 @@ class MobileAppAsset extends AssetBundle
     public $baseUrl = '/stock/mobile/index';
     public $publishOptions = ['forceCopy' => true];
     public $js = ['dist/mobile-app.js'];
+    public $depends = [];
 }

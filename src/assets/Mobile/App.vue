@@ -1,9 +1,20 @@
 <script setup>
-import {ref} from "vue";
+import { ref } from "vue";
 
-const count = ref(0);
+import Header from "@/components/Header.vue";
+import { useUserStore } from "@/stores/user";
+import { useUiStore } from "@/stores/ui";
+
+const uiStore = useUiStore();
+const userStore = useUserStore();
+
+userStore.getUser();
+
 </script>
 
 <template>
-  <button @click="count++">You clicked me {{ count }} times.</button>
+  <van-config-provider :theme="uiStore.theme">
+    <Header/>
+    <router-view></router-view>
+  </van-config-provider>
 </template>

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 
-export const useUiStore = defineStore("ui", (s) => {
+const useUiStore = defineStore("ui", (s) => {
   const pendingRequestsCount = ref(0);
   const isLoading = computed(() => pendingRequestsCount.value > 0);
   const theme = ref("light");
@@ -22,3 +22,5 @@ export const useUiStore = defineStore("ui", (s) => {
     theme, toggleTheme, isLoading, startRequest, finishRequest,
   };
 });
+
+export default useUiStore;

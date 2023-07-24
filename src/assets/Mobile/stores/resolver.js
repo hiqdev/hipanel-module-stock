@@ -1,12 +1,12 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
-import { useStockStore } from "@/stores/stock";
-import { useUiStore } from "@/stores/ui";
-import { useUserStore } from "@/stores/user";
-import { useTaskStore } from "@/stores/task";
+import useStockStore from "@/stores/stock";
+import useUiStore from "@/stores/ui";
+import useUserStore from "@/stores/user";
+import useTaskStore from "@/stores/task";
 import api from "@/utils/api";
 
-export const useResolverStore = defineStore("resolver", () => {
+const useResolverStore = defineStore("resolver", () => {
   const code = ref(null);
   const resolved = ref(null);
   const resolvedName = ref(null);
@@ -76,3 +76,5 @@ export const useResolverStore = defineStore("resolver", () => {
     code, resolved, resolve, resolvedName, resolvedTitle,
   };
 });
+
+export default useResolverStore;

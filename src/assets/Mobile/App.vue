@@ -2,8 +2,8 @@
 import { ref } from "vue";
 
 import Header from "@/components/Header.vue";
-import { useUserStore } from "@/stores/user";
-import { useUiStore } from "@/stores/ui";
+import useUserStore from "@/stores/user";
+import useUiStore from "@/stores/ui";
 
 const uiStore = useUiStore();
 const userStore = useUserStore();

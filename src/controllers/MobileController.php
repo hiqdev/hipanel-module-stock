@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace hipanel\modules\stock\controllers;
 
+use hipanel\components\SettingsStorage;
 use hipanel\filters\EasyAccessControl;
 use hipanel\modules\server\models\Hub;
 use hipanel\modules\stock\models\Model;
@@ -10,20 +11,30 @@ use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\models\Order;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\Module;
+use hiqdev\hiart\Exception;
+use hiqdev\hiart\ResponseErrorException;
+use yii\filters\ContentNegotiator;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\JsonParser;
 use yii\web\Response;
 use yii\web\User;
 
 class MobileController extends Controller
 {
+    private const KEY = 'mobile-stock-sessions';
+
     public function __construct(
         $id,
         Module $module,
         private readonly User $user,
+        private readonly SettingsStorage $storage,
         array $config = []
     )
     {
+//        $this->request->parsers = [
+//            'application/json' => JsonParser::class,
+//        ];
         parent::__construct($id, $module, $config);
     }
 
@@ -54,19 +65,61 @@ class MobileController extends Controller
 
     public function actionGetSessions(): Response
     {
-        $sessions = [
-            ['id' => 1, 'name' => 'Session name ' . mt_rand()],
-            ['id' => 2, 'name' => 'Session name ' . mt_rand()],
-            ['id' => 3, 'name' => 'Session name ' . mt_rand()],
-            ['id' => 3, 'name' => 'Session name ' . mt_rand()],
-        ];
+        $sessions = $this->storage->getBounded(self::KEY);
 
         return $this->response($sessions);
     }
 
     public function actionCreateSession(): Response
     {
-        return $this->response(['id' => mt_rand(), 'name' => 'Name: ' . mt_rand()]);
+        $time = date('c');
+
+        return $this->response(['id' => $time, 'name' => $time]);
+    }
+
+    public function actionSetSession(): Response
+    {
+        sleep(3);
+
+        return $this->response([]);
+    }
+
+    public function actionDeleteSession(): Response
+    {
+        sleep(3);
+
+        return $this->response([]);
+    }
+
+    public function actionMove(): Response
+    {
+        $requestData = $this->request->post();
+        $data = [];
+        foreach ($requestData['parts'] as $part) {
+            $data[$part['id']] = [
+                'id' => $part['id'],
+                'src_id' => $part['dst_id'],
+                'dst_id' => $requestData['destination']['id'],
+                'type' => 'install',
+                'remote_ticket' => '',
+                'hm_ticket' => '',
+                'descr' => '',
+            ];
+        }
+        try {
+            Part::perform('move', $data, ['batch' => true]);
+
+            return $this->response(['status' => 'success']);
+        } catch (ResponseErrorException $e) {
+            return $this->response(['status' => 'error', 'errorMessage' => $e->getMessage()]);
+        }
+    }
+
+    public function actionSendMessage(): Response
+    {
+        sleep(3);
+
+        return $this->response(['status' => 'success']);
     }
 
     public function actionGetTasks(): Response
@@ -125,23 +178,24 @@ class MobileController extends Controller
         if (str_starts_with($code, 'TI')) {
             return ['task', $code];
         }
-        $part = Part::find()->where(['serial' => $code])->one();
-        if ($part) {
-            return ['part', $part];
-        }
-        $model = Model::find()->where(['partno' => $code])->one();
-        if ($model) {
-            return ['model', $model];
-        }
-        $order = Order::find()->where(['name' => $code])->one();
-        if ($order) {
-            return ['order', $order];
-        }
-        $destination = Move::perform('get-directions', ['name_like' => $code, 'limit' => 1], ['batch' => true]);
+        $destination = Move::perform('get-directions', ['name' => $code, 'limit' => 1], ['batch' => true]);
         if (!empty($destination)) {
             return ['destination', reset($destination)];
         }
-
+        $part = Part::find()->where(['serial' => $code])->one();
+        $model = Model::find()->where(['partno' => $part->partno ?? $code, 'with_counters' => true])->one();
+//        $part = Part::find()->where(['serial' => $code])->one();
+//        if ($part) {
+//            return ['part', $part];
+//        }
+//        $model = Model::find()->where(['partno' => $code])->one();
+//        if ($model) {
+//            return ['model', $model];
+//        }
+//        $order = Order::find()->where(['name' => $code])->one();
+//        if ($order) {
+//            return ['order', $order];
+//        }
         return [null, null];
     }
 }

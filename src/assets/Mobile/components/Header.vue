@@ -1,8 +1,29 @@
+<script setup>
+import useUiStore from "@/stores/ui";
+import useUserStore from "@/stores/user";
+import useStockStore from "@/stores/stock";
+import useSessionStore from "@/stores/session";
+import useTaskStore from "@/stores/task";
+import useCompleteStore from "@/stores/complete";
+
+const ui = useUiStore();
+const user = useUserStore();
+const stock = useStockStore();
+const session = useSessionStore();
+const task = useTaskStore();
+const complete = useCompleteStore();
+
+</script>
+
 <template>
-  <van-nav-bar
-      title="AH"
-      :right-text="user.username"
-  />
+  <van-nav-bar>
+    <template #title>
+      <van-image src="https://hipanel.advancedhosting.com/assets/37f28765/logo_white_login.svg"/>
+    </template>
+    <template #right>
+      <van-icon name="friends-o" color="#000000"/>&nbsp;{{ user.username }}
+    </template>
+  </van-nav-bar>
   <van-cell-group>
     <van-cell v-if="session.session" title="Session" :value="session.session.name"/>
     <van-cell v-if="stock.location" title="Location" :value="stock.location.name"/>
@@ -39,19 +60,8 @@
   </van-cell-group>
 </template>
 
-<script setup>
-import { useUiStore } from "@/stores/ui";
-import { useUserStore } from "@/stores/user";
-import { useStockStore } from "@/stores/stock";
-import { useSessionStore } from "@/stores/session";
-import { useTaskStore } from "@/stores/task";
-import { useCompleteStore } from "@/stores/complete";
-
-const ui = useUiStore();
-const user = useUserStore();
-const stock = useStockStore();
-const session = useSessionStore();
-const task = useTaskStore();
-const complete = useCompleteStore();
-
-</script>
+<style scoped>
+.van-image {
+  filter: invert(100%);
+}
+</style>

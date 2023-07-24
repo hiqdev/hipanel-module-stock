@@ -1,27 +1,50 @@
-import { ref, computed } from "vue";
+import { ref, computed, unref } from "vue";
 import { defineStore } from "pinia";
-import { useSessionStore } from "@/stores/session";
-import { useUiStore } from "@/stores/ui";
+import useUiStore from "@/stores/ui";
 import api from "@/utils/api";
 import remove from "lodash/remove";
 
-export const useStockStore = defineStore("stock", () => {
-  const sessionStore = useSessionStore();
-  const uiStore = useUiStore();
+const useStockStore = defineStore("stock", () => {
+  const ui = useUiStore();
 
   const location = ref();
   const locations = ref([]);
   const model = ref(null);
   const order = ref(null);
+  const models = ref([]);
   const parts = ref([]);
   const destination = ref(null);
+  const isFinished = ref(null);
+  const errorMessage = ref(null);
 
   const part = computed(() => parts.value.shift());
+  const hasError = computed(() => errorMessage.value !== null);
+
+  async function moveOrSendMessage() {
+    ui.startRequest();
+    errorMessage.value = null;
+    let response;
+    isFinished.value = false;
+    if (destination.value !== null) {
+      response = await api.move({
+        parts: parts.value,
+        destination: destination.value,
+      });
+    } else {
+      response = await api.sendMessage();
+    }
+    ui.finishRequest();
+    if (response.status === "success") {
+      isFinished.value = response.status === "success";
+    } else {
+      errorMessage.value = response.errorMessage;
+    }
+  }
 
   async function getLocations() {
-    uiStore.startRequest();
+    ui.startRequest();
     locations.value = await api.getLocations();
-    uiStore.finishRequest();
+    ui.finishRequest();
   }
 
   function addPart(part) {
@@ -57,12 +80,11 @@ export const useStockStore = defineStore("stock", () => {
   }
 
   return {
-    sessionStore,
-    uiStore,
     location,
     model,
     part,
     parts,
+    models,
     order,
     destination,
     locations,
@@ -73,5 +95,11 @@ export const useStockStore = defineStore("stock", () => {
     resetDestination,
     addPart,
     removePart,
+    moveOrSendMessage,
+    isFinished,
+    hasError,
+    errorMessage,
   };
 });
+
+export default useStockStore;

@@ -1,5 +1,5 @@
 <script setup>
-import { useStockStore } from "@/stores/stock";
+import useStockStore from "@/stores/stock";
 
 const sotck = useStockStore();
 </script>

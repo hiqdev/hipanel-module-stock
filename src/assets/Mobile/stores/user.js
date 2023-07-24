@@ -2,11 +2,11 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import api from "@/utils/api";
 
-export const useUserStore = defineStore("user", () => {
+const useUserStore = defineStore("user", () => {
   const id = ref(null);
   const email = ref(null);
   const username = ref(null);
-  const personalId = ref(null);
+  const personalId = ref("PI123");
 
   async function getUser() {
     const user = await api.getUser();
@@ -28,3 +28,5 @@ export const useUserStore = defineStore("user", () => {
     reset,
   };
 });
+
+export default useUserStore;

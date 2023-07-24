@@ -1,14 +1,14 @@
 import { computed, ref, toRef } from "vue";
 import { defineStore } from "pinia";
 import api from "@/utils/api";
-import { useUiStore } from "@/stores/ui";
+import useUiStore from "@/stores/ui";
 
-export const useSessionStore = defineStore("session", () => {
+const useSessionStore = defineStore("session", () => {
   const session = ref(null);
   const sessions = ref([]);
   const uiStore = useUiStore();
 
-  async function init() {
+  async function getSessions() {
     uiStore.startRequest();
     sessions.value = await api.getSessions();
     uiStore.finishRequest();
@@ -24,21 +24,23 @@ export const useSessionStore = defineStore("session", () => {
     session.value = value;
   }
 
-  function deleteSession(sessionId) {
-    alert("delete session");
+  async function deleteSession() {
+    await api.deleteSession();
   }
 
   function reset() {
     session.value = null;
   }
 
-  init();
-
   return {
     sessions,
     session,
+    getSessions,
     createSession,
     setSession,
+    deleteSession,
     reset,
   };
 });
+
+export default useSessionStore;

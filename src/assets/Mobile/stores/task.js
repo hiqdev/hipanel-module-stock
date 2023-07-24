@@ -1,9 +1,9 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import { useUiStore } from "@/stores/ui";
+import useUiStore from "@/stores/ui";
 
-export const useTaskStore = defineStore("task", (s) => {
-  const id = ref(null);
+const useTaskStore = defineStore("task", (s) => {
+  const id = ref("TI123");
 
   const uiStore = useUiStore();
 
@@ -16,3 +16,5 @@ export const useTaskStore = defineStore("task", (s) => {
     reset,
   };
 });
+
+export default useTaskStore;

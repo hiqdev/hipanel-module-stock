@@ -28,6 +28,11 @@ return [
         ],
     ],
     'components' => [
+        'request' => [
+            'parsers' => [
+                'application/json' => yii\web\JsonParser::class,
+            ]
+        ],
         'i18n' => [
             'translations' => [
                 'hipanel:stock' => [

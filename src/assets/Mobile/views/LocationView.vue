@@ -15,9 +15,9 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter, onBeforeRouteUpdate } from "vue-router";
-import { useStockStore } from "@/stores/stock";
-import { useSessionStore } from "@/stores/session";
-import { useUiStore } from "@/stores/ui";
+import useStockStore from "@/stores/stock";
+import useSessionStore from "@/stores/session";
+import useUiStore from "@/stores/ui";
 import useSelect from "@/use/select";
 
 const stockStore = useStockStore();

@@ -3,7 +3,7 @@ import { ref, computed } from "vue";
 import useUiStore from "@/stores/ui";
 
 const useTaskStore = defineStore("task", (s) => {
-  const id = ref("TI123");
+  const id = ref(null);
 
   const uiStore = useUiStore();
 

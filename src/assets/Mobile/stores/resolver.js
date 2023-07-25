@@ -5,6 +5,8 @@ import useUiStore from "@/stores/ui";
 import useUserStore from "@/stores/user";
 import useTaskStore from "@/stores/task";
 import api from "@/utils/api";
+import { find } from "lodash/collection";
+import { toString } from "lodash/lang";
 
 const useResolverStore = defineStore("resolver", () => {
   const code = ref(null);
@@ -32,48 +34,41 @@ const useResolverStore = defineStore("resolver", () => {
   async function resolve() {
     if (code.value && code.value.length >= 3) {
       resolved.value = null;
+      resolvedName.value = null;
       ui.startRequest();
-      const data = await api.resolveCode(code.value, stock.location.name);
+      const data = resolveLocally() || await api.resolveCode(code.value, stock.location.name);
+      resolvedName.value = data.resolveLike;
       ui.finishRequest();
-      switch (data.resolveLike) {
-        case "part":
-          stock.addPart(data.result);
-          resolvedName.value = "part";
-          resolved.value = true;
-          break;
-        case "model":
-          stock.model = data.result;
-          resolvedName.value = "model";
-          resolved.value = true;
-          break;
-        case "order":
-          stock.order = data.result;
-          resolvedName.value = "order";
-          resolved.value = true;
-          break;
-        case "destination":
-          stock.destination = data.result;
-          resolvedName.value = "destination";
-          resolved.value = true;
-          break;
-        case "task":
-          task.id = data.result;
-          resolvedName.value = "task";
-          resolved.value = true;
-          break;
-        case "personal":
-          user.personalId = data.result;
-          resolvedName.value = "personal";
-          resolved.value = true;
-          break;
-        default:
-          resolved.value = false;
+      if (data.resolveLike === "destination") {
+        stock.destination = data.result;
+        resolved.value = true;
+      } else if (data.resolveLike === "task") {
+        task.id = data.result;
+        resolved.value = true;
+      } else if (data.resolveLike === "personal") {
+        user.personalId = data.result;
+        resolved.value = true;
+      } else if (["part", "model", "order"].includes(data.resolveLike)) {
+        stock.populate(code.value, data.result);
+        resolved.value = true;
+      } else {
+        resolved.value = false;
       }
     }
   }
 
+  function resolveLocally(data) {
+    return stock.findLocally(code.value)
+  }
+
+  function reset() {
+    code.value = null;
+    resolvedName.value = null;
+    resolved.value = null;
+  }
+
   return {
-    code, resolved, resolve, resolvedName, resolvedTitle,
+    code, resolved, resolve, resolvedName, resolvedTitle, reset,
   };
 });
 

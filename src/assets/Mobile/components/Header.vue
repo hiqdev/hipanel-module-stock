@@ -27,36 +27,24 @@ const complete = useCompleteStore();
   <van-cell-group>
     <van-cell v-if="session.session" title="Session" :value="session.session.name"/>
     <van-cell v-if="stock.location" title="Location" :value="stock.location.name"/>
-    <van-field
-        v-if="stock.destination"
-        v-model="stock.destination.name"
-        label="PUT"
-        right-icon="cross"
-        input-align="right"
-        readonly
-        clickable
-        @click="stock.resetDestination"
-    />
-    <van-field
-        v-if="task.id"
-        v-model="task.id"
-        label="Task ID"
-        right-icon="cross"
-        input-align="right"
-        readonly
-        clickable
-        @click="task.reset"
-    />
-    <van-field
-        v-if="user.personalId"
-        v-model="user.personalId"
-        label="Personal ID"
-        right-icon="cross"
-        input-align="right"
-        readonly
-        clickable
-        @click="user.reset"
-    />
+    <van-swipe-cell v-if="stock.destination">
+      <van-cell :border="false" icon="edit" title="Destination" :value="stock.destination.name"/>
+      <template #right>
+        <van-button square type="warning" text="Clear" @click="stock.resetDestination"/>
+      </template>
+    </van-swipe-cell>
+    <van-swipe-cell v-if="task.id">
+      <van-cell :border="false" icon="edit" title="Task ID" :value="task.id"/>
+      <template #right>
+        <van-button square type="warning" text="Clear" @click="task.reset"/>
+      </template>
+    </van-swipe-cell>
+    <van-swipe-cell v-if="user.personalId">
+      <van-cell :border="false" icon="edit" title="Personal ID" :value="user.personalId"/>
+      <template #right>
+        <van-button square type="warning" text="Clear" @click="user.reset"/>
+      </template>
+    </van-swipe-cell>
   </van-cell-group>
 </template>
 

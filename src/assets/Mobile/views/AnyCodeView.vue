@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, nextTick } from "vue";
+import { watch, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import debounce from "lodash/debounce";
 import { showNotify } from "vant";
@@ -21,7 +21,7 @@ const complete = useCompleteStore();
 
 watch(() => resolver.resolved, (newVal, prevVal) => {
   if (newVal === true) {
-    showNotify({ type: "success", message: "Code resolved" });
+    showNotify({ type: "success", message: "Resolved" });
     resolver.code = null;
   } else if (newVal === false) {
     showNotify({ type: "danger", message: "Code is out of found" });
@@ -32,27 +32,13 @@ watch(() => ui.isLoading, (newVal, prevVal) => {
   if (newVal === true) {
     showLoadingToast({
       duration: 0,
-      message: "Loading...",
+      message: "Resolving...",
       forbidClick: true,
     });
   } else {
     nextTick(() => {
       closeToast();
     });
-  }
-});
-
-watch(() => stock.isFinished, (newVal, prevVal) => {
-  if (newVal === true) {
-    nextTick(() => {
-      router.push({ name: "complete" });
-    });
-  }
-});
-
-watch(() => stock.hasError, (newVal, prevVal) => {
-  if (newVal === true) {
-    showNotify({ type: "danger", message: stock.errorMessage });
   }
 });
 
@@ -65,7 +51,7 @@ const onInput = debounce(() => {
 }, 300);
 
 function onProceed() {
-  complete.complete();
+  router.push({ name: "complete" });
 }
 
 function onBack() {
@@ -74,12 +60,19 @@ function onBack() {
   router.push({ name: "location" });
 }
 </script>
+
 <template>
-  <van-cell-group inset title="	E5-2620 (11)">
-    <van-swipe-cell v-for="part of stock.parts" :key="part.id">
+  <van-cell-group inset v-if="stock.serials.length > 0" v-for="model of stock.modelsWithSerials()">
+    <template #title>
+      <van-space>
+        <span class="custom-title">{{ model.partno }}</span>
+        <van-tag plain>{{ stock.inModelCount(model.id) }}</van-tag>
+      </van-space>
+    </template>
+    <van-swipe-cell v-for="part of model.parts" :key="part.id">
       <van-cell :border="false" :title="part.model_label" :value="part.serial"/>
       <template #right>
-        <van-button square type="danger" text="Delete" @click="stock.removePart(part)"/>
+        <van-button square type="danger" text="Delete" @click="stock.removeSerial(part)"/>
       </template>
     </van-swipe-cell>
   </van-cell-group>
@@ -90,7 +83,7 @@ function onBack() {
     <van-action-bar-icon icon="arrow-left" @click="onBack"/>
     <van-field
         id="any-code"
-        v-model="resolver.code"
+        v-model.trim="resolver.code"
         :border="false"
         autofocus
         tabindex="0"
@@ -98,12 +91,11 @@ function onBack() {
         input-align="center"
         @input="onInput"
     >
-      <template #button>
-        <van-button icon="scan" size="small" type="default" @click="onScan"/>
-      </template>
+<!--      <template #button>-->
+<!--        <van-button icon="scan" size="small" type="default" @click="onScan"/>-->
+<!--      </template>-->
     </van-field>
     <van-action-bar-icon v-if="complete.canBeCompleted" icon="arrow" @click="onProceed"/>
   </van-action-bar>
-
   <Informer/>
 </template>

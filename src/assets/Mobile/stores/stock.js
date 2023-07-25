@@ -1,22 +1,36 @@
 import { ref, computed, unref } from "vue";
 import { defineStore } from "pinia";
-import useUiStore from "@/stores/ui";
+import { find, groupBy, forEach, filter } from "lodash/collection";
+import { remove } from "lodash/array";
+import { toString, isEmpty } from "lodash/lang";
+
 import api from "@/utils/api";
-import remove from "lodash/remove";
+import useUiStore from "@/stores/ui";
 
 const useStockStore = defineStore("stock", () => {
   const ui = useUiStore();
 
   const location = ref();
   const locations = ref([]);
-  const model = ref(null);
-  const order = ref(null);
+  const serials = ref([]);
   const models = ref([]);
   const parts = ref([]);
+  const orders = ref([]);
   const destination = ref(null);
+  const comment = ref(null);
   const isFinished = ref(null);
   const errorMessage = ref(null);
 
+  const inModelCount = (computed(() => {
+    return (modelId) => {
+      const serialsCount = filter(serials.value, part => toString(part.model_id) === toString(modelId)).length;
+      const allInModelsCount = filter(parts.value, part => toString(part.model_id) === toString(modelId)).length;
+
+      return `${serialsCount} / ${allInModelsCount}`;
+    };
+  }));
+  const model = computed(() => models.value.shift());
+  const order = computed(() => orders.value.shift());
   const part = computed(() => parts.value.shift());
   const hasError = computed(() => errorMessage.value !== null);
 
@@ -27,11 +41,13 @@ const useStockStore = defineStore("stock", () => {
     isFinished.value = false;
     if (destination.value !== null) {
       response = await api.move({
-        parts: parts.value,
+        parts: serials.value,
         destination: destination.value,
       });
     } else {
-      response = await api.sendMessage();
+      response = await api.sendMessage({
+        parts: serials.value,
+      });
     }
     ui.finishRequest();
     if (response.status === "success") {
@@ -47,15 +63,13 @@ const useStockStore = defineStore("stock", () => {
     ui.finishRequest();
   }
 
-  function addPart(part) {
-    remove(parts.value, (entry) => entry.serial === part.serial);
-    if (part.device_location === location.value.name) {
-      parts.value.unshift(part);
-    }
+  function addSerial(part) {
+    remove(serials.value, (entry) => entry.serial === part.serial);
+    serials.value.unshift(part);
   }
 
-  function removePart(part) {
-    remove(parts.value, (entry) => entry.serial === part.serial);
+  function removeSerial(part) {
+    remove(serials.value, (entry) => entry.serial === part.serial);
   }
 
   function setLocation(value) {
@@ -64,8 +78,6 @@ const useStockStore = defineStore("stock", () => {
 
   function reset() {
     parts.value = [];
-    model.value = null;
-    order.value = null;
   }
 
   function resetDestination() {
@@ -74,18 +86,95 @@ const useStockStore = defineStore("stock", () => {
 
   function resetWithLocation() {
     location.value = null;
-    parts.value = [];
-    model.value = null;
-    order.value = null;
+    reset();
+  }
+
+  function populate(code, data) {
+    const serial = find(data.parts, (part) => code === part.serial);
+    if (serial) {
+      addSerial(serial);
+    }
+    if (!isEmpty(data.parts)) {
+      forEach(data.parts, part => {
+        const found = find(parts.value, p => toString(p.id) === toString(part.id));
+        if (!found) {
+          parts.value.push(part);
+        }
+      });
+    }
+    if (!isEmpty(data.models)) {
+      forEach(data.models, model => {
+        const found = find(models.value, m => toString(m.id) === toString(model.id));
+        if (!found) {
+          models.value.push(model);
+        }
+      });
+    }
+    if (!isEmpty(data.orders)) {
+      forEach(data.orders, order => {
+        const found = find(orders.value, o => toString(o.id) === toString(order.id));
+        if (!found) {
+          orders.value.push(order);
+        }
+      });
+    }
+  }
+
+  function modelsWithSerials() {
+    const result = [];
+    const group = groupBy(serials.value, "model_id");
+    if (isEmpty(group)) {
+      return [];
+    }
+    forEach(group, (items, modelId) => {
+      const model = find(models.value, model => toString(model.id) === toString(modelId));
+      model.parts = items;
+      result.push(model);
+    });
+
+    return result;
+  }
+
+  function findLocally(code) {
+    const data = {
+      resolveLike: null,
+      result: {
+        parts: [],
+        models: [],
+        orders: [],
+      },
+    };
+    const part = find(parts.value, part => toString(part.serial) === code);
+    if (part) {
+      data.resolveLike = "part";
+      data.result.parts = [part];
+
+      return data;
+    }
+    const model = find(models.value, model => toString(model.partno) === code);
+    if (model) {
+      data.resolveLike = "model";
+      data.result.models = [model];
+
+      return data;
+    }
+    const order = find(orders.value, order => toString(order.name) === code);
+    if (order) {
+      data.resolveLike = "order";
+      data.result.orders.push(order);
+
+      return data;
+    }
+
+    return null;
   }
 
   return {
     location,
     model,
     part,
-    parts,
-    models,
     order,
+    serials,
     destination,
     locations,
     getLocations,
@@ -93,12 +182,16 @@ const useStockStore = defineStore("stock", () => {
     reset,
     resetWithLocation,
     resetDestination,
-    addPart,
-    removePart,
+    populate,
+    removeSerial,
     moveOrSendMessage,
     isFinished,
     hasError,
     errorMessage,
+    modelsWithSerials,
+    comment,
+    findLocally,
+    inModelCount,
   };
 });
 

@@ -29,7 +29,7 @@ onBeforeRouteLeave((to, from) => {
 </script>
 
 <template>
-  <van-notice-bar>Select session or create new one to proceed.</van-notice-bar>
+<!--  <van-notice-bar>Select session or create new one to proceed.</van-notice-bar>-->
   <van-action-bar>
     <van-loading v-if="ui.isLoading" vertical/>
     <van-action-bar-button

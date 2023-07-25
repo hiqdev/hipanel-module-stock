@@ -14,20 +14,20 @@ const useCompleteStore = defineStore("complete", () => {
   const ui = useUiStore();
   const session = useSessionStore();
 
-  const isComplted = ref(false);
+  const isCompleted = ref(false);
 
-  const canBeCompleted = computed(() => task.id !== null && user.personalId !== null && stock.parts.length > 0);
+  const canBeCompleted = computed(() => task.id !== null && user.personalId !== null && stock.serials.length > 0);
 
   function complete() {
     stock.moveOrSendMessage();
     session.deleteSession();
-    isComplted.value = true;
+    isCompleted.value = true;
 
   }
 
   return {
     canBeCompleted,
-    isComplted,
+    isCompleted,
     complete,
   };
 });

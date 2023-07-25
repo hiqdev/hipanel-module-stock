@@ -1,6 +1,7 @@
 import ky from "ky";
 
 const request = ky.extend({
+  timeout: 50000,
   hooks: {
     beforeRequest: [
       request => {

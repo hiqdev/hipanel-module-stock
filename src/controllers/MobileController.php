@@ -170,7 +170,7 @@ class MobileController extends Controller
         if ($part && $part->device_location !== $location) {
             return $this->response($responseTemplate);
         }
-        $model = Model::find()->where(['partno' => $code])->one();
+        $model = Model::find()->where(['partno' => $code, 'show_deleted' => true])->one();
         $order = Order::find()->where(['name' => $code])->one();
         $resolvedName = match (true) {
             !empty($part) => 'part',
@@ -181,7 +181,7 @@ class MobileController extends Controller
         $queryConditions = match (true) {
             !empty($part) => [
                 'parts' => ['model_id' => $part->model_id], // , 'device_location' => $location
-                'models' => ['id' => $part->model_id],
+                'models' => ['id' => $part->model_id, 'show_deleted' => true],
                 'orders' => ['id' => $part->order_id],
             ],
             !empty($model) => [

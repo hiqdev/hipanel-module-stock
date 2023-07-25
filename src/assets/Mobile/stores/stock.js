@@ -77,7 +77,7 @@ const useStockStore = defineStore("stock", () => {
   }
 
   function reset() {
-    parts.value = [];
+    serials.value = [];
   }
 
   function resetDestination() {
@@ -128,8 +128,10 @@ const useStockStore = defineStore("stock", () => {
     }
     forEach(group, (items, modelId) => {
       const model = find(models.value, model => toString(model.id) === toString(modelId));
-      model.parts = items;
-      result.push(model);
+      if (model) {
+        model.parts = items;
+        result.push(model);
+      }
     });
 
     return result;

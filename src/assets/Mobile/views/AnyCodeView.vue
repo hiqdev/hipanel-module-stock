@@ -55,7 +55,7 @@ function onProceed() {
 }
 
 function onBack() {
-  stock.resetWithLocation();
+  stock.reset();
   resolver.code = null;
   router.push({ name: "location" });
 }
@@ -91,9 +91,6 @@ function onBack() {
         input-align="center"
         @input="onInput"
     >
-<!--      <template #button>-->
-<!--        <van-button icon="scan" size="small" type="default" @click="onScan"/>-->
-<!--      </template>-->
     </van-field>
     <van-action-bar-icon v-if="complete.canBeCompleted" icon="arrow" @click="onProceed"/>
   </van-action-bar>

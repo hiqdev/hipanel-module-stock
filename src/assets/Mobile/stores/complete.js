@@ -21,14 +21,14 @@ const useCompleteStore = defineStore("complete", () => {
   function complete() {
     stock.moveOrSendMessage();
     session.deleteSession();
-    isCompleted.value = true;
+  }
 
+  function setComplete() {
+    isCompleted.value = true;
   }
 
   return {
-    canBeCompleted,
-    isCompleted,
-    complete,
+    canBeCompleted, isCompleted, complete, setComplete,
   };
 });
 

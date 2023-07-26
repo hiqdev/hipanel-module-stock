@@ -6,18 +6,18 @@ import useUiStore from "@/stores/ui";
 const useSessionStore = defineStore("session", () => {
   const session = ref(null);
   const sessions = ref([]);
-  const uiStore = useUiStore();
+  const ui = useUiStore();
 
   async function getSessions() {
-    uiStore.startRequest();
+    ui.startRequest();
     sessions.value = await api.getSessions();
-    uiStore.finishRequest();
+    ui.finishRequest();
   };
 
   async function createSession() {
-    uiStore.startRequest();
+    ui.startRequest();
     session.value = await api.createSession();
-    uiStore.finishRequest();
+    ui.finishRequest();
   }
 
   function setSession(value) {
@@ -25,11 +25,15 @@ const useSessionStore = defineStore("session", () => {
   }
 
   async function deleteSession() {
-    await api.deleteSession();
+    ui.startRequest();
+    await api.deleteSession(session.value.id);
+    ui.finishRequest();
+    reset();
   }
 
   function reset() {
     session.value = null;
+    sessions.value = [];
   }
 
   return {

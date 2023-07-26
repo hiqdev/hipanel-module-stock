@@ -24,7 +24,7 @@ const complete = useCompleteStore();
       <van-icon name="friends-o" color="#000000"/>&nbsp;{{ user.username }}
     </template>
   </van-nav-bar>
-  <van-cell-group>
+  <van-cell-group v-if="complete.isCompleted === false">
     <van-cell v-if="session.session" title="Session" :value="session.session.name"/>
     <van-cell v-if="stock.location" title="Location" :value="stock.location.name"/>
     <van-swipe-cell v-if="stock.destination">

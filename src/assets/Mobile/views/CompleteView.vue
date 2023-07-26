@@ -1,19 +1,35 @@
 <template>
-  info
-  <van-action-bar v-if="complete.isCompleted === false">
-    <van-action-bar-icon icon="arrow-left" @click="onBack"/>
-    <van-field
-        v-model.trim="stock.comment"
-        :border="false"
-        autofocus
-        tabindex="0"
-        placeholder="Add a comment if needed"
-        input-align="center"
-        @input="onInput"
-    >
-    </van-field>
-    <van-action-bar-icon icon="arrow" @click="onComplete"/>
-  </van-action-bar>
+  <div v-if="complete.isCompleted">
+    <van-notice-bar text="Completed!"/>
+    <van-action-bar>
+      <van-action-bar-button type="success" text="Start again" @click="onStartAgain"/>
+    </van-action-bar>
+  </div>
+  <div v-else>
+    <van-cell v-for="model of stock.modelsWithSerials()" :title="model.partno" :key="model.id">
+      <template #value>
+        <van-space>
+          <van-icon name="arrow" class="search-icon"/>
+          <span>
+          {{ stock.destination ? stock.destination.name : "" }} <van-tag plain>{{ model.parts.length }} parts</van-tag>
+        </span>
+        </van-space>
+      </template>
+    </van-cell>
+    <van-action-bar>
+      <van-action-bar-icon icon="arrow-left" @click="onBack"/>
+      <van-field
+          v-model.trim="stock.comment"
+          :border="false"
+          autofocus
+          tabindex="0"
+          placeholder="Comment..."
+          input-align="center"
+      >
+      </van-field>
+      <van-action-bar-icon icon="arrow" @click="onComplete"/>
+    </van-action-bar>
+  </div>
 </template>
 
 <script setup>
@@ -37,16 +53,17 @@ watch(() => ui.isLoading, (newVal, prevVal) => {
       forbidClick: true,
     });
   } else {
+    complete.setComplete();
     nextTick(() => {
       closeToast();
     });
   }
 });
 
-watch(() => stock.isFinished, (newVal, prevVal) => {
-  if (newVal === true) {
+watch(() => complete.canBeCompleted, (newVal, prevVal) => {
+  if (newVal === false) {
     nextTick(() => {
-      router.push({ name: "complete" });
+      router.push({ name: "any-code" });
     });
   }
 });
@@ -59,14 +76,20 @@ watch(() => stock.hasError, (newVal, prevVal) => {
 
 function onComplete() {
   complete.complete();
-  description.value = "";
 }
 
 function onBack() {
   router.push({ name: "any-code" });
 }
 
-function onProceed() {
-  alert("proceed");
+function onStartAgain() {
+  window.location.reload();
 }
+
 </script>
+
+<style>
+.van-notice-bar__wrap {
+  justify-content: center;
+}
+</style>

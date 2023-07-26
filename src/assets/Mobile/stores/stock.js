@@ -6,9 +6,13 @@ import { toString, isEmpty } from "lodash/lang";
 
 import api from "@/utils/api";
 import useUiStore from "@/stores/ui";
+import useTaskStore from "@/stores/task";
+import useUserStore from "@/stores/user";
 
 const useStockStore = defineStore("stock", () => {
   const ui = useUiStore();
+  const task = useTaskStore();
+  const user = useUserStore();
 
   const location = ref();
   const locations = ref([]);
@@ -43,10 +47,16 @@ const useStockStore = defineStore("stock", () => {
       response = await api.move({
         parts: serials.value,
         destination: destination.value,
+        comment: comment.value,
+        task: task.id,
+        personal: user.personalId,
       });
     } else {
       response = await api.sendMessage({
         parts: serials.value,
+        comment: comment.value,
+        task: task.id,
+        personal: user.personalId,
       });
     }
     ui.finishRequest();
@@ -78,15 +88,16 @@ const useStockStore = defineStore("stock", () => {
 
   function reset() {
     serials.value = [];
+    location.value = null;
+    destination.value = null;
   }
 
   function resetDestination() {
     destination.value = null;
   }
 
-  function resetWithLocation() {
+  function resetLocation() {
     location.value = null;
-    reset();
   }
 
   function populate(code, data) {
@@ -182,7 +193,7 @@ const useStockStore = defineStore("stock", () => {
     getLocations,
     setLocation,
     reset,
-    resetWithLocation,
+    resetLocation,
     resetDestination,
     populate,
     removeSerial,

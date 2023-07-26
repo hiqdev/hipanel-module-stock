@@ -20,15 +20,19 @@ const api = {
   getUser: async () => await request.get("get-user").json(),
   getLocations: async () => await request.get("get-locations").json(),
 
+  createSession: async () => await request.post("create-session").json(),
+  deleteSession: async (sessionId) => await request.post("delete-session", {
+    searchParams: {
+      sessionId,
+    },
+  }).json(),
   resolveCode: async (code, location) => await request.post("resolve-code", {
     searchParams: {
       code, location,
     },
   }).json(),
-  createSession: async () => await request.post("create-session").json(),
-  deleteSession: async () => await request.post("delete-session").json(),
   move: async (payload) => await request.post("move", { json: payload }).json(),
-  sendMessage: async () => await request.post("send-message").json(),
+  sendMessage: async (payload) => await request.post("send-message", { json: payload }).json(),
 };
 
 export default api;

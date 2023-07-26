@@ -45,6 +45,7 @@ class MobileController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'create-session' => ['post'],
+                    'delete-session' => ['post'],
                     'resolve-code' => ['post'],
                     'send-message' => ['post'],
                     'move' => ['post'],
@@ -55,7 +56,7 @@ class MobileController extends Controller
 
     public function actionIndex(): string
     {
-        $this->layout = 'mobile-app-layout';
+        $this->layout = 'mobile-manager';
 
         return $this->render('index');
     }
@@ -81,7 +82,7 @@ class MobileController extends Controller
         return $this->response([]);
     }
 
-    public function actionDeleteSession(): Response
+    public function actionDeleteSession(string $sessionId): Response
     {
         sleep(3);
 
@@ -100,11 +101,11 @@ class MobileController extends Controller
                 'type' => 'install',
                 'remote_ticket' => '',
                 'hm_ticket' => '',
-                'descr' => '',
+                'descr' => $requestData['comment'],
             ];
         }
         try {
-            Part::perform('move', $data, ['batch' => true]);
+//            Part::perform('move', $data, ['batch' => true]);
 
             return $this->response(['status' => 'success']);
         } catch (ResponseErrorException $e) {
@@ -114,6 +115,7 @@ class MobileController extends Controller
 
     public function actionSendMessage(): Response
     {
+        $requestData = $this->request->post();
         sleep(3);
 
         return $this->response(['status' => 'success']);
@@ -147,7 +149,7 @@ class MobileController extends Controller
             $responseTemplate['resolveLike'] = 'personal';
             $responseTemplate['result'] = $code;
         }
-        if (str_starts_with($code, 'YT') && str_starts_with($code, 'HM4')) {
+        if (str_starts_with($code, 'YT') || str_starts_with($code, 'HM4')) {
             $responseTemplate['resolveLike'] = 'task';
             $responseTemplate['result'] = $code;
         }

@@ -6,7 +6,6 @@ namespace hipanel\modules\stock\controllers;
 use hipanel\components\SettingsStorage;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
-use hipanel\modules\server\models\Hub;
 use hipanel\modules\stock\models\Model;
 use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\models\Order;
@@ -46,6 +45,9 @@ class MobileController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'create-session' => ['post'],
+                    'resolve-code' => ['post'],
+                    'send-message' => ['post'],
+                    'move' => ['post'],
                 ],
             ],
         ]);
@@ -117,20 +119,8 @@ class MobileController extends Controller
         return $this->response(['status' => 'success']);
     }
 
-    public function actionGetTasks(): Response
-    {
-        return $this->response([
-            ['id' => 1, 'name' => 'RHA-103'],
-            ['id' => 2, 'name' => 'RHA-104'],
-            ['id' => 3, 'name' => 'RHA-105'],
-            ['id' => 3, 'name' => '1236187 (HM4)'],
-        ]);
-    }
-
     public function actionGetLocations(): Response
     {
-        $locations = Hub::find()->where(['name_like' => 'AM7', 'type' => 'location'])->limit(-1)->all();
-
         return $this->response([
             ['name' => 'NL:AMS:EQ:AM7'],
             ['name' => 'NL:AMS:EQ:AM11'],
@@ -157,7 +147,7 @@ class MobileController extends Controller
             $responseTemplate['resolveLike'] = 'personal';
             $responseTemplate['result'] = $code;
         }
-        if (str_starts_with($code, 'TI')) {
+        if (str_starts_with($code, 'YT') && str_starts_with($code, 'HM4')) {
             $responseTemplate['resolveLike'] = 'task';
             $responseTemplate['result'] = $code;
         }
@@ -180,14 +170,14 @@ class MobileController extends Controller
         };
         $queryConditions = match (true) {
             !empty($part) => [
-                'parts' => ['model_id' => $part->model_id], // , 'device_location' => $location
+                'parts' => ['model_id' => $part->model_id],
                 'models' => ['id' => $part->model_id, 'show_deleted' => true],
                 'orders' => ['id' => $part->order_id],
             ],
             !empty($model) => [
-                'parts' => ['model_id' => $model->id], // , 'device_location_like' => $location
+                'parts' => ['model_id' => $model->id],
             ],
-            !empty($order) => ['parts' => ['order_id' => $order->id]], // , 'device_location_like' => $location
+            !empty($order) => ['parts' => ['order_id' => $order->id]],
             default => [],
         };
         if (!empty($queryConditions)) {
@@ -202,8 +192,7 @@ class MobileController extends Controller
             $models = $model ? [$model] : Model::find()->where($queryConditions['models'])->limit(-1)->all();
             if (!isset($queryConditions['orders'])) {
                 $queryConditions['orders'] = [
-                    'id_in' => array_unique(array_filter(ArrayHelper::getColumn($parts,
-                        'order_id'))),
+                    'id_in' => array_unique(array_filter(ArrayHelper::getColumn($parts, 'order_id'))),
                 ];
             }
             $orders = $order ? [$order] : Order::find()->where($queryConditions['orders'])->limit(-1)->all();

@@ -19,7 +19,6 @@ const api = {
   setSession: async () => await request.get("set-session").json(),
   getUser: async () => await request.get("get-user").json(),
   getLocations: async () => await request.get("get-locations").json(),
-  getTasks: async () => await request.get("get-tasks").json(),
 
   resolveCode: async (code, location) => await request.post("resolve-code", {
     searchParams: {

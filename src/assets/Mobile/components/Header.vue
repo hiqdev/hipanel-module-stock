@@ -33,8 +33,12 @@ const complete = useCompleteStore();
         <van-button square type="warning" text="Clear" @click="stock.resetDestination"/>
       </template>
     </van-swipe-cell>
-    <van-swipe-cell v-if="task.id">
-      <van-cell :border="false" icon="edit" title="Task ID" :value="task.id"/>
+    <van-swipe-cell v-if="task.url">
+      <van-cell :border="false" icon="edit" title="Task URL">
+        <template #label>
+          <a :href="task.url" target="_blank">{{ task.url }}</a>
+        </template>
+      </van-cell>
       <template #right>
         <van-button square type="warning" text="Clear" @click="task.reset"/>
       </template>

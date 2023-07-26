@@ -3,16 +3,16 @@ import { ref, computed } from "vue";
 import useUiStore from "@/stores/ui";
 
 const useTaskStore = defineStore("task", (s) => {
-  const id = ref("123");
+  const url = ref("https://hm4.advancedhosters.com/en/hm/thread/994140");
 
   const uiStore = useUiStore();
 
   function reset() {
-    id.value = null;
+    url.value = null;
   }
 
   return {
-    id,
+    url,
     reset,
   };
 });

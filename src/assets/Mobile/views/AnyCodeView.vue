@@ -22,7 +22,6 @@ const complete = useCompleteStore();
 watch(() => resolver.resolved, (newVal, prevVal) => {
   if (newVal === true) {
     showNotify({ type: "success", message: "Resolved" });
-    resolver.code = null;
   } else if (newVal === false) {
     showNotify({ type: "danger", message: "Code is out of found" });
   }

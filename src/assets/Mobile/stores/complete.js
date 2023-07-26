@@ -16,10 +16,10 @@ const useCompleteStore = defineStore("complete", () => {
 
   const isCompleted = ref(false);
 
-  const canBeCompleted = computed(() => task.id !== null && user.personalId !== null && stock.serials.length > 0);
+  const canBeCompleted = computed(() => task.url !== null && user.personalId !== null && stock.serials.length > 0);
 
   function complete() {
-    stock.moveOrSendMessage();
+    stock.complete();
     session.deleteSession();
   }
 

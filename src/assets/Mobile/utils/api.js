@@ -31,8 +31,7 @@ const api = {
       code, location,
     },
   }).json(),
-  move: async (payload) => await request.post("move", { json: payload }).json(),
-  sendMessage: async (payload) => await request.post("send-message", { json: payload }).json(),
+  complete: async (payload) => await request.post("complete", { json: payload }).json(),
 };
 
 export default api;

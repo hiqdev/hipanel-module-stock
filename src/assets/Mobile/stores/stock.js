@@ -33,32 +33,38 @@ const useStockStore = defineStore("stock", () => {
       return `${serialsCount} / ${allInModelsCount}`;
     };
   }));
+  const partTitle = computed(() => (serial) => {
+    const part = find(parts.value, part => part.serial === serial);
+
+    return part ? `${part.model_type_label} ${part.partno} #${serial}` : "Part";
+  });
+  const modelTitle = computed(() => (partno) => {
+    const model = find(models.value, model => model.partno === partno);
+
+    return model ? `${model.type_label} ${model.model}` : "Model";
+  });
+  const orderTitle = computed(() => (name) => {
+    return `Order: ${name}`;
+  });
   const model = computed(() => models.value.shift());
   const order = computed(() => orders.value.shift());
   const part = computed(() => parts.value.shift());
   const hasError = computed(() => errorMessage.value !== null);
 
-  async function moveOrSendMessage() {
+  async function complete() {
     ui.startRequest();
     errorMessage.value = null;
-    let response;
     isFinished.value = false;
+    const data = {
+      parts: serials.value,
+      comment: comment.value,
+      task: task.url,
+      personal: user.personalId,
+    };
     if (destination.value !== null) {
-      response = await api.move({
-        parts: serials.value,
-        destination: destination.value,
-        comment: comment.value,
-        task: task.id,
-        personal: user.personalId,
-      });
-    } else {
-      response = await api.sendMessage({
-        parts: serials.value,
-        comment: comment.value,
-        task: task.id,
-        personal: user.personalId,
-      });
+      data.destination = destination.value;
     }
+    const response = await api.complete(data);
     ui.finishRequest();
     if (response.status === "success") {
       isFinished.value = response.status === "success";
@@ -197,7 +203,7 @@ const useStockStore = defineStore("stock", () => {
     resetDestination,
     populate,
     removeSerial,
-    moveOrSendMessage,
+    complete,
     isFinished,
     hasError,
     errorMessage,
@@ -205,6 +211,9 @@ const useStockStore = defineStore("stock", () => {
     comment,
     findLocally,
     inModelCount,
+    partTitle,
+    modelTitle,
+    orderTitle,
   };
 });
 

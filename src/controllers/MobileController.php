@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace hipanel\modules\stock\controllers;
 
+use Exception;
 use hipanel\components\SettingsStorage;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
@@ -11,7 +12,8 @@ use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\models\Order;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\Module;
-use hiqdev\hiart\ResponseErrorException;
+use hiqdev\hiart\ActiveRecord;
+use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
@@ -47,8 +49,7 @@ class MobileController extends Controller
                     'create-session' => ['post'],
                     'delete-session' => ['post'],
                     'resolve-code' => ['post'],
-                    'send-message' => ['post'],
-                    'move' => ['post'],
+                    'complete' => ['post'],
                 ],
             ],
         ]);
@@ -89,36 +90,32 @@ class MobileController extends Controller
         return $this->response([]);
     }
 
-    public function actionMove(): Response
+    public function actionComplete(): Response
     {
         $requestData = $this->request->post();
-        $data = [];
-        foreach ($requestData['parts'] as $part) {
-            $data[$part['id']] = [
-                'id' => $part['id'],
-                'src_id' => $part['dst_id'],
-                'dst_id' => $requestData['destination']['id'],
-                'type' => 'install',
-                'remote_ticket' => '',
-                'hm_ticket' => '',
-                'descr' => $requestData['comment'],
-            ];
-        }
+        $moveData = [];
         try {
-//            Part::perform('move', $data, ['batch' => true]);
+            foreach ($requestData['parts'] as $part) {
+                if (isset($requestData['destination'])) {
+                    $moveData[$part['id']] = [
+                        'id' => $part['id'],
+                        'src_id' => $part['dst_id'],
+                        'dst_id' => $requestData['destination']['id'],
+                        'type' => 'install',
+                        'hm_ticket' => $requestData['task'],
+                        'descr' => $requestData['comment'],
+                    ];
+                }
+            }
+            if (!empty($moveData)) {
+                Part::perform('move', $moveData, ['batch' => true]);
+            }
 
+            // todo: send message
             return $this->response(['status' => 'success']);
-        } catch (ResponseErrorException $e) {
+        } catch (Exception $e) {
             return $this->response(['status' => 'error', 'errorMessage' => $e->getMessage()]);
         }
-    }
-
-    public function actionSendMessage(): Response
-    {
-        $requestData = $this->request->post();
-        sleep(3);
-
-        return $this->response(['status' => 'success']);
     }
 
     public function actionGetLocations(): Response
@@ -145,11 +142,11 @@ class MobileController extends Controller
     public function actionResolveCode($code, $location): Response
     {
         $responseTemplate = ['resolveLike' => null, 'result' => null];
-        if (str_starts_with($code, 'PI')) {
+        if ($code === "PI::" . Yii::$app->user->identity->email) {
             $responseTemplate['resolveLike'] = 'personal';
             $responseTemplate['result'] = $code;
         }
-        if (str_starts_with($code, 'YT') || str_starts_with($code, 'HM4')) {
+        if (str_starts_with($code, 'http') && str_contains($code, '/issue/')) {
             $responseTemplate['resolveLike'] = 'task';
             $responseTemplate['result'] = $code;
         }
@@ -199,6 +196,16 @@ class MobileController extends Controller
             }
             $orders = $order ? [$order] : Order::find()->where($queryConditions['orders'])->limit(-1)->all();
 
+            $removeLegacyTags = static function (ActiveRecord $model) {
+                $i18n = Yii::$app->i18n;
+                foreach ($model->attributes as $attribute => $value) {
+                    $model->{$attribute} = $i18n->removeLegacyLangTags($value);
+                }
+
+                return $model;
+            };
+            $parts = array_map($removeLegacyTags, $parts);
+            $models = array_map($removeLegacyTags, $models);
             $responseTemplate['resolveLike'] = $resolvedName;
             $responseTemplate['result'] = [
                 'parts' => $parts,

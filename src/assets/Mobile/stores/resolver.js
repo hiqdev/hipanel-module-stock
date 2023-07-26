@@ -9,27 +9,28 @@ import { find } from "lodash/collection";
 import { toString } from "lodash/lang";
 
 const useResolverStore = defineStore("resolver", () => {
-  const code = ref(null);
-  const resolved = ref(null);
-  const resolvedName = ref(null);
-  const resolvedTitle = computed(() => {
-    switch (resolvedName.value) {
-      case "part":
-        return "Part title";
-        break;
-      case "model":
-        return "Model title";
-        break;
-      case "order":
-        return "Order title";
-        break;
-    }
-  });
-
   const stock = useStockStore();
   const ui = useUiStore();
   const user = useUserStore();
   const task = useTaskStore();
+
+  const code = ref(null);
+  const resolved = ref(null);
+  const resolvedName = ref(null);
+  const resolvedTitle = computed(() => {
+    debugger
+    switch (resolvedName.value) {
+      case "part":
+        return stock.partTitle(code.value);
+        break;
+      case "model":
+        return stock.modelTitle(code.value);
+        break;
+      case "order":
+        return stock.orderTitle(code.value);
+        break;
+    }
+  });
 
   async function resolve() {
     if (code.value && code.value.length >= 3) {
@@ -43,7 +44,7 @@ const useResolverStore = defineStore("resolver", () => {
         stock.destination = data.result;
         resolved.value = true;
       } else if (data.resolveLike === "task") {
-        task.id = data.result;
+        task.url = data.result;
         resolved.value = true;
       } else if (data.resolveLike === "personal") {
         user.personalId = data.result;
@@ -58,7 +59,7 @@ const useResolverStore = defineStore("resolver", () => {
   }
 
   function resolveLocally(data) {
-    return stock.findLocally(code.value)
+    return stock.findLocally(code.value);
   }
 
   function reset() {

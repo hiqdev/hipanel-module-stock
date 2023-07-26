@@ -18,7 +18,6 @@ const useResolverStore = defineStore("resolver", () => {
   const resolved = ref(null);
   const resolvedName = ref(null);
   const resolvedTitle = computed(() => {
-    debugger
     switch (resolvedName.value) {
       case "part":
         return stock.partTitle(code.value);

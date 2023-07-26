@@ -21,7 +21,7 @@ use yii\web\User;
 
 class MobileController extends Controller
 {
-    private const KEY = 'mobile-stock-sessions';
+    private const KEY = 'mobile-stock-manager-sessions';
 
     public function __construct(
         $id,

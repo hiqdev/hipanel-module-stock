@@ -44,7 +44,7 @@ const useStockStore = defineStore("stock", () => {
     return model ? `${model.type_label} ${model.model}` : "Model";
   });
   const orderTitle = computed(() => (name) => {
-    return `Order: ${name}`;
+    return name;
   });
   const model = computed(() => models.value.shift());
   const order = computed(() => orders.value.shift());
@@ -190,9 +190,6 @@ const useStockStore = defineStore("stock", () => {
 
   return {
     location,
-    model,
-    part,
-    order,
     serials,
     destination,
     locations,

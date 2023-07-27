@@ -153,7 +153,7 @@ class MobileController extends Controller
             $responseTemplate['resolveLike'] = 'personal';
             $responseTemplate['result'] = $code;
         }
-        if (str_starts_with($code, 'https://')) {
+        if (str_starts_with($code, 'https:')) {
             $responseTemplate['resolveLike'] = 'task';
             $responseTemplate['result'] = $code;
         }

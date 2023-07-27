@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace hipanel\modules\stock\controllers;
 
 use Exception;
+use hipanel\components\I18N;
 use hipanel\components\SettingsStorage;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
@@ -197,6 +198,7 @@ class MobileController extends Controller
             $orders = $order ? [$order] : Order::find()->where($queryConditions['orders'])->limit(-1)->all();
 
             $removeLegacyTags = static function (ActiveRecord $model) {
+                /** @var I18N $i18n */
                 $i18n = Yii::$app->i18n;
                 foreach ($model->attributes as $attribute => $value) {
                     $model->{$attribute} = $i18n->removeLegacyLangTags($value);

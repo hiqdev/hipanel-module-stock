@@ -39,12 +39,6 @@ function setData() {
 
 function onClosed() {
   resolver.reset();
-  nextTick(() => {
-    const element = document.getElementById("any-code");
-    if (element) {
-      element.focus();
-    }
-  });
 }
 
 </script>

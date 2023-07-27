@@ -1,5 +1,5 @@
 <script setup>
-import { watch, nextTick } from "vue";
+import { ref, watch, nextTick, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import debounce from "lodash/debounce";
 import { showNotify } from "vant";
@@ -18,6 +18,18 @@ const ui = useUiStore();
 const stock = useStockStore();
 const resolver = useResolverStore();
 const complete = useCompleteStore();
+
+let intervalId;
+onMounted(() => {
+  intervalId = setInterval(() => {
+    const element = document.getElementById("any-code");
+    if (element) {
+      element.focus();
+    }
+    console.log("interval");
+  }, 1000);
+});
+onUnmounted(() => clearInterval(intervalId));
 
 watch(() => resolver.resolved, (newVal, prevVal) => {
   if (newVal === true) {
@@ -59,10 +71,6 @@ function onBack() {
   router.push({ name: "location" });
 }
 
-function onClear() {
-  alert("clear");
-}
-
 </script>
 
 <template>
@@ -89,15 +97,11 @@ function onClear() {
         id="any-code"
         v-model.trim="resolver.code"
         :border="false"
-        clearable
-        clear-trigger="always"
         autofocus
         tabindex="0"
         placeholder="Enter or scan any code"
         input-align="center"
         @input="onInput"
-        @clear="onClear"
-        @click-right-icon="onClear"
     />
     <van-action-bar-icon v-if="complete.canBeCompleted" icon="arrow" @click="onProceed"/>
   </van-action-bar>

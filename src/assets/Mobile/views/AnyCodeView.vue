@@ -58,6 +58,11 @@ function onBack() {
   resolver.code = null;
   router.push({ name: "location" });
 }
+
+function onClear() {
+  alert("clear");
+}
+
 </script>
 
 <template>
@@ -84,14 +89,19 @@ function onBack() {
         id="any-code"
         v-model.trim="resolver.code"
         :border="false"
+        clearable
+        clear-trigger="always"
         autofocus
         tabindex="0"
         placeholder="Enter or scan any code"
         input-align="center"
         @input="onInput"
-    >
-    </van-field>
+        @clear="onClear"
+        @click-right-icon="onClear"
+    />
     <van-action-bar-icon v-if="complete.canBeCompleted" icon="arrow" @click="onProceed"/>
   </van-action-bar>
+
   <Informer/>
+
 </template>

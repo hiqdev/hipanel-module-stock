@@ -154,6 +154,22 @@ const useStockStore = defineStore("stock", () => {
     return result;
   }
 
+  function modelWithParts(modelId) {
+    const model = find(models.value, model => toString(model.id) === toString(modelId));
+    const modelParts = filter(parts.value, part => toString(part.model_id) === toString(modelId));
+    model.parts = modelParts;
+
+    return model;
+  }
+
+  function orderWithParts(orderId) {
+    const order = find(orders.value, order => toString(order.id) === toString(orderId));
+    const orderParts = filter(parts.value, part => toString(part.order_id) === toString(orderId));
+    order.parts = orderParts;
+
+    return order;
+  }
+
   function findLocally(code) {
     const data = {
       resolveLike: null,
@@ -211,6 +227,8 @@ const useStockStore = defineStore("stock", () => {
     partTitle,
     modelTitle,
     orderTitle,
+    modelWithParts,
+    orderWithParts,
   };
 });
 

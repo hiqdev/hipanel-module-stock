@@ -3,6 +3,7 @@ import { createPinia } from "pinia";
 import has from "lodash/has";
 import router from "./router";
 import App from "./App.vue";
+import "./App.css";
 import api from "./utils/api";
 
 const app = createApp(App);

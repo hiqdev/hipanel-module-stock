@@ -26,7 +26,6 @@ onMounted(() => {
     if (element) {
       element.focus();
     }
-    console.log("interval");
   }, 1000);
 });
 onUnmounted(() => clearInterval(intervalId));

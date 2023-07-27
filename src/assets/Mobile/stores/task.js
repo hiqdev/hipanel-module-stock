@@ -1,7 +1,9 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
+import useSessionStore from "@/stores/session";
 
 const useTaskStore = defineStore("task", (s) => {
+  const session = useSessionStore();
   const url = ref(null);
 
   function reset() {
@@ -11,6 +13,7 @@ const useTaskStore = defineStore("task", (s) => {
   return {
     url,
     reset,
+    session,
   };
 });
 

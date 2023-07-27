@@ -11,8 +11,9 @@ const pinia = createPinia();
 
 pinia.use(({ store }) => {
   store.$subscribe((mutation, state) => {
-    if (has(state, "sessionStore.session") && state.sessionStore.session !== null) {
-      // console.log(JSON.stringify(state, null, 2)); // todo: make set session request
+    if (has(state, "session.session") && state.session.session !== null) {
+      // api.setSession(state);
+      console.log(JSON.stringify(state, null, 2)); // todo: make set session request
     }
   });
 });

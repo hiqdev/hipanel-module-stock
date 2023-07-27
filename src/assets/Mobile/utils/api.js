@@ -1,8 +1,7 @@
 import ky from "ky";
 
 const request = ky.extend({
-  timeout: 50000,
-  hooks: {
+  timeout: 50000, hooks: {
     beforeRequest: [
       request => {
         if (request.method === "POST") {
@@ -15,21 +14,16 @@ const request = ky.extend({
 });
 
 const api = {
+  // GET
   getSessions: async () => await request.get("get-sessions").json(),
-  setSession: async () => await request.get("set-session").json(),
   getUser: async () => await request.get("get-user").json(),
   getLocations: async () => await request.get("get-locations").json(),
-
+  // POST
   createSession: async () => await request.post("create-session").json(),
-  deleteSession: async (sessionId) => await request.post("delete-session", {
-    searchParams: {
-      sessionId,
-    },
-  }).json(),
+  setSession: async (state) => await request.post("set-session", { json: { state } }).json(),
+  deleteSession: async (id) => await request.post("delete-session", { searchParams: { id } }).json(),
   resolveCode: async (code, location) => await request.post("resolve-code", {
-    searchParams: {
-      code, location,
-    },
+    searchParams: { code, location },
   }).json(),
   complete: async (payload) => await request.post("complete", { json: payload }).json(),
 };

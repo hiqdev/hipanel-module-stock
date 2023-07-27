@@ -63,32 +63,38 @@ class MobileController extends Controller
         return $this->render('index');
     }
 
+    public function actionCreateSession(): Response
+    {
+        $id = time();
+        $data = $this->storage->getBounded(self::KEY);
+        $data[$id] = ['id' => $id, 'name' => $id];
+
+        $this->storage->setBounded(self::KEY, $data);
+
+        return $this->response(['id' => $id, 'name' => $id]);
+    }
+
     public function actionGetSessions(): Response
     {
         $sessions = $this->storage->getBounded(self::KEY);
 
-        return $this->response($sessions);
+        return $this->response(array_values($sessions));
     }
 
-    public function actionCreateSession(): Response
+    public function actionSetSession($id): Response
     {
-        $time = date('c');
+        $this->setSession($id);
 
-        return $this->response(['id' => $time, 'name' => $time]);
+        return $this->response();
     }
 
-    public function actionSetSession(): Response
+    public function actionDeleteSession($id): Response
     {
-        sleep(3);
+        $sessions = $this->storage->getBounded(self::KEY);
+        unset($sessions[$id]);
+        $this->storage->setBounded(self::KEY, $sessions);
 
-        return $this->response([]);
-    }
-
-    public function actionDeleteSession(string $sessionId): Response
-    {
-        sleep(3);
-
-        return $this->response([]);
+        return $this->response();
     }
 
     public function actionComplete(): Response
@@ -222,5 +228,14 @@ class MobileController extends Controller
     private function response(array $payload = []): Response
     {
         return $this->asJson($payload);
+    }
+
+    private function setState(string|int $id): void
+    {
+        $state = $this->request->post();
+        $data = $this->storage->getBounded(self::KEY);
+        $data[$id] = $state;
+
+        $this->storage->setBounded(self::KEY, $data);
     }
 }

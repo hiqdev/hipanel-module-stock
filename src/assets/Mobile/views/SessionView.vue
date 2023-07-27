@@ -11,8 +11,8 @@ const session = useSessionStore();
 const router = useRouter();
 const ui = useUiStore();
 
-const { show, onSelect } = useSelect((session) => {
-  session.setSession(session);
+const { show, onSelect } = useSelect((item) => {
+  session.setSession(item);
   router.push({ name: "location" });
 });
 
@@ -26,10 +26,10 @@ session.getSessions();
 onBeforeRouteLeave((to, from) => {
   stock.getLocations();
 });
+
 </script>
 
 <template>
-<!--  <van-notice-bar>Select session or create new one to proceed.</van-notice-bar>-->
   <van-action-bar>
     <van-loading v-if="ui.isLoading" vertical/>
     <van-action-bar-button

@@ -8,11 +8,13 @@ import api from "@/utils/api";
 import useUiStore from "@/stores/ui";
 import useTaskStore from "@/stores/task";
 import useUserStore from "@/stores/user";
+import useSessionStore from "@/stores/session";
 
 const useStockStore = defineStore("stock", () => {
   const ui = useUiStore();
   const task = useTaskStore();
   const user = useUserStore();
+  const session = useSessionStore();
 
   const location = ref();
   const locations = ref([]);
@@ -229,6 +231,7 @@ const useStockStore = defineStore("stock", () => {
     orderTitle,
     modelWithParts,
     orderWithParts,
+    session,
   };
 });
 

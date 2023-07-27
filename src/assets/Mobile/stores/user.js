@@ -1,12 +1,14 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import api from "@/utils/api";
+import useSessionStore from "@/stores/session";
 
 const useUserStore = defineStore("user", () => {
   const id = ref(null);
   const email = ref(null);
   const username = ref(null);
   const personalId = ref(null);
+  const session = useSessionStore();
 
   async function getUser() {
     const user = await api.getUser();
@@ -26,6 +28,7 @@ const useUserStore = defineStore("user", () => {
     personalId,
     getUser,
     reset,
+    session,
   };
 });
 

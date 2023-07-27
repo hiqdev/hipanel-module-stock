@@ -1,7 +1,6 @@
 <script setup>
 import { watch, nextTick, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
-import debounce from "lodash/debounce";
 import { showNotify } from "vant";
 import "vant/es/notify/style";
 import { showLoadingToast, closeToast } from "vant";
@@ -57,10 +56,6 @@ function onScan() {
   alert("Scan button pressed");
 }
 
-const onInput = debounce(() => {
-  resolver.resolve();
-}, 300);
-
 function onProceed() {
   router.push({ name: "complete" });
 }
@@ -101,7 +96,7 @@ function onBack() {
         tabindex="0"
         placeholder="Enter or scan any code"
         input-align="center"
-        @input="onInput"
+        @keyup.enter="resolver.resolve"
     />
     <van-action-bar-icon v-if="complete.canBeCompleted" icon="arrow" @click="onProceed"/>
   </van-action-bar>

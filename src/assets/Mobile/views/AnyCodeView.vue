@@ -18,17 +18,17 @@ const stock = useStockStore();
 const resolver = useResolverStore();
 const complete = useCompleteStore();
 
-let intervalId;
-onMounted(() => {
-  intervalId = setInterval(() => {
-    const element = document.getElementById("any-code");
-    const isFocused = (document.activeElement === element);
-    if (!isFocused) {
-      element.focus();
-    }
-  }, 1000);
-});
-onUnmounted(() => clearInterval(intervalId));
+// let intervalId;
+// onMounted(() => {
+//   intervalId = setInterval(() => {
+//     const element = document.getElementById("any-code");
+//     const isFocused = (document.activeElement === element);
+//     if (!isFocused) {
+//       element.focus();
+//     }
+//   }, 1000);
+// });
+// onUnmounted(() => clearInterval(intervalId));
 
 watch(() => resolver.resolved, (newVal, prevVal) => {
   if (newVal === true) {

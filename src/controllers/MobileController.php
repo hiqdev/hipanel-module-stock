@@ -162,7 +162,7 @@ class MobileController extends Controller
         }
         $model = Model::find()->where(['partno' => $code, 'show_deleted' => true])->one();
         $order = Order::find()->where(['name' => $code])->one();
-        $resolvedName = match (true) {
+        $resolveLike = match (true) {
             !empty($part) => 'part',
             !empty($model) => 'model',
             !empty($order) => 'order',
@@ -208,7 +208,7 @@ class MobileController extends Controller
             };
             $parts = array_map($removeLegacyTags, $parts);
             $models = array_map($removeLegacyTags, $models);
-            $responseTemplate['resolveLike'] = $resolvedName;
+            $responseTemplate['resolveLike'] = $resolveLike;
             $responseTemplate['result'] = [
                 'parts' => $parts,
                 'models' => $models,

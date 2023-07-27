@@ -13,7 +13,7 @@ pinia.use(({ store }) => {
   store.$subscribe((mutation, state) => {
     if (has(state, "session.session") && state.session.session !== null) {
       // api.setSession(state);
-      console.log(JSON.stringify(state, null, 2)); // todo: make set session request
+      // console.log(JSON.stringify(state, null, 2)); // todo: make set session request
     }
   });
 });

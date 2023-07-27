@@ -9,8 +9,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "npx mix watch",
-    "dev": "npx mix",
-    "prod": "npx mix --production"
+    "build": "npx mix",
+    "build:prod": "npx mix --production"
   },
   "author": "Andrii Klochok",
   "license": "BSD-3-Clause",

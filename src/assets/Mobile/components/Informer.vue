@@ -21,6 +21,8 @@ watch(() => resolver.resolved, (newVal, prevVal) => {
     nextTick(() => {
       show.value = true;
     });
+  } else {
+    resolver.reset();
   }
 });
 

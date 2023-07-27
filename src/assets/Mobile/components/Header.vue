@@ -1,4 +1,5 @@
 <script setup>
+import split from "lodash/split";
 import useUiStore from "@/stores/ui";
 import useUserStore from "@/stores/user";
 import useStockStore from "@/stores/stock";
@@ -34,11 +35,7 @@ const complete = useCompleteStore();
       </template>
     </van-swipe-cell>
     <van-swipe-cell v-if="task.url">
-      <van-cell :border="false" icon="edit" title="Task URL">
-        <template #label>
-          <a :href="task.url" target="_blank">{{ task.url }}</a>
-        </template>
-      </van-cell>
+      <van-cell :border="false" icon="edit" is-link :title="`Task: ${task.name}`" :url="task.url"/>
       <template #right>
         <van-button square type="warning" text="Clear" @click="task.reset"/>
       </template>

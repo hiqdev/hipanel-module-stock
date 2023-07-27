@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, nextTick, onMounted, onUnmounted } from "vue";
+import { watch, nextTick, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import debounce from "lodash/debounce";
 import { showNotify } from "vant";
@@ -23,7 +23,8 @@ let intervalId;
 onMounted(() => {
   intervalId = setInterval(() => {
     const element = document.getElementById("any-code");
-    if (element) {
+    const isFocused = (document.activeElement === element);
+    if (!isFocused) {
       element.focus();
     }
   }, 1000);

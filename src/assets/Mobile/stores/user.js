@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import api from "@/utils/api";
 import useSessionStore from "@/stores/session";
+import { isEmpty } from "lodash/lang";
 
 const useUserStore = defineStore("user", () => {
   const id = ref(null);
@@ -21,6 +22,22 @@ const useUserStore = defineStore("user", () => {
     personalId.value = null;
   }
 
+  function setPersonalId(value) {
+    personalId.value = value;
+  }
+
+  function applySession(data) {
+    if (!isEmpty(data.personalId)) {
+      personalId.value = data.personalId;
+    }
+  }
+
+  function collectSessionData() {
+    return {
+      personalId: personalId.value,
+    };
+  }
+
   return {
     id,
     email,
@@ -28,7 +45,10 @@ const useUserStore = defineStore("user", () => {
     personalId,
     getUser,
     reset,
+    setPersonalId,
     session,
+    applySession,
+    collectSessionData,
   };
 });
 

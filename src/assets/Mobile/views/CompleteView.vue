@@ -1,6 +1,7 @@
 <template>
   <div v-if="complete.isCompleted">
-    <van-notice-bar text="Completed!"/>
+    <van-notice-bar v-if="!stock.hasError" text="Completed!"/>
+    <van-notice-bar v-else text="Failed!"/>
     <van-action-bar>
       <van-action-bar-button type="success" text="Start again" @click="onStartAgain"/>
     </van-action-bar>

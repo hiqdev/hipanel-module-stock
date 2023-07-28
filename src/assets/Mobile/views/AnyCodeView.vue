@@ -11,6 +11,7 @@ import useUiStore from "@/stores/ui";
 import useResolverStore from "@/stores/resolver";
 import useCompleteStore from "@/stores/complete";
 import Informer from "@/components/Informer.vue";
+import { debounce } from "lodash/function";
 
 const router = useRouter();
 const ui = useUiStore();
@@ -18,17 +19,17 @@ const stock = useStockStore();
 const resolver = useResolverStore();
 const complete = useCompleteStore();
 
-// let intervalId;
-// onMounted(() => {
-//   intervalId = setInterval(() => {
-//     const element = document.getElementById("any-code");
-//     const isFocused = (document.activeElement === element);
-//     if (!isFocused) {
-//       element.focus();
-//     }
-//   }, 1000);
-// });
-// onUnmounted(() => clearInterval(intervalId));
+let intervalId;
+onMounted(() => {
+  intervalId = setInterval(() => {
+    const element = document.getElementById("any-code");
+    const isFocused = (document.activeElement === element);
+    if (!isFocused) {
+      element.focus();
+    }
+  }, 1000);
+});
+onUnmounted(() => clearInterval(intervalId));
 
 watch(() => resolver.resolved, (newVal, prevVal) => {
   if (newVal === true) {
@@ -39,7 +40,9 @@ watch(() => resolver.resolved, (newVal, prevVal) => {
 });
 
 watch(() => ui.isLoading, (newVal, prevVal) => {
+  const element = document.getElementById("any-code");
   if (newVal === true) {
+    element.setAttribute("inputmode", "none");
     showLoadingToast({
       duration: 0,
       message: "Resolving...",
@@ -52,16 +55,17 @@ watch(() => ui.isLoading, (newVal, prevVal) => {
   }
 });
 
-function onScan() {
-  alert("Scan button pressed");
-}
+const handleResolve = debounce(() => {
+  resolver.resolve();
+});
 
 function onProceed() {
   router.push({ name: "complete" });
 }
 
 function onBack() {
-  stock.reset();
+  stock.resetSerials();
+  stock.resetLocation();
   resolver.code = null;
   router.push({ name: "location" });
 }
@@ -96,7 +100,7 @@ function onBack() {
         tabindex="0"
         placeholder="Enter or scan any code"
         input-align="center"
-        @keyup.enter="resolver.resolve"
+        @keyup.enter="handleResolve"
     />
     <van-action-bar-icon v-if="complete.canBeCompleted" icon="arrow" @click="onProceed"/>
   </van-action-bar>

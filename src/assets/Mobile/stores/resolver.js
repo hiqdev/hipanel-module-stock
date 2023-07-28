@@ -36,17 +36,20 @@ const useResolverStore = defineStore("resolver", () => {
       resolved.value = null;
       resolvedName.value = null;
       ui.startRequest();
-      const data = resolveLocally() || await api.resolveCode(code.value, stock.location.name);
+      let data = resolveLocally();
+      if (data === null) {
+        data = await api.resolveCode(code.value, stock.location.name);
+      }
       resolvedName.value = data.resolveLike;
       ui.finishRequest();
       if (data.resolveLike === "destination") {
-        stock.destination = data.result;
+        stock.setDestination(data.result);
         resolved.value = true;
       } else if (data.resolveLike === "task") {
-        task.url = data.result;
+        task.setUrl(data.result);
         resolved.value = true;
       } else if (data.resolveLike === "personal") {
-        user.personalId = data.result;
+        user.setPersonalId(data.result);
         resolved.value = true;
       } else if (["part", "model", "order"].includes(data.resolveLike)) {
         stock.populate(code.value, data.result);

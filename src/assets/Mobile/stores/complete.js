@@ -18,9 +18,11 @@ const useCompleteStore = defineStore("complete", () => {
 
   const canBeCompleted = computed(() => task.url !== null && user.personalId !== null && stock.serials.length > 0);
 
-  function complete() {
-    stock.complete();
-    session.deleteSession();
+  async function complete() {
+    await stock.complete();
+    if (!stock.hasError) {
+      session.deleteSession();
+    }
   }
 
   function setComplete() {

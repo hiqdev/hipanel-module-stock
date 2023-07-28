@@ -26,7 +26,6 @@ const complete = useCompleteStore();
     </template>
   </van-nav-bar>
   <van-cell-group v-if="complete.isCompleted === false">
-    <van-cell v-if="session.session" title="Session" :value="session.session.name"/>
     <van-cell v-if="stock.location" title="Location" :value="stock.location.name"/>
     <van-swipe-cell v-if="stock.destination">
       <van-cell :border="false" icon="edit" title="Destination" :value="stock.destination.name"/>
@@ -37,13 +36,13 @@ const complete = useCompleteStore();
     <van-swipe-cell v-if="task.url">
       <van-cell :border="false" icon="edit" is-link :title="`Task: ${task.name}`" :url="task.url"/>
       <template #right>
-        <van-button square type="warning" text="Clear" @click="task.reset"/>
+        <van-button square type="danger" text="Delete" @click="task.reset"/>
       </template>
     </van-swipe-cell>
     <van-swipe-cell v-if="user.personalId">
       <van-cell :border="false" icon="edit" title="Personal ID" :value="user.personalId"/>
       <template #right>
-        <van-button square type="warning" text="Clear" @click="user.reset"/>
+        <van-button square type="danger" text="Delete" @click="user.reset"/>
       </template>
     </van-swipe-cell>
   </van-cell-group>

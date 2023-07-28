@@ -8,12 +8,15 @@ use hipanel\components\I18N;
 use hipanel\components\SettingsStorage;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
+use hipanel\hiart\hiapi\HiapiConnectionInterface;
 use hipanel\modules\stock\models\Model;
 use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\models\Order;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\Module;
 use hiqdev\hiart\ActiveRecord;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Yaml\Yaml;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -29,6 +32,8 @@ class MobileController extends Controller
         Module $module,
         private readonly User $user,
         private readonly SettingsStorage $storage,
+        private readonly HiapiConnectionInterface $api,
+        private readonly LoggerInterface $log,
         array $config = []
     )
     {
@@ -65,13 +70,13 @@ class MobileController extends Controller
 
     public function actionCreateSession(): Response
     {
-        $id = time();
+        $id = gmdate("U");
         $data = $this->storage->getBounded(self::KEY);
-        $data[$id] = ['id' => $id, 'name' => $id];
+        $data[$id] = ['id' => $id];
 
         $this->storage->setBounded(self::KEY, $data);
 
-        return $this->response(['id' => $id, 'name' => $id]);
+        return $this->response($data[$id]);
     }
 
     public function actionGetSessions(): Response
@@ -83,7 +88,12 @@ class MobileController extends Controller
 
     public function actionSetSession($id): Response
     {
-        $this->setSession($id);
+        $state = $this->request->post();
+        $data = $this->storage->getBounded(self::KEY);
+        if (isset($data[$id])) {
+            $data[$id] = array_merge($data[$id], $state);
+            $this->storage->setBounded(self::KEY, $data);
+        }
 
         return $this->response();
     }
@@ -109,7 +119,7 @@ class MobileController extends Controller
                         'src_id' => $part['dst_id'],
                         'dst_id' => $requestData['destination']['id'],
                         'type' => 'install',
-                        'hm_ticket' => $requestData['task'],
+                        'hm_ticket' => $requestData['taskUrl'],
                         'descr' => $requestData['comment'],
                     ];
                 }
@@ -117,10 +127,23 @@ class MobileController extends Controller
             if (!empty($moveData)) {
                 Part::perform('move', $moveData, ['batch' => true]);
             }
+            $messageData = [
+                'taskUrl' => $requestData['taskUrl'],
+                'message' => implode("\n", [
+                    $requestData['comment'],
+                    Yaml::dump(ArrayHelper::getColumn($requestData['parts'], 'serial')),
+                ]),
+            ];
+            $response = $this->api->post('SendMobileMessage', [], $messageData);
+            if (isset($response['status']) && $response['status'] === 'ok') {
+                return $this->response(['status' => 'success']);
+            }
 
-            // todo: send message
-            return $this->response(['status' => 'success']);
+            throw new \RuntimeException('Failed to add new issue comment to YouTrack');
         } catch (Exception $e) {
+            $errorMessage = sprintf('Failed to send: %s', $e->getMessage());
+            $this->log->error($errorMessage, ['exception' => $e]);
+
             return $this->response(['status' => 'error', 'errorMessage' => $e->getMessage()]);
         }
     }

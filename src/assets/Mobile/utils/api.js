@@ -20,7 +20,10 @@ const api = {
   getLocations: async () => await request.get("get-locations").json(),
   // POST
   createSession: async () => await request.post("create-session").json(),
-  setSession: async (state) => await request.post("set-session", { json: { state } }).json(),
+  setSession: async (id, state) => await request.post("set-session", {
+    searchParams: { id },
+    json: state,
+  }).json(),
   deleteSession: async (id) => await request.post("delete-session", { searchParams: { id } }).json(),
   resolveCode: async (code, location) => await request.post("resolve-code", {
     searchParams: { code, location },

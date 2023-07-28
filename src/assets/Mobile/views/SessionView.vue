@@ -4,16 +4,28 @@ import { onBeforeRouteLeave, useRouter } from "vue-router";
 import useStockStore from "@/stores/stock";
 import useSessionStore from "@/stores/session";
 import useUiStore from "@/stores/ui";
+import useUserStore from "@/stores/user";
+import useTaskStore from "@/stores/task";
 import useSelect from "@/use/select";
+import { isEmpty } from "lodash/lang";
 
 const stock = useStockStore();
 const session = useSessionStore();
 const router = useRouter();
 const ui = useUiStore();
+const user = useUserStore();
+const task = useTaskStore();
 
 const { show, onSelect } = useSelect((item) => {
   session.setSession(item);
-  router.push({ name: "location" });
+  stock.applySession(session.session);
+  user.applySession(session.session);
+  task.applySession(session.session);
+  if (isEmpty(stock.location)) {
+    router.push({ name: "location" });
+  } else {
+    router.push({ name: "any-code" });
+  }
 });
 
 function onCancel() {
@@ -40,7 +52,7 @@ onBeforeRouteLeave((to, from) => {
     />
     <van-action-sheet
         v-model:show="show"
-        :actions="session.sessions"
+        :actions="session.sessionList"
         @select="onSelect"
         @cancel="onCancel"
         cancel-text="Create new session"

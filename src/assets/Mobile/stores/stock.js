@@ -60,7 +60,7 @@ const useStockStore = defineStore("stock", () => {
     const data = {
       parts: serials.value,
       comment: comment.value,
-      task: task.url,
+      taskUrl: task.url,
       personal: user.personalId,
     };
     if (destination.value !== null) {
@@ -100,12 +100,24 @@ const useStockStore = defineStore("stock", () => {
     destination.value = null;
   }
 
+  function setDestination(value) {
+    destination.value = value;
+  }
+
   function resetDestination() {
     destination.value = null;
   }
 
+  function setLocation(value) {
+    location.value = value;
+  }
+
   function resetLocation() {
     location.value = null;
+  }
+
+  function resetSerials() {
+    serials.value = [];
   }
 
   function populate(code, data) {
@@ -158,18 +170,20 @@ const useStockStore = defineStore("stock", () => {
 
   function modelWithParts(modelId) {
     const model = find(models.value, model => toString(model.id) === toString(modelId));
+    const entry = Object.assign({}, model);
     const modelParts = filter(parts.value, part => toString(part.model_id) === toString(modelId));
-    model.parts = modelParts;
+    entry.parts = modelParts;
 
-    return model;
+    return entry;
   }
 
   function orderWithParts(orderId) {
     const order = find(orders.value, order => toString(order.id) === toString(orderId));
+    const entry = Object.assign({}, order);
     const orderParts = filter(parts.value, part => toString(part.order_id) === toString(orderId));
-    order.parts = orderParts;
+    entry.parts = orderParts;
 
-    return order;
+    return entry;
   }
 
   function findLocally(code) {
@@ -206,6 +220,33 @@ const useStockStore = defineStore("stock", () => {
     return null;
   }
 
+  function applySession(data) {
+    if (!isEmpty(data.models)) {
+      models.value = data.models;
+    }
+    if (!isEmpty(data.parts)) {
+      parts.value = data.parts;
+    }
+    if (!isEmpty(data.serials)) {
+      serials.value = data.serials;
+    }
+    if (!isEmpty(data.location)) {
+      location.value = data.location;
+    }
+    if (!isEmpty(data.destination)) {
+      destination.value = data.destination;
+    }
+  }
+
+  function collectSessionData() {
+    return {
+      location: location.value,
+      serials: serials.value, models: models.value,
+      parts: parts.value,
+      destination: destination.value,
+    };
+  }
+
   return {
     location,
     serials,
@@ -216,6 +257,7 @@ const useStockStore = defineStore("stock", () => {
     reset,
     resetLocation,
     resetDestination,
+    resetSerials,
     populate,
     removeSerial,
     complete,
@@ -232,6 +274,9 @@ const useStockStore = defineStore("stock", () => {
     modelWithParts,
     orderWithParts,
     session,
+    applySession,
+    setDestination,
+    collectSessionData,
   };
 });
 

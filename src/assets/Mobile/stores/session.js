@@ -1,12 +1,31 @@
 import { computed, ref, toRef } from "vue";
+import moment from "moment";
 import { defineStore } from "pinia";
 import api from "@/utils/api";
+import { find, forEach } from "lodash/collection";
 import useUiStore from "@/stores/ui";
+import useTaskStore from "@/stores/task";
+import { isEmpty, toInteger } from "lodash/lang";
 
 const useSessionStore = defineStore("session", () => {
+  const ui = useUiStore();
+  const task = useTaskStore();
+
   const session = ref(null);
   const sessions = ref([]);
-  const ui = useUiStore();
+  const name = computed(() => getName(session.value));
+  const sessionList = computed(() => {
+    const list = [];
+    forEach(sessions.value, (item) => {
+      list.push({
+        id: item.id,
+        name: getName(item),
+        subname: moment.unix(toInteger(item.id)).fromNow(),
+      });
+    });
+
+    return list;
+  });
 
   async function getSessions() {
     ui.startRequest();
@@ -21,7 +40,7 @@ const useSessionStore = defineStore("session", () => {
   }
 
   function setSession(value) {
-    session.value = value;
+    session.value = find(sessions.value, s => s.id === value.id);
   }
 
   async function deleteSession() {
@@ -36,9 +55,22 @@ const useSessionStore = defineStore("session", () => {
     sessions.value = [];
   }
 
+  function getName(item) {
+    const parts = [];
+    if (!isEmpty(item.location)) {
+      parts.push(item.location.name);
+    }
+    if (!isEmpty(item.taskUrl)) {
+      parts.push(task.toName(item.taskUrl));
+    }
+
+    return !isEmpty(parts) ? parts.join(" ") : "--";
+  }
+
   return {
-    sessions,
+    sessionList,
     session,
+    name,
     getSessions,
     createSession,
     setSession,

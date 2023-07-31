@@ -94,6 +94,7 @@ function onBack() {
         v-model.trim="resolver.code"
         :border="false"
         autofocus
+        autocapitalize="off"
         tabindex="0"
         placeholder="Enter or scan any code"
         input-align="center"

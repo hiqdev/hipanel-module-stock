@@ -37,9 +37,6 @@ function setData() {
   if (data.resolveLike === "order") {
     order.value = data.result.orders[0];
   }
-}
-
-function onClosed() {
   resolver.reset();
 }
 
@@ -52,7 +49,7 @@ function onClosed() {
 </style>
 
 <template>
-  <van-action-sheet v-model:show="show" :title="resolver.resolvedTitle" @closed="onClosed">
+  <van-action-sheet v-model:show="show" :title="resolver.resolvedTitle">
     <div class="content">
       <PartView v-if="resolver.resolvedName === 'part'" :part="part"/>
       <ModelView v-else-if="resolver.resolvedName === 'model'" :model="model"/>

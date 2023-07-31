@@ -129,9 +129,6 @@ class MobileController extends Controller
                     ];
                 }
             }
-            if (!empty($moveData)) {
-                Part::perform('move', $moveData, ['batch' => true]);
-            }
             $messageData = [
                 'taskUrl' => $requestData['taskUrl'],
                 'message' => implode("\n", [
@@ -139,7 +136,10 @@ class MobileController extends Controller
                     Yaml::dump(ArrayHelper::getColumn($requestData['parts'], 'serial')),
                 ]),
             ];
-            $response = $this->api->post('SendMobileMessage', [], $messageData);
+            $response = $this->api->post('IssueComment', [], $messageData);
+            if (!empty($moveData)) {
+                Part::perform('move', $moveData, ['batch' => true]);
+            }
             if (isset($response['status']) && $response['status'] === 'ok') {
                 return $this->response(['status' => 'success']);
             }

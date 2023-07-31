@@ -20,6 +20,7 @@ use Symfony\Component\Yaml\Yaml;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\web\Response;
 use yii\web\User;
 
@@ -88,14 +89,18 @@ class MobileController extends Controller
 
     public function actionSetSession($id): Response
     {
-        $state = $this->request->post();
-        $data = $this->storage->getBounded(self::KEY);
-        if (isset($data[$id])) {
-            $data[$id] = array_merge($data[$id], $state);
-            $this->storage->setBounded(self::KEY, $data);
-        }
+        try {
+            $state = $this->request->post();
+            $data = $this->storage->getBounded(self::KEY);
+            if (isset($data[$id])) {
+                $data[$id] = array_merge($data[$id], $state);
+                $this->storage->setBounded(self::KEY, $data);
+            }
 
-        return $this->response();
+            return $this->response();
+        } catch (Exception) {
+            throw new HttpException('Sorry, the session could not be saved.');
+        }
     }
 
     public function actionDeleteSession($id): Response

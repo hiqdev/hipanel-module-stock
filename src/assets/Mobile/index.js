@@ -5,6 +5,8 @@ import App from "./App.vue";
 import "./App.css";
 import api from "./utils/api";
 import { isEmpty } from "lodash/lang";
+import { showNotify } from "vant";
+import "vant/es/notify/style";
 
 const app = createApp(App);
 const pinia = createPinia();
@@ -21,11 +23,15 @@ pinia.use(({ store }) => {
       "setLocation", "setDestination", "populate", "setPersonalId", "setUrl",
       "resetLocation", "resetDestination", "resetPersonalId", "resetUrl", "removeSerial",
     ].includes(name)) {
-      after((result) => {
-        if (['stock', 'task', 'user'].includes(store.$id)) {
+      after(async (result) => {
+        if (["stock", "task", "user"].includes(store.$id)) {
           const data = store.collectSessionData();
           if (!isEmpty(data)) {
-            api.setSession(store.session.session.id, data);
+            try {
+              await api.setSession(store.session.session.id, data);
+            } catch (error) {
+              showNotify({ type: "danger", position: "bottom", message: "Sorry, the session could not be saved." });
+            }
           }
         }
       });

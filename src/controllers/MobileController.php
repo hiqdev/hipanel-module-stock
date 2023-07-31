@@ -163,6 +163,13 @@ class MobileController extends Controller
         ]);
     }
 
+    public function actionGetTasks(): Response
+    {
+        $response = $this->api->post('GetIssues');
+
+        return $this->response();
+    }
+
     public function actionGetUser(): Response
     {
         $user = $this->user->identity;

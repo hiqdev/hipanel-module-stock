@@ -64,10 +64,7 @@ function onProceed() {
 }
 
 function onBack() {
-  stock.resetSerials();
-  stock.resetLocation();
-  resolver.code = null;
-  router.push({ name: "location" });
+  window.location.reload();
 }
 
 </script>

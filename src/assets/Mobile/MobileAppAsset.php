@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace hipanel\modules\stock\assets\Mobile;
 
-use hipanel\assets\MomentAsset;
 use yii\web\AssetBundle;
 
 class MobileAppAsset extends AssetBundle

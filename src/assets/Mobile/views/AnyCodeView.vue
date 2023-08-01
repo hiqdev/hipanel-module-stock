@@ -67,7 +67,7 @@ watch(() => stock.serialDuplicate, (newVal, prevVal) => {
   if (newVal !== null) {
     showConfirmDialog({
       title: resolver.code,
-      message: "This serial number is already in transaction!",
+      message: "This serial number is already in a session!",
       showCancelButton: true,
       confirmButtonColor: "#ee0a24",
       confirmButtonText: "Remove",

@@ -5,6 +5,7 @@ import { remove } from "lodash/array";
 import { toString, isEmpty } from "lodash/lang";
 
 import api from "@/utils/api";
+import useBeeper from "@/use/beeper";
 import useUiStore from "@/stores/ui";
 import useTaskStore from "@/stores/task";
 import useUserStore from "@/stores/user";
@@ -15,6 +16,7 @@ const useStockStore = defineStore("stock", () => {
   const task = useTaskStore();
   const user = useUserStore();
   const session = useSessionStore();
+  const { playExists } = useBeeper();
 
   const location = ref();
   const locations = ref([]);
@@ -87,6 +89,7 @@ const useStockStore = defineStore("stock", () => {
     if (!exists) {
       serials.value.unshift(part);
     } else {
+      playExists();
       serialDuplicate.value = part;
     }
   }

@@ -64,7 +64,7 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
                         'label'   => Yii::t('hipanel:stock', 'Mobile manager'),
                         'url'     => ['/stock/mobile/index'],
                         'icon'  => 'fa-mobile',
-                        'visible' => $user->can('test.beta') && $user->can('move.read'),
+                        'visible' => $user->can('move.read'),
                     ],
                 ],
             ],

@@ -26,6 +26,7 @@ const useStockStore = defineStore("stock", () => {
   const comment = ref(null);
   const isFinished = ref(null);
   const errorMessage = ref(null);
+  const serialDuplicate = ref(null);
 
   const inModelCount = (computed(() => {
     return (modelId) => {
@@ -82,8 +83,20 @@ const useStockStore = defineStore("stock", () => {
   }
 
   function addSerial(part) {
-    remove(serials.value, (entry) => entry.serial === part.serial);
-    serials.value.unshift(part);
+    const exists = find(serials.value, p => p.serial === part.serial);
+    if (!exists) {
+      serials.value.unshift(part);
+    } else {
+      serialDuplicate.value = part;
+    }
+  }
+
+  async function removeDuplicate () {
+    await new Promise((resolve) => {
+      const duplicate = Object.assign({}, serialDuplicate.value);
+      removeSerial(duplicate);
+      serialDuplicate.value = null;
+    });
   }
 
   function removeSerial(part) {
@@ -277,6 +290,8 @@ const useStockStore = defineStore("stock", () => {
     applySession,
     setDestination,
     collectSessionData,
+    serialDuplicate,
+    removeDuplicate,
   };
 });
 

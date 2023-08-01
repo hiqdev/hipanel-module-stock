@@ -1,10 +1,12 @@
 <script setup>
-import { watch, nextTick, onMounted, onUnmounted } from "vue";
+import { ref, watch, nextTick, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
-import { showNotify } from "vant";
+
+import { showNotify, showLoadingToast, closeToast, showConfirmDialog } from "vant";
 import "vant/es/notify/style";
-import { showLoadingToast, closeToast } from "vant";
 import "vant/es/toast/style";
+import "vant/es/dialog/style";
+
 import useStockStore from "@/stores/stock";
 import useSessionStore from "@/stores/session";
 import useUiStore from "@/stores/ui";
@@ -19,22 +21,28 @@ const stock = useStockStore();
 const resolver = useResolverStore();
 const complete = useCompleteStore();
 
-let intervalId;
-onMounted(() => {
-  intervalId = setInterval(() => {
-    const element = document.getElementById("any-code");
-    const isFocused = (document.activeElement === element);
-    if (!isFocused) {
-      element.focus();
+const flag = ref(false);
+
+const myFocus = event => {
+  const element = document.getElementById("any-code");
+  const isFocused = (document.activeElement === element);
+  if (!isFocused) {
+    if (flag.value === true) {
+      element.value = "";
+      flag.value = false;
     }
-  }, 1000);
+    element.focus();
+  }
+}
+onMounted(() => {
+  document.addEventListener("keydown", myFocus);
 });
-onUnmounted(() => clearInterval(intervalId));
+onUnmounted(() => {
+  document.removeEventListener("keydown", myFocus);
+});
 
 watch(() => resolver.resolved, (newVal, prevVal) => {
-  if (newVal === true) {
-    showNotify({ type: "success", message: "Resolved" });
-  } else if (newVal === false) {
+  if (newVal === false) {
     showNotify({ type: "danger", message: "Code is out of found" });
   }
 });
@@ -55,8 +63,25 @@ watch(() => ui.isLoading, (newVal, prevVal) => {
   }
 });
 
-const handleResolve = debounce(() => {
+watch(() => stock.serialDuplicate, (newVal, prevVal) => {
+  if (newVal !== null) {
+    showConfirmDialog({
+      title: resolver.code,
+      message: "This serial number is already in transaction!",
+      showCancelButton: true,
+      confirmButtonColor: "#ee0a24",
+      confirmButtonText: "Remove",
+      cancelButtonText: "Ignore",
+    }).then(async () => {
+      await stock.removeDuplicate();
+    });
+  }
+});
+
+const handleResolve = debounce((event) => {
   resolver.resolve();
+  document.getElementById("any-code").blur();
+  flag.value = true;
 });
 
 function onProceed() {
@@ -78,7 +103,7 @@ function onBack() {
       </van-space>
     </template>
     <van-swipe-cell v-for="part of model.parts" :key="part.id">
-      <van-cell :border="false" :title="part.model_label" :value="part.serial"/>
+      <van-cell :border="false" :title="part.serial" :value="part.model_label"/>
       <template #right>
         <van-button square type="danger" text="Delete" @click="stock.removeSerial(part)"/>
       </template>

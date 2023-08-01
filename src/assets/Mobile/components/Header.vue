@@ -14,10 +14,19 @@ const session = useSessionStore();
 const task = useTaskStore();
 const complete = useCompleteStore();
 
+function onTaskTransition(url) {
+  window.open(url, "_blank").focus();
+}
+
 </script>
 
 <template>
   <van-nav-bar>
+    <template #left>
+      <span v-if="stock.location" style="color: #666666">
+        <van-icon name="location-o" color="#666666"/>&nbsp;{{ stock.location.name.split(":").slice(-1).join() }}
+      </span>
+    </template>
     <template #title>
       <van-image src="https://hipanel.advancedhosting.com/assets/37f28765/logo_white_login.svg"/>
     </template>
@@ -26,23 +35,22 @@ const complete = useCompleteStore();
     </template>
   </van-nav-bar>
   <van-cell-group v-if="complete.isCompleted === false">
-    <van-cell v-if="stock.location" title="Location" :value="stock.location.name"/>
     <van-swipe-cell v-if="stock.destination">
-      <van-cell :border="false" icon="edit" title="Destination" :value="stock.destination.name"/>
+      <van-cell label="Destination" :title="stock.destination.name"/>
       <template #right>
-        <van-button square type="warning" text="Clear" @click="stock.resetDestination"/>
+        <van-button square type="warning" class="delete-button" text="Delete" @click="stock.resetDestination"/>
       </template>
     </van-swipe-cell>
     <van-swipe-cell v-if="task.url">
-      <van-cell :border="false" icon="edit" is-link :title="`Task: ${task.name}`" :url="task.url"/>
+      <van-cell is-link :title="task.name" label="Task" @click="onTaskTransition(task.url)"/>
       <template #right>
-        <van-button square type="danger" text="Delete" @click="task.reset"/>
+        <van-button square type="danger" class="delete-button" text="Delete" @click="task.reset"/>
       </template>
     </van-swipe-cell>
     <van-swipe-cell v-if="user.personalId">
-      <van-cell :border="false" icon="edit" title="Personal ID" :value="user.personalId"/>
+      <van-cell :title="user.personalId" label="Personal ID"/>
       <template #right>
-        <van-button square type="danger" text="Delete" @click="user.reset"/>
+        <van-button square type="danger" class="delete-button" text="Delete" @click="user.reset"/>
       </template>
     </van-swipe-cell>
   </van-cell-group>

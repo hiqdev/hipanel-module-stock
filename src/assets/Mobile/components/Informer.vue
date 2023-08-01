@@ -42,21 +42,21 @@ function setData() {
 function onClosed() {
   resolver.reset();
 }
-
 </script>
 
-<style scoped>
-.content {
-  padding: 1em 1em 5em;
-}
-</style>
-
 <template>
-  <van-action-sheet v-model:show="show" :title="resolver.resolvedTitle" @closed="onClosed">
+  <van-popup v-model:show="show" @closed="onClosed" position="top" closeable :style="{height: '90%'}">
     <div class="content">
+      <h4 style="text-align: center">{{ resolver.resolvedTitle }}</h4>
       <PartView v-if="resolver.resolvedName === 'part'" :part="part"/>
       <ModelView v-else-if="resolver.resolvedName === 'model'" :model="model"/>
       <OrderView v-else-if="resolver.resolvedName === 'order'" :order="order"/>
     </div>
-  </van-action-sheet>
+  </van-popup>
 </template>
+
+<style scoped>
+.content {
+  padding: 1em;
+}
+</style>

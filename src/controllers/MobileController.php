@@ -16,7 +16,6 @@ use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\Module;
 use hiqdev\hiart\ActiveRecord;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Yaml\Yaml;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -129,18 +128,20 @@ class MobileController extends Controller
                     ];
                 }
             }
+            $serials = array_map(static fn(string $serial): string => "- " . $serial, ArrayHelper::getColumn($requestData['parts'], 'serial'));
             $messageData = [
                 'taskUrl' => $requestData['taskUrl'],
                 'message' => implode("\n", [
                     $requestData['comment'],
-                    Yaml::dump(ArrayHelper::getColumn($requestData['parts'], 'serial')),
+                    implode("\n", $serials),
                 ]),
             ];
             $response = $this->api->post('IssueComment', [], $messageData);
+            $data = $response->getData();
             if (!empty($moveData)) {
                 Part::perform('move', $moveData, ['batch' => true]);
             }
-            if (isset($response['status']) && $response['status'] === 'ok') {
+            if (isset($data['status']) && $data['status'] === 'ok') {
                 return $this->response(['status' => 'success']);
             }
 

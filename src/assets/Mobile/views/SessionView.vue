@@ -15,20 +15,26 @@ const router = useRouter();
 const ui = useUiStore();
 const user = useUserStore();
 const task = useTaskStore();
+const { show } = useSelect();
 
-const { show, onSelect } = useSelect((item) => {
-  session.setSession(item);
-  stock.applySession(session.session);
-  user.applySession(session.session);
-  task.applySession(session.session);
-  if (isEmpty(stock.location)) {
-    router.push({ name: "location" });
-  } else {
-    router.push({ name: "any-code" });
-  }
-});
 
-function onCancel() {
+async function onSelect(item) {
+  show.value = true;
+  await new Promise(async r => {
+    await new Promise(r => setTimeout(r, 100));
+    session.setSession(item);
+    stock.applySession(session.session);
+    user.applySession(session.session);
+    task.applySession(session.session);
+    if (isEmpty(stock.location)) {
+      router.push({ name: "location" });
+    } else {
+      router.push({ name: "any-code" });
+    }
+  });
+};
+
+function onCreate() {
   session.createSession();
   router.push({ name: "location" });
 }
@@ -42,21 +48,21 @@ onBeforeRouteLeave((to, from) => {
 </script>
 
 <template>
+  <van-overlay :show="show"/>
+  <van-loading v-if="ui.isLoading" vertical/>
+  <van-swipe-cell v-else v-for="row of session.sessionList" :key="session.id">
+    <van-cell is-link :title="row.name" :label="row.subname" @click="onSelect(row)"/>
+    <template #right>
+      <van-button square type="danger" text="Delete" class="delete-button" @click="session.deleteSession(row.id)"/>
+    </template>
+  </van-swipe-cell>
   <van-action-bar>
     <van-loading v-if="ui.isLoading" vertical/>
     <van-action-bar-button
         v-else
         type="success"
-        text="Create or select session"
-        @click="show = true"
-    />
-    <van-action-sheet
-        v-model:show="show"
-        :actions="session.sessionList"
-        @select="onSelect"
-        @cancel="onCancel"
-        cancel-text="Create new session"
-        close-on-click-action
+        text="Create new session"
+        @click="onCreate"
     />
   </van-action-bar>
 </template>

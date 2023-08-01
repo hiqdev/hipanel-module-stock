@@ -20,7 +20,7 @@ const useTaskStore = defineStore("task", (s) => {
   }
 
   function toName(value) {
-    return split(value, "/").slice(-2).join("/");
+    return split(value, "/").slice(-1).join("/");
   }
 
   function applySession(data) {

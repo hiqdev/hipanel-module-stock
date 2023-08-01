@@ -31,6 +31,20 @@ const useResolverStore = defineStore("resolver", () => {
     }
   });
 
+  function resolveTitle(value) {
+    switch (resolvedName.value) {
+      case "part":
+        return stock.partTitle(value);
+        break;
+      case "model":
+        return stock.modelTitle(value);
+        break;
+      case "order":
+        return stock.orderTitle(value);
+        break;
+    }
+  }
+
   async function resolve() {
     if (code.value && code.value.length >= 3) {
       resolved.value = null;
@@ -71,7 +85,7 @@ const useResolverStore = defineStore("resolver", () => {
   }
 
   return {
-    code, resolved, resolve, resolvedName, resolvedTitle, reset,
+    code, resolved, resolve, resolvedName, resolvedTitle, resolveTitle, reset,
   };
 });
 

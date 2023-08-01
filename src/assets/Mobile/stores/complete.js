@@ -21,7 +21,7 @@ const useCompleteStore = defineStore("complete", () => {
   async function complete() {
     await stock.complete();
     if (!stock.hasError) {
-      session.deleteSession();
+      // session.deleteSession(session.id);
     }
   }
 

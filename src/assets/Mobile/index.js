@@ -21,7 +21,7 @@ pinia.use(({ store }) => {
   }) => {
     if ([
       "setLocation", "setDestination", "populate", "setPersonalId", "setUrl",
-      "resetLocation", "resetDestination", "resetPersonalId", "resetUrl", "removeSerial",
+      "resetLocation", "resetDestination", "resetPersonalId", "resetUrl", "removeSerial", "removeDuplicate",
     ].includes(name)) {
       after(async (result) => {
         if (["stock", "task", "user"].includes(store.$id)) {

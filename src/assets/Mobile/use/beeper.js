@@ -6,7 +6,7 @@ export default function useBeeper() {
     };
 }
 
-function playNTimesWithInitialDelay (play, n, initialDelay) {
+const playNTimesWithInitialDelay = (play, n, initialDelay) => {
     return () => {
         let timesPlayed = 0;
         let intervalId = setInterval(() => {
@@ -25,9 +25,8 @@ function playNTimesWithInitialDelay (play, n, initialDelay) {
     }
 };
 
-function sound () {
+const sound = () => {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
-    var audioCtx = new AudioContext();
     const c = new AudioContext();
     const o = c.createOscillator();
     const g = c.createGain();

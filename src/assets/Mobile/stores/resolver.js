@@ -14,11 +14,12 @@ const useResolverStore = defineStore("resolver", () => {
   const ui = useUiStore();
   const user = useUserStore();
   const task = useTaskStore();
-  const {playSuccess, playError} = useBeeper();
+  const { playSuccess, playError } = useBeeper();
 
   const code = ref(null);
   const resolved = ref(null);
   const resolvedName = ref(null);
+  const result = ref(null);
   const resolvedTitle = computed(() => {
     switch (resolvedName.value) {
       case "part":
@@ -72,19 +73,20 @@ const useResolverStore = defineStore("resolver", () => {
       resolved.value = true;
     } else if (["part", "model", "order"].includes(data.resolveLike)) {
       stock.populate(code.value, data.result);
+      result.value = data.result;
       resolved.value = true;
     } else {
       resolved.value = false;
     }
 
-    if (resolved.value) {
+    if (resolved.value === true) {
       playSuccess();
-    } else {
+    } else if (resolved.value === false) {
       playError();
     }
   }
 
-  function resolveLocally(data) {
+  function resolveLocally() {
     return stock.findLocally(code.value);
   }
 
@@ -95,7 +97,7 @@ const useResolverStore = defineStore("resolver", () => {
   }
 
   return {
-    code, resolved, resolve, resolvedName, resolvedTitle, resolveTitle, reset,
+    code, resolved, resolve, resolvedName, resolvedTitle, resolveTitle, reset, result
   };
 });
 

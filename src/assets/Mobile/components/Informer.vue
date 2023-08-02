@@ -17,27 +17,22 @@ const order = ref(null);
 
 watch(() => resolver.resolved, (newVal, prevVal) => {
   if (newVal === true && ["part", "model", "order"].includes(resolver.resolvedName)) {
-    setData();
-    nextTick(() => {
-      show.value = true;
-    });
+    const data = stock.findLocally(resolver.code);
+    if (data.resolveLike === "part") {
+      part.value = data.result.parts[0];
+    }
+    if (data.resolveLike === "model") {
+      model.value = data.result.models[0];
+    }
+    if (data.resolveLike === "order") {
+      order.value = data.result.orders[0];
+    }
+    show.value = true;
   } else {
     resolver.reset();
+    show.value = false;
   }
 });
-
-function setData() {
-  const data = stock.findLocally(resolver.code);
-  if (data.resolveLike === "part") {
-    part.value = data.result.parts[0];
-  }
-  if (data.resolveLike === "model") {
-    model.value = data.result.models[0];
-  }
-  if (data.resolveLike === "order") {
-    order.value = data.result.orders[0];
-  }
-}
 
 function onClosed() {
   resolver.reset();

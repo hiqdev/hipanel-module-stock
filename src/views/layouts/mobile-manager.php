@@ -1,11 +1,8 @@
 <?php
 
-use hipanel\modules\stock\assets\Mobile\MobileAppAsset;
 use yii\helpers\Html;
 
 /** @var string $content */
-
-MobileAppAsset::register($this);
 
 ?>
 

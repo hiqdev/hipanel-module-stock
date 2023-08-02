@@ -7,6 +7,7 @@ import useSessionStore from "@/stores/session";
 import useTaskStore from "@/stores/task";
 import useCompleteStore from "@/stores/complete";
 
+const url = __logoSrc;
 const ui = useUiStore();
 const user = useUserStore();
 const stock = useStockStore();
@@ -28,7 +29,7 @@ function onTaskTransition(url) {
       </span>
     </template>
     <template #title>
-      <van-image src="https://hipanel.advancedhosting.com/assets/37f28765/logo_white_login.svg"/>
+      <van-image :src="url"/>
     </template>
     <template #right>
       <van-icon name="friends-o" color="#000000"/>&nbsp;{{ user.username }}
@@ -38,7 +39,7 @@ function onTaskTransition(url) {
     <van-swipe-cell v-if="stock.destination">
       <van-cell label="Destination" :title="stock.destination.name"/>
       <template #right>
-        <van-button square type="warning" class="delete-button" text="Delete" @click="stock.resetDestination"/>
+        <van-button square type="danger" class="delete-button" text="Delete" @click="stock.resetDestination"/>
       </template>
     </van-swipe-cell>
     <van-swipe-cell v-if="task.url">

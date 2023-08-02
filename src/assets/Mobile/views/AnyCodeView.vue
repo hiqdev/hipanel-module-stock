@@ -15,6 +15,7 @@ import useCompleteStore from "@/stores/complete";
 import Informer from "@/components/Informer.vue";
 import { debounce } from "lodash/function";
 
+const url = __scannerSrc;
 const router = useRouter();
 const ui = useUiStore();
 const stock = useStockStore();
@@ -33,7 +34,7 @@ const myFocus = event => {
     }
     element.focus();
   }
-}
+};
 onMounted(() => {
   document.addEventListener("keydown", myFocus);
 });
@@ -72,8 +73,11 @@ watch(() => stock.serialDuplicate, (newVal, prevVal) => {
       confirmButtonColor: "#ee0a24",
       confirmButtonText: "Remove",
       cancelButtonText: "Ignore",
+      zIndex: "2004",
     }).then(async () => {
       await stock.removeDuplicate();
+    }).catch(() => {
+      stock.serialDuplicate = null;
     });
   }
 });
@@ -103,12 +107,13 @@ function onBack() {
       </van-space>
     </template>
     <van-swipe-cell v-for="part of model.parts" :key="part.id">
-      <van-cell :border="false" :title="part.serial" :value="part.model_label"/>
+      <van-cell :title="part.serial" :label="part.model_label"/>
       <template #right>
-        <van-button square type="danger" text="Delete" @click="stock.removeSerial(part)"/>
+        <van-button square type="danger" class="delete-button" text="Delete" @click="stock.removeSerial(part)"/>
       </template>
     </van-swipe-cell>
   </van-cell-group>
+  <van-image v-else fit="cover" position="center" :src="url"/>
 
   <div class="van-clearfix"></div>
 

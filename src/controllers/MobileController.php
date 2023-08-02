@@ -132,6 +132,7 @@ class MobileController extends Controller
             $messageData = [
                 'taskUrl' => $requestData['taskUrl'],
                 'message' => implode("\n", [
+                    $requestData['personal'],
                     $requestData['comment'],
                     implode("\n", $serials),
                 ]),

@@ -28,6 +28,8 @@ const playNTimesWithInitialDelay = (play, n, initialDelay) => {
 
 
 const sound = () => {
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    var audioCtx = new AudioContext();
     const c = new AudioContext();
     const o = c.createOscillator();
     const g = c.createGain();

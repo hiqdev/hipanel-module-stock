@@ -11,7 +11,7 @@ const useTaskStore = defineStore("task", (s) => {
     return toName(url.value);
   });
 
-  function reset() {
+  function resetUrl() {
     url.value = null;
   }
 
@@ -39,11 +39,11 @@ const useTaskStore = defineStore("task", (s) => {
     url,
     name,
     toName,
-    reset,
     setUrl,
     session,
     applySession,
     collectSessionData,
+    resetUrl
   };
 });
 

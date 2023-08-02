@@ -45,13 +45,13 @@ function onTaskTransition(url) {
     <van-swipe-cell v-if="task.url">
       <van-cell is-link :title="task.name" label="Task" @click="onTaskTransition(task.url)"/>
       <template #right>
-        <van-button square type="danger" class="delete-button" text="Delete" @click="task.reset"/>
+        <van-button square type="danger" class="delete-button" text="Delete" @click="task.resetUrl"/>
       </template>
     </van-swipe-cell>
     <van-swipe-cell v-if="user.personalId">
       <van-cell :title="user.personalId" label="Personal ID"/>
       <template #right>
-        <van-button square type="danger" class="delete-button" text="Delete" @click="user.reset"/>
+        <van-button square type="danger" class="delete-button" text="Delete" @click="user.resetPersonalId"/>
       </template>
     </van-swipe-cell>
   </van-cell-group>

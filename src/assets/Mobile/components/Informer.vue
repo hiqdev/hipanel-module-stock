@@ -20,6 +20,7 @@ watch(() => resolver.result, (newVal, prevVal) => {
   if (["part", "model", "order"].includes(name)) {
     show.value = true;
   } else {
+    resolver.reset();
     show.value = false;
   }
 });

@@ -18,7 +18,7 @@ const useUserStore = defineStore("user", () => {
     username.value = user.username;
   }
 
-  function reset() {
+  function resetPersonalId() {
     personalId.value = null;
   }
 
@@ -44,7 +44,7 @@ const useUserStore = defineStore("user", () => {
     username,
     personalId,
     getUser,
-    reset,
+    resetPersonalId,
     setPersonalId,
     session,
     applySession,

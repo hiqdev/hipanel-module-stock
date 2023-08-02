@@ -1,4 +1,3 @@
-
 export default function useBeeper() {
     return {
         playSuccess: success,
@@ -25,7 +24,6 @@ const playNTimesWithInitialDelay = (play, n, initialDelay) => {
         }, 200);
     }
 };
-
 
 const sound = () => {
     const AudioContext = window.AudioContext || window.webkitAudioContext;

@@ -1,18 +1,13 @@
 <script setup>
-import useStockStore from "@/stores/stock";
+import useResolverStore from "@/stores/resolver";
 
-const props = defineProps({
-  model: Object,
-});
-
-const stock = useStockStore();
-const model = stock.modelWithParts(props.model.id);
+const resolver = useResolverStore();
 
 </script>
 
 <template>
 
-  <table class="table">
+  <table class="table" v-if="resolver.resolvedModel">
     <thead>
     <tr>
       <th scope="col">Serial</th>
@@ -21,7 +16,7 @@ const model = stock.modelWithParts(props.model.id);
     </tr>
     </thead>
     <tbody>
-    <tr v-for="part of model.parts" :key="part.id">
+    <tr v-for="part of resolver.resolvedModel.parts" :key="part.id">
       <td>{{ part.serial }}</td>
       <td>{{ part.dst_name }}</td>
       <td>{{ part.move_type_label }}</td>

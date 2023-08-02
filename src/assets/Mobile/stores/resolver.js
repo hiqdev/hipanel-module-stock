@@ -7,7 +7,8 @@ import useTaskStore from "@/stores/task";
 import api from "@/utils/api";
 import useBeeper from "@/use/beeper";
 import { find } from "lodash/collection";
-import { toString } from "lodash/lang";
+import { isEmpty, toString } from "lodash/lang";
+import has from "lodash/has";
 
 const useResolverStore = defineStore("resolver", () => {
   const stock = useStockStore();
@@ -32,6 +33,30 @@ const useResolverStore = defineStore("resolver", () => {
         return stock.orderTitle(code.value);
         break;
     }
+  });
+  const resolvedPart = computed(() => {
+    const data = stock.findLocally(code.value);
+    if (has(data, "result.parts") && !isEmpty(data.result.parts)) {
+      return data.result.parts[0];
+    }
+
+    return null;
+  });
+  const resolvedModel = computed(() => {
+    const data = stock.findLocally(code.value);
+    if (has(data, "result.models") && !isEmpty(data.result.models)) {
+      return stock.modelWithParts(data.result.models[0].id);
+    }
+
+    return null;
+  });
+  const resolvedOrder = computed(() => {
+    const data = stock.findLocally(code.value);
+    if (has(data, "result.orders") && !isEmpty(data.result.orders)) {
+      return stock.orderWithParts(data.result.orders[0].id);
+    }
+
+    return null;
   });
 
   function resolveTitle(value) {
@@ -64,12 +89,15 @@ const useResolverStore = defineStore("resolver", () => {
     ui.finishRequest();
     if (data.resolveLike === "destination") {
       stock.setDestination(data.result);
+      result.value = data.result;
       resolved.value = true;
     } else if (data.resolveLike === "task") {
       task.setUrl(data.result);
+      result.value = data.result;
       resolved.value = true;
     } else if (data.resolveLike === "personal") {
       user.setPersonalId(data.result);
+      result.value = data.result;
       resolved.value = true;
     } else if (["part", "model", "order"].includes(data.resolveLike)) {
       stock.populate(code.value, data.result);
@@ -79,10 +107,12 @@ const useResolverStore = defineStore("resolver", () => {
       resolved.value = false;
     }
 
-    if (resolved.value === true) {
-      playSuccess();
-    } else if (resolved.value === false) {
-      playError();
+    if (ui.isSoundOn) {
+      if (resolved.value === true) {
+        playSuccess();
+      } else if (resolved.value === false) {
+        playError();
+      }
     }
   }
 
@@ -97,7 +127,17 @@ const useResolverStore = defineStore("resolver", () => {
   }
 
   return {
-    code, resolved, resolve, resolvedName, resolvedTitle, resolveTitle, reset, result
+    code,
+    resolved,
+    resolve,
+    resolvedName,
+    resolvedTitle,
+    resolveTitle,
+    reset,
+    result,
+    resolvedPart,
+    resolvedModel,
+    resolvedOrder,
   };
 });
 

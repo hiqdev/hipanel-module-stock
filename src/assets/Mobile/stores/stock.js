@@ -2,7 +2,7 @@ import { ref, computed, unref } from "vue";
 import { defineStore } from "pinia";
 import { find, groupBy, forEach, filter } from "lodash/collection";
 import { remove } from "lodash/array";
-import { toString, isEmpty } from "lodash/lang";
+import { toString, isEmpty, toInteger } from "lodash/lang";
 
 import api from "@/utils/api";
 import useBeeper from "@/use/beeper";
@@ -89,12 +89,14 @@ const useStockStore = defineStore("stock", () => {
     if (!exists) {
       serials.value.unshift(part);
     } else {
-      playExists();
+      if (ui.isSoundOn) {
+        playExists();
+      }
       serialDuplicate.value = part;
     }
   }
 
-  async function removeDuplicate () {
+  async function removeDuplicate() {
     await new Promise((resolve) => {
       const duplicate = Object.assign({}, serialDuplicate.value);
       removeSerial(duplicate);
@@ -220,6 +222,12 @@ const useStockStore = defineStore("stock", () => {
     }
     const model = find(models.value, model => toString(model.partno) === code);
     if (model) {
+      const inStockCount = Object.values(model.counters[location.value.name]).reduce((a, b) => toInteger(a) + toInteger(b), 0);
+      const loadedCount = filter(parts.value, p => p.model_id === model.id).length;
+      if (inStockCount > loadedCount) {
+        // load from server
+        return null;
+      }
       data.resolveLike = "model";
       data.result.models = [model];
 

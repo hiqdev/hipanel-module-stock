@@ -1,9 +1,9 @@
 <template>
   <div v-if="complete.isCompleted">
     <van-notice-bar v-if="!stock.hasError" text="Completed!"/>
-    <pre v-else style="overflow-x: scroll; padding: 1em; background-color: #ffe1e1;">
+    <p v-else style="font-size: small; font-family: monospace, monospace; overflow-x: scroll; padding: 1em; margin: 0; background-color: #ffe1e1;">
       {{ stock.errorMessage }}
-    </pre>
+    </p>
     <van-action-bar>
       <van-action-bar-button type="success" text="Start again" @click="onStartAgain"/>
     </van-action-bar>

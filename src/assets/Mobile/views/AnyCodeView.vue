@@ -82,8 +82,8 @@ watch(() => stock.serialDuplicate, (newVal, prevVal) => {
   }
 });
 
-const handleResolve = debounce((event) => {
-  resolver.resolve();
+const handleResolve = debounce(async (event) => {
+  await resolver.resolve();
   document.getElementById("any-code").blur();
   flag.value = true;
 });

@@ -1,18 +1,13 @@
 <script setup>
-import useStockStore from "@/stores/stock";
+import useResolverStore from "@/stores/resolver";
 
-const props = defineProps({
-  order: Object,
-});
-
-const stock = useStockStore();
-const order = stock.orderWithParts(props.order.id);
+const resolver = useResolverStore();
 
 </script>
 
 <template>
 
-  <table class="table">
+  <table class="table" v-if="resolver.resolvedOrder">
     <thead>
     <tr>
       <th scope="col">Type</th>
@@ -22,7 +17,7 @@ const order = stock.orderWithParts(props.order.id);
     </tr>
     </thead>
     <tbody>
-    <tr v-for="part of order.parts" :key="part.id">
+    <tr v-for="part of resolver.resolvedOrder.parts" :key="part.id">
       <td>{{ part.model_type_label }}</td>
       <td>{{ part.model_brand_label }}</td>
       <td>{{ part.serial }}</td>

@@ -12,6 +12,13 @@ const app = createApp(App);
 const pinia = createPinia();
 
 pinia.use(({ store }) => {
+
+  if (store.$id === "ui") {
+    store.$subscribe((mutation, state) => {
+      localStorage.setItem("ui", JSON.stringify(state));
+    });
+  }
+
   store.$onAction(({
     name, // name of the action
     store, // store instance, same as `someStore`

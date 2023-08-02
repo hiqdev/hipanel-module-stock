@@ -140,7 +140,7 @@ class MobileController extends Controller
             $response = $this->api->post('IssueComment', [], $messageData);
             $data = $response->getData();
             if (!empty($moveData)) {
-                Part::perform('move', $moveData, ['batch' => true]);
+                Part::perform('moveeee', $moveData, ['batch' => true]);
             }
             if (isset($data['status']) && $data['status'] === 'ok') {
                 return $this->response(['status' => 'success']);
@@ -150,8 +150,9 @@ class MobileController extends Controller
         } catch (Exception $e) {
             $errorMessage = sprintf('Failed to send: %s', $e->getMessage());
             $this->log->error($errorMessage, ['exception' => $e]);
+            $simpleMessage = explode("\n", $errorMessage);
 
-            return $this->response(['status' => 'error', 'errorMessage' => $e->getMessage()]);
+            return $this->response(['status' => 'error', 'errorMessage' => $simpleMessage[0]]);
         }
     }
 
@@ -203,7 +204,7 @@ class MobileController extends Controller
         if ($part && $part->device_location !== $location) {
             return $this->response($responseTemplate);
         }
-        $model = Model::find()->where(['partno' => $code, 'show_deleted' => true])->one();
+        $model = Model::find()->where(['partno' => $code, 'show_deleted' => true])->andWhere(['locations' => [$location], 'with_counters' => true])->one();
         $order = Order::find()->where(['name' => $code])->one();
         $resolveLike = match (true) {
             !empty($part) => 'part',
@@ -232,7 +233,7 @@ class MobileController extends Controller
                         'model_id'))),
                 ];
             }
-            $models = $model ? [$model] : Model::find()->where($queryConditions['models'])->limit(-1)->all();
+            $models = $model ? [$model] : Model::find()->where($queryConditions['models'])->andWhere(['locations' => [$location], 'with_counters' => true])->limit(-1)->all();
             if (!isset($queryConditions['orders'])) {
                 $queryConditions['orders'] = [
                     'id_in' => array_unique(array_filter(ArrayHelper::getColumn($parts, 'order_id'))),
@@ -244,7 +245,9 @@ class MobileController extends Controller
                 /** @var I18N $i18n */
                 $i18n = Yii::$app->i18n;
                 foreach ($model->attributes as $attribute => $value) {
-                    $model->{$attribute} = $i18n->removeLegacyLangTags($value);
+                    if (str_contains($attribute, '_label')) {
+                        $model->{$attribute} = $i18n->removeLegacyLangTags($value);
+                    }
                 }
 
                 return $model;

@@ -41,3 +41,7 @@ table tbody > tr:nth-of-type(odd) > * {
 .delete-button {
     height: 100%;
 }
+
+.yii-debug-toolbar_position_bottom {
+    bottom: 50px !important;
+}

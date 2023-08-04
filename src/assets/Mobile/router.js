@@ -1,7 +1,6 @@
 import { createRouter, createWebHashHistory, createMemoryHistory } from "vue-router";
 
 import SessionView from "@/views/SessionView.vue";
-import LocationView from "@/views/LocationView.vue";
 import AnyCodeView from "@/views/AnyCodeView.vue";
 import CompleteView from "@/views/CompleteView.vue";
 
@@ -18,15 +17,7 @@ const routes = [
     path: "/",
     component: SessionView,
     meta: {
-      title: "Select or create session",
-    },
-  },
-  {
-    name: "location",
-    path: "/location",
-    component: LocationView,
-    meta: {
-      title: "Select location",
+      title: "Select session or create new one",
     },
   },
   {

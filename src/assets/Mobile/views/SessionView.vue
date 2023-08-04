@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import { onBeforeRouteLeave, useRouter } from "vue-router";
+import { useRouter } from "vue-router";
 import useStockStore from "@/stores/stock";
 import useSessionStore from "@/stores/session";
 import useUiStore from "@/stores/ui";
@@ -15,13 +15,14 @@ const router = useRouter();
 const ui = useUiStore();
 const user = useUserStore();
 const task = useTaskStore();
-const { show } = useSelect();
+const { show, onSelect } = useSelect(async (l) => {
+  await session.createSession();
+  await stock.setLocation(l);
+  router.push({ name: "any-code" });
+});
 
-
-async function onSelect(item) {
-  show.value = true;
+async function onSelectSession(item) {
   await new Promise(async r => {
-    await new Promise(r => setTimeout(r, 100));
     session.setSession(item);
     stock.applySession(session.session);
     user.applySession(session.session);
@@ -34,24 +35,15 @@ async function onSelect(item) {
   });
 };
 
-function onCreate() {
-  session.createSession();
-  router.push({ name: "location" });
-}
-
 session.getSessions();
-
-onBeforeRouteLeave((to, from) => {
-  stock.getLocations();
-});
+stock.getLocations();
 
 </script>
 
 <template>
-  <van-overlay :show="show"/>
   <van-loading v-if="ui.isLoading" vertical/>
   <van-swipe-cell v-else v-for="row of session.sessionList" :key="session.id">
-    <van-cell is-link :title="row.name" :label="row.subname" @click="onSelect(row)"/>
+    <van-cell is-link :title="row.name" :label="row.subname" @click="onSelectSession(row)"/>
     <template #right>
       <van-button square type="danger" text="Delete" class="delete-button" @click="session.deleteSession(row.id)"/>
     </template>
@@ -62,7 +54,8 @@ onBeforeRouteLeave((to, from) => {
         v-else
         type="success"
         text="Create new session"
-        @click="onCreate"
+        @click="show = true"
     />
+    <van-action-sheet v-model:show="show" :actions="stock.locations" @select="onSelect" description="Select location"/>
   </van-action-bar>
 </template>

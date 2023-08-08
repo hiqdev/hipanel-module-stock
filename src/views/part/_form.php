@@ -1,7 +1,7 @@
 <?php
 
+use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\CompanyCombo;
-use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartDestinationCombo;
 use hipanel\modules\stock\widgets\combo\ModelCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
@@ -10,10 +10,14 @@ use hipanel\widgets\AmountWithCurrency;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormCopyButton;
 use hipanel\widgets\DynamicFormWidget;
-use hipanel\widgets\RefCombo;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+
+/**
+ * @var Part $model
+ * @var array $currencyTypes
+ */
 
 ?>
 <?php $form = ActiveForm::begin([
@@ -134,6 +138,9 @@ use yii\helpers\Url;
                             ],
                         ]) ?>
                         <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput() ?>
+                    </div>
+                    <div class="col-md-12">
+                        <?= $form->field($model, "[$i]move_descr") ?>
                     </div>
                 <?php endif ?>
             </div>

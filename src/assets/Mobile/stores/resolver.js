@@ -83,7 +83,12 @@ const useResolverStore = defineStore("resolver", () => {
     ui.startRequest();
     let data = resolveLocally();
     if (data === null) {
-      data = await api.resolveCode(code.value, stock.location.name);
+      try {
+        data = await api.resolveCode(code.value, stock.location.name);
+      } catch (error) {
+        ui.finishRequest();
+        resolved.value = false;
+      }
     }
     resolvedName.value = data.resolveLike;
     ui.finishRequest();

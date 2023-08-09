@@ -6,6 +6,7 @@ import ModelView from "@/components/ModelView.vue";
 import useResolverStore from "@/stores/resolver";
 import useStockStore from "@/stores/stock";
 import useSelect from "@/use/select";
+import { showNotify } from "vant";
 
 const resolver = useResolverStore();
 const stock = useStockStore();
@@ -22,6 +23,13 @@ watch(() => resolver.result, (newVal, prevVal) => {
   } else {
     resolver.reset();
     show.value = false;
+  }
+});
+
+watch(() => resolver.resolved, (newVal, prevVal) => {
+  if (newVal === false) {
+    show.value = false;
+    resolver.reset();
   }
 });
 

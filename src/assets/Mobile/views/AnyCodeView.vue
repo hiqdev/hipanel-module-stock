@@ -35,16 +35,18 @@ const myFocus = event => {
     element.focus();
   }
 };
+
 onMounted(() => {
   document.addEventListener("keydown", myFocus);
 });
+
 onUnmounted(() => {
   document.removeEventListener("keydown", myFocus);
 });
 
 watch(() => resolver.resolved, (newVal, prevVal) => {
   if (newVal === false) {
-    showNotify({ type: "danger", message: "Code is out of found" });
+    showNotify({ type: "danger", message: `Code ${resolver.code} is out of base` });
   }
 });
 

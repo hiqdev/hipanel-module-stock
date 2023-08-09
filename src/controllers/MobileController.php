@@ -137,11 +137,11 @@ class MobileController extends Controller
                     implode("\n", $serials),
                 ]),
             ];
+            if (!empty($moveData)) {
+                Part::perform('move', $moveData, ['batch' => true]);
+            }
             $response = $this->api->post('IssueComment', [], $messageData);
             $data = $response->getData();
-            if (!empty($moveData)) {
-                Part::perform('moveeee', $moveData, ['batch' => true]);
-            }
             if (isset($data['status']) && $data['status'] === 'ok') {
                 return $this->response(['status' => 'success']);
             }

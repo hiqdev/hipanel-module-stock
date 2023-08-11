@@ -60,7 +60,7 @@ $scenario = $this->context->action->scenario;
                     <?= $form->field($model, "[$i]reserve")->textInput(['readonly' => $scenario === 'unreserve']) ?>
                 </div>
                 <div class="col-md-3">
-                    <?= $form->field($model, "[$i]descr")->textInput([])->label('Move description'); ?>
+                    <?= $form->field($model, "[$i]descr")->textInput([])->label(Yii::t('hipanel:stock', 'Move description')); ?>
                 </div>
             </div>
             <!-- /.row -->

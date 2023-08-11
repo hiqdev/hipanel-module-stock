@@ -121,7 +121,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                     </div>
 
-                    <?= $form->field($model, "[$i]descr")->textarea()->label('Move description') ?>
+                    <?= $form->field($model, "[$i]descr")->textarea()->label(Yii::t('hipanel:stock', 'Move description')) ?>
                 </div>
             </div>
             <?php Box::end() ?>

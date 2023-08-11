@@ -65,7 +65,7 @@ use yii\helpers\Html;
                             <?= $form->field($model, "[$src_id]hm_ticket")->textInput(['id' => "$src_id-hm_ticket-" . uniqid()]) ?>
                         </div>
                     </div>
-                    <?= $form->field($model, "[$src_id]descr")->textarea(['id' => "$src_id-descr-" . uniqid()]) ?>
+                    <?= $form->field($model, "[$src_id]descr")->textarea(['id' => "$src_id-descr-" . uniqid()])->label('Move description'); ?>
                 </div>
             </div>
         </div>

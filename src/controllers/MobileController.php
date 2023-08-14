@@ -9,6 +9,7 @@ use hipanel\components\SettingsStorage;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
 use hipanel\hiart\hiapi\HiapiConnectionInterface;
+use hipanel\modules\server\models\Server;
 use hipanel\modules\stock\models\Model;
 use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\models\Order;
@@ -122,7 +123,7 @@ class MobileController extends Controller
                         'id' => $part['id'],
                         'src_id' => $part['dst_id'],
                         'dst_id' => $requestData['destination']['id'],
-                        'type' => 'install',
+                        'type' => $requestData['destination']['type'] === 'chwbox' ? 'stock' : 'install',
                         'hm_ticket' => $requestData['taskUrl'],
                         'descr' => $requestData['comment'],
                     ];
@@ -195,10 +196,12 @@ class MobileController extends Controller
             $responseTemplate['resolveLike'] = 'task';
             $responseTemplate['result'] = $code;
         }
-        $destination = Move::perform('get-directions', ['name' => $code, 'limit' => 1], ['batch' => true]);
-        if (!empty($destination)) {
+        $direction = Move::perform('get-directions', ['name' => $code, 'limit' => 1], ['batch' => true]);
+        if (!empty($direction)) {
+            $direction = reset($direction);
+            $destination = Server::findOne($direction['id']);
             $responseTemplate['resolveLike'] = 'destination';
-            $responseTemplate['result'] = reset($destination);
+            $responseTemplate['result'] = $destination;
         }
         $part = Part::find()->where(['serial' => $code])->one();
         if ($part && $part->device_location !== $location) {

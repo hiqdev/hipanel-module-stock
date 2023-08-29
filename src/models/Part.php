@@ -305,7 +305,11 @@ class Part extends \hipanel\base\Model
 
     public function getTitle()
     {
-        return sprintf('%s %s %s #%s', $this->model_type_label, $this->model_brand_label, $this->partno, $this->serial);
+        return sprintf('%s %s %s #%s', Yii::t('hipanel:stock', $this->model_type_label),
+            Yii::t('hipanel:stock', $this->model_brand_label),
+            Yii::t('hipanel:stock', $this->partno),
+            Yii::t('hipanel:stock', $this->serial)
+        );
     }
 
     public static function getDestinationBasicTypes()

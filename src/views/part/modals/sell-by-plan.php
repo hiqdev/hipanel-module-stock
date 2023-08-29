@@ -90,7 +90,7 @@ JS
         <table class="table">
             <thead>
             <tr>
-                <th colspan="2"><?= mb_strtoupper($modelType) ?></th>
+                <th colspan="2"><?= mb_strtoupper(Yii::t('hipanel:stock', $modelType)) ?></th>
             </tr>
             </thead>
             <?php foreach (array_chunk($typeParts, 2) as $parts): ?>

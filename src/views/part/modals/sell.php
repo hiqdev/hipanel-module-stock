@@ -183,7 +183,7 @@ JS
 <div class="well well-sm parts-for-sell">
     <?= Html::tag('legend', Yii::t('hipanel:stock', 'Parts')) ?>
     <?php foreach ($partsByModelType as $type => $typeParts): ?>
-        <h3><?= $type ?></h3>
+        <h3><?= Yii::t('hipanel:stock', $type) ?></h3>
         <?php foreach (array_chunk($typeParts, 2) as $row): ?>
             <div class="row">
                 <?php foreach ($row as $part) : ?>

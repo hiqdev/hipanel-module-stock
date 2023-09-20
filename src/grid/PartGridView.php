@@ -203,7 +203,7 @@ class PartGridView extends BoxedGridView
             'order_data' => [
                 'filter' => false,
                 'enableSorting' => false,
-                'visible' => Yii::$app->user->can('order.read'),
+                'visible' => Yii::$app->user->can('order.read') && Yii::$app->user->can('owner-staff'),
             ],
             'order_name' => [
                 'attribute' => 'order_id',
@@ -217,7 +217,7 @@ class PartGridView extends BoxedGridView
                 },
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'format' => 'raw',
-                'visible' => Yii::$app->user->can('order.read'),
+                'visible' => Yii::$app->user->can('order.read') && Yii::$app->user->can('owner-staff'),
                 'value' => function (Part $model): string {
                     return HTML::a(Html::encode($model->order_name), ['@order/view', 'id' => $model->order_id]);
                 },

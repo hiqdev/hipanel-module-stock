@@ -104,7 +104,7 @@ class ObjectPartsGridView extends BoxedGridView
                     ['@order/view', 'id' => $part->order_id],
                     ['data-pjax' => 0]) : null,
                 'filter' => $this->dropdownFor('order_name'),
-                'visible' => $user->can('order.read'),
+                'visible' => $user->can('order.read') && $user->can('owner-staff'),
             ],
             'company' => [
                 'contentOptions' => ['style' => 'width: 10%'],

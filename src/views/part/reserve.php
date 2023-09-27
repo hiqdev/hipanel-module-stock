@@ -11,6 +11,24 @@ $this->title = Yii::t('hipanel:stock', 'Reserve');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $scenario = $this->context->action->scenario;
+
+$this->registerJs(<<<JS
+(() => {
+  function bind(source, idContains) {
+    source.addEventListener("keyup", (e) => {
+      [].forEach.call(document.querySelectorAll(".container-items .form-control"), input => {
+        if (input.matches("[id$='" + idContains + "']")) {
+          input.value = e.target.value;
+        }
+      });
+    });
+  }
+  bind(document.getElementById("bulkReserve"), "-reserve");
+  bind(document.getElementById("bulkMoveDescription"), "-descr");
+})();
+JS
+);
+
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -36,6 +54,19 @@ $scenario = $this->context->action->scenario;
     ],
 ]) ?>
 
+<div class="row">
+    <div class="col-md-3 col-md-offset-6">
+        <div class="form-group">
+            <input type="text" class="form-control" id="bulkReserve" placeholder="Bulk reserve">
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <input type="text" class="form-control" id="bulkMoveDescription" placeholder="Bulk move description">
+        </div>
+    </div>
+</div>
+
 <div class="container-items">
     <?php foreach ($models as $i => $model) : ?>
         <?php
@@ -52,35 +83,31 @@ $scenario = $this->context->action->scenario;
                 <div class="col-md-2">
                     <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
                 </div>
-                <?= PartSourceWidget::widget([
-                    'index' => $i,
-                    'model' => $model,
-                ]) ?>
+                <div class="col-md-2">
+                    <?= PartSourceWidget::widget([
+                        'index' => $i,
+                        'model' => $model,
+                    ]) ?>
+                </div>
                 <div class="col-md-3">
                     <?= $form->field($model, "[$i]reserve")->textInput(['readonly' => $scenario === 'unreserve']) ?>
                 </div>
                 <div class="col-md-3">
-                    <?= $form->field($model, "[$i]descr")->textInput([])->label(Yii::t('hipanel:stock', 'Move description')); ?>
+                    <?= $form->field($model, "[$i]descr")->textInput([])->label(Yii::t('hipanel:stock',
+                        'Move description')); ?>
                 </div>
             </div>
-            <!-- /.row -->
             <?php Box::end() ?>
         </div>
-        <!-- /.item -->
     <?php endforeach; ?>
 </div>
-<!-- /.container-items -->
 <?php DynamicFormWidget::end() ?>
-<?php Box::begin(['options' => ['class' => 'box-solid']]) ?>
 <div class="row">
     <div class="col-md-12 no">
-        <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
         &nbsp;
         <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
-    <!-- /.col-md-12 -->
 </div>
-<!-- /.row -->
-<?php Box::end() ?>
 <?php ActiveForm::end() ?>
 

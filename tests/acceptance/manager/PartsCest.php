@@ -206,7 +206,6 @@ class PartsCest
             Select2::asAdvancedSearch($I, 'Buyers'),
             Input::asAdvancedSearch($I, 'First move'),
             Input::asAdvancedSearch($I, 'Last move'),
-            Input::asAdvancedSearch($I, 'Order'),
         ]);
     }
 
@@ -237,7 +236,6 @@ class PartsCest
             'Last move',
             'Type / Date',
             'Move description',
-            'Order',
         ], 'common');
         $this->index->containsColumns([
             'Type',

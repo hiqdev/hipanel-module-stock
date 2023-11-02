@@ -18,13 +18,6 @@ use yii\web\JsExpression;
  */
 
 $this->registerCss('
-.part-sell-total-container {
-    text-transform: uppercase;
-    font-weight: bold;
-    display: inline-block;
-    margin-bottom: 0;
-    font-size: larger;
-}
 select[readonly].select2-hidden-accessible + .select2-container {
     pointer-events: none;
     touch-action: none;
@@ -40,8 +33,7 @@ select[readonly].select2-hidden-accessible + .select2-container .select2-selecti
 }
 ');
 
-$this->registerJs(/** @lang ECMAScript 6 */
-    <<<JS
+$this->registerJs(/** @lang ECMAScript 6 */ <<<JS
 function setContactFieldByClientName(selectedClientId, selectedClientName) {
     $.post('/client/contact/search', {return: ['id', 'name', 'email'], select: 'min', client: selectedClientName}).done(function (contacts) {
         let autoContact = contacts.filter(contact => contact.id === selectedClientId);    
@@ -105,7 +97,14 @@ $('#partsellform-bill_id').on('select2:select', function () {
         }
     });
 });
-
+document.getElementById("set-price-all-parts").onclick = function (event) {
+  const price = prompt("Enter a price", 0);  
+  [].forEach.call(document.querySelectorAll(".parts-for-sell input"), input => {
+    if (input.matches("[id*='partsellform-sums']")) {
+      input.value = price;
+    }
+  });
+}
 JS
 );
 
@@ -158,7 +157,8 @@ JS
 <div id="part-sell-message" class="row" style="display: none;">
     <div class="col-md-12">
         <p class="bg-warning text-center" style="padding: 1rem 2rem">
-            <?= Yii::t('hipanel:stock', 'All data about the bill already exist. You do not need to fill out the form.') ?>
+            <?= Yii::t('hipanel:stock',
+                'All data about the bill already exist. You do not need to fill out the form.') ?>
         </p>
     </div>
 </div>
@@ -180,27 +180,44 @@ JS
     </div>
 </div>
 
-<div class="well well-sm parts-for-sell">
-    <?= Html::tag('legend', Yii::t('hipanel:stock', 'Parts')) ?>
-    <?php foreach ($partsByModelType as $type => $typeParts): ?>
-        <h3><?= Yii::t('hipanel:stock', $type) ?></h3>
+<div class="panel panel-default parts-for-sell">
+
+    <div class="panel-heading">
+        <?= Yii::t('hipanel:stock', 'Parts') ?>
+        <div class="pull-right">
+            <button id="set-price-all-parts" type="button" class="btn btn-success btn-rad btn-xs">
+                <?= Yii::t('hipanel:stock', 'Set price for all parts') ?>
+            </button>
+        </div>
+    </div>
+
+    <?php foreach ($partsByModelType as $modelType => $typeParts): ?>
         <?php foreach (array_chunk($typeParts, 2) as $row): ?>
-            <div class="row">
-                <?php foreach ($row as $part) : ?>
-                    <div class="col-md-6">
-                        <?= Html::activeHiddenInput($model, "ids[]", ['value' => $part->id]) ?>
-                        <?= $form->field($model, "sums[$part->id]")->textInput([
-                            'placeholder' => Yii::t('hipanel:stock', 'Part price'),
-                        ])->label(sprintf(
-                            '%s @ %s',
-                            Html::a($part->title, ['@part/view', 'id' => $part->id], ['tabindex' => -1]),
-                            $part->dst_name
-                        )); ?>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php endforeach; ?>
-    <?php endforeach; ?>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th colspan="2"><?= mb_strtoupper(Yii::t('hipanel:stock', $modelType)) ?></th>
+                </tr>
+                </thead>
+                <?php foreach (array_chunk($typeParts, 2) as $parts): ?>
+                    <tr>
+                        <?php foreach ($parts as $part) : ?>
+                            <td style="width: 50%">
+                                <?= Html::activeHiddenInput($model, "ids[]", ['value' => $part->id]) ?>
+                                <?= $form->field($model, "sums[$part->id]")->textInput([
+                                    'placeholder' => Yii::t('hipanel:stock', 'Part price'),
+                                ])->label(sprintf(
+                                    '%s @ %s',
+                                    Html::a($part->title, ['@part/view', 'id' => $part->id], ['tabindex' => -1, 'target' => '_blank']),
+                                    $part->dst_name
+                                )) ?>
+                            </td>
+                        <?php endforeach ?>
+                    </tr>
+                <?php endforeach ?>
+            </table>
+        <?php endforeach ?>
+    <?php endforeach ?>
 
 </div>
 
@@ -210,8 +227,9 @@ JS
         <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) ?>
     </div>
     <div class="col-xs-6 col-sm-4 part-sell-total-container">
-        <div class="well well-sm text-center">
-            <?= Yii::t('hipanel:stock', 'Total:') ?> <span id="part-sell-total">0</span>
+        <div class="description-block border-right">
+            <h5 class="description-header"><span id="part-sell-total">0</span></h5>
+            <span class="description-text">TOTAL</span>
         </div>
     </div>
 </div>

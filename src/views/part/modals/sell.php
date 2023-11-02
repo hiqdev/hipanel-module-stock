@@ -102,7 +102,6 @@ document.getElementById("set-price-all-parts").onclick = function (event) {
   [].forEach.call(document.querySelectorAll(".parts-for-sell input"), input => {
     if (input.matches("[id*='partsellform-sums']")) {
       input.value = price;
-      input.dispatchEvent(new Event("change"));
     }
   });
 }

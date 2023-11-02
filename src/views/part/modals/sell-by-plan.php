@@ -86,7 +86,7 @@ JS
 
 <div class="parts-for-sell panel panel-default">
     <?= Html::tag('div', Yii::t('hipanel:stock', 'Parts'), ['class' => 'panel-heading']) ?>
-    <?php foreach ($partsByModelType as $modelType => $typeParts): ?>
+    <?php foreach ($partsByModelType as $modelType => $typeParts) : ?>
         <table class="table">
             <thead>
             <tr>
@@ -98,13 +98,13 @@ JS
                     <?php foreach ($parts as $part) : ?>
                         <td style="width: 50%">
                             <?= Html::activeHiddenInput($model, "ids[]", ['value' => $part->id]) ?>
-                            <?= sprintf('%s @ %s', Html::a($part->title, ['@part/view', 'id' => $part->id], ['tabindex' => -1]), $part->dst_name); ?>
+                            <?= sprintf('%s @ %s', Html::a($part->title, ['@part/view', 'id' => $part->id], ['tabindex' => -1]), $part->dst_name) ?>
                         </td>
-                    <?php endforeach; ?>
+                    <?php endforeach ?>
                 </tr>
-            <?php endforeach; ?>
+            <?php endforeach ?>
         </table>
-    <?php endforeach; ?>
+    <?php endforeach ?>
 </div>
 
 <div class="row">

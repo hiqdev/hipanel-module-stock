@@ -584,12 +584,18 @@ class PartController extends CrudController
         /** @var Part[] $parts */
         $parts = $action->fetchModels();
         $partsByModelType = $this->sortByModelType($parts);
+        $partModels = ArrayHelper::map($parts, 'model_id', 'model_label');
         $currencyOptions = $this->getCurrencyTypes();
         array_walk($currencyOptions, static function (&$value, $key): void {
             $value = StringHelper::getCurrencySymbol($key);
         });
 
-        return $this->renderAjax('modals/sell', compact('model', 'partsByModelType', 'currencyOptions'));
+        return $this->renderAjax('modals/sell', [
+            'model' => $model,
+            'partsByModelType' => $partsByModelType,
+            'currencyOptions' => $currencyOptions,
+            'partModels' => $partModels,
+        ]);
     }
 
     public function actionSellByPlan()
@@ -611,7 +617,10 @@ class PartController extends CrudController
         $parts = $action->fetchModels();
         $partsByModelType = $this->sortByModelType($parts);
 
-        return $this->renderAjax('modals/sell-by-plan', compact('model', 'partsByModelType'));
+        return $this->renderAjax('modals/sell-by-plan', [
+            'model' => $model,
+            'partsByModelType' => $partsByModelType,
+        ]);
     }
 
     /**

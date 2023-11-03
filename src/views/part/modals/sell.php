@@ -13,6 +13,7 @@ use yii\web\JsExpression;
 
 /**
  * @var Part[] $partsByModelType
+ * @var array $partModels
  * @var array $currencyOptions
  * @var PartSellForm $model
  */
@@ -97,14 +98,24 @@ $('#partsellform-bill_id').on('select2:select', function () {
         }
     });
 });
-document.getElementById("set-price-all-parts").onclick = function (event) {
-  const price = prompt("Enter a price", 0);  
-  [].forEach.call(document.querySelectorAll(".parts-for-sell input"), input => {
-    if (input.matches("[id*='partsellform-sums']")) {
-      input.value = price;
+// Set parts prcie by model
+document.querySelectorAll("#set-price-by-model input").forEach((modelInput) => {
+  modelInput.addEventListener("keyup", function (event) {
+    const price = event.target.value;
+    const modelId = event.target.id;
+    let lastInput = null;
+    [].forEach.call(document.querySelectorAll(`input[data-model-id*='\${modelId}']`), input => {
+      if (input.matches("[id*='partsellform-sums']")) {
+        input.value = price;
+        lastInput = input;
+      }
+    });
+    if (lastInput) {
+      lastInput.dispatchEvent(new Event("change"));
     }
   });
-}
+});
+
 JS
 );
 
@@ -165,7 +176,7 @@ JS
 <div class="row">
     <div class="col-md-12" style="margin-bottom: 2rem">
         <div id="bill-exists-button">
-            <?= Html::button(Yii::t('hipanel:stock', 'The bill exists'), ['class' => 'btn btn-default']) ?>
+            <?= Html::button(Yii::t('hipanel:stock', 'The bill exists'), ['class' => 'btn btn-warning']) ?>
         </div>
         <div id="bill-exists-field" style="display: none">
             <?= $form->field($model, 'bill_id')->widget(BillHwPurchaseCombo::class, [
@@ -180,16 +191,33 @@ JS
     </div>
 </div>
 
+<div id="set-price-by-model" class="panel panel-default">
+    <div class="panel-heading">
+        <?= Yii::t('hipanel:stock', 'Setting the price for all parts of the listed models') ?>
+    </div>
+    <ul class="list-group">
+        <?php foreach (array_chunk($partModels, 2, true) as $row) : ?>
+            <li class="list-group-item">
+                <div class="row">
+                    <?php foreach ($row as $modelId => $modelLabel) : ?>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="<?= $modelId ?>"><?= $modelLabel ?></label>
+                                <input type="number" class="form-control" id="<?= $modelId ?>"
+                                       placeholder="<?= Yii::t('hipanel:stock',
+                                           'A price for all parts of this model') ?>">
+                            </div>
+                        </div>
+                    <?php endforeach ?>
+                </div>
+            </li>
+        <?php endforeach ?>
+    </ul>
+</div>
+
 <div class="panel panel-default parts-for-sell">
 
-    <div class="panel-heading">
-        <?= Yii::t('hipanel:stock', 'Parts') ?>
-        <div class="pull-right">
-            <button id="set-price-all-parts" type="button" class="btn btn-success btn-rad btn-xs">
-                <?= Yii::t('hipanel:stock', 'Set price for all parts') ?>
-            </button>
-        </div>
-    </div>
+    <div class="panel-heading"><?= Yii::t('hipanel:stock', 'Parts') ?></div>
 
     <?php foreach ($partsByModelType as $modelType => $typeParts): ?>
         <table class="table">
@@ -205,9 +233,15 @@ JS
                             <?= Html::activeHiddenInput($model, "ids[]", ['value' => $part->id]) ?>
                             <?= $form->field($model, "sums[$part->id]")->textInput([
                                 'placeholder' => Yii::t('hipanel:stock', 'Part price'),
+                                'data' => ['model-id' => $part->model_id],
                             ])->label(sprintf(
                                 '%s @ %s',
-                                Html::a($part->title, ['@part/view', 'id' => $part->id], ['tabindex' => -1, 'target' => '_blank']),
+                                Html::a($part->title,
+                                    ['@part/view', 'id' => $part->id],
+                                    [
+                                        'tabindex' => -1,
+                                        'target' => '_blank',
+                                    ]),
                                 $part->dst_name
                             )) ?>
                         </td>

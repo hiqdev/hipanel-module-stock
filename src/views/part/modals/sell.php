@@ -192,31 +192,29 @@ JS
     </div>
 
     <?php foreach ($partsByModelType as $modelType => $typeParts): ?>
-        <?php foreach (array_chunk($typeParts, 2) as $row): ?>
-            <table class="table">
-                <thead>
+        <table class="table">
+            <thead>
+            <tr>
+                <th colspan="2"><?= mb_strtoupper(Yii::t('hipanel:stock', $modelType)) ?></th>
+            </tr>
+            </thead>
+            <?php foreach (array_chunk($typeParts, 2) as $parts): ?>
                 <tr>
-                    <th colspan="2"><?= mb_strtoupper(Yii::t('hipanel:stock', $modelType)) ?></th>
+                    <?php foreach ($parts as $part) : ?>
+                        <td style="width: 50%">
+                            <?= Html::activeHiddenInput($model, "ids[]", ['value' => $part->id]) ?>
+                            <?= $form->field($model, "sums[$part->id]")->textInput([
+                                'placeholder' => Yii::t('hipanel:stock', 'Part price'),
+                            ])->label(sprintf(
+                                '%s @ %s',
+                                Html::a($part->title, ['@part/view', 'id' => $part->id], ['tabindex' => -1, 'target' => '_blank']),
+                                $part->dst_name
+                            )) ?>
+                        </td>
+                    <?php endforeach ?>
                 </tr>
-                </thead>
-                <?php foreach (array_chunk($typeParts, 2) as $parts): ?>
-                    <tr>
-                        <?php foreach ($parts as $part) : ?>
-                            <td style="width: 50%">
-                                <?= Html::activeHiddenInput($model, "ids[]", ['value' => $part->id]) ?>
-                                <?= $form->field($model, "sums[$part->id]")->textInput([
-                                    'placeholder' => Yii::t('hipanel:stock', 'Part price'),
-                                ])->label(sprintf(
-                                    '%s @ %s',
-                                    Html::a($part->title, ['@part/view', 'id' => $part->id], ['tabindex' => -1, 'target' => '_blank']),
-                                    $part->dst_name
-                                )) ?>
-                            </td>
-                        <?php endforeach ?>
-                    </tr>
-                <?php endforeach ?>
-            </table>
-        <?php endforeach ?>
+            <?php endforeach ?>
+        </table>
     <?php endforeach ?>
 
 </div>

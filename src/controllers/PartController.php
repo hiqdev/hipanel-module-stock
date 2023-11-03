@@ -581,6 +581,7 @@ class PartController extends CrudController
 
             return $this->redirect($request->referrer);
         }
+        /** @var Part[] $parts */
         $parts = $action->fetchModels();
         $partsByModelType = $this->sortByModelType($parts);
         $currencyOptions = $this->getCurrencyTypes();

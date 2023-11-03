@@ -203,7 +203,7 @@ JS
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="<?= $modelId ?>"><?= $modelLabel ?></label>
-                                <input type="number" class="form-control" id="<?= $modelId ?>"
+                                <input type="number" step="0.01" class="form-control" id="<?= $modelId ?>"
                                        placeholder="<?= Yii::t('hipanel:stock',
                                            'A price for all parts of this model') ?>">
                             </div>

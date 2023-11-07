@@ -18,13 +18,19 @@ use Yii;
 class ModelSearch extends Model
 {
     use SearchModelTrait {
-        searchAttributes as defaultSearchAttributes;
+        SearchModelTrait::searchAttributes as defaultSearchAttributes;
     }
 
     public function searchAttributes()
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
-            'group_like', 'filter_like', 'hide_unavailable', 'hide_group_assigned', 'partno_inilike', 'locations'
+            'group_like',
+            'filter_like',
+            'hide_unavailable',
+            'hide_group_assigned',
+            'partno_inilike',
+            'partno_leftlikei',
+            'locations',
         ]);
     }
 

@@ -37,6 +37,7 @@ class PartSearch extends Part
             'move_type_and_date',
             'rack', 'rack_in', 'rack_ilike',
             'last_move_ilike',
+            'partno_leftlikei',
         ]);
     }
 

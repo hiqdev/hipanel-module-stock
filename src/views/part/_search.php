@@ -8,6 +8,7 @@ use hipanel\modules\stock\widgets\combo\LocationsCombo;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
+use hipanel\modules\stock\widgets\StockLocationsListTreeSelect;
 use hipanel\widgets\AdvancedSearch;
 use hiqdev\combo\StaticCombo;
 use hipanel\widgets\RefCombo;
@@ -101,6 +102,10 @@ JS
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('place_in')->widget(LocationsCombo::class, ['multiple' => true]) ?>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field('stock_location_in')->widget(StockLocationsListTreeSelect::class) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">

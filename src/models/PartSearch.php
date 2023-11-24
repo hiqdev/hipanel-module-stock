@@ -38,6 +38,7 @@ class PartSearch extends Part
             'rack', 'rack_in', 'rack_ilike',
             'last_move_ilike',
             'partno_leftlikei',
+            'stock_location_in',
         ]);
     }
 
@@ -59,8 +60,9 @@ class PartSearch extends Part
             'device_location_like' => Yii::t('hipanel:stock', 'DC location'),
             'rack'              => Yii::t('hipanel:server', 'Rack'),
             'rack_in'           => Yii::t('hipanel:server', 'Rack'),
-            'first_move_ilike'   => Yii::t('hipanel:stock', 'First move'),
+            'first_move_ilike'  => Yii::t('hipanel:stock', 'First move'),
             'last_move_ilike'   => Yii::t('hipanel:stock', 'Last move'),
+            'stock_location_in' => Yii::t('hipanel:stock', 'Stock location'),
         ]);
     }
 }

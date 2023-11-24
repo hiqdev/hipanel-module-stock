@@ -35,7 +35,7 @@ JS
 
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('partno_leftlikei')->widget(PartnoCombo::class, [
+    <?= $search->field('partno_in')->widget(PartnoCombo::class, [
         'multiple' => true,
         'primaryFilter' => 'partno_leftlikei',
     ]) ?>

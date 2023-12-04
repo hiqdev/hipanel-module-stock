@@ -39,6 +39,7 @@ class PartSearch extends Part
             'last_move_ilike',
             'partno_leftlikei',
             'stock_location_in',
+            'stock_location_state',
         ]);
     }
 

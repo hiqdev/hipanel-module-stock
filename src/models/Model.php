@@ -13,9 +13,8 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\Model as YiiModel;
 use hipanel\base\ModelTrait;
+use hipanel\helpers\Url;
 use hipanel\modules\stock\grid\ModelGridLegend;
-use hipanel\modules\stock\models\query\ModelQuery;
-use hiqdev\hiart\ActiveQuery;
 use Yii;
 use yii\helpers\Html;
 
@@ -163,10 +162,25 @@ class Model extends YiiModel
         $legendItems = (new ModelGridLegend($this))->items();
         foreach ($legendItems as $state => $item) {
             if (!empty($this->counters[$dc][$state])) {
-                $out .= $item['prefix'] . Html::tag('b', Html::encode($this->counters[$dc][$state]), [
-                    'style' => "color: {$item['color']}",
-                    'title' => $item['label'],
-                ]);
+                $count = Html::tag('b',
+                    Html::encode($this->counters[$dc][$state]), [
+                        'style' => "color: {$item['color']}",
+                        'title' => $item['label'],
+                    ]
+                );
+
+                $perPage = $this->counters[$dc][$state] > 500
+                    ? 500
+                    : ceil($this->counters[$dc][$state] / 50) * 50;
+
+                $link = Html::a($count,
+                    Url::toSearch('part', [
+                        'model_id' => $this->id,
+                        'stock_location_in' => $dc,
+                        'stock_location_state' => $state,
+                    ], 'index', ['per_page' => $perPage]),
+                );
+                $out .= $item['prefix'] . $link;
             }
         }
 

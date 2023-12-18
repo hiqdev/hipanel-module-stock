@@ -103,6 +103,23 @@ class Model extends YiiModel
 
             // Create
             [['type', 'brand', 'model', 'partno'], 'required', 'on' => 'create'],
+            [
+                ['partno'],
+                function ($attribute) {
+                    $exists = self::batchPerform('search', [
+                        'partno' => $this->{$attribute},
+                        'count' => true,
+                        'show_deleted' => true,
+                    ]);
+                    if ($exists) {
+                        $this->addError(
+                            $attribute,
+                            Yii::t('hipanel:stock', "$attribute with that name already exists")
+                        );
+                    }
+                },
+                'on' => 'create'
+            ],
 
             // Update
             [['model', 'partno'], 'required', 'on' => 'update'],

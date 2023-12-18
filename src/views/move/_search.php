@@ -35,7 +35,7 @@ use hiqdev\yii2\daterangepicker\DateRangePicker;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('src_or_dst')->widget(SourceCombo::class) ?>
+    <?= $search->field('src_or_dst')->widget(SourceCombo::class, ['hasId' => true]) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">

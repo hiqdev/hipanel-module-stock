@@ -12,6 +12,7 @@
 namespace hipanel\modules\stock\models;
 
 use hipanel\base\ModelTrait;
+use hipanel\modules\stock\models\query\MoveQuery;
 use Yii;
 use yii\helpers\Html;
 
@@ -148,5 +149,10 @@ class Move extends \hipanel\base\Model
         $part->setAttributes($this->{$attribute}, false);
 
         return $part;
+    }
+
+    public static function find(): MoveQuery
+    {
+        return new MoveQuery(static::class);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Stock Module for Hipanel
  *
@@ -13,11 +15,12 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\base\SearchModelTrait;
 use hipanel\helpers\ArrayHelper;
+use Yii;
 
 class MoveSearch extends Move
 {
     use SearchModelTrait {
-        searchAttributes as defaultSearchAttributes;
+        SearchModelTrait::searchAttributes as defaultSearchAttributes;
     }
 
     public function searchAttributes()
@@ -28,6 +31,16 @@ class MoveSearch extends Move
             'name_like', // -> server_like
             'name_inilike',
             'partno_inilike',
+            'src_or_dst',
+            'time_till',
+            'time_from',
+        ]);
+    }
+
+    public function attributeLabels()
+    {
+        return $this->mergeAttributeLabels([
+            'src_or_dst' => Yii::t('hipanel:stock', 'Source or Destination'),
         ]);
     }
 }

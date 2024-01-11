@@ -1,7 +1,6 @@
 <?php
 
 use hipanel\modules\stock\models\HardwareSettings;
-use yii\bootstrap\Alert;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -38,12 +37,6 @@ use yii\widgets\ActiveForm;
                 <?php endforeach; ?>
             </div>
         <?php endforeach; ?>
-    <?php else : ?>
-        <?= Alert::widget([
-            'options' => ['class' => 'alert-warning text'],
-            'closeButton' => false,
-            'body' => Yii::t('hipanel:stock', 'there are no settings available for this object'),
-        ]) ?>
     <?php endif ?>
 <?php endforeach; ?>
 

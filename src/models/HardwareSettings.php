@@ -5,6 +5,10 @@ namespace hipanel\modules\stock\models;
 use hipanel\base\Model;
 use Yii;
 
+/**
+ *
+ * @property-read array $activeAttributes
+ */
 class HardwareSettings extends Model
 {
     public static function tableName(): string

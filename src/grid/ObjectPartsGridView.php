@@ -80,7 +80,7 @@ class ObjectPartsGridView extends BoxedGridView
                 'filter' => $this->dropdownFor('model_brand', 'model_brand_label'),
             ],
             'price' => [
-                'contentOptions' => ['style' => 'width: 10%'],
+                'contentOptions' => ['style' => 'width: 5%'],
                 'label' => Yii::t('hipanel:stock', 'Price'),
                 'attribute' => 'price',
                 'value' => fn(Part $part): ?string => !empty($part->price) ? $this->formatter->asCurrency($part->price,
@@ -113,6 +113,17 @@ class ObjectPartsGridView extends BoxedGridView
                 'value' => 'company',
                 'filter' => $this->dropdownFor('company'),
                 'visible' => $user->can('part.create'),
+            ],
+            'average_power_consumption' => [
+                'contentOptions' => ['style' => 'width: 5%'],
+                'label' => Yii::t('hipanel:stock', 'Estimated average power consumption in W'),
+                'value' => function (Part $part): string {
+                    if (isset($part->model->props['model:average_power_consumption'])) {
+                        return Yii::t('hipanel', '{0,number} W', $part->model->props['model:average_power_consumption']);
+                    }
+
+                    return '';
+                },
             ],
         ];
     }

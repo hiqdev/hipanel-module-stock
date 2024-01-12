@@ -35,6 +35,9 @@ use yii\widgets\DetailView;
     <div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>
 <?php else: ?>
     <?php foreach ($props as $type => $settings) : ?>
+        <?php if (empty($settings)) {
+            continue;
+        } ?>
         <?= Html::tag('h5', mb_strtoupper($type), ['class' => 'text-bold', 'style' => [
             'padding' => '8px',
             'border-bottom' => '2px solid #CCCCCC',

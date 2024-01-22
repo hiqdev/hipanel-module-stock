@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace hipanel\modules\stock\widgets;
 
 use hipanel\components\SettingsStorage;
+use hipanel\helpers\StringHelper;
 use hipanel\modules\stock\helpers\StockLocationsProvider;
 use hipanel\widgets\HookTrait;
 use hipanel\widgets\VueTreeSelectInput;
@@ -17,6 +18,12 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
     use HookTrait;
 
     public $name = 'stocks';
+
+    /**
+     * @var bool Whether to save selected locations to the storage
+     * When there is no underlying model, we can only save locations to the global storage.
+     */
+    public bool $useStorage = true;
 
     public function __construct(
         private readonly SettingsStorage $storage,
@@ -32,20 +39,30 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
      */
     public function init(): void
     {
-        $this->value = $this->provider->getLocations();
+        $this->useStorage = !$this->hasModel();
+        $this->value = $this->hasModel()
+            ? StringHelper::explode($this->model->{$this->attribute})
+            : $this->provider->getLocations();
+
         parent::init();
         $this->registerVueContainer();
     }
 
     public function run()
     {
-        $activeInput = Html::hiddenInput($this->name, null, [
+        $options = [
             'v-model' => 'value',
             'data' => [
                 'value' => $this->value,
                 'options' => Json::encode($this->buildOptions()),
+                'save-on-change' => $this->useStorage ? 1 : 0,
             ],
-        ]);
+        ];
+        if ($this->hasModel()) {
+            $activeInput = Html::activeHiddenInput($this->model, $this->attribute, $options);
+        } else {
+            $activeInput = Html::hiddenInput($this->name, null, $options);
+        }
 
         $this->view->registerCss(<<<CSS
 .vue-treeselect__option,
@@ -100,10 +117,15 @@ CSS);
                         data: {
                             value: container.find('input[type=hidden]').data('value'),
                             options: container.find('input[type=hidden]').data('options'),
+                            saveOnChange: container.find('input[type=hidden]').data('save-on-change'),
                             allowUpdate: false
                         },
                         methods: {
                           onChange: function(value) {
+                            if (!this.saveOnChange) {
+                              return;
+                            }
+
                             $.post('save-locations', {locations: value}).done(() => {
                               this.allowUpdate = true;
                             }).fail(function(err) {
@@ -112,6 +134,10 @@ CSS);
                             });
                           },
                           updateColumns: function () {
+                            if (!this.saveOnChange) {
+                              return;
+                            }
+
                             const allowUpdate = this.allowUpdate;
                             this.\$nextTick(function () {
                               if (allowUpdate) {

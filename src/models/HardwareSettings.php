@@ -19,7 +19,7 @@ class HardwareSettings extends Model
     public function rules(): array
     {
         return [
-            [['id'], 'integer', 'on' => ['set', 'get']],
+            [['id', 'average_power_consumption'], 'integer', 'on' => ['set', 'get']],
             [['model_type'], 'string', 'on' => ['set', 'get']],
             [['props'], 'safe'],
         ];
@@ -29,9 +29,9 @@ class HardwareSettings extends Model
     {
         return [
             'formfactor' => Yii::t('hipanel:stock', 'Form factor'),
+            'average_power_consumption' => Yii::t('hipanel:stock', 'Estimated average power consumption in W'),
         ];
     }
-
 
     public function scenarioActions(): array
     {

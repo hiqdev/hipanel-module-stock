@@ -1,7 +1,9 @@
 <?php
 
+use hipanel\modules\stock\models\HardwareSettings;
 use hipanel\modules\stock\widgets\HardwareSettingsButton;
 use hipanel\widgets\Box;
+use yii\base\UnknownPropertyException;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -44,9 +46,17 @@ use yii\widgets\DetailView;
             'margin-bottom' => '0px',
         ]]) ?>
         <?php $box->beginBody() ?>
+        <?php
+            try {
+                $hardwareSettings = new HardwareSettings($settings);
+            } catch (UnknownPropertyException $exception) {
+                $hardwareSettings = $settings;
+            }
+        ?>
         <?= DetailView::widget([
-            'model' => $settings,
-            'template' => '<tr><th{captionOptions} width="50%">{label}</th><td{contentOptions} width="50%" align="center">{value}</td></tr>'
+            'model' => $hardwareSettings,
+            'template' => '<tr><th{captionOptions} width="50%">{label}</th><td{contentOptions} width="50%" align="center">{value}</td></tr>',
+            'attributes' => array_keys($settings),
         ]) ?>
         <?php $box->endBody() ?>
     <?php endforeach ?>

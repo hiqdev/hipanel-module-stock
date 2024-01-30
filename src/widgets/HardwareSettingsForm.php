@@ -152,38 +152,23 @@ class HardwareSettingsForm extends Widget
     public function field(ActiveForm $form, string $type, string $attribute): string
     {
         $transform = static fn(string $attr): string => "props[$type][$attribute]";
-        switch ($attribute) {
-            case 'cores':
-            case 'threads':
-            case 'max_ram_size':
-            case 'ram_slots':
-            case 'cpu_sockets':
-                return $this->getInputNumber($form, $transform, $attribute);
-            case 'interface':
-                return $this->getInterface($form, $type, $transform, $attribute);
-            case 'formfactor':
-                return $this->getFormFactor($form, $type, $transform, $attribute);
-            case 'frequency':
-                return $this->getFrequency($form, $type, $transform, $attribute);
-            case 'ports_quantity':
-                return $this->getPortsQuantity($form, $type, $transform, $attribute);
-            case 'ports_speed':
-                return $this->getPortsSpeed($form, $type, $transform, $attribute);
-            case 'port_type':
-                return $this->getPortType($form, $type, $transform, $attribute);
-            case 'size':
-                return $this->getSize($form, $type, $transform, $attribute);
-            case 'type':
-                return $this->getType($form, $type, $transform, $attribute);
-            case 'units_qty':
-                return $this->getUnitsQty($form, $type, $transform, $attribute);
-            case '25_hdd_qty':
-                return $this->getHddQty25($form, $type, $transform, $attribute);
-            case '35_hdd_qty':
-                return $this->getHddQty35($form, $type, $transform, $attribute);
-            default:
-                return $this->getDefaultField($form, $type, $transform, $attribute);
-        }
+
+        return match ($attribute) {
+            'cores', 'threads', 'max_ram_size', 'ram_slots', 'cpu_sockets' => $this->getInputNumber($form, $transform, $attribute),
+            'average_power_consumption' => $this->getInputNumber($form, $transform, $attribute, ['step' => 0.001]),
+            'interface' => $this->getInterface($form, $type, $transform, $attribute),
+            'formfactor' => $this->getFormFactor($form, $type, $transform, $attribute),
+            'frequency' => $this->getFrequency($form, $type, $transform, $attribute),
+            'ports_quantity' => $this->getPortsQuantity($form, $type, $transform, $attribute),
+            'ports_speed' => $this->getPortsSpeed($form, $type, $transform, $attribute),
+            'port_type' => $this->getPortType($form, $type, $transform, $attribute),
+            'size' => $this->getSize($form, $type, $transform, $attribute),
+            'type' => $this->getType($form, $type, $transform, $attribute),
+            'units_qty' => $this->getUnitsQty($form, $type, $transform, $attribute),
+            '25_hdd_qty' => $this->getHddQty25($form, $type, $transform, $attribute),
+            '35_hdd_qty' => $this->getHddQty35($form, $type, $transform, $attribute),
+            default => $this->getDefaultField($form, $type, $transform, $attribute),
+        };
     }
 
     private function getDefaultField(ActiveForm $form, string $type, \Closure $transform, string $attribute): ActiveField
@@ -199,9 +184,9 @@ class HardwareSettingsForm extends Widget
             return $form->field($this->model, $transform($attribute))
                 ->dropDownList(self::FORM_FACTOR[$type], ['prompt' => '--'])
                 ->label($this->model->getAttributeLabel($attribute));
-        } else {
-            return  $this->getDefaultField($form, $type, $transform, $attribute);
         }
+
+        return  $this->getDefaultField($form, $type, $transform, $attribute);
     }
 
     private function getFrequency(ActiveForm $form, string $type, \Closure $transform, string $attribute): ActiveField
@@ -226,10 +211,10 @@ class HardwareSettingsForm extends Widget
         }
     }
 
-    private function getInputNumber(ActiveForm $form, \Closure $transform, string $attribute): ActiveField
+    private function getInputNumber(ActiveForm $form, \Closure $transform, string $attribute, array $inputOptions = []): ActiveField
     {
         return $form->field($this->model, $transform($attribute))
-            ->input('number')
+            ->input('number', $inputOptions)
             ->label($this->model->getAttributeLabel($attribute));
     }
 
@@ -281,9 +266,9 @@ class HardwareSettingsForm extends Widget
                     ]
                 )
                 ->label($this->model->getAttributeLabel($attribute));
-        } else {
-            return $this->getDefaultField($form, $type, $transform, $attribute);
         }
+
+        return $this->getDefaultField($form, $type, $transform, $attribute);
     }
 
     private function getPortsSpeed(ActiveForm $form, string $type, \Closure $transform, string $attribute): ActiveField
@@ -305,9 +290,9 @@ class HardwareSettingsForm extends Widget
                     ]
                 )
                 ->label($this->model->getAttributeLabel($attribute));
-        } else {
-            return $this->getDefaultField($form, $type, $transform, $attribute);
         }
+
+        return $this->getDefaultField($form, $type, $transform, $attribute);
     }
 
     private function getPortType(ActiveForm $form, string $type, \Closure $transform, string $attribute): ActiveField
@@ -330,9 +315,9 @@ class HardwareSettingsForm extends Widget
                     ]
                 )
                 ->label($this->model->getAttributeLabel($attribute));
-        } else {
-            return $this->getDefaultField($form, $type, $transform, $attribute);
         }
+
+        return $this->getDefaultField($form, $type, $transform, $attribute);
     }
 
     private function getSize(ActiveForm $form, string $type, \Closure $transform, string $attribute): ActiveField
@@ -341,9 +326,9 @@ class HardwareSettingsForm extends Widget
             return $form->field($this->model, $transform($attribute))
                 ->dropDownList(self::TYPES[$type], ['prompt' => '--'])
                 ->label($this->model->getAttributeLabel($attribute));
-        } else {
-            return  $this->getDefaultField($form, $type, $transform, $attribute);
         }
+
+        return  $this->getDefaultField($form, $type, $transform, $attribute);
     }
 
     private function getType(ActiveForm $form, string $type, \Closure $transform, string $attribute): ActiveField
@@ -361,9 +346,9 @@ class HardwareSettingsForm extends Widget
                     ]
                 )
                 ->label($this->model->getAttributeLabel($attribute));
-        } else {
-            return $this->getDefaultField($form, $type, $transform, $attribute);
         }
+
+        return $this->getDefaultField($form, $type, $transform, $attribute);
     }
 
     private function getUnitsQty(ActiveForm $form, string $type, \Closure $transform, string $attribute): ActiveField
@@ -372,8 +357,8 @@ class HardwareSettingsForm extends Widget
             return $form->field($this->model, $transform($attribute))
                 ->dropDownList(self::UNITS_QTY[$type], ['prompt' => '--'])
                 ->label($this->model->getAttributeLabel($attribute));
-        } else {
-            return  $this->getDefaultField($form, $type, $transform, $attribute);
         }
+
+        return  $this->getDefaultField($form, $type, $transform, $attribute);
     }
 }

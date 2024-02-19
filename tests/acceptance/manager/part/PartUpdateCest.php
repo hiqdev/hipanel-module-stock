@@ -1,6 +1,6 @@
 <?php
 
-namespace hipanel\modules\stock\tests\acceptance\manager;
+namespace hipanel\modules\stock\tests\acceptance\manager\part;
 
 use Codeception\Example;
 use hipanel\helpers\Url;
@@ -10,7 +10,7 @@ use hipanel\modules\stock\tests\_support\Page\part\Update;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 
-class PartsUpdatingCest
+class PartUpdateCest
 {
     /**
      * Create new part, update price and check result

@@ -26,6 +26,7 @@ class SellModalWindow extends Authenticated
 
         (new Input($I, $base . 'textarea[id$=description]'))
             ->setValue($sellData['descr']);
+
         $this->fillPartsPriceFields($sellData['prices']);
     }
 
@@ -36,7 +37,7 @@ class SellModalWindow extends Authenticated
     {
         $this->tester->executeJS(<<<JS
             var partQty = arguments[0];
-            var selector = 'div[class$=sell] div.row input[type=text][id^=partsell]';
+            var selector = 'div[class$=sell] input[type=text][id^=partsell]';
             document.querySelectorAll(selector).forEach(function(part, i) {
                 part.value = partQty[i];
                 $(part).trigger('mouseup');

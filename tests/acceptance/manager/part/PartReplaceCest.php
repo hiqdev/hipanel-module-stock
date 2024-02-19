@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace hipanel\modules\stock\tests\acceptance\manager;
+namespace hipanel\modules\stock\tests\acceptance\manager\part;
 
 use Codeception\Example;
 use hipanel\helpers\Url;
@@ -22,9 +22,9 @@ final class PartReplaceCest
     /**
      * @dataProvider getReplaceData
      */
-    public function ensureIndexPageWorks(Manager $I, Example $data): void
+    public function ensureReplaceParts(Manager $I, Example $data): void
     {
-        $I->needPage(Url::to('@part/index'));
+        $I->needPage(Url::to('@part/index?representation=common'));
 
         $this->selectPartsToReplace($I, $data);
         $this->replaceParts($I, $data);

@@ -86,6 +86,7 @@ class Part extends \hipanel\base\Model
                     'order_name',
                     'company',
                     'device_location',
+                    'warranty_till',
                 ],
                 'safe',
             ],

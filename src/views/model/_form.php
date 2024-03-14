@@ -63,6 +63,7 @@ JS
         'short',
         'descr',
         'url',
+        'warranty_months',
     ],
 ]) ?>
 <div class="container-items"><!-- widgetContainer -->
@@ -105,8 +106,18 @@ JS
                                 (!$model->isNewRecord && $model->scenario != Model::SCENARIO_COPY) ? ['disabled' => 'disabled'] : ['prompt' => '--']) ?>
                         </div>
                     </div>
-                    <?= $form->field($model, "[$i]group_id")->widget(ModelGroupCombo::class) ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <?= $form->field($model, "[$i]group_id")->widget(ModelGroupCombo::class) ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field($model, "[$i]warranty_months") ?>
+                        </div>
+                    </div>
                     <?= $form->field($model, "[$i]short")->textarea() ?>
+                    <?php if (!$model->isNewRecord) : ?>
+                        <?= $form->field($model, "[$i]warranty_in_all_part")->checkbox() ?>
+                    <?php endif; ?>
                 </div>
                 <div class="col-md-4">
                     <div class="row">

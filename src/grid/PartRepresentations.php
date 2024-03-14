@@ -17,7 +17,7 @@ class PartRepresentations extends RepresentationCollection
                 'columns' => array_filter([
                     'checkbox',
                     'model_type', 'model_brand', 'model', 'partno', 'serial',
-                    'last_move', 'move_type_and_date', 'device_location',
+                    'last_move', 'move_type_and_date', 'device_location', 'warranty_till',
                     $user->can('move.read') ? 'move_descr' : null,
                     $user->can('order.read') ? 'order_name' : null,
                     $user->can('order.read') ? 'company_id' : null,

@@ -9,7 +9,7 @@ class PartSellForm extends Part
 {
     public function attributes()
     {
-        return array_merge(parent::attributes(), ['contact_id', 'time', 'sums', 'client_id', 'description', 'ids', 'bill_id']);
+        return array_merge(parent::attributes(), ['contact_id', 'time', 'sums', 'client_id', 'description', 'ids', 'bill_id', 'reason']);
     }
 
     public function rules()
@@ -22,6 +22,7 @@ class PartSellForm extends Part
             [['ids'], 'each', 'rule' => ['integer']],
             [['sums'], 'each', 'rule' => ['required']],
             [['sums'], 'each', 'rule' => ['number']],
+            [['reason'], 'number'],
         ]);
     }
 
@@ -32,6 +33,7 @@ class PartSellForm extends Part
             'contact_id' => Yii::t('hipanel', 'Contact'),
             'description' => Yii::t('hipanel', 'Description'),
             'bill_id' => Yii::t('hipanel', 'Bill'),
+            'reason' => Yii::t('hipanel', 'Ticket'),
         ]);
     }
 

@@ -14,7 +14,7 @@ class PartSellByPlanForm extends Part
 
     public function attributes()
     {
-        return array_merge(parent::attributes(), ['contact_id', 'client_id', 'time', 'description', 'ids', 'plan_id']);
+        return array_merge(parent::attributes(), ['contact_id', 'client_id', 'time', 'description', 'ids', 'plan_id', 'reason']);
     }
 
     public function rules()
@@ -24,6 +24,7 @@ class PartSellByPlanForm extends Part
             [['plan_id'], 'integer'],
             [['client_id', 'contact_id'], 'integer'],
             [['description'], 'string'],
+            [['ticket_id'], 'integer'],
             [['ids'], 'each', 'rule' => ['integer']],
         ]);
     }
@@ -35,6 +36,7 @@ class PartSellByPlanForm extends Part
             'plan_id' => Yii::t('hipanel:stock', 'Tariff plan'),
             'contact_id' => Yii::t('hipanel', 'Contact'),
             'description' => Yii::t('hipanel', 'Description'),
+            'reason' => Yii::t('hipanel', 'Ticket'),
         ]);
     }
 

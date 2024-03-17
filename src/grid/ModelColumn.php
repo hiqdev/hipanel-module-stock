@@ -40,7 +40,7 @@ class ModelColumn extends MainColumn
         $diffTime = date_diff(new DateTimeImmutable(), new DateTimeImmutable($model->warranty_till));
         $diff = (int)$diffTime->format('%y') * 12 + (int)$diffTime->format('%m');
         $diff = ($diffTime->invert === 1) ? $diff * -1 : $diff;
-        $diff = ($diff < 0) ? 'X' : $diff;
+        $diff = ($diff <= 0) ? 'X' : $diff;
         $color = 'info';
         if ($diff <= 6) {
             $color = 'warning';

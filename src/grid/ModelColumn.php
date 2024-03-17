@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace hipanel\modules\stock\grid;
 
 use DateTimeImmutable;
 use hipanel\grid\MainColumn;
-use hipanel\modules\stock\models\Model;
+use hipanel\modules\stock\models\Part;
 use hipanel\widgets\Label;
 use yii\helpers\Html;
 use Yii;
@@ -21,7 +23,7 @@ class ModelColumn extends MainColumn
     
     private function prepareValue(): void
     {
-        $this->value = function ($model): string {
+        $this->value = function (Part $model): string {
             $modelLabel = Html::encode($model->model_label);
             if (Yii::$app->user->can('model.read')) {
                 $modelLabel = Html::a($modelLabel, ['@model/view', 'id' => $model->model_id]);
@@ -33,7 +35,7 @@ class ModelColumn extends MainColumn
         };
     }
 
-    private function getWarrantyLabel($model): string
+    private function getWarrantyLabel(Part $model): string
     {
         $diffTime = date_diff(new DateTimeImmutable(), new DateTimeImmutable($model->warranty_till));
         $diff = (int)$diffTime->format('%y') * 12 + (int)$diffTime->format('%m');

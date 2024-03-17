@@ -144,6 +144,7 @@ class Model extends YiiModel
             'group_id' => Yii::t('hipanel:stock', 'Group'),
             'is_favorite' => Yii::t('hipanel:stock', 'Is favorite'),
             'warranty_months' => Yii::t('hipanel:stock', 'Warranty months'),
+            'warranty_in_all_part' => Yii::t('hipanel:stock', 'Warranty in all parts'),
             // Chassis
             'UNITS_QTY' => Yii::t('hipanel:stock', 'Units'),
             '35_HDD_QTY' => Yii::t('hipanel:stock', '3.5" HDD'),

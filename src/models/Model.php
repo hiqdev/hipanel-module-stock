@@ -94,7 +94,7 @@ class Model extends YiiModel
                 ],
                 'safe',
             ],
-            [['is_favorite', 'show_deleted', 'warranty_in_all_part'], 'boolean'],
+            [['is_favorite', 'show_deleted', 'set_warranty_till_in_exising_parts'], 'boolean'],
             [['id', 'type_id', 'tariff_id', 'group_id', 'warranty_months'], 'integer'],
 
             // Delete
@@ -144,7 +144,7 @@ class Model extends YiiModel
             'group_id' => Yii::t('hipanel:stock', 'Group'),
             'is_favorite' => Yii::t('hipanel:stock', 'Is favorite'),
             'warranty_months' => Yii::t('hipanel:stock', 'Warranty months'),
-            'warranty_in_all_part' => Yii::t('hipanel:stock', 'Warranty in all parts'),
+            'set_warranty_till_in_exising_parts' => Yii::t('hipanel:stock', 'Set warranty till in exising parts'),
             // Chassis
             'UNITS_QTY' => Yii::t('hipanel:stock', 'Units'),
             '35_HDD_QTY' => Yii::t('hipanel:stock', '3.5" HDD'),

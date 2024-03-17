@@ -116,7 +116,7 @@ JS
                     </div>
                     <?= $form->field($model, "[$i]short")->textarea() ?>
                     <?php if (!$model->isNewRecord) : ?>
-                        <?= $form->field($model, "[$i]warranty_in_all_part")->checkbox() ?>
+                        <?= $form->field($model, "[$i]set_warranty_till_in_exising_parts")->checkbox() ?>
                     <?php endif; ?>
                 </div>
                 <div class="col-md-4">

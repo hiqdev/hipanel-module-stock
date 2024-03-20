@@ -16,6 +16,7 @@ use hipanel\grid\BoxedGridView;
 use hipanel\grid\CurrencyColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\client\grid\ClientColumn;
+use hipanel\modules\stock\grid\ModelColumn;
 use hipanel\modules\stock\helpers\ProfitColumns;
 use hipanel\modules\stock\models\Move;
 use hipanel\modules\stock\models\Part;
@@ -94,17 +95,9 @@ class PartGridView extends BoxedGridView
                 ],
             ],
             'model' => [
-                'attribute' => 'model',
+                'class' => ModelColumn::class,
                 'format' => 'raw',
                 'label' => Yii::t('hipanel:stock', 'Model'),
-                'value' => function ($model) {
-                    $modelLabel = Html::encode($model->model_label);
-                    if (Yii::$app->user->can('model.read')) {
-                        return Html::a($modelLabel, ['@model/view', 'id' => $model->model_id]);
-                    }
-
-                    return $modelLabel;
-                },
             ],
             'model_type' => [
                 'class' => RefColumn::class,
@@ -115,6 +108,9 @@ class PartGridView extends BoxedGridView
                 'value' => function ($model) {
                     return $model->model_type_label;
                 },
+            ],
+            'warranty_till' => [
+
             ],
             'model_type_label' => [
                 'class' => RefColumn::class,

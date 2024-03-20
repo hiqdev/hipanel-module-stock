@@ -8,6 +8,7 @@ use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hipanel\widgets\AmountWithCurrency;
 use hipanel\widgets\Box;
+use hipanel\widgets\DateTimePicker;
 use hipanel\widgets\DynamicFormCopyButton;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
@@ -48,6 +49,7 @@ use yii\helpers\Url;
         'price',
         'currency',
         'company_id',
+        'warranty_till',
     ] : [
         'model_id',
         'dst_name',
@@ -55,6 +57,7 @@ use yii\helpers\Url;
         'company_id',
         'price',
         'currency',
+        'warranty_till',
     ],
 ]) ?>
 
@@ -94,6 +97,13 @@ use yii\helpers\Url;
                                 'multiple' => true,
                             ]) ?>
                         <?php endif; ?>
+                        <?= $form->field($model, "[$i]warranty_till")->widget(DateTimePicker::class, [
+                            'clientOptions' => [
+                                'format' => 'yyyy-mm-dd',
+                                'minView' => 2,
+                                'todayHighlight' => true,
+                            ],
+                        ]) ?>
                     </div>
                     <div class="col-md-6">
                         <div class="row">
@@ -118,26 +128,39 @@ use yii\helpers\Url;
                         </div>
                     </div>
                 <?php else : ?>
-                    <div class="col-md-3">
-                        <?= $form->field($model, "[$i]model_id")->widget(ModelCombo::class) ?>
+                    <div class="col-md-12">
+                        <div class="col-md-6">
+                            <?= $form->field($model, "[$i]model_id")->widget(ModelCombo::class) ?>
+                        </div>
+                        <div class="col-md-3">
+                            <?= $form->field($model, "[$i]dst_name")->textInput(['disabled' => true])->label(Yii::t('hipanel:stock', 'Location')) ?>
+                        </div>
+                        <div class="col-md-3">
+                            <?= $form->field($model, "[$i]serial") ?>
+                        </div>
                     </div>
-                    <div class="col-md-2">
-                        <?= $form->field($model, "[$i]dst_name")->textInput(['disabled' => true])->label(Yii::t('hipanel:stock', 'Location')) ?>
-                    </div>
-                    <div class="col-md-2">
-                        <?= $form->field($model, "[$i]serial") ?>
-                    </div>
-                    <div class="col-md-2">
-                        <?= $form->field($model, "[$i]company_id")->widget(CompanyCombo::class) ?>
-                    </div>
-                    <div class="col-md-3 <?= AmountWithCurrency::$widgetClass ?>">
-                        <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
-                            'currencyAttributeName' => "[$i]currency",
-                            'currencyAttributeOptions' => [
-                                'items' => $currencyTypes,
-                            ],
-                        ]) ?>
-                        <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput() ?>
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <?= $form->field($model, "[$i]warranty_till")->widget(DateTimePicker::class, [
+                                'clientOptions' => [
+                                    'format' => 'yyyy-mm-dd',
+                                    'minView' => 2,
+                                    'todayHighlight' => true,
+                                ],
+                            ]) ?>
+                        </div>
+                        <div class="col-md-3">
+                            <?= $form->field($model, "[$i]company_id")->widget(CompanyCombo::class) ?>
+                        </div>
+                        <div class="col-md-6 <?= AmountWithCurrency::$widgetClass ?>">
+                            <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
+                                'currencyAttributeName' => "[$i]currency",
+                                'currencyAttributeOptions' => [
+                                    'items' => $currencyTypes,
+                                ],
+                            ]) ?>
+                            <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput() ?>
+                        </div>
                     </div>
                     <div class="col-md-12">
                         <?= $form->field($model, "[$i]move_descr") ?>

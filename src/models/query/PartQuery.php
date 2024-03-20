@@ -11,7 +11,7 @@ class PartQuery extends ActiveQuery
     public function withSale(): self
     {
         $this->joinWith('sale');
-        $this->addSelect(['with_sale']);
+        $this->addSelect(['sale']);
 
         return $this;
     }

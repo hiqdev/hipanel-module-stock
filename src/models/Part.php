@@ -15,6 +15,7 @@ use hipanel\base\ModelTrait;
 use hipanel\helpers\ArrayHelper;
 use hipanel\helpers\StringHelper;
 use hipanel\models\Ref;
+use hipanel\modules\finance\models\Sale;
 use Yii;
 
 /**
@@ -89,6 +90,7 @@ class Part extends \hipanel\base\Model
                 ],
                 'safe',
             ],
+            [['sale_id'], 'integer'],
             [['dst_name_in', 'src_name_in'], 'filter', 'filter' => 'trim', 'on' => 'search'],
             [
                 ['dst_name_in', 'src_name_in'],
@@ -277,6 +279,11 @@ class Part extends \hipanel\base\Model
     public function getProfit()
     {
         return $this->hasMany(PartWithProfit::class, ['id' => 'id'])->indexBy('currency');
+    }
+
+    public function getSale()
+    {
+        return $this->hasOne(Sale::class, ['id' => 'object_id']);
     }
 
     /**

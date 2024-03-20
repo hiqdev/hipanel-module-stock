@@ -243,7 +243,7 @@ class PartController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith('model');
+                    $dataProvider->query->joinWith(['model', 'sale']);
                     $dataProvider->query->andWhere(['show_deleted' => true]);
                 },
                 'data' => function ($action) {

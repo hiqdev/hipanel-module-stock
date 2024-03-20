@@ -334,6 +334,15 @@ class PartGridView extends BoxedGridView
                     return implode('', [$move, $descr]);
                 },
             ],
+            'sale' => [
+                'attribute' => 'sale',
+                'label' => Yii::t('hipanel:stock', 'Sale'),
+                'format' => 'raw',
+                'visible' => Yii::$app->user->can('order.read') && Yii::$app->user->can('owner-staff'),
+                'value' => function (Part $part): string {
+                    return Html::a($this->formatter->asDatetime($part->sale->time), ['@sale/view', 'id' => $part->sale_id], ['target' => '_blank']);
+                }
+            ],
         ]);
     }
 

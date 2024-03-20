@@ -16,6 +16,8 @@ use hipanel\helpers\ArrayHelper;
 use hipanel\helpers\StringHelper;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Sale;
+use hipanel\modules\stock\models\query\PartQuery;
+use hiqdev\hiart\ActiveQuery;
 use Yii;
 
 /**
@@ -23,6 +25,9 @@ use Yii;
  *
  * @property Model $model
  * @property string $currency
+ * @property-read array $extractedSerials
+ * @property-read mixed $title
+ * @property-read ActiveQuery $sale
  * @property-read PartWithProfit[] $profit
  */
 class Part extends \hipanel\base\Model
@@ -276,12 +281,12 @@ class Part extends \hipanel\base\Model
         return $this->first_move_id === $this->last_move_id;
     }
 
-    public function getProfit()
+    public function getProfit(): ActiveQuery
     {
         return $this->hasMany(PartWithProfit::class, ['id' => 'id'])->indexBy('currency');
     }
 
-    public function getSale()
+    public function getSale(): ActiveQuery
     {
         return $this->hasOne(Sale::class, ['id' => 'object_id']);
     }
@@ -356,5 +361,10 @@ class Part extends \hipanel\base\Model
     public function getExtractedSerials(): array
     {
         return preg_split("/[\s,;]+/", $this->serials ?? []);
+    }
+
+    public static function find(): PartQuery
+    {
+        return new PartQuery(static::class);
     }
 }

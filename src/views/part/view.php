@@ -67,6 +67,7 @@ $this->params['breadcrumbs'][] = Yii::t('hipanel', $this->title);
                                     'company',
                                     'reserve',
                                     'first_move',
+                                    'sale',
                                 ],
                             ]) ?>
                         </div>

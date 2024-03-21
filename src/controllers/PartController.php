@@ -37,6 +37,7 @@ use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\models\PartSearch;
+use hipanel\modules\stock\models\query\PartQuery;
 use hipanel\widgets\SynchronousCountEnabler;
 use hipanel\widgets\SummaryWidget;
 use hiqdev\hiart\ActiveQuery;
@@ -243,8 +244,12 @@ class PartController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith('model');
-                    $dataProvider->query->andWhere(['show_deleted' => true]);
+                    /** @var PartQuery $query */
+                    $query = $dataProvider->query;
+                    $query
+                        ->joinWith('model')
+                        ->withSale()
+                        ->andWhere(['show_deleted' => true]);
                 },
                 'data' => function ($action) {
                     $moveSearch = new MoveSearch();

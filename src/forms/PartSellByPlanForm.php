@@ -36,7 +36,7 @@ class PartSellByPlanForm extends Part
             'plan_id' => Yii::t('hipanel:stock', 'Tariff plan'),
             'contact_id' => Yii::t('hipanel', 'Contact'),
             'description' => Yii::t('hipanel', 'Description'),
-            'reason' => Yii::t('hipanel', 'Ticket'),
+            'reason' => Yii::t('hipanel', 'Reason'),
         ]);
     }
 

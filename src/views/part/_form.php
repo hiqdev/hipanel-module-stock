@@ -14,11 +14,26 @@ use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\web\View;
 
 /**
  * @var Part $model
  * @var array $currencyTypes
  */
+
+$this->registerJs(/** @lang JavaScript */ <<<JS
+(() => {
+  $(document).on("select2:select", "[id$='partno']", function (event) {
+    const datetimePlugin = $(event.target).parents(".item").find("[id$='warranty_till']").parent().data('datetimepicker');
+    const { warranty_months } = event.params.data;
+    if (warranty_months) {
+      datetimePlugin.setDate(moment().add(3, 'months').toDate());
+    }
+  });
+})();
+JS
+    ,
+    View::POS_LOAD);
 
 ?>
 <?php $form = ActiveForm::begin([
@@ -91,7 +106,9 @@ use yii\helpers\Url;
                         <?php if ($model->dst_id) : ?>
                             <?= $form->field($model, "[$i]dst_id")->widget(PartDestinationCombo::class, ['name' => 'dst_id']) ?>
                         <?php else : ?>
-                            <?= $form->field($model, "[$i]dst_ids", ['options' => ['class' => 'required']])->widget(PartDestinationCombo::class, [
+                            <?= $form->field($model,
+                                "[$i]dst_ids",
+                                ['options' => ['class' => 'required']])->widget(PartDestinationCombo::class, [
                                 'primaryFilter' => 'name_inilike',
                                 'hasId' => true,
                                 'multiple' => true,
@@ -108,7 +125,8 @@ use yii\helpers\Url;
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-md-12">
-                                <?= $form->field($model, "[$i]serials")->hint(Yii::t('hipanel:stock', 'In order to use the automatic serials generation, the field should look like: <samp>[number of generated serials]_</samp>')) ?>
+                                <?= $form->field($model, "[$i]serials")->hint(Yii::t('hipanel:stock',
+                                    'In order to use the automatic serials generation, the field should look like: <samp>[number of generated serials]_</samp>')) ?>
                             </div>
                             <div class="col-md-12">
                                 <?= $form->field($model, "[$i]move_descr") ?>
@@ -120,7 +138,9 @@ use yii\helpers\Url;
                                         'items' => $this->context->getCurrencyTypes(),
                                     ],
                                 ]) ?>
-                                <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput(['data-amount-with-currency' => 'currency']) ?>
+                                <?= $form->field($model,
+                                    "[$i]currency",
+                                    ['template' => '{input}{error}'])->hiddenInput(['data-amount-with-currency' => 'currency']) ?>
                             </div>
                             <div class="col-md-6">
                                 <?= $form->field($model, "[$i]company_id")->widget(CompanyCombo::class) ?>
@@ -129,37 +149,42 @@ use yii\helpers\Url;
                     </div>
                 <?php else : ?>
                     <div class="col-md-12">
-                        <div class="col-md-6">
-                            <?= $form->field($model, "[$i]model_id")->widget(ModelCombo::class) ?>
-                        </div>
-                        <div class="col-md-3">
-                            <?= $form->field($model, "[$i]dst_name")->textInput(['disabled' => true])->label(Yii::t('hipanel:stock', 'Location')) ?>
-                        </div>
-                        <div class="col-md-3">
-                            <?= $form->field($model, "[$i]serial") ?>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <?= $form->field($model, "[$i]model_id")->widget(ModelCombo::class) ?>
+                            </div>
+                            <div class="col-md-3">
+                                <?= $form->field($model, "[$i]dst_name")->textInput(['disabled' => true])->label(Yii::t('hipanel:stock',
+                                    'Location')) ?>
+                            </div>
+                            <div class="col-md-3">
+                                <?= $form->field($model, "[$i]serial") ?>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <div class="col-md-3">
-                            <?= $form->field($model, "[$i]warranty_till")->widget(DateTimePicker::class, [
-                                'clientOptions' => [
-                                    'format' => 'yyyy-mm-dd',
-                                    'minView' => 2,
-                                    'todayHighlight' => true,
-                                ],
-                            ]) ?>
-                        </div>
-                        <div class="col-md-3">
-                            <?= $form->field($model, "[$i]company_id")->widget(CompanyCombo::class) ?>
-                        </div>
-                        <div class="col-md-6 <?= AmountWithCurrency::$widgetClass ?>">
-                            <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
-                                'currencyAttributeName' => "[$i]currency",
-                                'currencyAttributeOptions' => [
-                                    'items' => $currencyTypes,
-                                ],
-                            ]) ?>
-                            <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput() ?>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <?= $form->field($model, "[$i]warranty_till")->widget(DateTimePicker::class, [
+                                    'clientOptions' => [
+                                        'format' => 'yyyy-mm-dd',
+                                        'minView' => 2,
+                                        'todayHighlight' => true,
+                                    ],
+                                ]) ?>
+                            </div>
+                            <div class="col-md-3">
+                                <?= $form->field($model, "[$i]company_id")->widget(CompanyCombo::class) ?>
+                            </div>
+                            <div class="col-md-6 <?= AmountWithCurrency::$widgetClass ?>">
+                                <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
+                                    'currencyAttributeName' => "[$i]currency",
+                                    'currencyAttributeOptions' => [
+                                        'items' => $currencyTypes,
+                                    ],
+                                ]) ?>
+                                <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput() ?>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-12">

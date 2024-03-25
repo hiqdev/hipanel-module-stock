@@ -25,7 +25,7 @@ class PartnoCombo extends Combo
     public $url = '/stock/model/index';
 
     /** {@inheritdoc} */
-    public $_return = ['id'];
+    public $_return = ['id', 'warranty_months'];
 
     /** {@inheritdoc} */
     public $_rename = ['text' => 'partno'];

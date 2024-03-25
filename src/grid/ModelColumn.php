@@ -13,16 +13,9 @@ use Yii;
 
 class ModelColumn extends MainColumn
 {
-    public function init()
+    public function init(): void
     {
         parent::init();
-
-        $this->attribute = 'model';
-        $this->prepareValue();
-    }
-    
-    private function prepareValue(): void
-    {
         $this->value = function (Part $model): string {
             $modelLabel = Html::encode($model->model_label);
             if (Yii::$app->user->can('model.read')) {
@@ -31,6 +24,7 @@ class ModelColumn extends MainColumn
             if (isset($model->warranty_till)) {
                 $modelLabel .= $this->getWarrantyLabel($model);
             }
+
             return $modelLabel;
         };
     }
@@ -48,6 +42,7 @@ class ModelColumn extends MainColumn
         if (!is_numeric($diff)) {
             $color = 'danger';
         }
+
         return Label::widget(['label' => $diff, 'tag' => 'sup', 'color' => $color]);
     }
 }

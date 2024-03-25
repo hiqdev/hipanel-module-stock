@@ -9,6 +9,7 @@ use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\StockLocationsListTreeSelect;
+use hipanel\modules\stock\widgets\WarrantyMonthsRangeInput;
 use hipanel\widgets\AdvancedSearch;
 use hiqdev\combo\StaticCombo;
 use hipanel\widgets\RefCombo;
@@ -171,6 +172,10 @@ JS
 
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('order_name_ilike') ?>
+    </div>
+
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('warranty_till')->widget(WarrantyMonthsRangeInput::class) ?>
     </div>
 <?php endif ?>
 

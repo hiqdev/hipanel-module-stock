@@ -82,7 +82,7 @@ CSS);
                   :multiple="true"
                   value-consists-of="BRANCH_PRIORITY"
                   delimiter=","
-                  auto-select-ancestors="true"
+                  :auto-select-ancestors="true"
                   :clearable="false"
                   :allow-selecting-disabled-descendants="true"
                   search-nested

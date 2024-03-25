@@ -27,7 +27,7 @@ $this->registerJs(/** @lang JavaScript */ <<<JS
     const datetimePlugin = $(event.target).parents(".item").find("[id$='warranty_till']").parent().data('datetimepicker');
     const { warranty_months } = event.params.data;
     if (warranty_months) {
-      datetimePlugin.setDate(moment().add(3, 'months').toDate());
+      datetimePlugin.setDate(moment().add(warranty_months, 'months').toDate());
     }
   });
 })();

@@ -35,7 +35,7 @@ class WarrantyMonthsRangeInput extends InputWidget
               const from = fromInput.val();
               const till = tillInput.val();
               const value = [from, till];
-             \$("#$inputId").val(value.join(",", value));
+             \$("#$inputId").val(value.join(","));
             });
           })();
 

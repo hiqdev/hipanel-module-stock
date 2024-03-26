@@ -24,7 +24,7 @@ class PartSellByPlanForm extends Part
             [['plan_id'], 'integer'],
             [['client_id', 'contact_id'], 'integer'],
             [['description'], 'string'],
-            [['ticket_id'], 'integer'],
+            [['reason'], 'string'],
             [['ids'], 'each', 'rule' => ['integer']],
         ]);
     }

@@ -18,7 +18,7 @@ use Yii;
 class PartSearch extends Part
 {
     use SearchModelTrait {
-        searchAttributes as defaultSearchAttributes;
+        SearchModelTrait::searchAttributes as defaultSearchAttributes;
     }
 
     public function searchAttributes()

@@ -161,6 +161,9 @@ JS
     <div class="col-md-6">
         <?= $form->field($model, 'currency')->dropDownList($currencyOptions) ?>
     </div>
+    <div class="col-md-6">
+        <?= $form->field($model, 'reason') ?>
+    </div>
     <div class="col-md-12">
         <?= $form->field($model, 'description')->textarea(['rows' => 3]) ?>
     </div>

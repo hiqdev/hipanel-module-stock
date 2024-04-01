@@ -18,7 +18,7 @@ class ProfitColumns
 {
     protected static $chargeTypes = [
         'rent'      => 'hardware',
-        'leasing'   => 'leasing',
+        'installment' => ['leasing', 'installment'],
         'buyout'    => 'hw_purchase',
         'rack'      => [
             'rack',
@@ -76,7 +76,7 @@ class ProfitColumns
                 $columns[] = "{$attr}_price.{$cur}";
             }
         }
-        foreach (['rent', 'leasing', 'buyout'] as $attr) {
+        foreach (['rent', 'installment', 'buyout'] as $attr) {
             foreach (['usd', 'eur'] as $cur) {
                 foreach (['price', 'charge'] as $type) {
                     $columns[] = "{$attr}_{$type}.{$cur}";
@@ -99,7 +99,7 @@ class ProfitColumns
             'stock'     => 'Stock',
             'rma'       => 'RMA',
             'rent'      => 'Rent',
-            'leasing'   => 'Leasing',
+            'installment' => 'Installment',
             'buyout'    => 'Buyout',
         ] as $name => $label) {
             foreach (['price', 'charge'] as $type) {

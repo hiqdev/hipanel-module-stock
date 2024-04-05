@@ -287,6 +287,7 @@ class PartGridView extends BoxedGridView
 
                     return Html::tag('b', Html::encode($model->dst_name)) . Html::tag('span', Html::encode($model->place), ['style' => 'margin-left:1em']);
                 },
+                'exportedColumns' => ['dst_name', 'dst_type'],
             ],
             'model_group' => [
                 'label' => Yii::t('hipanel:stock', 'Model group'),

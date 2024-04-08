@@ -25,9 +25,11 @@ $this->registerJs(/** @lang JavaScript */ <<<JS
 (() => {
   $(document).on("select2:select", "[id$='partno']", function (event) {
     const datetimePlugin = $(event.target).parents(".item").find("[id$='warranty_till']").parent().data('datetimepicker');
-    const { warranty_months } = event.params.data;
-    if (warranty_months) {
-      datetimePlugin.setDate(moment().add(warranty_months, 'months').toDate());
+    if ('params' in event) {
+      const { warranty_months } = event.params.data;
+      if (warranty_months) {
+        datetimePlugin.setDate(moment().add(warranty_months, 'months').toDate());
+      }
     }
   });
 })();

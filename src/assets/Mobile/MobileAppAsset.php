@@ -1,15 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace hipanel\modules\stock\assets\Mobile;
 
-use yii\web\AssetBundle;
+use hipanel\assets\MixAssetBundle;
 
-class MobileAppAsset extends AssetBundle
+class MobileAppAsset extends MixAssetBundle
 {
-    public $sourcePath = __DIR__;
+    public $sourcePath = __DIR__ . '/dist';
     public $baseUrl = '/stock/mobile/index';
     public $publishOptions = ['forceCopy' => true];
-    public $js = ['dist/mobile-app.js'];
-    public $depends = [];
 }

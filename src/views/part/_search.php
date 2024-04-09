@@ -106,9 +106,11 @@ JS
     </div>
 <?php endif ?>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('device_location')->widget(SearchManagedField::class, ['searchBy' => ['likei', 'leftLikei'], 'default' => 'likei']) ?>
-</div>
+<?php if (Yii::$app->user->can('owner-staff')) : ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('device_location')->widget(SearchManagedField::class, ['searchBy' => ['likei', 'leftLikei'], 'default' => 'likei']) ?>
+    </div>
+<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('place_in')->widget(LocationsCombo::class, ['multiple' => true]) ?>

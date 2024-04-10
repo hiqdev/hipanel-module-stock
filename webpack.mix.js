@@ -17,4 +17,6 @@ mix.webpackConfig({
   })
   .js("src/assets/Mobile/index.js", "src/assets/Mobile/dist/mobile-app.js")
   .sourceMaps()
+  .version()
+  .setPublicPath('src/assets/Mobile/dist')
   .vue({ version: 3 });

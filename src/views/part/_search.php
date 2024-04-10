@@ -3,6 +3,7 @@
 use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\server\widgets\combo\HubCombo;
+use hipanel\modules\server\widgets\combo\ServerTypeRefCombo;
 use hipanel\modules\stock\widgets\combo\CompanyCombo;
 use hipanel\modules\stock\widgets\combo\LocationsCombo;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
@@ -11,6 +12,7 @@ use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\StockLocationsListTreeSelect;
 use hipanel\modules\stock\widgets\WarrantyMonthsRangeInput;
 use hipanel\widgets\AdvancedSearch;
+use hipanel\widgets\SearchManagedField;
 use hiqdev\combo\StaticCombo;
 use hipanel\widgets\RefCombo;
 use hipanel\widgets\DateTimePicker;
@@ -34,7 +36,6 @@ JS
 )
 
 ?>
-
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('partno_in')->widget(PartnoCombo::class, [
@@ -85,6 +86,14 @@ JS
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field('dst_type_in')->widget(ServerTypeRefCombo::class, [
+        'gtype' => 'type,device,server',
+        'i18nDictionary' => 'hipanel:server',
+        'multiple' => true,
+    ]) ?>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('rack_in')->widget(HubCombo::class, [
         'multiple' => true,
         'hubType' => 'rack',
@@ -97,9 +106,11 @@ JS
     </div>
 <?php endif ?>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('device_location_like') ?>
-</div>
+<?php if (Yii::$app->user->can('owner-staff')) : ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('device_location')->widget(SearchManagedField::class, ['searchBy' => ['likei', 'leftLikei'], 'default' => 'likei']) ?>
+    </div>
+<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('place_in')->widget(LocationsCombo::class, ['multiple' => true]) ?>

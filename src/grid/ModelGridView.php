@@ -116,7 +116,7 @@ class ModelGridView extends BoxedGridView
                 continue;
             }
             $location = $locations[$locationId];
-            $icon = $this->locationsProvider->getIcon($location['location_type']);
+            $icon = $this->locationsProvider->getIcon($location['location_type'] ?? '');
             $label = $this->locationsProvider->getLabel($location);
             $result[$key] = [
                 'attribute' => $key,

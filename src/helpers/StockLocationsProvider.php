@@ -43,7 +43,11 @@ class StockLocationsProvider
             $this->locations = $this->storage->getBounded(self::KEY);
         }
         if (!empty($this->locations)) {
-            return array_intersect($this->locations, array_column($this->getLocationsList(), 'id'));
+            $locationIds = array_column($this->getLocationsList(), 'id');
+            $preserveLocations = array_intersect($this->locations, $locationIds);
+            $resetArrayOfLocations = array_values($preserveLocations); // to prevent a situation where, when preparing options for JavaScript, the array becomes an object
+
+            return $resetArrayOfLocations;
         }
 
         return [];

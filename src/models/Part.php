@@ -78,7 +78,7 @@ class Part extends \hipanel\base\Model
                     'hm_ticket',
                     'move_remotehands_label',
                     'remotehands',
-                    '_deleted',
+                    'show_deleted',
                     'show_groups',
                     'limit',
                     'descr',

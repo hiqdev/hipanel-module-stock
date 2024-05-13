@@ -27,7 +27,7 @@ class StockLocationsProvider
     {
         return $this->cache->getOrSet(
             [self::KEY, $this->user->id],
-            fn() => Model::perform('stock-locations-list'),
+            fn() => Model::perform('stock-locations-list', ['show_deleted' => true]),
             300
         );
     }

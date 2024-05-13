@@ -60,6 +60,7 @@ class Move extends \hipanel\base\Model
                     'name',
                     'replaced_part',
                     'replace_part',
+                    'show_deleted',
                 ],
                 'safe',
             ],

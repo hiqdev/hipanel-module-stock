@@ -34,6 +34,7 @@ class MoveSearch extends Move
             'src_or_dst',
             'time_till',
             'time_from',
+            'show_deleted',
         ]);
     }
 

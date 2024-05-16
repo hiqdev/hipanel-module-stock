@@ -109,6 +109,7 @@ class Part extends \hipanel\base\Model
                     $searchParams = [
                         'limit' => 'all',
                         'name_inilike' => $this->{$attribute},
+                        'show_deleted' => true,
                     ];
                     if (str_contains($attribute, 'dst_name')) {
                         $searchParams['types'] = self::getDestinationSubTypes();

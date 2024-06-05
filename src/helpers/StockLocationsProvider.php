@@ -53,7 +53,7 @@ class StockLocationsProvider
         return [];
     }
 
-    public function getIcon(string $location_type): string
+    public function getIcon(?string $location_type): string
     {
         $name = match ($location_type) {
             'chwbox' => 'fa-user',

@@ -3,9 +3,8 @@
 use hipanel\helpers\Url;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
-use hipanel\modules\stock\widgets\combo\SourceCombo;
+use hipanel\modules\stock\widgets\DisposalField;
 use hipanel\modules\stock\widgets\PartSourceWidget;
-use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -13,6 +12,7 @@ use yii\helpers\Html;
 $this->title = Yii::t('hipanel:stock', 'Replace');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -44,32 +44,47 @@ $this->params['breadcrumbs'][] = $this->title;
         'move_descr',
     ],
 ]) ?>
+
 <div class="container-items">
-    <?php foreach ($models as $i => $model) : ?>
-        <?= Html::activeHiddenInput($model, "[$i]id") ?>
-        <?= Html::activeHiddenInput($model, "[$i]move_type") ?>
+    <?php foreach ($models as $idx => $model) : ?>
+        <?= Html::activeHiddenInput($model, "[$idx]id") ?>
+        <?= Html::activeHiddenInput($model, "[$idx]move_type") ?>
         <div class="item">
-            <?php Box::begin() ?>
-            <div class="row input-row margin-bottom">
-                <div class="col-md-6">
-                    <?= PartSourceWidget::widget([
-                        'index' => $i,
-                        'model' => $model,
-                    ]) ?>
-                    <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
-                    <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class) ?>
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title"><?= Html::encode($model->title) ?></h3>
                 </div>
-                <div class="col-md-6">
-                    <?= $form->field($model, "[$i]serial")->textInput() ?>
-                    <?= $form->field($model, "[$i]move_descr")->textarea() ?>
+                <div class="box-body">
+                    <div class="row input-row margin-bottom">
+                        <div class="col-md-6">
+                            <?= PartSourceWidget::widget(['index' => $idx, 'model' => $model]) ?>
+                            <?= $form->field($model, "[$idx]dst_id")->widget(DestinationCombo::class) ?>
+                            <?= $form->field($model, "[$idx]partno")->widget(PartnoCombo::class) ?>
+                            <?= DisposalField::widget(['index' => $idx, 'form' => $form, 'model' => $model]) ?>
+                        </div>
+                        <div class="col-md-6">
+                            <?= $form->field(
+                                $model,
+                                "[$idx]serial",
+                                [
+                                    'template' => "{label}<div class='input-group'>{old_serial}{input}</div>\n{hint}\n{error}",
+                                    'parts' => [
+                                        '{old_serial}' => Html::tag('span',
+                                            Yii::t('hipanel:stock', '{0}', $model->serial),
+                                            ['class' => 'input-group-addon bg-gray']),
+                                    ],
+                                ]) ?>
+                            <?= $form->field($model, "[$idx]move_descr")->textarea() ?>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <?php Box::end() ?>
         </div>
     <?php endforeach; ?>
 </div>
 
 <?php DynamicFormWidget::end() ?>
+
 <div class="row">
     <div class="col-md-12 no">
         <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
@@ -77,4 +92,5 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
 </div>
+
 <?php ActiveForm::end() ?>

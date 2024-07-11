@@ -154,6 +154,7 @@ class Part extends \hipanel\base\Model
                 'on' => 'replace',
                 'message' => Yii::t('hipanel:stock', 'The input format must match /^[a-zA-Z0-9]+$/'),
             ],
+            [['disposal_id'], 'string', 'on' => 'replace'],
 
             // Repair
             [['id', 'src_id', 'dst_id', 'move_type'], 'required', 'on' => 'repair'],
@@ -241,6 +242,7 @@ class Part extends \hipanel\base\Model
             'price' => Yii::t('hipanel:stock', 'Purchase price'),
             'order_id' => Yii::t('hipanel:stock', 'Order'),
             'device_location' => Yii::t('hipanel:stock', 'DC location'),
+            'disposal_id' => Yii::t('hipanel:stock', 'Disposal'),
         ]);
     }
 

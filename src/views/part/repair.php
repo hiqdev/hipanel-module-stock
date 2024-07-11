@@ -1,8 +1,8 @@
 <?php
+
 use hipanel\helpers\Url;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
-use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hipanel\modules\stock\widgets\PartSourceWidget;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
@@ -12,6 +12,7 @@ use yii\helpers\Html;
 $this->title = Yii::t('hipanel:stock', 'Repair parts');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -42,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'move_descr',
     ],
 ]) ?>
+
 <div class="container-items">
     <?php foreach ($models as $i => $model) : ?>
         <?= Html::activeHiddenInput($model, "[$i]id") ?>
@@ -49,26 +51,26 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="item">
             <?php Box::begin() ?>
             <div class="row input-row margin-bottom">
-                    <div class="col-md-6">
-                        <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class, [
-                            'inputOptions' => [
-                                'readonly' => true,
-                            ],
-                        ]) ?>
-                        <?= PartSourceWidget::widget([
-                            'index' => $i,
-                            'model' => $model,
-                        ]) ?>
-                        <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
-                    </div>
-                    <div class="col-md-6">
-                        <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <?= $form->field($model, "[$i]move_descr") ?>
-                            </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, "[$i]partno")->widget(PartnoCombo::class, [
+                        'inputOptions' => [
+                            'readonly' => true,
+                        ],
+                    ]) ?>
+                    <?= PartSourceWidget::widget([
+                        'index' => $i,
+                        'model' => $model,
+                    ]) ?>
+                    <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?= $form->field($model, "[$i]move_descr") ?>
                         </div>
                     </div>
+                </div>
             </div>
             <?php Box::end() ?>
         </div>
@@ -76,6 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 
 <?php DynamicFormWidget::end() ?>
+
 <?php Box::begin(['options' => ['class' => 'box-solid']]) ?>
 <div class="row">
     <div class="col-md-12 no">
@@ -85,4 +88,5 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 </div>
 <?php Box::end() ?>
+
 <?php ActiveForm::end() ?>

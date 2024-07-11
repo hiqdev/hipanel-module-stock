@@ -29,7 +29,7 @@ readonly class DisposalRepository
         return $this->cache->getOrSet(
             ['disposal_id', $this->app->user->identity->id],
             fn() => Server::find()->where(['dc_like' => 'disposal_'])->withBindings()->limit(-1)->all(),
-            100 //3600
+            3600
         );
     }
 

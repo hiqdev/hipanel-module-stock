@@ -41,7 +41,7 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
     {
         $this->useStorage = !$this->hasModel();
         $this->value = $this->hasModel()
-            ? StringHelper::explode($this->model->{$this->attribute})
+            ? StringHelper::explode($this->model->{$this->attribute} ?? '')
             : $this->provider->getLocations();
 
         parent::init();

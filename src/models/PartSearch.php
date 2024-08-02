@@ -42,8 +42,8 @@ class PartSearch extends Part
             'stock_location_state',
             'dst_type_in',
             'device_location_leftLikei',
-            'first_move_source_ilike',
-            'first_move_destination_ilike',
+            'first_move_source_regexp',
+            'first_move_destination_regexp',
         ]);
     }
 
@@ -70,8 +70,8 @@ class PartSearch extends Part
             'stock_location_in' => Yii::t('hipanel:stock', 'Stock location'),
             'dst_type_in' => Yii::t('hipanel:stock', 'Destination object type'),
             'device_location_leftLikei' => Yii::t('hipanel:stock', 'DC location'),
-            'first_move_source_ilike' => Yii::t('hipanel:stock', 'First move source regexp'),
-            'first_move_destination_ilike' => Yii::t('hipanel:stock', 'First move destination regexp'),
+            'first_move_source_regexp' => Yii::t('hipanel:stock', 'First move source regexp'),
+            'first_move_destination_regexp' => Yii::t('hipanel:stock', 'First move destination regexp'),
         ]);
     }
 }

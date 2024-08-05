@@ -4,6 +4,7 @@
 /** @var array $types */
 /** @var array $remotehands */
 
+use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hipanel\widgets\Box;
@@ -21,7 +22,7 @@ use yii\helpers\Html;
                     <label><?= Yii::t('hipanel:stock', 'Parts in move:') ?></label>
                     <div class="well well-sm">
                         <?= ArraySpoiler::widget([
-                            'data' => array_map(fn ($el) => sprintf('%s (%s)', $model->partno, $model->serial), $group),
+                            'data' => array_map(fn (Part $el) => sprintf('%s (%s)', $model->partno, $el->serial), $group),
                             'visibleCount' => count($group),
                             'delimiter' => ',&nbsp; ',
                         ]); ?>

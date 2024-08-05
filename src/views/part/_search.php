@@ -197,6 +197,12 @@ JS
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('last_move_ilike') ?>
     </div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('first_move_source_regexp') ?>
+    </div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('first_move_destination_regexp') ?>
+    </div>
 <?php endif ?>
 
 <?php if ($uiModel->representation === 'profit-report'): ?>

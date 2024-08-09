@@ -2,6 +2,7 @@
 
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\CompanyCombo;
+use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartDestinationCombo;
 use hipanel\modules\stock\widgets\combo\ModelCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
@@ -147,6 +148,9 @@ JS
                             <div class="col-md-6">
                                 <?= $form->field($model, "[$i]company_id")->widget(CompanyCombo::class) ?>
                             </div>
+                            <div class="col-md-6">
+                                <?= $form->field($model, "[$i]order_id")->widget(OrderCombo::class) ?>
+                            </div>
                         </div>
                     </div>
                 <?php else : ?>
@@ -178,7 +182,7 @@ JS
                             <div class="col-md-3">
                                 <?= $form->field($model, "[$i]company_id")->widget(CompanyCombo::class) ?>
                             </div>
-                            <div class="col-md-6 <?= AmountWithCurrency::$widgetClass ?>">
+                            <div class="col-md-3 <?= AmountWithCurrency::$widgetClass ?>">
                                 <?= $form->field($model, "[$i]price")->widget(AmountWithCurrency::class, [
                                     'currencyAttributeName' => "[$i]currency",
                                     'currencyAttributeOptions' => [
@@ -186,6 +190,9 @@ JS
                                     ],
                                 ]) ?>
                                 <?= $form->field($model, "[$i]currency", ['template' => '{input}{error}'])->hiddenInput() ?>
+                            </div>
+                            <div class="col-md-3">
+                                <?= $form->field($model, "[$i]order_id")->widget(OrderCombo::class) ?>
                             </div>
                         </div>
                     </div>

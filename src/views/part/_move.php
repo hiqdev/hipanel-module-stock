@@ -18,13 +18,13 @@ use yii\helpers\Html;
     <div class="row">
         <div class="col-lg-12">
             <div class="row">
-                <div class="col-lg-2">
+                <div class="col-lg-3">
                     <label><?= Yii::t('hipanel:stock', 'Parts in move:') ?></label>
                     <div class="well well-sm">
                         <?= ArraySpoiler::widget([
                             'data' => array_map(fn (Part $el) => sprintf('%s (%s)', $el->partno, $el->serial), $group),
                             'visibleCount' => count($group),
-                            'delimiter' => ',&nbsp; ',
+                            'delimiter' => '<br />',
                         ]); ?>
                         <div>
                             <?php foreach ($group as $model) : ?>
@@ -33,7 +33,7 @@ use yii\helpers\Html;
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-10">
+                <div class="col-lg-9">
                     <div class="row">
                         <div class="col-lg-4">
                             <?= $form->field($model, "[$src_id]src_id")->widget(SourceCombo::class, [

@@ -22,7 +22,7 @@ use yii\helpers\Html;
                     <label><?= Yii::t('hipanel:stock', 'Parts in move:') ?></label>
                     <div class="well well-sm">
                         <?= ArraySpoiler::widget([
-                            'data' => array_map(fn (Part $el) => sprintf('%s (%s)', $model->partno, $el->serial), $group),
+                            'data' => array_map(fn (Part $el) => sprintf('%s (%s)', $el->partno, $el->serial), $group),
                             'visibleCount' => count($group),
                             'delimiter' => ',&nbsp; ',
                         ]); ?>

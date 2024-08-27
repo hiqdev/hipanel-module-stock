@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace hipanel\modules\stock\repositories;
 
@@ -18,7 +20,7 @@ readonly class DisposalRepository
         $devices = $this->getDevices();
         $deviceId2Location = array_filter(ArrayHelper::map($devices, 'id', 'bindings.location.switch'));
         if ($deviceLocation === null) {
-            return $devices;
+            return ArrayHelper::map($devices, 'id', 'name');
         }
 
         return $this->sortBySimilarity($deviceId2Location, $deviceLocation);
@@ -47,6 +49,7 @@ readonly class DisposalRepository
         $sortedStrings = [];
         foreach (array_keys($similarityScores) as $index) {
             $sortedStrings[$index] = $strings[$index];
+            var_dump($strings[$index]);
         }
 
         return $sortedStrings;

@@ -49,7 +49,6 @@ readonly class DisposalRepository
         $sortedStrings = [];
         foreach (array_keys($similarityScores) as $index) {
             $sortedStrings[$index] = $strings[$index];
-            var_dump($strings[$index]);
         }
 
         return $sortedStrings;

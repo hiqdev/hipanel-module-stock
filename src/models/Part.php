@@ -150,9 +150,9 @@ class Part extends \hipanel\base\Model
             [
                 ['serial'],
                 'match',
-                'pattern' => '/^[a-zA-Z0-9]+$/u',
+                'pattern' => '/^([a-zA-Z0-9-]+|_)$/u',
                 'on' => 'replace',
-                'message' => Yii::t('hipanel:stock', 'The input format must match /^[a-zA-Z0-9]+$/'),
+                'message' => Yii::t('hipanel:stock', 'The input format must match /^[a-zA-Z0-9-]+$/ or the _ character, which will create a random serial.'),
             ],
             [['disposal_id'], 'string', 'on' => 'replace'],
 

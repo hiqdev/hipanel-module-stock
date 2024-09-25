@@ -61,7 +61,7 @@ use yii\helpers\Url;
                         'todayBtn' => true,
                     ],
                     'options' => [
-                        'value' => Yii::$app->formatter->asDatetime(new DateTime(), 'php:Y-m-d H:i:s'),
+                        'value' => Yii::$app->formatter->asDatetime(new DateTime(), 'php:Y-m-d H:i'),
                     ],
                 ]) ?>
             </div>

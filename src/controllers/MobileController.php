@@ -162,6 +162,7 @@ class MobileController extends Controller
         return $this->response([
             ['name' => 'NL:AMS:EQ:AM7'],
             ['name' => 'NL:AMS:EQ:AM11'],
+            ['name' => 'NL:AMS:DR:AMS3'],
             ['name' => 'NL:AMS:DR:AMS17'],
             ['name' => 'USA:ASH:EQ:DC10'],
         ]);

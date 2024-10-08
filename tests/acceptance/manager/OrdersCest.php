@@ -33,10 +33,10 @@ class OrdersCest
         $I->needPage(Url::to('@order/create'));
         $I->click('Save');
         $I->waitForPageUpdate();
-        $I->waitForText('# cannot be blank.');
-        $I->waitForText('Time cannot be blank.');
         $I->waitForText('Seller cannot be blank.');
         $I->waitForText('Buyer cannot be blank.');
+        $I->waitForText('# cannot be blank.');
+        $I->waitForText('Order cannot be blank.');
     }
 
     public function ensureICanCreateOrder(Manager $I): void

@@ -189,7 +189,8 @@ class MobileController extends Controller
     public function actionResolveCode($code, $location): Response
     {
         $responseTemplate = ['resolveLike' => null, 'result' => null];
-        if ($code === "PI::" . Yii::$app->user->identity->email) {
+        $user = Yii::$app->user->identity;
+        if ($code === "PI::" . $user->email) {
             $responseTemplate['resolveLike'] = 'personal';
             $responseTemplate['result'] = $code;
         }

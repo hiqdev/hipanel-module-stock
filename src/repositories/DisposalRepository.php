@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace hipanel\modules\stock\repositories;
 
@@ -18,19 +16,20 @@ readonly class DisposalRepository
     public function findForLocation(?string $deviceLocation): array
     {
         $devices = $this->getDevices();
-        $deviceId2Location = array_filter(ArrayHelper::map($devices, 'id', 'bindings.location.switch'));
-        if ($deviceLocation === null) {
+        $deviceId2Locations = array_filter(ArrayHelper::map($devices, 'id', 'bindings.location.switch'));
+        $deviceLocationIsEmptyOrDevicesAreNotBindedWithLocation = $deviceLocation === null || $deviceId2Locations === [];
+        if ($deviceLocationIsEmptyOrDevicesAreNotBindedWithLocation) {
             return ArrayHelper::map($devices, 'id', 'name');
         }
 
-        return $this->sortBySimilarity($deviceId2Location, $deviceLocation);
+        return $this->sortBySimilarity($deviceId2Locations, $deviceLocation);
     }
 
     private function getDevices(): array
     {
         return $this->cache->getOrSet(
             ['disposal_id', $this->app->user->identity->id],
-            fn() => Server::find()->where(['dc_like' => 'disposal_'])->withBindings()->limit(-1)->all(),
+            static fn() => Server::find()->where(['dc_like' => 'disposal_'])->withBindings()->limit(-1)->all(),
             3600
         );
     }

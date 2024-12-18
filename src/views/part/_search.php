@@ -12,6 +12,7 @@ use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\StockLocationsListTreeSelect;
 use hipanel\modules\stock\widgets\WarrantyMonthsRangeInput;
 use hipanel\widgets\AdvancedSearch;
+use hipanel\widgets\SearchBy;
 use hipanel\widgets\SearchManagedField;
 use hiqdev\combo\StaticCombo;
 use hipanel\widgets\RefCombo;
@@ -108,7 +109,13 @@ JS
 
 <?php if (Yii::$app->user->can('owner-staff')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
-        <?= $search->field('device_location')->widget(SearchManagedField::class, ['searchBy' => ['likei', 'leftLikei'], 'default' => 'likei']) ?>
+        <?= $search->field('device_location')->widget(
+            SearchManagedField::class,
+            [
+                'searchBy' => [SearchBy::LIKEI, SearchBy::LEFT_LIKEI],
+                'default' => SearchBy::LIKEI,
+            ]
+        ) ?>
     </div>
 <?php endif ?>
 

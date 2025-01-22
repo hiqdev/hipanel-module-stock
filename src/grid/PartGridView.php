@@ -98,6 +98,8 @@ class PartGridView extends BoxedGridView
                 'attribute' => 'model',
                 'format' => 'raw',
                 'label' => Yii::t('hipanel:stock', 'Model'),
+                'filterOptions' => ['class' => 'narrow-filter'],
+                'filterAttribute' => 'model_label_ilike',
             ],
             'model_type' => [
                 'class' => RefColumn::class,
@@ -209,6 +211,7 @@ class PartGridView extends BoxedGridView
                     ]);
                 },
                 'filterOptions' => ['class' => 'narrow-filter'],
+                'contentOptions' => ['style' => 'white-space: nowrap;'],
                 'format' => 'raw',
                 'visible' => Yii::$app->user->can('order.read') && Yii::$app->user->can('owner-staff'),
                 'value' => function (Part $model): string {
@@ -344,6 +347,7 @@ class PartGridView extends BoxedGridView
             'warranty_till' => [
                 'class' => WarrantyColumn::class,
                 'attribute' => 'warranty_till',
+                'contentOptions' => ['style' => 'white-space: nowrap;'],
                 'format' => ['datetime', 'php:Y-m-d'],
             ],
         ]);

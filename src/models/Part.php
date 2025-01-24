@@ -139,7 +139,7 @@ class Part extends \hipanel\base\Model
             [['serials'], 'unique', 'on' => ['create', 'copy']],
 
             // Move by one
-            [['id', 'dst_id', 'src_id', 'partno', 'serial'], 'required', 'on' => 'move-by-one'],
+            [['id', 'dst_id', 'src_id', 'partno', 'serial', 'move_type'], 'required', 'on' => 'move-by-one'],
 
             // Trash
             [['id', 'dst_id', 'src_id', 'partno', 'serial', 'move_descr'], 'required', 'on' => 'trash'],

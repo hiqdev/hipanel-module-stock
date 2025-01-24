@@ -12,6 +12,7 @@
 namespace hipanel\modules\stock\widgets\combo;
 
 use hiqdev\combo\Combo;
+use yii\web\JsExpression;
 
 class DestinationCombo extends Combo
 {
@@ -25,10 +26,28 @@ class DestinationCombo extends Combo
     public $url = '/stock/move/directions-list';
 
     /** {@inheritdoc} */
-    public $_return = ['id'];
+    public $_return = ['id', 'type'];
 
     /** {@inheritdoc} */
     public $_rename = ['text' => 'name'];
 
     public $_primaryFilter = 'name_like';
+
+    public function getPluginOptions($options = [])
+    {
+        return parent::getPluginOptions([
+            'select2Options' => [
+                'templateSelection' => new JsExpression(/** @lang JavaScript */ "function (data, container) {
+                    if ('element' in data) {
+                        $(data.element).attr('data-type', data?.type);
+                    }
+
+                    return data.text;
+                }"),
+                'escapeMarkup' => new JsExpression('function (markup) {
+                    return markup; // Allows HTML
+                }'),
+            ],
+        ]);
+    }
 }

@@ -5,11 +5,19 @@ use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\RmaDestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
+use hipanel\modules\stock\widgets\MoveTypeDropDownList;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
+
+/**
+ * @var \yii\web\View $this
+ * @var \hipanel\modules\stock\models\Part[] $models
+ * @var array $remotehands
+ * @var array $types
+ */
 
 $scenario = $this->context->action->scenario;
 $this->title = StringHelper::startsWith($this->context->action->id, 'move-by-one') ? Yii::t('hipanel:stock', 'Move by one') : Yii::t('hipanel:stock', 'RMA');
@@ -94,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                         <div class="col-md-6">
                             <?php $model->dst_id = null ?>
-                            <?php if (strstr($this->context->action->id, 'rma') !== false) : ?>
+                            <?php if (str_contains($this->context->action->id, 'rma')) : ?>
                                 <?= $form->field($model, "[$i]dst_id")->widget(RmaDestinationCombo::class) ?>
                             <?php else : ?>
                                 <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class) ?>
@@ -105,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <div class="row">
                         <div class="col-md-6">
-                            <?= $form->field($model, "[$i]move_type")->dropDownList($types) ?>
+                            <?= $form->field($model, "[$i]move_type")->widget(MoveTypeDropDownList::class, ['items' => $types]) ?>
                         </div>
                         <div class="col-md-6">
                             <?= $form->field($model, "[$i]remotehands")->dropDownList($remotehands) ?>

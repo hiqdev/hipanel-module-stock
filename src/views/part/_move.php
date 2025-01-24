@@ -7,6 +7,7 @@
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
+use hipanel\modules\stock\widgets\MoveTypeDropDownList;
 use hipanel\widgets\Box;
 use hipanel\widgets\ArraySpoiler;
 use yii\helpers\Html;
@@ -52,7 +53,7 @@ use yii\helpers\Html;
                             ]) ?>
                         </div>
                         <div class="col-lg-4">
-                            <?= $form->field($model, "[$src_id]type")->dropDownList($types, ['id' => "$src_id-type-" . uniqid()]) ?>
+                            <?= $form->field($model, "[$src_id]type")->widget(MoveTypeDropDownList::class, ['items' => $types, 'id' => "$src_id-type-" . uniqid()]) ?>
                         </div>
                     </div>
                     <div class="row">

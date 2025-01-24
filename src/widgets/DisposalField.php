@@ -3,7 +3,7 @@
 namespace hipanel\modules\stock\widgets;
 
 use hipanel\modules\stock\models\Part;
-use hipanel\modules\stock\repositories\DisposalRepository;
+use hipanel\modules\stock\repositories\LocationRepository;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -17,7 +17,7 @@ class DisposalField extends Widget
     public string $attribute;
     private array $disposalList;
 
-    public function __construct(DisposalRepository $disposalRepository, $config = [])
+    public function __construct(LocationRepository $disposalRepository, $config = [])
     {
         parent::__construct($config);
         $this->disposalList = $disposalRepository->findForLocation($this->model?->device_location);

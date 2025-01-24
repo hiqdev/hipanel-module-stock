@@ -2,7 +2,7 @@
 
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
-use hipanel\modules\stock\widgets\combo\TrashDestinationCombo;
+use hipanel\modules\stock\widgets\combo\TrashDestinationDropDownList;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
@@ -61,11 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'readonly' => true,
                         ],
                     ]) ?>
-                    <?= $form->field($model, "[$i]dst_id")->widget(TrashDestinationCombo::class, [
-                        'pluginOptions' => [
-                            'select2Options' => ['tags' => false],
-                        ],
-                    ]) ?>
+                    <?= $form->field($model, "[$i]dst_id")->widget(TrashDestinationDropDownList::class) ?>
                 </div>
                 <div class="col-md-6">
                     <?= $form->field($model, "[$i]serial")->textInput(['readonly' => true]) ?>

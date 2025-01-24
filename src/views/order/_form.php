@@ -59,9 +59,7 @@ use yii\helpers\Url;
                 <?= $form->field($model, 'time')->widget(DateTimePicker::class, [
                     'clientOptions' => [
                         'todayBtn' => true,
-                    ],
-                    'options' => [
-                        'value' => Yii::$app->formatter->asDatetime(new DateTime(), 'php:Y-m-d H:i'),
+                        'format' => 'yyyy-mm-dd hh:ii', // @see https://github.com/sabinus52/bootstrap-datetimepicker?tab=readme-ov-file
                     ],
                 ]) ?>
             </div>

@@ -356,8 +356,8 @@ class PartGridView extends BoxedGridView
     public static function lastMove(Part|Move $model): string
     {
         return implode('&nbsp;←&nbsp;', array_filter([
-            Html::tag('b', Html::encode($model->dst_name)),
-            Yii::$app->user->can('move.read-all') ? Html::encode($model->src_name) : null,
+            Html::tag('b', Html::a($model->dst_name, ['@server/view', 'id' => $model->dst_id], ['target' => '_blank'])),
+            Yii::$app->user->can('move.read-all') ? Html::a($model->src_name, ['@server/view', 'id' => $model->src_id], ['target' => '_blank']) : null,
         ]));
     }
 }

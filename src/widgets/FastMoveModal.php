@@ -60,7 +60,7 @@ final class FastMoveModal extends Widget
 
         return Html::a(Yii::t('hipanel:stock', 'Fast move'), ['#'], [
             'data' => ['toggle' => 'modal', 'target' => '#' . $this->getId()],
-            'class' => 'btn btn-block btn-default',
+            'class' => 'btn btn-sm btn-default',
         ]);
     }
 }

@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace hipanel\modules\stock\helpers;
 
@@ -82,7 +81,7 @@ class StockLocationsProvider
         if ($location['id'] === 'chwbox' || $location['id'] === 'stock:ANY') {
             $label = $location['location_name'];
         } else if ($location['category'] === 'stock') {
-            $label = implode(':', [$location['location_type'], $location['location_name']]) ;
+            $label = implode(':', [$location['location_type'], $location['location_name']]);
         } else if ($location['category'] === 'stock_group') {
             $label = $location['location_name'];
         } else if ($location['category'] === 'chwbox_group' && $location['location_name'] === $customer) {

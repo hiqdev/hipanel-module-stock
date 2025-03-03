@@ -1,6 +1,6 @@
-import {expect, Locator, Page} from "@playwright/test";
+import {Page} from "@playwright/test";
 import Select2 from "@hipanel-core/input/Select2";
-import SumWithCurrency from "@hipanel-core/input/SumWithCurrency";
+import PriceWithCurrency from "@hipanel-module-stock/input/PriceWithCurrency";
 
 export default class PartCreateView {
     private page: Page;
@@ -21,7 +21,7 @@ export default class PartCreateView {
         await this.page.fill('input[id$=serials]', partData.serials);
         await this.page.fill('input[id$=move_descr]', partData.move_descr);
 
-        await SumWithCurrency.field(this.page, "part", 0).setSumAndCurrency(partData.price, partData.currency);
+        await PriceWithCurrency.field(this.page, "part", 0).setSumAndCurrency(partData.price, partData.currency);
 
         await this.page.selectOption('select[id$=company_id]', partData.company_id);
     }

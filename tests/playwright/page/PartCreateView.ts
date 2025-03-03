@@ -1,4 +1,6 @@
 import {expect, Locator, Page} from "@playwright/test";
+import Select2 from "@hipanel-core/input/Select2";
+import SumWithCurrency from "@hipanel-core/input/SumWithCurrency";
 
 export default class PartCreateView {
     private page: Page;
@@ -12,13 +14,15 @@ export default class PartCreateView {
     }
 
     public async fillPartFields(partData: any) {
-        await this.page.selectOption('select[id$=partno]', partData.partno);
-        await this.page.selectOption('select[id$=src_id]', partData.src_id);
-        await this.page.selectOption('select[id$=dst_ids]', partData.dst_id);
+        await Select2.field(this.page, `select[id$=partno]`).setValue(partData.partno);
+        await Select2.field(this.page, `select[id$=src_id]`).setValue(partData.src_id);
+        await Select2.field(this.page, `select[id$=dst_ids]`).setValue(partData.dst_id);
+
         await this.page.fill('input[id$=serials]', partData.serials);
         await this.page.fill('input[id$=move_descr]', partData.move_descr);
-        await this.page.fill('input[id$=price]', partData.price.toString());
-        await this.page.click(`li a[data-value=${partData.currency}]`);
+
+        await SumWithCurrency.field(this.page, "part", 0).setSumAndCurrency(partData.price, partData.currency);
+
         await this.page.selectOption('select[id$=company_id]', partData.company_id);
     }
 

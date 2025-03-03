@@ -9,7 +9,7 @@ const partData = {
     serials: `MG_TEST_PART${Date.now()}`,
     move_descr: 'MG TEST MOVE',
     price: 200,
-    currency: 'usd',
+    currency: '$',
     company_id: 'Other',
 };
 
@@ -89,4 +89,3 @@ test.describe('Part Management', () => {
         await expect(managerPage.locator('text=Part has been deleted')).toBeVisible();
     });
 });
-

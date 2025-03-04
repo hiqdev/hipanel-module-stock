@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = Yii::t('hipanel', $this->title);
                 return $model->partno . ' #' . $model->serial . ($label ?? '') ;
             })(),
             'icon' => 'fa-cubes',
-            'menu' => PartDetailMenu::widget(['model' => $model], ['linkTemplate' => '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>&nbsp;{label}</a>']),
+            'menu' => PartDetailMenu::widget(['model' => $model], ['linkTemplate' => '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>{label}</a>']),
         ]) ?>
 
         <div class="row">

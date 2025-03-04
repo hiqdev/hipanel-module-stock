@@ -56,6 +56,7 @@ export default class PartIndexView {
         const moveId = await this.index.getRowDataKeyByNumber(rowNumber);
         expect(moveId).not.toBeNull();
 
+        // Wait /stock/part/view page to load
         await this.index.clickColumnOnTable('Parts', rowNumber);
     }
 }

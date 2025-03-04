@@ -2,6 +2,7 @@ import { test } from "@hipanel-core/fixtures";
 import {expect} from "@playwright/test";
 import PartCreateView from "@hipanel-module-stock/page/PartCreateView";
 import UniqueId from "@hipanel-core/helper/UniqueId";
+import PartIndexView from "@hipanel-module-stock/page/PartIndexView";
 
 function getPartData() {
     return  {
@@ -83,13 +84,14 @@ test.describe('Part Management', () => {
 
     test('Ensure a part can be created and then deleted @hipanel-module-stock @manager', async ({ managerPage }) => {
         const partView = new PartCreateView(managerPage);
+        const partIndexView = new PartIndexView(managerPage);
+
         await partView.navigate();
         await partView.fillPartFields(getPartData());
         await partView.save();
-        await expect(managerPage.locator('text=Part has been created')).toBeVisible();
 
-        await managerPage.click('text=Delete');
-        managerPage.on('dialog', async dialog => await dialog.accept());
-        await expect(managerPage.locator('text=Part has been deleted')).toBeVisible();
+        await partIndexView.seePartWasCreated();
+
+        await partIndexView.deleteItemOnTable(1);
     });
 });

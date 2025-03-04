@@ -27,7 +27,7 @@ test.describe("Part Replacement", () => {
 
         await partIndexView.navigate();
         await partIndexView.applyFilters(data.filters);
-        await partIndexView.selectPartsToReplace(1, data.replaceData.length);
+        await partIndexView.selectPartsToReplace(data.replaceData.length);
 
         await partReplaceView.fillReplaceForm(data.replaceData);
         await partReplaceView.save();

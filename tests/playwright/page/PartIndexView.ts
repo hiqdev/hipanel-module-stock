@@ -10,11 +10,11 @@ export default class PartIndexView {
         this.index = new Index(page);
     }
 
-    async navigate() {
+    public async navigate() {
         await this.page.goto("/stock/part/index?representation=common");
     }
 
-    async applyFilters(filters: Array<{ name: string; value: string }>) {
+    public async applyFilters(filters: Array<{ name: string; value: string }>) {
         for (const filter of filters) {
             await this.index.setFilter(filter.name, filter.value);
         }
@@ -22,9 +22,18 @@ export default class PartIndexView {
         await this.index.submitSearchButton();
     }
 
-    public async selectPartsToReplace(start: number, end: number) {
-        await this.index.chooseRangeOfRowsOnTable(start, end);
+    public async filterBySerial(serial: string) {
+        await this.index.setFilter('serial_ilike', serial);
+        await this.index.submitSearchButton();
+    }
+
+    public async selectPartsToReplace(count: number) {
+        await this.selectRows(count);
         await this.index.clickDropdownBulkButton('Bulk actions', 'Replace');
+    }
+
+    public async selectRows(count: number) {
+        await this.index.chooseRangeOfRowsOnTable(1, count);
     }
 
     public async confirmReplacement() {
@@ -58,5 +67,9 @@ export default class PartIndexView {
 
         // Wait /stock/part/view page to load
         await this.index.clickColumnOnTable('Parts', rowNumber);
+    }
+
+    public async openSellModal() {
+        await this.index.clickDropdownBulkButton('Sell parts', 'Sell parts');
     }
 }

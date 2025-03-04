@@ -1,33 +1,25 @@
 import {Page} from "@playwright/test";
-import Select2 from "@hipanel-core/input/Select2";
-import PriceWithCurrency from "@hipanel-module-stock/input/PriceWithCurrency";
+import PartForm from "@hipanel-module-stock/helper/PartForm";
 
 export default class PartCreateView {
     private page: Page;
+    private partForm: PartForm;
 
     public constructor(page: Page) {
         this.page = page;
+        this.partForm = new PartForm(page);
     }
 
     public async navigate() {
         await this.page.goto('/stock/part/create');
     }
 
-    public async fillPartFields(partData: any) {
-        await Select2.field(this.page, `select[id$=partno]`).setValue(partData.partno);
-        await Select2.field(this.page, `select[id$=src_id]`).setValue(partData.src_id);
-        await Select2.field(this.page, `select[id$=dst_ids]`).setValue(partData.dst_id);
-
-        await this.page.fill('input[id$=serials]', partData.serials);
-        await this.page.fill('input[id$=move_descr]', partData.move_descr);
-
-        await PriceWithCurrency.field(this.page, "part", 0).setSumAndCurrency(partData.price, partData.currency);
-
-        await this.page.selectOption('select[id$=company_id]', partData.company_id);
+    public async fillPartFields(partData: any, index: number = 0) {
+        await this.partForm.fillPartFields(partData, index);
     }
 
     public async save() {
-        await this.page.click('button:has-text("Save")');
+        await this.partForm.save();
     }
 
     public async addPart() {

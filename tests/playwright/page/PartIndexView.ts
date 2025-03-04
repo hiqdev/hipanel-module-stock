@@ -1,4 +1,4 @@
-import { expect, Page } from "@playwright/test";
+import { Page } from "@playwright/test";
 import Index from "@hipanel-core/page/Index";
 
 export default class PartIndexView {
@@ -27,14 +27,7 @@ export default class PartIndexView {
         await this.index.clickDropdownBulkButton('Bulk actions', 'Replace');
     }
 
-    public async fillReplaceForm(replaceData: { serialno: string }[], rowNumbers: number[]) {
-        for (const [index, data] of replaceData.entries()) {
-            await this.page.fill(`table tbody tr:nth-child(${rowNumbers[index]}) input[name='serialno']`, data.serialno);
-        }
-    }
-
     public async confirmReplacement() {
-        await this.index.clickBulkButton('Peplace');
-        await this.index.hasNotification('Parts have been replaced');
+        await this.index.hasNotification('Part has been replaced');
     }
 }

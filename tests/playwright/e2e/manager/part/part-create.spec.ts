@@ -1,12 +1,13 @@
 import { test } from "@hipanel-core/fixtures";
 import {expect} from "@playwright/test";
 import PartCreateView from "@hipanel-module-stock/page/PartCreateView";
+import UniqueId from "@hipanel-core/helper/UniqueId";
 
 const partData = {
     partno: 'CHASSIS EPYC 7402P',
     src_id: 'TEST-DS-01',
     dst_id: 'TEST-DS-02',
-    serials: `MG_TEST_PART${Date.now()}`,
+    serials: UniqueId.generate(`MG_TEST_PART`),
     move_descr: 'MG TEST MOVE',
     price: 200,
     currency: '$',
@@ -73,6 +74,7 @@ test.describe('Part Management', () => {
         await partView.navigate();
         await partView.fillPartFields(partData);
         await partView.addPart();
+        await partView.fillPartFields(partData, 1);
         await partView.save();
         await expect(managerPage.locator('text=Part has been created')).toBeVisible();
     });

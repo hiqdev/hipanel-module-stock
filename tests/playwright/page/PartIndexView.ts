@@ -24,8 +24,7 @@ export default class PartIndexView {
 
     public async selectPartsToReplace(start: number, end: number) {
         await this.index.chooseRangeOfRowsOnTable(start, end);
-        await this.page.pause();
-        await this.index.clickBulkButton('Replace');
+        await this.index.clickDropdownBulkButton('Bulk actions', 'Replace');
     }
 
     public async fillReplaceForm(replaceData: { serialno: string }[], rowNumbers: number[]) {

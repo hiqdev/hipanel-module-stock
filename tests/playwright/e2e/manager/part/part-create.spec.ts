@@ -3,16 +3,18 @@ import {expect} from "@playwright/test";
 import PartCreateView from "@hipanel-module-stock/page/PartCreateView";
 import UniqueId from "@hipanel-core/helper/UniqueId";
 
-const partData = {
-    partno: 'CHASSIS EPYC 7402P',
-    src_id: 'TEST-DS-01',
-    dst_id: 'TEST-DS-02',
-    serials: UniqueId.generate(`MG_TEST_PART`),
-    move_descr: 'MG TEST MOVE',
-    price: 200,
-    currency: '$',
-    company_id: 'Other',
-};
+function getPartData() {
+    return  {
+        partno: 'CHASSIS EPYC 7402P',
+        src_id: 'TEST-DS-01',
+        dst_id: 'TEST-DS-02',
+        serials: UniqueId.generate(`MG_TEST_PART`),
+        move_descr: 'MG TEST MOVE',
+        price: 200,
+        currency: '$',
+        company_id: 'Other',
+    };
+}
 
 test.describe('Part Management', () => {
     test('Ensure part management buttons work @hipanel-module-stock @manager', async ({ managerPage }) => {
@@ -64,7 +66,7 @@ test.describe('Part Management', () => {
     test('Ensure a part can be created @hipanel-module-stock @manager', async ({ managerPage }) => {
         const partView = new PartCreateView(managerPage);
         await partView.navigate();
-        await partView.fillPartFields(partData);
+        await partView.fillPartFields(getPartData());
         await partView.save();
         await expect(managerPage.locator('text=Part has been created')).toBeVisible();
     });
@@ -72,9 +74,9 @@ test.describe('Part Management', () => {
     test('Ensure multiple parts can be created @hipanel-module-stock @manager', async ({ managerPage }) => {
         const partView = new PartCreateView(managerPage);
         await partView.navigate();
-        await partView.fillPartFields(partData);
+        await partView.fillPartFields(getPartData());
         await partView.addPart();
-        await partView.fillPartFields(partData, 1);
+        await partView.fillPartFields(getPartData(), 1);
         await partView.save();
         await expect(managerPage.locator('text=Part has been created')).toBeVisible();
     });
@@ -82,7 +84,7 @@ test.describe('Part Management', () => {
     test('Ensure a part can be created and then deleted @hipanel-module-stock @manager', async ({ managerPage }) => {
         const partView = new PartCreateView(managerPage);
         await partView.navigate();
-        await partView.fillPartFields(partData);
+        await partView.fillPartFields(getPartData());
         await partView.save();
         await expect(managerPage.locator('text=Part has been created')).toBeVisible();
 

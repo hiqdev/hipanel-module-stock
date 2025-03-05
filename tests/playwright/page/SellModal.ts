@@ -16,7 +16,7 @@ export default class SellModal {
 
         await Select2.field(this.page, 'select[id$=contact_id]').setValue(sellData.contact_id);
 
-        await modal.locator("input[name*=time]").fill(sellData.time);
+        await modal.locator("input[name*=time]").pressSequentially(sellData.time);
         await modal.locator("textarea[id$=description]").fill(sellData.descr);
         await modal.locator("select[id$=currency]").selectOption(sellData.currency);
 

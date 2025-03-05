@@ -18,6 +18,7 @@ export default class SellModal {
 
         await modal.locator("input[name*=time]").fill(sellData.time);
         await modal.locator("textarea[id$=description]").fill(sellData.descr);
+        await modal.locator("select[id$=currency]").selectOption(sellData.currency);
 
         const priceFields = await modal.locator("div[class$=sell] input[type=text][id^=partsell]")
             .all();

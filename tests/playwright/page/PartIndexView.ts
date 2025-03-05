@@ -23,8 +23,7 @@ export default class PartIndexView {
     }
 
     public async filterBySerial(serial: string) {
-        await this.index.setFilter('serial_ilike', serial);
-        await this.index.submitSearchButton();
+        await this.index.applyFilter('serial_ilike', serial);
     }
 
     public async selectPartsToReplace(count: number) {

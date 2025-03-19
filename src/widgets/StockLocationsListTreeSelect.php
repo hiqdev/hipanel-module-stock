@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace hipanel\modules\stock\widgets;
@@ -12,6 +13,7 @@ use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\helpers\Url;
 
 class StockLocationsListTreeSelect extends VueTreeSelectInput
 {
@@ -29,8 +31,7 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
         private readonly SettingsStorage $storage,
         private readonly StockLocationsProvider $provider,
         $config = []
-    )
-    {
+    ) {
         parent::__construct($config);
     }
 
@@ -58,20 +59,31 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
                 'save-on-change' => $this->useStorage ? 1 : 0,
             ],
         ];
+
         if ($this->hasModel()) {
             $activeInput = Html::activeHiddenInput($this->model, $this->attribute, $options);
         } else {
             $activeInput = Html::hiddenInput($this->name, null, $options);
         }
 
-        $this->view->registerCss(<<<CSS
-.vue-treeselect__option,
-.vue-treeselect__label-container {
-    width: auto;
-}
-CSS);
+        $this->view->registerCss(sprintf('
+            .vue-treeselect__option,
+            .vue-treeselect__label-container {
+                width: auto;
+            }
+            #%s {
+                display: flex;
+                flex-direction: column;
+                gap: .3rem
+            }
+            [v-cloak] {
+                display: none;
+            }
+        ', $this->getId()));
 
-        return sprintf(/** @lang HTML */ '
+        return sprintf(
+            /** @lang HTML */
+            '
             <div id="%s" style="margin-bottom: 1em;">
                 <treeselect
                   :options="options"
@@ -95,18 +107,43 @@ CSS);
                     <div slot="value-label" slot-scope="{ node }" v-html="node.raw.label"></div>
                 </treeselect>
                 %s
-            </div>
-        ',
+                <button class="btn btn-xs btn-danger btn-flat" v-cloak v-show="locationsInQueryParams()" @click="resetQueryLocations">
+                  <i class="fa fa-fw fa-undo"></i> %s
+                </buttonl>
+            </div>',
             $this->getId(),
             Yii::t('hipanel:stock', 'Choose stock columns'),
-            $activeInput
+            $activeInput,
+            Yii::t('hipanel:stock', 'Back to prefered stock locations'),
         );
     }
 
     private function registerVueContainer(): void
     {
         $this->view->registerJs(
-            sprintf(/** @lang JavaScript */ "
+            /** @lang JavaScript */
+            '
+          ;(() => {
+            $("a.export-report-link").not("[data-export-url]").click(function (evt) {
+              evt.preventDefault();
+              $.getJSON("get-locations").done(function (locations) {
+                const url = new URL(window.location.href);
+                const urlParams = new URLSearchParams(window.location.search);
+                locations.forEach((location, index) => {
+                  urlParams.set(`ModelSearch[locations][${index}]`, location);
+                });
+                url.search = urlParams.toString();
+                $(this).exporter("copy", url.href);
+              });
+            });
+          })();
+        '
+        );
+
+        $this->view->registerJs(
+            sprintf(
+                /** @lang JavaScript */
+                "
                 ;(() => {
                     const container = $('#%s');
                     new Vue({
@@ -121,12 +158,24 @@ CSS);
                             allowUpdate: false
                         },
                         methods: {
+                          locationsInQueryParams: function () {
+                            const urlParams = new URLSearchParams(window.location.search);
+                            for (const param of urlParams.keys()) {
+                                if (param.startsWith('ModelSearch[locations]')) {
+                                    return true;
+                                }
+                            }
+                            return false;
+                          },
+                          resetQueryLocations: function () {
+                            window.location.href = '%s';
+                          },
                           onChange: function(value) {
                             if (!this.saveOnChange) {
                               return;
                             }
 
-                            $.post('save-locations', {locations: value}).done(() => {
+                            $.post('set-locations', {locations: value}).done(() => {
                               this.allowUpdate = true;
                             }).fail(function(err) {
                               console.error(err.responseText);
@@ -153,7 +202,8 @@ CSS);
                         }
                     });
                 })();",
-                $this->getId()
+                $this->getId(),
+                Url::current(['ModelSearch' => ['locations' => null]]),
             )
         );
     }
@@ -167,7 +217,7 @@ CSS);
             $this->buildRacksTree($stockLocationsList),
         );
 
-        return $options ?? [];
+        return $options;
     }
 
     private function buildRacksTree(array $stockLocationsList): array
@@ -190,7 +240,7 @@ CSS);
                 'id' => 'location:ANY',
                 'label' => Yii::t('hipanel:stock', 'DC, Building, Cage, Rack'),
                 'children' => $this->removeKeysRecursively(array_values($result)),
-            ]
+            ],
         ];
     }
 

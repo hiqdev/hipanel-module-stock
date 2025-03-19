@@ -2,6 +2,11 @@
 
 use hiqdev\combo\StaticCombo;
 
+/** @var \hipanel\widgets\AdvancedSearch $search */
+/** @var array $types */
+/** @var array $brands */
+/** @var array $states */
+
 $this->registerCss('label > .option-input { margin-right: .3rem; }'); // fix label display for checkbox
 
 ?>
@@ -70,4 +75,3 @@ $this->registerCss('label > .option-input { margin-right: .3rem; }'); // fix lab
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('show_deleted')->checkbox(['class' => 'option-input']) ?>
 </div>
-

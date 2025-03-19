@@ -11,13 +11,13 @@
 
 namespace hipanel\modules\stock\controllers;
 
+use Closure;
 use hipanel\actions\IndexAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
-use hipanel\actions\VariantsAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
@@ -26,6 +26,8 @@ use hipanel\modules\stock\helpers\StockLocationsProvider;
 use hipanel\modules\stock\models\Model;
 use hipanel\modules\stock\Module;
 use Yii;
+use yii\base\Response;
+use yii\helpers\Html;
 
 class ModelController extends CrudController
 {
@@ -63,15 +65,14 @@ class ModelController extends CrudController
             'index' => [
                 'class' => IndexAction::class, // with_counters
                 'findOptions' => ['with_counters' => 1, 'locations' => $this->locationsProvider->getLocations()],
-                'data' => function ($action) {
-                    return [
-                        'types' => $action->controller->getTypes(),
-                        'brands' => $action->controller->getBrands(),
-                        'states' => $action->controller->getStates(),
-                    ];
-                },
+                'data' => fn($action): array => [
+                    'types' => $action->controller->getTypes(),
+                    'brands' => $action->controller->getBrands(),
+                    'states' => $action->controller->getStates(),
+                    'exportVariants' => $action->controller->getExportVariants(),
+                ],
                 'responseVariants' => [
-                    'get-total-count' => fn(VariantsAction $action): int => Model::find()->count(),
+                    'get-total-count' => fn(): int => Model::find()->count(),
                 ],
             ],
             'view' => [
@@ -126,9 +127,11 @@ class ModelController extends CrudController
             'delete' => [
                 'class' => SmartDeleteAction::class,
                 'success' => Yii::t('hipanel:stock', 'Model(s) deleted'),
-                'error' => Yii::t('hipanel:stock',
+                'error' => Yii::t(
+                    'hipanel:stock',
                     'An error occurred when trying to delete {object}',
-                    ['{object}' => Yii::t('hipanel:stock', 'model')]),
+                    ['{object}' => Yii::t('hipanel:stock', 'model')]
+                ),
             ],
         ]);
     }
@@ -142,6 +145,7 @@ class ModelController extends CrudController
             if (in_array($subFormName, $validFormNames, true)) {
                 return $this->renderAjax('_' . $subFormName, ['model' => new Model(), 'i' => $itemNumber]);
             }
+
             return '';
         }
 
@@ -173,12 +177,34 @@ class ModelController extends CrudController
         return ['server', 'chassis', 'motherboard', 'ram', 'hdd', 'cpu'];
     }
 
-    public function actionSaveLocations()
+    public function actionSetLocations()
     {
         if ($this->request->isPost) {
             $locations = $this->request->post('locations', []);
             $this->locationsProvider->setLocations($locations);
         }
         Yii::$app->end();
+    }
+
+    public function actionGetLocations(): Response
+    {
+        return $this->asJson($this->locationsProvider->getLocations());
+    }
+
+    protected function getExportVariants(): Closure
+    {
+        return function ($exportVariants): array {
+            return [
+                ...$exportVariants,
+                'link' => [
+                    'url' => '#',
+                    'encode' => false,
+                    'label' => Html::tag('i', null, ['class' => 'fa fa-fw fa-link']) . Yii::t('hipanel:stock', 'Link with stock locations'),
+                    'linkOptions' => [
+                        'class' => 'export-report-link',
+                    ],
+                ],
+            ];
+        };
     }
 }

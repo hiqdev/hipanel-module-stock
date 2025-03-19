@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace hipanel\modules\stock\helpers;
 
@@ -7,6 +9,7 @@ use hipanel\helpers\StringHelper;
 use hipanel\modules\stock\models\Model;
 use yii\caching\CacheInterface;
 use yii\helpers\Html;
+use yii\web\Request;
 use yii\web\User;
 
 class StockLocationsProvider
@@ -17,10 +20,9 @@ class StockLocationsProvider
     public function __construct(
         private readonly SettingsStorage $storage,
         private readonly CacheInterface $cache,
-        private readonly User $user
-    )
-    {
-    }
+        private readonly User $user,
+        private readonly Request $request,
+    ) {}
 
     public function getLocationsList(): array
     {
@@ -38,6 +40,10 @@ class StockLocationsProvider
 
     public function getLocations(): array
     {
+        $locations = $this->request->get('ModelSearch') ? $this->request->get('ModelSearch')['locations'] ?? null : null;
+        if ($locations !== null) {
+            $this->locations = $locations;
+        }
         if ($this->locations === null) {
             $this->locations = $this->storage->getBounded(self::KEY);
         }

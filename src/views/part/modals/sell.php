@@ -153,8 +153,7 @@ JS
     <div class="col-md-6">
         <?= $form->field($model, 'time')->widget(DateTimePicker::class, [
             'clientOptions' => [
-                'endDate' => date('Y-m-d'),
-                'todayBtn' => true,
+                'maxDate' => date('Y-m-d'),
             ],
         ]) ?>
     </div>

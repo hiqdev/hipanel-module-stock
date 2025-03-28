@@ -7,7 +7,7 @@ import PartView from "@hipanel-module-stock/page/PartView";
 
 function getPartData() {
     return  {
-        partno: 'CHASSIS EPYC 7402P',
+        partno: 'EPYC 7402P',
         src_id: 'TEST-DS-01',
         dst_id: 'TEST-DS-02',
         serials: UniqueId.generate(`MG_TEST_PART`),

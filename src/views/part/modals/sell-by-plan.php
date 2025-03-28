@@ -80,7 +80,7 @@ JS
                 ],
             ],
         ]) ?>
-        <?= $form->field($model, 'time')->widget(DateTimePicker::class, ['clientOptions' => ['todayBtn' => true]]) ?>
+        <?= $form->field($model, 'time')->widget(DateTimePicker::class) ?>
         <?= $form->field($model, 'reason')->textInput() ?>
     </div>
 </div>

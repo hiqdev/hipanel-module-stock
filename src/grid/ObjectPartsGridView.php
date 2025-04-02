@@ -86,7 +86,7 @@ class ObjectPartsGridView extends BoxedGridView
                 'value' => fn(Part $part): ?string => !empty($part->price) ? $this->formatter->asCurrency($part->price,
                     $part->currency) : null,
                 'filter' => $this->dropdownFor('currency'),
-                'visible' => $user->can('move.read-all'),
+                'visible' => $user->can('move.read-all') && $user->can('part.create'),
             ],
             'move_time' => [
                 'contentOptions' => ['style' => 'width: 20%'],

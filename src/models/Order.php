@@ -7,6 +7,7 @@ use hipanel\base\Model;
 use hipanel\behaviors\File;
 use hipanel\models\Ref;
 use hipanel\modules\stock\models\query\OrderQuery;
+use hipanel\validators\FileValidator;
 use hiqdev\hiart\ActiveQuery;
 use Yii;
 use yii\db\Query;
@@ -56,7 +57,7 @@ class Order extends Model
                 'message' => Yii::t('hipanel.stock.order', 'The combination No. and Reseller has already been taken.'),
                 'on' => ['create', 'update']],
             [['file_ids'], 'safe'],
-            [['file'], 'file', 'maxFiles' => self::MAX_FILES_COUNT],
+            [['file'], FileValidator::class, 'maxFiles' => self::MAX_FILES_COUNT],
         ]);
     }
 

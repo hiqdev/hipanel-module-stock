@@ -7,8 +7,8 @@
 
 use hipanel\modules\stock\models\Order;
 use hipanel\modules\stock\widgets\combo\ContactCombo;
-use hipanel\widgets\DateTimePicker;
 use hipanel\widgets\Box;
+use hipanel\widgets\DateTimePicker;
 use hipanel\widgets\FileInput;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -22,6 +22,7 @@ use yii\helpers\Url;
     'validateOnBlur' => true,
     'enableAjaxValidation' => true,
     'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
+    'options' => ['enctype' => 'multipart/form-data'],
 ]) ?>
 
 <div class="row">
@@ -57,10 +58,7 @@ use yii\helpers\Url;
             </div>
             <div class="col-md-6">
                 <?= $form->field($model, 'time')->widget(DateTimePicker::class, [
-                    'clientOptions' => [
-                        'todayBtn' => true,
-                        'dateFormat' => 'Y-m-d H:i'
-                    ],
+                    'clientOptions' => ['dateFormat' => 'Y-m-d H:i'],
                 ]) ?>
             </div>
         </div>
@@ -74,19 +72,7 @@ use yii\helpers\Url;
     <?php if ($model->fileCount < Order::MAX_FILES_COUNT) : ?>
         <div class="col-md-6">
             <?php Box::begin() ?>
-            <?= $form->field($model, 'file[]')->widget(FileInput::class, [
-                'options' => [
-                    'multiple' => true,
-                ],
-                'pluginOptions' => [
-                    'previewFileType' => 'any',
-                    'showRemove' => true,
-                    'showUpload' => false,
-                    'initialPreviewShowDelete' => true,
-                    'maxFileCount' => Order::MAX_FILES_COUNT - $model->fileCount,
-                    'msgFilesTooMany' => Yii::t('hipanel', 'Number of files selected for upload ({n}) exceeds maximum allowed limit of {m}'),
-                ],
-            ]) ?>
+                <?= $form->field($model, 'file[]')->widget(FileInput::class, ['options' => ['multiple' => true]]) ?>
             <?php Box::end() ?>
         </div>
     <?php endif ?>

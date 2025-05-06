@@ -118,8 +118,10 @@ class Move extends \hipanel\base\Model
             }, $descr);
         } else if (str_contains($descr, 'http') && preg_match('/([A-Z]+\-\d+)/', $descr)) {
             return preg_replace_callback($urlPattern, function ($url) {
-                preg_match('/([A-Z]+\-\d+)/', $url[0], $matches);
-                return Html::a($matches[1], $url[0]);
+                if (preg_match('/([A-Z]+\-\d+)/', $url[0], $matches)) {
+                    return Html::a($matches[1], $url[0]);
+                }
+                return Html::a($url[0], $url[0]);
             }, $descr);
         } else if (str_contains($descr, 'http')) {
             return preg_replace_callback($urlPattern, function ($url) {

@@ -34,11 +34,12 @@ class PartRepresentations extends RepresentationCollection
             ],
             'report' => [
                 'label' => Yii::t('hipanel', 'report'),
-                'columns' => [
+                'columns' => array_filter([
                     'checkbox',
                     'model_type', 'model_brand', 'partno', 'serial',
                     'create_date', 'price', 'place',
-                ],
+                    $user->can('order.read') ? 'company_id' : null,
+                ]),
             ],
             'detailed' => $user->can('tmp disabled') ? [
                 'label' => Yii::t('hipanel', 'detailed'),

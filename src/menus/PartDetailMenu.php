@@ -3,6 +3,7 @@
 namespace hipanel\modules\stock\menus;
 
 use hipanel\modules\stock\models\Part;
+use hipanel\widgets\AuditButton;
 use hipanel\widgets\SettingsModal;
 use Yii;
 
@@ -83,8 +84,11 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                         ],
                     ],
                 ],
-                'visible' => Yii::$app->user->can('part.delete'),
             ],
+            [
+                'label' => AuditButton::widget(['model' => $this->model, 'rightIcon' => true]),
+                'encode' => false,
+            ]
         ];
     }
 }

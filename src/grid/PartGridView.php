@@ -44,9 +44,7 @@ class PartGridView extends BoxedGridView
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'filterAttribute' => 'serial_ilike',
                 'format' => 'raw',
-                'value' => function ($model) {
-                    return Html::a(Html::encode($model->serial), ['@part/view', 'id' => $model->id], ['class' => 'text-bold']);
-                },
+                'value' => fn($model) => Html::a(Html::encode($model->serial), ['@part/view', 'id' => $model->id], ['class' => 'text-bold']),
             ],
             'main' => [
                 'class' => RefColumn::class,
@@ -107,9 +105,8 @@ class PartGridView extends BoxedGridView
                 'gtype' => 'type,model',
                 'i18nDictionary' => 'hipanel:stock',
                 'label' => Yii::t('hipanel:stock', 'Type'),
-                'value' => function ($model) {
-                    return $model->model_type_label;
-                },
+                'format' => 'raw',
+                'value' => static fn($model): ?string => Html::encode($model->model_type_label),
             ],
             'model_type_label' => [
                 'class' => RefColumn::class,
@@ -124,9 +121,8 @@ class PartGridView extends BoxedGridView
                 'gtype' => 'type,brand',
                 'label' => Yii::t('hipanel:stock', 'Manufacturer'),
                 'i18nDictionary' => 'hipanel:stock',
-                'value' => function ($model) {
-                    return Html::encode($model->model_brand_label);
-                },
+                'format' => 'raw',
+                'value' => static fn($model): ?string => Html::encode($model->model_brand_label),
             ],
             'model_brand_label' => [
                 'class' => RefColumn::class,
@@ -242,12 +238,12 @@ class PartGridView extends BoxedGridView
                 'class' => CurrencyColumn::class,
                 'filterAttribute' => 'currency',
                 'visible' => Yii::$app->user->can('move.read-all'),
-                'filter' => function ($column, $model, $attribute) {
+                'filter' => static function ($column, $model) {
                     $values = ['usd' => 'USD', 'eur' => 'EUR'];
 
                     return Html::activeDropDownList($model, 'currency', $values, [
                         'class' => 'form-control',
-                        'prompt' => Yii::t('hipanel', '----------'),
+                        'prompt' => Yii::t('hipanel', '--'),
                     ]);
                 },
             ],

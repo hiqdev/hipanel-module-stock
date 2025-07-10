@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
 
 namespace hipanel\modules\stock\grid;
 
-
 use hipanel\grid\RefColumn;
+use Yii;
 
 /**
  * Class CompanyColumn
@@ -12,19 +13,9 @@ use hipanel\grid\RefColumn;
  */
 class CompanyColumn extends RefColumn
 {
-    /**
-     * @inheritdoc
-     */
     public $filterOptions = ['class' => 'narrow-filter'];
-
-    /**
-     * @inheritdoc
-     */
+    public $format = 'raw';
     public $gtype = 'type,part_company';
-
-    /**
-     * @inheritdoc
-     */
     public $findOptions = [
         'select' => 'id_label',
         'mapOptions' => [
@@ -32,14 +23,9 @@ class CompanyColumn extends RefColumn
         ],
     ];
 
-    /**
-     * @inheritdoc
-     */
-    public function init()
+    public function init(): void
     {
-        $this->label = \Yii::t('hipanel:stock', 'Company');
-        $this->value = function ($model) {
-            return $model->company;
-        };
+        $this->label = Yii::t('hipanel:stock', 'Company');
+        $this->value = static fn($model): ?string => $model->company;
     }
 }

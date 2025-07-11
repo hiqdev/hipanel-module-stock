@@ -36,6 +36,7 @@ class PartRepresentations extends RepresentationCollection
                 'label' => Yii::t('hipanel', 'report'),
                 'columns' => array_filter([
                     'checkbox',
+                    'id',
                     'model_type',
                     'model_brand',
                     'partno',

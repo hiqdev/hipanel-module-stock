@@ -10,7 +10,7 @@ export default class PartIndexView {
         this.index = new Index(page);
     }
 
-    public async navigate() {
+    public async navigateCommon() {
         await this.page.goto("/stock/part/index?representation=common");
     }
 
@@ -70,5 +70,14 @@ export default class PartIndexView {
 
     public async openSellModal() {
         await this.index.clickDropdownBulkButton('Sell parts', 'Sell parts');
+    }
+
+    public async navigateSelling() {
+        await this.page.goto("/stock/part/index?representation=selling");
+    }
+
+    public async applyFiltersByBuyer(buyer: string) {
+        await this.index.applyFilter('buyer_in', buyer);
+        await this.index.submitSearchButton();
     }
 }

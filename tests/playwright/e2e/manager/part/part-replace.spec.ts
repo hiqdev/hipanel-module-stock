@@ -25,7 +25,7 @@ test.describe("Part Replacement", () => {
         const partIndexView = new PartIndexView(managerPage);
         const partReplaceView = new PartReplaceView(managerPage);
 
-        await partIndexView.navigate();
+        await partIndexView.navigateCommon();
         await partIndexView.applyFilters(data.filters);
         await partIndexView.selectPartsToReplace(data.replaceData.length);
 

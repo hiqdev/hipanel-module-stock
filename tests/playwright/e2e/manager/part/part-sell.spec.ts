@@ -18,7 +18,7 @@ test("Ensure I can sell parts @hipanel-module-stock @manager", async ({managerPa
         time: new Date(Date.now() - 86400000).toISOString().slice(0, 16).replace('T', ' ')
     };
 
-    await partIndexView.navigate();
+    await partIndexView.navigateCommon();
     await partIndexView.filterBySerial("MG_TEST_PART");
     await partIndexView.selectRows(sellData.prices.length);
     await partIndexView.openSellModal();

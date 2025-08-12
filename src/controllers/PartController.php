@@ -38,14 +38,13 @@ use hipanel\modules\stock\models\MoveSearch;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\models\PartSearch;
 use hipanel\modules\stock\models\query\PartQuery;
-use hipanel\widgets\SynchronousCountEnabler;
+use hipanel\widgets\DataProviderGridRenderer;
 use hipanel\widgets\SummaryWidget;
 use hiqdev\hiart\ActiveQuery;
 use hiqdev\hiart\Collection;
 use Yii;
 use yii\base\DynamicModel;
 use yii\base\Event;
-use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\web\ConflictHttpException;
 use yii\web\Response;
@@ -188,7 +187,7 @@ class PartController extends CrudController
                     'get-total-count' => fn(VariantsAction $action): int => Part::find()->count(),
                     IndexAction::VARIANT_SUMMARY_RESPONSE => function (VariantsAction $action): string {
                         $dataProvider = $action->parent->getDataProvider();
-                        $defaultSummary = (new SynchronousCountEnabler($dataProvider, fn(GridView $grid): string => $grid->renderSummary()))();
+                        $defaultSummary = (new DataProviderGridRenderer($dataProvider))->renderSummary();
                         if ($this->indexPageUiOptionsModel->representation !== 'report') {
                             return $defaultSummary;
                         }

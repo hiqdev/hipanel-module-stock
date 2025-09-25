@@ -209,9 +209,9 @@ class PartController extends CrudController
                         }
 
                         return $defaultSummary . SummaryWidget::widget([
-                                'local_sums' => $local_sums,
-                                'total_sums' => $total_sums,
-                            ]);
+                            'local_sums' => $local_sums,
+                            'total_sums' => $total_sums,
+                        ]);
                     },
                 ],
                 'on beforePerform' => function (Event $event) {

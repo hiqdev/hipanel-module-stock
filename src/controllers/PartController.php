@@ -17,12 +17,12 @@ use hipanel\actions\IndexAction;
 use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\RedirectAction;
 use hipanel\actions\RenderAction;
-use hipanel\actions\VariantsAction;
 use hipanel\actions\SmartCreateAction;
+use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
-use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\ValidateFormAction;
+use hipanel\actions\VariantsAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
@@ -209,9 +209,9 @@ class PartController extends CrudController
                         }
 
                         return $defaultSummary . SummaryWidget::widget([
-                            'local_sums' => $local_sums,
-                            'total_sums' => $total_sums,
-                        ]);
+                                'local_sums' => $local_sums,
+                                'total_sums' => $total_sums,
+                            ]);
                     },
                 ],
                 'on beforePerform' => function (Event $event) {
@@ -245,10 +245,10 @@ class PartController extends CrudController
                     $dataProvider = $action->getDataProvider();
                     /** @var PartQuery $query */
                     $query = $dataProvider->query;
-                    $query
-                        ->joinWith('model')
-                        ->withSale()
-                        ->andWhere(['show_deleted' => true]);
+                    $query->joinWith('model')
+                          ->withSale()
+                          ->addSelect('selling')
+                          ->andWhere(['show_deleted' => true]);
                 },
                 'data' => function ($action) {
                     $moveSearch = new MoveSearch();
@@ -304,7 +304,8 @@ class PartController extends CrudController
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
                 'data' => static function ($action, $data) {
-                    array_map(fn ($model) => $model->move_type = 'repair', $data['models']);
+                    array_map(fn($model) => $model->move_type = 'repair', $data['models']);
+
                     return [
                         'moveTypes' => $action->controller->getMoveTypes('backrma'),
                         'suppliers' => $action->controller->getSuppliers(),
@@ -357,7 +358,11 @@ class PartController extends CrudController
             'delete' => [
                 'class' => SmartDeleteAction::class,
                 'success' => Yii::t('hipanel:stock', 'Part has been deleted'),
-                'error' => Yii::t('hipanel:stock', 'An error occurred when trying to delete {object}', ['{object}' => Yii::t('hipanel:stock', 'part')]),
+                'error' => Yii::t(
+                    'hipanel:stock',
+                    'An error occurred when trying to delete {object}',
+                    ['{object}' => Yii::t('hipanel:stock', 'part')]
+                ),
                 'queryOptions' => [
                     'batch' => false,
                 ],
@@ -367,7 +372,8 @@ class PartController extends CrudController
                 'scenario' => 'replace',
                 'success' => Yii::t('hipanel:stock', 'Part has been replaced'),
                 'data' => static function ($action, $data) {
-                    array_map(fn ($model) => $model->move_type = 'replace', $data['models']);
+                    array_map(fn($model) => $model->move_type = 'replace', $data['models']);
+
                     return [
                         'moveTypes' => $action->controller->getMoveTypes('backrma'),
                         'suppliers' => $action->controller->getSuppliers(),
@@ -525,7 +531,7 @@ class PartController extends CrudController
         $parts = Part::find()->joinWith('model')->where(['dst_id' => $id])->limit(-1)->all();
 
         return $this->renderPartial('_objectParts', [
-            'parts' => PartSort::byGeneralRules()->values($parts)
+            'parts' => PartSort::byGeneralRules()->values($parts),
         ]);
     }
 

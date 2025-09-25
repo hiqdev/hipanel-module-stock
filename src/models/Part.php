@@ -101,6 +101,7 @@ class Part extends \hipanel\base\Model
                 'safe',
             ],
             [['sale_id'], 'integer'],
+            [['is_sold_to_client'], 'boolean'],
             [['dst_name_in', 'src_name_in'], 'filter', 'filter' => 'trim', 'on' => 'search'],
             [
                 ['dst_name_in', 'src_name_in'],

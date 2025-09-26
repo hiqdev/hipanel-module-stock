@@ -49,7 +49,7 @@ class MoveTypeDropDownList extends InputWidget
           "cdnv2",
           "vdsmaster",
           "cloudservers",
-        ].includes(dstType)) {
+        ].includes(dstType) || dstName.startsWith('SW')) {
             $("#$id").val("install");
         } else {
             $("#$id").val("");

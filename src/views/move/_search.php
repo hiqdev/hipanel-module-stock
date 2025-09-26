@@ -3,6 +3,7 @@
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\SourceCombo;
+use hipanel\modules\stock\widgets\combo\WithDeletedSourceCombo;
 use hipanel\widgets\AdvancedSearch;
 use hiqdev\combo\StaticCombo;
 use hiqdev\yii2\daterangepicker\DateRangePicker;
@@ -35,7 +36,7 @@ use hiqdev\yii2\daterangepicker\DateRangePicker;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('src_or_dst')->widget(SourceCombo::class, ['hasId' => true]) ?>
+    <?= $search->field('src_or_dst')->widget(WithDeletedSourceCombo::class, ['hasId' => true]) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">

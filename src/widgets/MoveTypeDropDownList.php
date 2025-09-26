@@ -26,7 +26,10 @@ class MoveTypeDropDownList extends InputWidget
     if (dstSelect.length) {
       dstSelect.on("change", function () {
         const dstType = $(this).find("option:selected").data("type");
-        if (["chwbox", "stock"].includes(dstType)) {
+        const dstName = $(this).find("option:selected").text();
+        if (dstName.startsWith('rma') || dstName.endsWith('RMA')) {
+            $("#$id").val("rmaid");
+        } else if (["chwbox", "stock"].includes(dstType)) {
             $("#$id").val("stock");
         } else if ([
           "ahcloud",

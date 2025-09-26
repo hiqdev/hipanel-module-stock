@@ -3,6 +3,8 @@
 /** @var integer $src_id */
 /** @var array $types */
 /** @var array $remotehands */
+/** @var Part[] $group */
+/** @var ActiveForm $form */
 
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
@@ -11,6 +13,7 @@ use hipanel\modules\stock\widgets\MoveTypeDropDownList;
 use hipanel\widgets\Box;
 use hipanel\widgets\ArraySpoiler;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 ?>
 

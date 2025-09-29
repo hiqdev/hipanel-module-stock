@@ -347,7 +347,20 @@ class PartController extends CrudController
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'trash',
                 'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
-                'data' => function ($action) {
+                'on beforeSave' => function (Event $event) {
+                    /** @var Action $action */
+                    $action = $event->sender;
+                    $part = $this->request->post('Part');
+                    $parts = [];
+                    $partId2srcId = ArrayHelper::remove($part, 'partId2srcId');
+                    foreach ($partId2srcId as $partId => $srcId) {
+                        $parts[] = [...$part, 'id' => $partId, 'src_id' => $srcId];
+                    }
+                    $action->collection->load($parts);
+                },
+                'data' => function ($action, $data) {
+                    $data['models'] = array_map(fn($model) => $model->src_id = $model->dst_id, $data['models']);
+
                     return [
                         'moveTypes' => $action->controller->getMoveTypes('trash'),
                         'suppliers' => $action->controller->getSuppliers(),

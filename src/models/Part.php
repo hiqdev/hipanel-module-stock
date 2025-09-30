@@ -100,7 +100,8 @@ class Part extends \hipanel\base\Model
                 ],
                 'safe',
             ],
-            [['sale_id'], 'integer'],
+            [['sale_id', 'owner_id', 'part_sale_id'], 'integer'],
+            [['owner'], 'string'],
             [['is_sold_to_client'], 'boolean'],
             [['dst_name_in', 'src_name_in'], 'filter', 'filter' => 'trim', 'on' => 'search'],
             [

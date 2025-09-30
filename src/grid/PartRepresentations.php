@@ -64,6 +64,7 @@ class PartRepresentations extends RepresentationCollection
                 'columns' => [
                     'checkbox',
                     'buyer',
+                    'owner',
                     'last_move',
                     'model_type',
                     'partno',

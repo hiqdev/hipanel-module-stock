@@ -247,12 +247,21 @@ class PartGridView extends BoxedGridView
                     ]);
                 },
             ],
+            'client' => [
+                'class' => ClientColumn::class,
+                'footer' => '<b>' . Yii::t('hipanel:stock', 'TOTAL on screen') . '</b>',
+            ],
             'buyer' => [
                 'class' => ClientColumn::class,
                 'nameAttribute' => 'buyer',
                 'idAttribute' => 'buyer_id',
                 'attribute' => 'buyer',
                 'footer' => '<b>' . Yii::t('hipanel:stock', 'TOTAL on screen') . '</b>',
+            ],
+            'simple_buyer' => [
+                'attribute' => 'buyer',
+                'enableSorting' => true,
+                'filter' => false,
             ],
             'in-sale-buyer' => [
                 'attribute' => 'sale.buyer',

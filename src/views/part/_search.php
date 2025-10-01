@@ -12,11 +12,11 @@ use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\StockLocationsListTreeSelect;
 use hipanel\modules\stock\widgets\WarrantyMonthsRangeInput;
 use hipanel\widgets\AdvancedSearch;
+use hipanel\widgets\DateTimePicker;
+use hipanel\widgets\RefCombo;
 use hipanel\widgets\SearchBy;
 use hipanel\widgets\SearchManagedField;
 use hiqdev\combo\StaticCombo;
-use hipanel\widgets\RefCombo;
-use hipanel\widgets\DateTimePicker;
 use hiqdev\yii2\daterangepicker\DateRangePicker;
 use yii\helpers\Html;
 use yii\web\View;
@@ -27,7 +27,8 @@ use yii\web\View;
  * @var AdvancedSearch $search
  */
 
-$this->registerJs(<<<"JS"
+$this->registerJs(
+    <<<"JS"
 (() => {
   $("#{$search->getForm()->getId()}").on("afterValidate", function () {
     $(this).data("yiiActiveForm").validated = true;
@@ -178,10 +179,37 @@ JS
 <?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('buyer_in')->widget(ClientCombo::class, [
+    <?= $search->field('client_in')->widget(ClientCombo::class, [
         'multiple' => true,
     ]) ?>
 </div>
+
+<?php $this->registerCss(<<<CSS
+.buyer-with-checkbox .input-group-addon {
+  padding: 4px 12px;
+  & > label {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+    gap: 0.3rem;
+  }
+}
+CSS
+) ?>
+
+<div class="col-md-4 col-sm-6 col-xs-12 buyer-with-checkbox">
+    <?= $search->field('buyer_in', [
+        'template' => "{label}<div class='input-group'><span class='input-group-addon'>{ch}</span>{input}</div>\n{hint}\n{error}",
+        'parts' => [
+            '{ch}' => Html::activeCheckbox($search->model, 'is_sold'),
+        ],
+    ])->widget(ClientCombo::class, ['multiple' => true]) ?>
+</div>
+
 
 <?php if (Yii::$app->user->can('order.read')): ?>
     <div class="col-md-4 col-sm-6 col-xs-12">

@@ -16,8 +16,8 @@ use yii\helpers\Html;
  */
 
 $this->title = html::encode(yii::t('hipanel', $model->title));
-$this->params['subtitle'] = yii::t('hipanel', 'detailed information');
-$this->params['breadcrumbs'][] = ['label' => yii::t('hipanel:stock', 'parts'), 'url' => ['index']];
+$this->params['subtitle'] = yii::t('hipanel', 'Detailed information');
+$this->params['breadcrumbs'][] = ['label' => yii::t('hipanel:stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = yii::t('hipanel', $this->title);
 
 ?>
@@ -60,6 +60,7 @@ $this->params['breadcrumbs'][] = yii::t('hipanel', $this->title);
                                 'boxed' => false,
                                 'model' => $model,
                                 'columns' => [
+                                    'client',
                                     'model_type_label',
                                     'model_brand_label',
                                     'partno',
@@ -84,7 +85,7 @@ $this->params['breadcrumbs'][] = yii::t('hipanel', $this->title);
                 <div class="box">
                     <div class="box-header with-border">
                         <?= Html::tag('h3', Yii::t('hipanel', 'Sale detailed information'), ['class' => 'box-title']) ?>
-                        <?php if ($model->is_sold_to_client) : ?>
+                        <?php if ($model->is_sold) : ?>
                             <div class="box-tools pull-right">
                                 <?= Html::tag('div', Yii::t('hipanel:stock', 'SOLD TO THE CLIENT'), ['class' => 'label label-danger']) ?>
                             </div>

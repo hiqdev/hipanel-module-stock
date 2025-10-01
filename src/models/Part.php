@@ -100,8 +100,9 @@ class Part extends \hipanel\base\Model
                 ],
                 'safe',
             ],
-            [['sale_id'], 'integer'],
-            [['is_sold_to_client'], 'boolean'],
+            [['sale_id', 'client_id'], 'integer'],
+            [['client'], 'string'],
+            [['is_sold'], 'boolean'],
             [['dst_name_in', 'src_name_in'], 'filter', 'filter' => 'trim', 'on' => 'search'],
             [
                 ['dst_name_in', 'src_name_in'],
@@ -247,6 +248,7 @@ class Part extends \hipanel\base\Model
             'order_id' => Yii::t('hipanel:stock', 'Order'),
             'device_location' => Yii::t('hipanel:stock', 'DC location'),
             'disposal_id' => Yii::t('hipanel:stock', 'Disposal'),
+            'is_sold' => Yii::t('hipanel:stock', 'Is sold?'),
         ]);
     }
 

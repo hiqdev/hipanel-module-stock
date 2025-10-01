@@ -143,7 +143,10 @@ class Part extends \hipanel\base\Model
             [['id', 'dst_id', 'src_id', 'partno', 'serial', 'move_type'], 'required', 'on' => 'move-by-one'],
 
             // Trash
-            [['id', 'dst_id', 'src_id', 'partno', 'serial', 'move_descr'], 'required', 'on' => 'trash'],
+            [['id', 'dst_id', 'move_type'], 'required', 'on' => 'trash'],
+            [['move_descr', 'remotehands', 'remote_ticket', 'hm_ticket'], 'safe', 'on' => 'trash'],
+            [['src_id'], 'safe', 'on' => 'trash'],
+            [['partId2srcId'], 'safe', 'on' => 'trash'],
 
             // Replace
             [['id', 'src_id', 'dst_id', 'move_type', 'serial', 'partno'], 'required', 'on' => 'replace'],

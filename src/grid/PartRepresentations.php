@@ -16,6 +16,7 @@ class PartRepresentations extends RepresentationCollection
                 'label' => Yii::t('hipanel', 'common'),
                 'columns' => array_filter([
                     'checkbox',
+                    'simple_buyer',
                     'model_type', 'model_brand', 'model', 'partno', 'serial',
                     'last_move', 'move_type_and_date', 'device_location', 'warranty_till',
                     $user->can('move.read') ? 'move_descr' : null,
@@ -64,7 +65,7 @@ class PartRepresentations extends RepresentationCollection
                 'columns' => [
                     'checkbox',
                     'buyer',
-                    'owner',
+                    'client',
                     'last_move',
                     'model_type',
                     'partno',

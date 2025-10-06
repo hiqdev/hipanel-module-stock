@@ -29,11 +29,11 @@ use yii\widgets\ActiveForm;
                             'data' => array_map(fn (Part $el) => sprintf('%s (%s)', $el->partno, $el->serial), $group),
                             'visibleCount' => count($group),
                             'delimiter' => '<br />',
-                        ]); ?>
+                        ]) ?>
                         <div>
                             <?php foreach ($group as $model) : ?>
-                                <?= Html::activeHiddenInput($model, "[$src_id]id[]", ['value' => $model->id]); ?>
-                            <?php endforeach; ?>
+                                <?= Html::activeHiddenInput($model, "[$src_id]id[]", ['value' => $model->id]) ?>
+                            <?php endforeach ?>
                         </div>
                     </div>
                 </div>
@@ -50,6 +50,7 @@ use yii\widgets\ActiveForm;
                         </div>
                         <div class="col-lg-4">
                             <?= $form->field($model, "[$src_id]dst_id")->widget(DestinationCombo::class, [
+                                'warnIfMovingToStock' => count(array_filter($group, fn (Part $p) => $p->is_sold)) > 0,
                                 'inputOptions' => [
                                     'id' => "$src_id-dst_id-" . uniqid(),
                                 ],
@@ -70,7 +71,7 @@ use yii\widgets\ActiveForm;
                             <?= $form->field($model, "[$src_id]hm_ticket")->textInput(['id' => "$src_id-hm_ticket-" . uniqid()]) ?>
                         </div>
                     </div>
-                    <?= $form->field($model, "[$src_id]descr")->textarea(['id' => "$src_id-descr-" . uniqid()])->label(Yii::t('hipanel:stock', 'Move description')); ?>
+                    <?= $form->field($model, "[$src_id]descr")->textarea(['id' => "$src_id-descr-" . uniqid()])->label(Yii::t('hipanel:stock', 'Move description')) ?>
                 </div>
             </div>
         </div>

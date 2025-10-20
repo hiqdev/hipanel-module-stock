@@ -1,15 +1,22 @@
 <?php
 
 use hipanel\helpers\Url;
-use hipanel\widgets\Box;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+
+/** @var array $models */
+/** @var array $types */
+/** @var array $groupedModels */
+/** @var array $remotehands */
+/** @var array $remotehands */
 
 $scenario = $this->context->action->scenario;
 $this->title = Yii::t('hipanel:stock', 'Bulk move');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
+
 <?php $form = ActiveForm::begin([
     'id' => 'dynamic-form',
     'enableClientValidation' => true,

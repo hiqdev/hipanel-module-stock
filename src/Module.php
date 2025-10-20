@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /*
@@ -14,14 +15,4 @@ namespace hipanel\modules\stock;
 
 class Module extends \hipanel\base\Module
 {
-    /**
-     * @var array stock names and representative stock labels
-     *
-     * ```php
-     * [
-     *    'sdg' => 'SDG',
-     * ]
-     * ```
-     */
-    public array $stocksList = [];
 }

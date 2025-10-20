@@ -1,7 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
+
 namespace hipanel\modules\stock\tests\acceptance\manager;
 
+use Codeception\Exception\ModuleException;
+use Exception;
 use hipanel\helpers\Url;
 use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Input;
@@ -10,12 +15,10 @@ use hipanel\tests\_support\Step\Acceptance\Manager;
 class ModelGroupsCest
 {
     private IndexPage $index;
-    private array $stocksList;
 
     public function _before(Manager $I): void
     {
         $this->index = new IndexPage($I);
-        $this->stocksList = \Yii::$app->params['module.stock.stocks_list'];
     }
 
     public function ensureIndexPageWorks(Manager $I): void
@@ -24,14 +27,31 @@ class ModelGroupsCest
         $I->see('Model groups', 'h1');
         $I->seeLink('Create group', Url::to('create'));
         $this->ensureICanSeeAdvancedSearchBox($I);
-        $this->ensureICanSeeBulkSearchBox();
+        $this->index->containsBulkButtons([
+            'Update',
+            'Copy',
+            'Delete',
+        ]);
+        $this->index->containsColumns([
+            'Name',
+            'Description',
+        ]);
+        $this->ensureStocksArePresetOnTheIndex($I);
     }
+
+    private function ensureStocksArePresetOnTheIndex(Manager $I): void
+    {
+        $stockList = $I->grabMultiple('[data-test-stock_alias] a');
+        codecept_debug($stockList);
+        $I->assertNotEmpty($stockList);
+    }
+
     /**
      * Method for check filtering by name
      *
      * @param Manager $I
-     * @throws \Codeception\Exception\ModuleException
-     * @throws \Exception
+     * @throws ModuleException
+     * @throws Exception
      */
     public function ensureFilterByNameWorks(Manager $I): void
     {
@@ -41,7 +61,7 @@ class ModelGroupsCest
         $I->needPage(Url::to('@model-group'));
         $this->index->filterBy(new Input($I, $selector), $name);
         $count = $this->index->countRowsInTableBody();
-        for ($i = 1 ; $i <= $count; ++$i) {
+        for ($i = 1; $i <= $count; ++$i) {
             $I->see($name, "//tbody/tr[$i]");
         }
     }
@@ -50,7 +70,7 @@ class ModelGroupsCest
      * Method for check sorting by ID
      *
      * @param Manager $I
-     * @throws \Codeception\Exception\ModuleException
+     * @throws ModuleException
      */
     public function ensureSortByIdWorks(Manager $I): void
     {
@@ -69,25 +89,11 @@ class ModelGroupsCest
             $I->seeElement("//tbody/tr[$i]", ['data-key' => $dataKey[$i - 1]]);
         }
     }
+
     private function ensureICanSeeAdvancedSearchBox(Manager $I): void
     {
         $this->index->containsFilters([
             Input::asAdvancedSearch($I, 'Name'),
         ]);
     }
-
-    private function ensureICanSeeBulkSearchBox(): void
-    {
-        $this->index->containsBulkButtons([
-            'Update',
-            'Copy',
-            'Delete',
-        ]);
-        $this->index->containsColumns([
-            'Name',
-            ...array_values($this->stocksList),
-            'Description',
-        ]);
-    }
 }
-

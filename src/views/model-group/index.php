@@ -2,7 +2,7 @@
 
 use hipanel\modules\stock\grid\ModelGroupGridView;
 use hipanel\modules\stock\models\ModelGroupSearch;
-use hipanel\modules\stock\Module;
+use hipanel\modules\stock\repositories\StockRepository;
 use hipanel\widgets\IndexPage;
 use hiqdev\hiart\ActiveDataProvider;
 use yii\helpers\Html;
@@ -12,7 +12,7 @@ use yii\web\View;
  * @var View $this
  * @var ActiveDataProvider $dataProvider
  * @var ModelGroupSearch $model
- * @var Module $module
+ * @var StockRepository $stockRepository
  */
 
 $this->title = Yii::t('hipanel:stock', 'Model groups');
@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $model,
             'boxed' => false,
-            'columns' => array_merge(['checkbox', 'name'], array_keys($module->stocksList), ['descr'])
+            'columns' => array_merge(['checkbox', 'name', ...$stockRepository->getStockList(), 'descr'])
         ]) ?>
         <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>

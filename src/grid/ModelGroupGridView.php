@@ -1,40 +1,47 @@
 <?php
 
-/*
- * Stock Module for Hipanel
- *
- * @link      https://github.com/hiqdev/hipanel-module-stock
- * @package   hipanel-module-stock
- * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
- */
+declare(strict_types=1);
+
 
 namespace hipanel\modules\stock\grid;
 
 use hipanel\grid\ActionColumn;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\ColspanColumn;
+use hipanel\grid\DataColumn;
 use hipanel\modules\stock\models\ModelGroup;
 use hipanel\modules\stock\models\ModelGroupSearch;
-use hipanel\modules\stock\Module;
+use hipanel\modules\stock\repositories\StockRepository;
 use Yii;
 use yii\helpers\Html;
 
+/**
+ *
+ * @property-read array $limitColumns
+ */
 class ModelGroupGridView extends BoxedGridView
 {
     /** @var ModelGroupSearch */
     public $filterModel;
+    public DataColumn $fakeColumn;
 
-    private Module $module;
-
-    public function __construct(Module $module, $config = [])
+    public function __construct(private readonly StockRepository $stockRepository, $config = [])
     {
-        $this->module = $module;
-
+        $this->fakeColumn = new class extends DataColumn {
+            public function init(): void
+            {
+                $this->label = '';
+                $this->format = 'raw';
+                $this->value = fn() => '';
+                $this->contentOptions = ['style' => 'padding: 0;'];
+                $this->headerOptions = ['style' => 'padding: 0;'];
+                $this->options = ['style' => 'padding: 0;'];
+            }
+        };
         parent::__construct($config);
     }
 
-    public function columns()
+    public function columns(): array
     {
         return array_merge(parent::columns(), [
             'tableInfoRow' => [
@@ -42,39 +49,31 @@ class ModelGroupGridView extends BoxedGridView
                 'label' => '',
                 'columns' => [
                     [
-                        'label' => ' ',
-                        'format' => 'raw',
-                        'value' => function () {
-                            return '&nbsp;';
-                        },
+                        'class' => $this->fakeColumn::class,
                     ],
                     [
                         'label' => Yii::t('hipanel:stock', 'Stock'),
                         'contentOptions' => ['class' => 'text-center'],
                         'value' => function () {
                             return Yii::t('hipanel:stock', 'Stock');
-                        }
+                        },
                     ],
                     [
                         'label' => Yii::t('hipanel:stock', 'RMA'),
                         'contentOptions' => ['class' => 'text-center'],
                         'value' => function () {
                             return Yii::t('hipanel:stock', 'RMA');
-                        }
+                        },
                     ],
                     [
                         'label' => Yii::t('hipanel:stock', 'Limit'),
                         'contentOptions' => ['class' => 'text-center'],
                         'value' => function () {
                             return Yii::t('hipanel:stock', 'Limit');
-                        }
+                        },
                     ],
                     [
-                        'label' => ' ',
-                        'format' => 'raw',
-                        'value' => function () {
-                            return '&nbsp;';
-                        },
+                        'class' => $this->fakeColumn::class,
                     ],
                 ],
             ],
@@ -90,9 +89,11 @@ class ModelGroupGridView extends BoxedGridView
                 ],
                 'filterAttribute' => 'name_ilike',
                 'format' => 'raw',
-                'value' => function ($model) {
-                    return Html::a(Html::encode($model->name), ['@model-group/view', 'id' => $model->id], ['class' => 'text-bold']);
-                }
+                'value' => fn($model) => Html::a(
+                    Html::encode($model->name),
+                    ['@model-group/view', 'id' => $model->id],
+                    ['class' => 'text-bold']
+                ),
             ],
             'descr' => [
                 'enableSorting' => false,
@@ -109,18 +110,18 @@ class ModelGroupGridView extends BoxedGridView
     protected function getLimitColumns(): array
     {
         $columns = [];
-        foreach ($this->module->stocksList as $type => $label) {
+        foreach ($this->stockRepository->getStockList() as $type => $label) {
             $columns[$type] = [
                 'class' => ColspanColumn::class,
+                'filterOptions' => ['class' => 'test-stock_alias'],
                 'label' => $label,
                 'headerOptions' => [
                     'class' => 'text-center',
+                    'data-test-stock_alias' => $label,
                 ],
                 'columns' => [
                     [
-                        'label' => ' ',
-                        'format' => 'raw',
-                        'value' => fn() => '&nbsp;',
+                        'class' => $this->fakeColumn::class,
                     ],
                     [
                         'label' => Yii::t('hipanel:stock', 'Stock'),
@@ -138,7 +139,7 @@ class ModelGroupGridView extends BoxedGridView
                             }
 
                             return $html;
-                        }
+                        },
                     ],
                     [
                         'label' => Yii::t('hipanel:stock', 'RMA'),
@@ -155,27 +156,27 @@ class ModelGroupGridView extends BoxedGridView
                             }
 
                             return $html;
-                        }
+                        },
                     ],
                     [
                         'label' => Yii::t('hipanel:stock', 'Limit'),
                         'contentOptions' => function (ModelGroup $model) use ($type) {
                             $short = ($model->limits[$type]['limit'] ?? 0) > ($model->limits[$type]['stock'] ?? 0);
+
                             return ['class' => 'text-center' . ($short ? ' bg-danger' : '')];
                         },
                         'format' => 'raw',
                         'value' => function (ModelGroup $model) use ($type) {
-                            return isset($model->limits[$type]['limit']) ? Html::tag('strong', Html::encode($model->limits[$type]['limit'])) : null;
-                        }
-                    ],
-                    [
-                        'label' => ' ',
-                        'format' => 'raw',
-                        'value' => function () {
-                            return '&nbsp;';
+                            return isset($model->limits[$type]['limit']) ? Html::tag(
+                                'strong',
+                                Html::encode($model->limits[$type]['limit'])
+                            ) : null;
                         },
                     ],
-                ]
+                    [
+                        'class' => $this->fakeColumn::class,
+                    ],
+                ],
             ];
         }
 

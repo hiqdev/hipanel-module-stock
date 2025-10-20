@@ -1,14 +1,20 @@
 <?php
+
 declare(strict_types=1);
+
 
 namespace hipanel\modules\stock\tests\_support\Page\modelGroup;
 
+use Codeception\Exception\ModuleException;
 use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Step\Acceptance\Manager;
 
 class Index extends IndexPage
 {
+    /**
+     * @throws ModuleException
+     */
     public function checkFilterByName(string $value): void
     {
         parent::checkFilterBy(
@@ -19,9 +25,9 @@ class Index extends IndexPage
 
     /**
      * @param Manager $I
-     * @param string $lastOperations
+     * @param string $name
      * @return int
-     * @throws \Codeception\Exception\ModuleException
+     * @throws ModuleException
      */
     public function filterModelsByNameAndSelectThem(Manager $I, string $name): int
     {
@@ -30,6 +36,7 @@ class Index extends IndexPage
         foreach (range(1, $count) as $i) {
             $this->selectTableRowByNumber($i);
         }
+
         return $count;
     }
 }

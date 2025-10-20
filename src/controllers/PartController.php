@@ -216,13 +216,10 @@ class PartController extends CrudController
                 ],
                 'on beforePerform' => function (Event $event) {
                     /** @var ActiveQuery $query */
-                    $query = $event->sender->getDataProvider()->query;
+                    $query = $event->sender->getDataProvider()->query->addSelect('selling');
                     if ($this->indexPageUiOptionsModel->representation === 'profit-report') {
                         $query->joinWith('profit');
                         $query->andWhere(['with_profit' => true]);
-                        $query->addSelect('selling');
-                    }
-                    if ($this->indexPageUiOptionsModel->representation === 'selling') {
                         $query->addSelect('selling');
                     }
                 },

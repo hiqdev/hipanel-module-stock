@@ -3,20 +3,23 @@
 use hipanel\modules\stock\grid\ModelGridView;
 use hipanel\modules\stock\grid\ModelGroupGridView;
 use hipanel\modules\stock\menus\ModelGroupDetailMenu;
+use hipanel\modules\stock\models\ModelGroup;
+use hipanel\modules\stock\Module;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\MainDetails;
+use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
+use yii\web\View;
 
 /**
- * @var \yii\web\View $this
- * @var \hipanel\modules\stock\models\ModelGroup $model
- * @var \hipanel\modules\stock\Module $module
+ * @var View $this
+ * @var ModelGroup $model
+ * @var Module $module
  */
 
 $this->title = Html::encode($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Model groups'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-$a = array_keys($model->getSupportedLimitTypes());
 
 ?>
 
@@ -27,7 +30,10 @@ $a = array_keys($model->getSupportedLimitTypes());
             'title' => $this->title,
             'icon' => 'fa-folder-open',
             'subTitle' => Html::encode($model->descr),
-            'menu' => ModelGroupDetailMenu::widget(['model' => $model], ['linkTemplate' => '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>&nbsp;{label}</a>']),
+            'menu' => ModelGroupDetailMenu::widget(
+                ['model' => $model],
+                ['linkTemplate' => '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>&nbsp;{label}</a>']
+            ),
         ]) ?>
 
         <div>
@@ -39,7 +45,7 @@ $a = array_keys($model->getSupportedLimitTypes());
                         'gridOptions' => [
                             'filterModel' => $model,
                         ],
-                        'columns' => array_merge(['tableInfoRow'], array_keys($model->getSupportedLimitTypes())),
+                        'columns' => ['tableInfoRow', ...$model->getStockList()],
                     ]) ?>
                 </div>
             </div>
@@ -57,7 +63,7 @@ $a = array_keys($model->getSupportedLimitTypes());
                 <?php $page->beginBulkForm() ?>
                     <?= ModelGridView::widget([
                         'boxed' => false,
-                        'dataProvider' => new \yii\data\ArrayDataProvider([
+                        'dataProvider' => new ArrayDataProvider([
                             'allModels' => $model->model_ids ? $model->models : [],
                             'pagination' => [
                                 'pageSize' => 50,
@@ -72,7 +78,7 @@ $a = array_keys($model->getSupportedLimitTypes());
                             'model',
                             'descr',
                             'partno',
-                            ...array_keys($module->stocksList),
+                            ...array_keys($model->getStockList()),
                             'last_prices',
                         ],
                     ]) ?>
@@ -80,5 +86,4 @@ $a = array_keys($model->getSupportedLimitTypes());
             <?php $page->endContent() ?>
         <?php $page->end() ?>
     </div>
-
 </div>

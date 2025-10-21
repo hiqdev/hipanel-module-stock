@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * Stock Module for Hipanel
  *
@@ -19,6 +21,7 @@ use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
+use hipanel\modules\stock\repositories\StockRepository;
 use Yii;
 
 /**
@@ -53,8 +56,8 @@ class ModelGroupController extends CrudController
             'index' => [
                 'class' => IndexAction::class,
                 'data' => [
-                    'module' => $this->module,
-                ]
+                    'stockRepository' => Yii::$container->get(StockRepository::class),
+                ],
             ],
             'create' => [
                 'class' => SmartCreateAction::class,
@@ -76,7 +79,7 @@ class ModelGroupController extends CrudController
                 'class' => ViewAction::class,
                 'data' => [
                     'module' => $this->module,
-                ]
+                ],
             ],
         ]);
     }

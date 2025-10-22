@@ -41,7 +41,7 @@ class ModelGroup extends YiiModel
      */
     public function rules()
     {
-        $limitAttributes = $this->getLimitTypesAsAttributes();
+        $stockAliasList = $this->getStockList();
 
         return [
             [['id', 'num'], 'integer'],
@@ -50,16 +50,7 @@ class ModelGroup extends YiiModel
             [['model_ids', 'limits'], 'each', 'rule' => ['integer']],
             [['stock_limits'], 'safe'],
             [['name'], 'required', 'on' => ['create', 'update']],
-            [
-                ['name'],
-                'unique',
-                'filter' => function (ActiveQuery $query): void {
-                    $query->andWhere(['ne', 'id', $this->id]);
-                },
-                'on' => ['create', 'update'],
-            ],
-            [$limitAttributes, 'integer', 'on' => ['create', 'update', 'copy']],
-            [$limitAttributes, 'default', 'value' => 0],
+            [$stockAliasList, 'integer', 'on' => ['create', 'update', 'copy']],
             [['id'], 'required', 'on' => ['update', 'delete']],
         ];
     }
@@ -69,17 +60,14 @@ class ModelGroup extends YiiModel
      */
     public function attributeLabels()
     {
-        return $this->mergeAttributeLabels($this->getStockList());
+        $list = $this->getStockList();
+
+        return $this->mergeAttributeLabels(array_combine($list, $list));
     }
 
     public function getStockList(): array
     {
-        return Yii::$container->get(StockRepository::class)->getStockList();
-    }
-
-    public function getLimitTypesAsAttributes(): array
-    {
-        return array_keys($this->getStockList());
+        return Yii::$container->get(StockRepository::class)->getAllAliases();
     }
 
     public function getModels(): ActiveQuery
@@ -97,10 +85,10 @@ class ModelGroup extends YiiModel
         parent::afterFind();
 
         $stockList = $this->getStockList();
-        foreach ($stockList as $stockName => $label) {
+        foreach ($stockList as $alias) {
             $limit = [
                 'limit' => [
-                    $stockName => $this->limits[$stockName]['limit'] ?? null,
+                    $alias => $this->limits[$alias]['limit'] ?? null,
                 ],
             ];
             $this->setAttribute('data', ArrayHelper::merge($this->data ?? [], $limit));

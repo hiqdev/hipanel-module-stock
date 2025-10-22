@@ -3,4 +3,3 @@
 return [
     'To move' => 'Move',
 ];
-

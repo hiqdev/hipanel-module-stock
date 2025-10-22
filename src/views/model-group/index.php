@@ -41,10 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('sorter-actions') ?>
-        <?= $page->renderSorter([
-            'attributes' => [
-            ],
-        ]) ?>
+        <?= $page->renderSorter(['attributes' => []]) ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('table') ?>
@@ -53,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $model,
             'boxed' => false,
-            'columns' => array_merge(['checkbox', 'name', ...$stockRepository->getStockList(), 'descr'])
+            'columns' => array_merge(['checkbox', 'name', 'descr', ...$stockRepository->getStoredAliases()])
         ]) ?>
         <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>

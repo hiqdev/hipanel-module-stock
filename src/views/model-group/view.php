@@ -4,7 +4,6 @@ use hipanel\modules\stock\grid\ModelGridView;
 use hipanel\modules\stock\grid\ModelGroupGridView;
 use hipanel\modules\stock\menus\ModelGroupDetailMenu;
 use hipanel\modules\stock\models\ModelGroup;
-use hipanel\modules\stock\Module;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\MainDetails;
 use yii\data\ArrayDataProvider;
@@ -14,7 +13,6 @@ use yii\web\View;
 /**
  * @var View $this
  * @var ModelGroup $model
- * @var Module $module
  */
 
 $this->title = Html::encode($model->name);
@@ -78,7 +76,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             'model',
                             'descr',
                             'partno',
-                            ...array_keys($model->getStockList()),
+                            ...array_map(fn(string $name): array => [
+                                'attribute' => implode(':', ['stock_alias', $name]),
+                                'label' => $name,
+                            ], $model->getStockList()),
                             'last_prices',
                         ],
                     ]) ?>

@@ -76,7 +76,7 @@ class ModelGroupGridView extends BoxedGridView
             ],
             'descr' => [
                 'enableSorting' => false,
-                'filterAttribute' => 'descr_like',
+                'filterAttribute' => 'descr_ilike',
             ],
             'actions' => [
                 'class' => ActionColumn::class,

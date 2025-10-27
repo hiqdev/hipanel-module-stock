@@ -25,7 +25,7 @@ class ModelGroupGridView extends BoxedGridView
     public $filterModel;
     public DataColumn $fakeColumn;
 
-    public function __construct(private readonly StockRepository $stockRepository, $config = [])
+    public function __construct(private readonly StockRepository $stockAliasRepository, $config = [])
     {
         $this->fakeColumn = new class extends DataColumn {
             public function init(): void
@@ -48,33 +48,12 @@ class ModelGroupGridView extends BoxedGridView
                 'class' => ColspanColumn::class,
                 'label' => '',
                 'columns' => [
-                    [
-                        'class' => $this->fakeColumn::class,
-                    ],
-                    [
-                        'label' => Yii::t('hipanel:stock', 'Stock'),
+                    ...array_map(static fn(InStockPartState $partState) => [
+                        'label' => $partState->label(),
                         'contentOptions' => ['class' => 'text-center'],
-                        'value' => function () {
-                            return Yii::t('hipanel:stock', 'Stock');
-                        },
-                    ],
-                    [
-                        'label' => Yii::t('hipanel:stock', 'RMA'),
-                        'contentOptions' => ['class' => 'text-center'],
-                        'value' => function () {
-                            return Yii::t('hipanel:stock', 'RMA');
-                        },
-                    ],
-                    [
-                        'label' => Yii::t('hipanel:stock', 'Limit'),
-                        'contentOptions' => ['class' => 'text-center'],
-                        'value' => function () {
-                            return Yii::t('hipanel:stock', 'Limit');
-                        },
-                    ],
-                    [
-                        'class' => $this->fakeColumn::class,
-                    ],
+                        'format' => 'raw',
+                        'value' => fn(): string => Html::tag('strong', $partState->label()),
+                    ], InStockPartState::cases()),
                 ],
             ],
             'name' => [
@@ -97,85 +76,50 @@ class ModelGroupGridView extends BoxedGridView
             ],
             'descr' => [
                 'enableSorting' => false,
-                'filterAttribute' => 'descr_like',
+                'filterAttribute' => 'descr_ilike',
             ],
             'actions' => [
                 'class' => ActionColumn::class,
                 'template' => '{view} {update}',
                 'header' => Yii::t('hipanel', 'Actions'),
             ],
-        ], $this->getLimitColumns());
+        ], $this->getStockColumns());
     }
 
-    protected function getLimitColumns(): array
+    protected function getStockColumns(): array
     {
         $columns = [];
-        foreach ($this->stockRepository->getStockList() as $type => $label) {
-            $columns[$type] = [
+        foreach ($this->stockAliasRepository->getStoredAliases() as $alias) {
+            $columns[$alias] = [
                 'class' => ColspanColumn::class,
-                'filterOptions' => ['class' => 'test-stock_alias'],
-                'label' => $label,
+                'filterOptions' => ['class' => 'test-stock_alias text-center'],
+                'label' => $alias,
                 'headerOptions' => [
                     'class' => 'text-center',
-                    'data-test-stock_alias' => $label,
+                    'data-test-stock_alias' => $alias,
                 ],
                 'columns' => [
-                    [
-                        'class' => $this->fakeColumn::class,
-                    ],
-                    [
-                        'label' => Yii::t('hipanel:stock', 'Stock'),
+                    ...array_map(static fn(InStockPartState $partState) => [
+                        'label' => Html::tag('strong', $partState->label()),
                         'contentOptions' => ['class' => 'text-center'],
+                        'encodeLabel' => false,
                         'format' => 'raw',
-                        'value' => function (ModelGroup $model) use ($type) {
-                            $html = '';
-
-                            if (isset($model->limits[$type]['res_stock'])) {
-                                $html .= Html::encode($model->limits[$type]['res_stock']) . '+';
+                        'value' => function (ModelGroup $modelGroup) use ($alias, $partState): ?string {
+                            if (isset($modelGroup->limits[$alias][$partState->name])) {
+                                return Html::a(
+                                    $modelGroup->limits[$alias][$partState->name],
+                                    [
+                                        '@part/index',
+                                        'PartSearch[model_group_id]' => $modelGroup->id,
+                                        'PartSearch[stock_location]' => implode(':', ['stock_alias', $alias]),
+                                        'PartSearch[stock_location_state]' => $partState->name,
+                                    ]
+                                );
                             }
 
-                            if (isset($model->limits[$type]['stock'])) {
-                                $html .= Html::tag('strong', Html::encode($model->limits[$type]['stock']), ['class' => 'text-error']);
-                            }
-
-                            return $html;
+                            return null;
                         },
-                    ],
-                    [
-                        'label' => Yii::t('hipanel:stock', 'RMA'),
-                        'contentOptions' => ['class' => 'text-center'],
-                        'format' => 'raw',
-                        'value' => function (ModelGroup $model) use ($type) {
-                            $html = '';
-
-                            if (isset($model->limits[$type]['res_rma'])) {
-                                $html .= Html::encode($model->limits[$type]['res_rma']) . '+';
-                            }
-                            if (isset($model->limits[$type]['rma'])) {
-                                $html .= Html::tag('strong', Html::encode($model->limits[$type]['rma']), ['class' => 'text-danger']);
-                            }
-
-                            return $html;
-                        },
-                    ],
-                    [
-                        'label' => Yii::t('hipanel:stock', 'Limit'),
-                        'contentOptions' => function (ModelGroup $model) use ($type) {
-                            $short = ($model->limits[$type]['limit'] ?? 0) > ($model->limits[$type]['stock'] ?? 0);
-
-                            return ['class' => 'text-center' . ($short ? ' bg-danger' : '')];
-                        },
-                        'format' => 'raw',
-                        'value' => function (ModelGroup $model) use ($type) {
-                            return isset($model->limits[$type]['limit']) ? Html::tag(
-                                'strong',
-                                Html::encode($model->limits[$type]['limit'])
-                            ) : null;
-                        },
-                    ],
-                    [
-                        'class' => $this->fakeColumn::class,
-                    ],
+                    ], InStockPartState::cases()),
                 ],
             ];
         }

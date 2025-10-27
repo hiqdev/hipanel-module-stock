@@ -1,4 +1,7 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
+
 
 namespace hipanel\modules\stock\repositories;
 
@@ -17,8 +20,8 @@ readonly class LocationRepository
     {
         $devices = $this->getDevices($locationLike);
         $deviceId2Locations = array_filter(ArrayHelper::map($devices, 'id', 'bindings.location.switch'));
-        $deviceLocationIsEmptyOrDevicesAreNotBindedWithLocation = $deviceLocation === null || $deviceId2Locations === [];
-        if ($deviceLocationIsEmptyOrDevicesAreNotBindedWithLocation) {
+        $deviceLocationIsEmptyOrDevicesAreNotBoundWithLocation = $deviceLocation === null || $deviceId2Locations === [];
+        if ($deviceLocationIsEmptyOrDevicesAreNotBoundWithLocation) {
             return ArrayHelper::map($devices, 'id', 'name');
         }
 

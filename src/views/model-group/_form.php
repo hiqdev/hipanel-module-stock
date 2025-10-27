@@ -59,9 +59,9 @@ use yii\helpers\Html;
                             <?= $form->field($model, "[$i]descr")->textarea(['rows' => 1]) ?>
                         </div>
 
-                        <?php foreach ($model->getStockList() as $name) : ?>
+                        <?php foreach ($model->getStockList() as $alias) : ?>
                             <div class="col-md-1">
-                                <?= $form->field($model, "[$i]data[limit][$name]")->input('number', ['step' => '1', 'min' => '0'])->label($name) ?>
+                                <?= $form->field($model, "[$i]data[limit][$alias]")->input('number', ['step' => '1', 'min' => '0'])->label($alias) ?>
                             </div>
                         <?php endforeach ?>
                     </div>

@@ -21,8 +21,10 @@ use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
+use hipanel\modules\stock\Module;
 use hipanel\modules\stock\repositories\StockRepository;
 use Yii;
+use yii\base\Event;
 
 /**
  * Class ModelGroupController
@@ -31,7 +33,16 @@ use Yii;
  */
 class ModelGroupController extends CrudController
 {
-    public function behaviors()
+    public function __construct(
+        $id,
+        Module $module,
+        private readonly StockRepository $stockRepository,
+        array $config = []
+    )
+    {
+        parent::__construct($id, $module, $config);
+    }
+    public function behaviors(): array
     {
         return array_merge(parent::behaviors(), [
             [
@@ -47,7 +58,7 @@ class ModelGroupController extends CrudController
         ]);
     }
 
-    public function actions()
+    public function actions(): array
     {
         return array_merge(parent::actions(), [
             'validate-form' => [
@@ -56,7 +67,10 @@ class ModelGroupController extends CrudController
             'index' => [
                 'class' => IndexAction::class,
                 'data' => [
-                    'stockRepository' => Yii::$container->get(StockRepository::class),
+                    'stockRepository' => $this->stockRepository,
+                ],
+                'filterStorageMap' => [
+                    'alias_in' => 'stock.model-group.alias_in',
                 ],
             ],
             'create' => [
@@ -77,9 +91,9 @@ class ModelGroupController extends CrudController
             ],
             'view' => [
                 'class' => ViewAction::class,
-                'data' => [
-                    'module' => $this->module,
-                ],
+                'on beforePerform' => function (Event $event) {
+                    $event->sender->getDataProvider()->query->joinWith(['models'])->andWhere(['with_models' => 1]);
+                },
             ],
         ]);
     }

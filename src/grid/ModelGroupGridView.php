@@ -78,11 +78,6 @@ class ModelGroupGridView extends BoxedGridView
                 'enableSorting' => false,
                 'filterAttribute' => 'descr_ilike',
             ],
-            'actions' => [
-                'class' => ActionColumn::class,
-                'template' => '{view} {update}',
-                'header' => Yii::t('hipanel', 'Actions'),
-            ],
         ], $this->getStockColumns());
     }
 

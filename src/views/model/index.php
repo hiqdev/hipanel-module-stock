@@ -53,6 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= $page->renderBulkButton('copy', Yii::t('hipanel:stock', 'Copy')) ?>
         <?php endif ?>
         <?php if (Yii::$app->user->can('model.delete')) : ?>
+            <?= $page->renderBulkButton('restore', Yii::t('hipanel:stock', 'Restore')) ?>
             <?= $page->renderBulkDeleteButton('delete') ?>
         <?php endif ?>
     <?php $page->endContent() ?>

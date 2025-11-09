@@ -99,5 +99,6 @@ test.describe('Part Management', () => {
 
         const partView = new PartView(managerPage);
         await partView.deletePart();
+        await partView.confirmDeletion();
     });
 });

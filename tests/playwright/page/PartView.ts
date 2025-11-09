@@ -7,23 +7,11 @@ export default class PartView {
     private detailMenu: DetailMenu;
     private id: number;
 
-    public constructor(page: Page) {
+    public constructor(page: Page, id: number) {
         this.page = page;
         this.detailMenu = new DetailMenu(page);
         this.registerAcceptDeleteDialogHandler();
-        this.id = this.extractPartIdFromUrl();
-    }
-
-    private extractPartIdFromUrl(): number {
-        const url = this.page.url();
-        const urlObj = new URL(url);
-        const idParam = urlObj.searchParams.get('id');
-
-        if (!idParam) {
-            throw new Error('Part ID not found in URL.');
-        }
-
-        return Number(idParam);
+        this.id = id;
     }
 
     private registerAcceptDeleteDialogHandler() {
@@ -47,6 +35,6 @@ export default class PartView {
     }
 
     private partStatusLabel() {
-        return this.page.locator('.box h5 span');
+        return this.page.getByTestId('part-status');
     }
 }

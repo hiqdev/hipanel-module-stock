@@ -133,6 +133,10 @@ class ModelController extends CrudController
                     ['{object}' => Yii::t('hipanel:stock', 'model')]
                 ),
             ],
+            'restore' => [
+                'class' => SmartPerformAction::class,
+                'success' => Yii::t('hipanel:stock', 'Model(s) restored'),
+            ],
         ]);
     }
 

@@ -98,7 +98,7 @@ class Model extends YiiModel
             [['id', 'type_id', 'tariff_id', 'group_id', 'warranty_months'], 'integer'],
 
             // Delete
-            [['id'], 'integer', 'on' => ['delete']],
+            [['id'], 'integer', 'on' => ['delete', 'restore']],
 
             // Create
             [['type', 'brand', 'model', 'partno'], 'required', 'on' => 'create'],

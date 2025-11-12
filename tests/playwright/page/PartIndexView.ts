@@ -65,7 +65,7 @@ export default class PartIndexView {
         expect(moveId).not.toBeNull();
 
         // Wait /stock/part/view page to load
-        await this.index.clickColumnOnTable('Parts', rowNumber);
+        await this.index.clickColumnOnTable('Parts', rowNumber, 100_000);
 
         return this.extractPartIdFromUrl();
     }

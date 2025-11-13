@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = yii::t('hipanel', $this->title);
             'subTitle' => (function () use ($model) {
                 if ($model->state !== Part::STATE_OK) {
                     $state = Yii::t('hipanel', 'Deleted');
-                    $label = "<br /><span class=\"label label-danger\">{$state}</span>";
+                    $label = "<br /><span data-testid=\"part-status\" class=\"label label-danger\">{$state}</span>";
                 }
 
                 return $model->partno . ' #' . $model->serial . ($label ?? '') ;

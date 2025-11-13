@@ -95,9 +95,10 @@ test.describe('Part Management', () => {
         await partCreateView.fillPartFields(getPartData());
         await partCreateView.save();
 
-        await partIndexView.seePartWasCreated();
+        const partId = await partIndexView.seePartWasCreated();
 
-        const partView = new PartView(managerPage);
+        const partView = new PartView(managerPage, partId);
         await partView.deletePart();
+        await partView.confirmDeletion();
     });
 });

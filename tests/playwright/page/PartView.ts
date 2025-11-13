@@ -1,17 +1,17 @@
 import {Page} from "@playwright/test";
-import Notification from "@hipanel-core/helper/Notification";
 import DetailMenu from "@hipanel-core/helper/DetailMenu";
+import { expect } from '@playwright/test';
 
 export default class PartView {
     private page: Page;
-    private notification: Notification;
     private detailMenu: DetailMenu;
+    private id: number;
 
-    public constructor(page: Page) {
+    public constructor(page: Page, id: number) {
         this.page = page;
-        this.notification = new Notification(page);
         this.detailMenu = new DetailMenu(page);
         this.registerAcceptDeleteDialogHandler();
+        this.id = id;
     }
 
     private registerAcceptDeleteDialogHandler() {
@@ -22,6 +22,19 @@ export default class PartView {
     public async deletePart()
     {
         await this.detailMenu.clickDetailMenuItem("Delete");
-        await this.notification.hasNotification('Part has been deleted');
+    }
+
+    public async confirmDeletion() {
+        await this.goToPartView();
+
+        await expect(this.partStatusLabel()).toHaveText('Deleted');
+    }
+
+    public async goToPartView() {
+        await this.page.goto(`/stock/part/view?id=${this.id}`);
+    }
+
+    private partStatusLabel() {
+        return this.page.getByTestId('part-status');
     }
 }

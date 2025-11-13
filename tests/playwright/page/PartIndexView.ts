@@ -52,7 +52,7 @@ export default class PartIndexView {
         await this.index.chooseNumberRowOnTable(number);
     }
 
-    public async seePartWasCreated() {
+    public async seePartWasCreated(): Promise<number> {
         const rowNumber = 1;
         await this.index.hasNotification('Part has been created');
         await this.index.closeNotification();
@@ -66,6 +66,20 @@ export default class PartIndexView {
 
         // Wait /stock/part/view page to load
         await this.index.clickColumnOnTable('Parts', rowNumber, 100_000);
+
+        return this.extractPartIdFromUrl();
+    }
+
+    private extractPartIdFromUrl(): number {
+        const url = this.page.url();
+        const urlObj = new URL(url);
+        const idParam = urlObj.searchParams.get('id');
+
+        if (!idParam) {
+            throw new Error('Part ID not found in URL.');
+        }
+
+        return Number(idParam);
     }
 
     public async openSellModal() {

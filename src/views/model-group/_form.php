@@ -31,6 +31,7 @@ use yii\helpers\Html;
         'descr',
     ],
 ]) ?>
+
 <div class="container-items">
     <?php foreach ($models as $i => $model) : ?>
         <?php if ($model->scenario === 'update') : ?>
@@ -51,16 +52,13 @@ use yii\helpers\Html;
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-lg-4 col-md-6">
                             <?= $form->field($model, "[$i]name") ?>
-                        </div>
-
-                        <div class="col-md-3">
-                            <?= $form->field($model, "[$i]descr")->textarea(['rows' => 1]) ?>
+                            <?= $form->field($model, "[$i]descr")->textarea(['rows' => 3]) ?>
                         </div>
 
                         <?php foreach ($model->getStockList() as $alias) : ?>
-                            <div class="col-md-1">
+                            <div class="col-lg-2 col-md-6">
                                 <?= $form->field($model, "[$i]data[limit][$alias]")->input('number', ['step' => '1', 'min' => '0'])->label($alias) ?>
                             </div>
                         <?php endforeach ?>

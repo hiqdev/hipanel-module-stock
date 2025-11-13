@@ -1,10 +1,12 @@
 <?php
 
+use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\stock\grid\ModelGroupGridView;
 use hipanel\modules\stock\models\ModelGroupSearch;
 use hipanel\modules\stock\repositories\StockRepository;
 use hipanel\widgets\IndexPage;
 use hiqdev\hiart\ActiveDataProvider;
+use hiqdev\higrid\representations\RepresentationCollection;
 use yii\helpers\Html;
 use yii\web\View;
 
@@ -13,11 +15,12 @@ use yii\web\View;
  * @var ActiveDataProvider $dataProvider
  * @var ModelGroupSearch $model
  * @var StockRepository $stockRepository
+ * @var RepresentationCollection $representationCollection
+ * @var IndexPageUiOptions $uiModel
  */
 
 $this->title = Yii::t('hipanel:stock', 'Model groups');
 $this->params['breadcrumbs'][] = $this->title;
-
 
 ?>
 
@@ -50,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => $dataProvider,
             'filterModel' => $model,
             'boxed' => false,
-            'columns' => array_merge(['checkbox', 'name', 'descr', ...$stockRepository->getStoredAliases()])
+            'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
         ]) ?>
         <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>

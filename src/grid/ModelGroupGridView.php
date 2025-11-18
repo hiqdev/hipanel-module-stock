@@ -111,7 +111,7 @@ class ModelGroupGridView extends BoxedGridView
                                     [
                                         '@part/index',
                                         'PartSearch[model_group_id]' => $modelGroup->id,
-                                        'PartSearch[stock_location]' => implode(':', ['stock_alias', $alias]),
+                                        'PartSearch[stock_location_in]' => implode(':', ['alias_group', $alias]),
                                         'PartSearch[stock_location_state]' => $partState->name,
                                     ]
                                 );

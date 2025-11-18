@@ -44,6 +44,7 @@ class PartSearch extends Part
             'device_location_leftLikei',
             'first_move_source_regexp',
             'first_move_destination_regexp',
+            'model_group_id',
         ]);
     }
 

@@ -9,7 +9,7 @@ export default class StockExport {
     this.index = new Index(page);
   }
 
-  public async startWtith(url: string) {
+  public async startWith(url: string) {
     await this.page.goto(url);
 
     await this.page.getByPlaceholder("description").first().fill("test");

@@ -2,7 +2,8 @@ import { Page } from "@playwright/test";
 import Index from "@hipanel-core/page/Index";
 
 export default class StockExport {
-  private page: Page;private index: Index;
+  private page: Page;
+  private index: Index;
 
   constructor(page: Page) {
     this.page = page;

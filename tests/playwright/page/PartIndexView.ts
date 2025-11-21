@@ -1,97 +1,81 @@
-import {expect, Page} from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import Index from "@hipanel-core/page/Index";
 
 export default class PartIndexView {
-    private page: Page;
-    private index: Index;
+  private index: Index;
 
-    constructor(page: Page) {
-        this.page = page;
-        this.index = new Index(page);
+  constructor(readonly page: Page) {
+    this.index = new Index(page);
+  }
+
+  async navigateCommon() {
+    await this.page.goto("/stock/part/index?representation=common");
+  }
+
+  async applyFilters(filters: Array<{ name: string; value: string }>) {
+    for (const filter of filters) {
+      await this.index.advancedSearch.setFilter(filter.name, filter.value);
     }
 
-    public async navigateCommon() {
-        await this.page.goto("/stock/part/index?representation=common");
-    }
+    await this.index.advancedSearch.submitButton();
+  }
 
-    public async applyFilters(filters: Array<{ name: string; value: string }>) {
-        for (const filter of filters) {
-            await this.index.setFilter(filter.name, filter.value);
-        }
+  async filterBySerial(serial: string) {
+    await this.index.advancedSearch.applyFilter("serial_ilike", serial);
+  }
 
-        await this.index.submitSearchButton();
-    }
+  async selectPartsToReplace(count: number) {
+    await this.selectRows(count);
+    await this.index.clickDropdownBulkButton("Bulk actions", "Replace");
+  }
 
-    public async filterBySerial(serial: string) {
-        await this.index.applyFilter('serial_ilike', serial);
-    }
+  async selectRows(count: number) {
+    await this.index.chooseRangeOfRowsOnTable(1, count);
+  }
 
-    public async selectPartsToReplace(count: number) {
-        await this.selectRows(count);
-        await this.index.clickDropdownBulkButton('Bulk actions', 'Replace');
-    }
+  async confirmReplacement() {
+    await this.index.hasNotification("Part has been replaced");
+  }
 
-    public async selectRows(count: number) {
-        await this.index.chooseRangeOfRowsOnTable(1, count);
-    }
+  async deleteItemOnTable(number: number) {
+    await this.chooseNumberRowOnTable(number);
 
-    public async confirmReplacement() {
-        await this.index.hasNotification('Part has been replaced');
-    }
+    await this.page.getByRole("button", { name: "Delete" }).click();
 
-    public async deleteItemOnTable(number: number) {
-        await this.chooseNumberRowOnTable(number);
+    this.page.on("dialog", async dialog => await dialog.accept());
+    await this.index.hasNotification("Part has been deleted");
+  }
 
-        await this.page.getByRole('button', { name: 'Delete' }).click();
+  async chooseNumberRowOnTable(number: number) {
+    await this.index.chooseNumberRowOnTable(number);
+  }
 
-        this.page.on('dialog', async dialog => await dialog.accept());
-        await this.index.hasNotification('Part has been deleted');
-    }
+  async seePartWasCreated() {
+    const rowNumber = 1;
+    await this.index.hasNotification("Part has been created");
+    await this.index.closeNotification();
 
-    public async chooseNumberRowOnTable(number: number) {
-        await this.index.chooseNumberRowOnTable(number);
-    }
+    // Ensure the current URL matches expected Move index URL
+    await expect(this.page).toHaveURL(/\/stock\/move\/index\?MoveSearch%5Bid%5D=/);
 
-    public async seePartWasCreated(): Promise<number> {
-        const rowNumber = 1;
-        await this.index.hasNotification('Part has been created');
-        await this.index.closeNotification();
+    // Get first row move ID from the index table
+    const moveId = await this.index.getRowDataKeyByNumber(rowNumber);
+    expect(moveId).not.toBeNull();
 
-        // Ensure the current URL matches expected Move index URL
-        await expect(this.page).toHaveURL(/\/stock\/move\/index\?MoveSearch%5Bid%5D=/);
+    // Wait /stock/part/view page to load
+    await this.index.clickColumnOnTable("Parts", rowNumber);
+  }
 
-        // Get first row move ID from the index table
-        const moveId = await this.index.getRowDataKeyByNumber(rowNumber);
-        expect(moveId).not.toBeNull();
+  async openSellModal() {
+    await this.index.clickDropdownBulkButton("Sell parts", "Sell parts");
+  }
 
-        // Wait /stock/part/view page to load
-        await this.index.clickColumnOnTable('Parts', rowNumber, 100_000);
+  async navigateSelling() {
+    await this.page.goto("/stock/part/index?representation=selling");
+  }
 
-        return this.extractPartIdFromUrl();
-    }
-
-    private extractPartIdFromUrl(): number {
-        const url = this.page.url();
-        const urlObj = new URL(url);
-        const idParam = urlObj.searchParams.get('id');
-
-        if (!idParam) {
-            throw new Error('Part ID not found in URL.');
-        }
-
-        return Number(idParam);
-    }
-
-    public async openSellModal() {
-        await this.index.clickDropdownBulkButton('Sell parts', 'Sell parts');
-    }
-
-    public async navigateSelling() {
-        await this.page.goto("/stock/part/index?representation=selling");
-    }
-
-    public async applyFiltersByBuyer(buyer: string) {
-        await this.index.applyFilter('buyer_in', buyer);
-        await this.index.submitSearchButton();
-    }
+  async applyFiltersByBuyer(buyer: string) {
+    await this.index.applyFilter("buyer_in", buyer);
+    await this.index.submitSearchButton();
+  }
 }

@@ -1,40 +1,27 @@
-import {Page} from "@playwright/test";
+import { Page } from "@playwright/test";
+import { Alert } from "@hipanel-core/shared/ui/components";
 import DetailMenu from "@hipanel-core/helper/DetailMenu";
-import { expect } from '@playwright/test';
 
 export default class PartView {
-    private page: Page;
-    private detailMenu: DetailMenu;
-    private id: number;
+  private page: Page;
+  private alert: Alert;
+  private detailMenu: DetailMenu;
 
-    public constructor(page: Page, id: number) {
-        this.page = page;
-        this.detailMenu = new DetailMenu(page);
-        this.registerAcceptDeleteDialogHandler();
-        this.id = id;
-    }
+  constructor(page: Page) {
+    this.page = page;
+    this.detailMenu = new DetailMenu(page);
+    this.alert = Alert.on(page);
+    this.registerAcceptDeleteDialogHandler();
+  }
 
-    private registerAcceptDeleteDialogHandler() {
-        // By default, dialogs are auto-dismissed by Playwright, so you don't have to handle them
-        this.page.on('dialog', async dialog => await dialog.accept());
-    }
+  async deletePart() {
+    await this.detailMenu.clickDetailMenuItem("Delete");
+    await this.alert.hasText("Part has been deleted");
+  }
 
-    public async deletePart()
-    {
-        await this.detailMenu.clickDetailMenuItem("Delete");
-    }
+  private registerAcceptDeleteDialogHandler() {
+    // By default, dialogs are auto-dismissed by Playwright, so you don't have to handle them
+    this.page.on("dialog", async dialog => await dialog.accept());
+  }
 
-    public async confirmDeletion() {
-        await this.goToPartView();
-
-        await expect(this.partStatusLabel()).toHaveText('Deleted');
-    }
-
-    public async goToPartView() {
-        await this.page.goto(`/stock/part/view?id=${this.id}`);
-    }
-
-    private partStatusLabel() {
-        return this.page.getByTestId('part-status');
-    }
 }

@@ -46,7 +46,7 @@ class ModelGroupGridView extends BoxedGridView
         return array_merge(parent::columns(), [
             'tableInfoRow' => [
                 'class' => ColspanColumn::class,
-                'label' => '',
+                'label' => false,
                 'columns' => [
                     ...array_map(static fn(InStockPartState $partState) => [
                         'label' => $partState->label(),
@@ -105,19 +105,19 @@ class ModelGroupGridView extends BoxedGridView
                         'encodeLabel' => false,
                         'format' => 'raw',
                         'value' => function (ModelGroup $modelGroup) use ($alias, $partState): ?string {
-                            if (isset($modelGroup->limits[$alias][$partState->name])) {
-                                return Html::a(
-                                    $modelGroup->limits[$alias][$partState->name],
-                                    [
-                                        '@part/index',
-                                        'PartSearch[model_group_id]' => $modelGroup->id,
-                                        'PartSearch[stock_location_in]' => implode(':', ['alias_group', $alias]),
-                                        'PartSearch[stock_location_state]' => $partState->name,
-                                    ]
-                                );
+                            if (!isset($modelGroup->limits[$alias][$partState->name])) {
+                                return null;
                             }
 
-                            return null;
+                            return Html::a(
+                                $modelGroup->limits[$alias][$partState->name],
+                                [
+                                    '@part/index',
+                                    'PartSearch[model_group_id]' => $modelGroup->id,
+                                    'PartSearch[stock_location_in]' => implode(':', ['alias_group', $alias]),
+                                    'PartSearch[stock_location_state]' => $partState->name,
+                                ]
+                            );
                         },
                     ], InStockPartState::cases()),
                 ],

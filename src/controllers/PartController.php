@@ -561,10 +561,10 @@ class PartController extends CrudController
         return $this->getRefs('type,brand', 'hipanel:stock');
     }
 
-    public function getMoveTypes($group = null)
+    public function getMoveTypes(string $group): array
     {
         $query = 'type,move';
-        if ($group && in_array($group, ['add', 'backrma', 'change', 'move', 'rma', 'trash'])) {
+        if (in_array($group, ['add', 'backrma', 'change', 'move', 'rma', 'trash'])) {
             $query = 'type,move,' . $group;
         }
 

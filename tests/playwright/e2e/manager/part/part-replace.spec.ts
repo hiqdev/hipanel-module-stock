@@ -3,6 +3,7 @@ import PartIndexView from "@hipanel-module-stock/page/PartIndexView";
 import PartReplaceView from "@hipanel-module-stock/page/PartReplaceView";
 import { UniqueId } from "@hipanel-core/shared/lib";
 
+const serialNo = UniqueId.generate("test");
 const data = {
   filters: [
     {
@@ -15,8 +16,7 @@ const data = {
     },
   ],
   replaceData: [
-    { serialno: UniqueId.generate("test") },
-    { serialno: UniqueId.generate("test") },
+    { serialno: serialNo },
   ],
 };
 

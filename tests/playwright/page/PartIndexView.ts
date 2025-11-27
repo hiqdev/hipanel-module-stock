@@ -35,6 +35,8 @@ export default class PartIndexView {
 
   async confirmReplacement() {
     await this.index.hasNotification("Part has been replaced");
+    // await expect(this.page.getByRole('link', { name: 'TRASH_RMA' }).first()).toBeVisible(); // todo: uncomment when HP-2811
+    await expect(this.page.getByRole('cell', { name: 'REPLACE', exact: true })).toBeVisible();
   }
 
   async deleteItemOnTable(number: number) {

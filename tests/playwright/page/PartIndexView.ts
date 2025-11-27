@@ -17,7 +17,7 @@ export default class PartIndexView {
       await this.index.advancedSearch.setFilter(filter.name, filter.value);
     }
 
-    await this.index.advancedSearch.submitButton();
+    await this.index.advancedSearch.search();
   }
 
   async filterBySerial(serial: string) {
@@ -53,7 +53,6 @@ export default class PartIndexView {
   async seePartWasCreated() {
     const rowNumber = 1;
     await this.index.hasNotification("Part has been created");
-    await this.index.closeNotification();
 
     // Ensure the current URL matches expected Move index URL
     await expect(this.page).toHaveURL(/\/stock\/move\/index\?MoveSearch%5Bid%5D=/);

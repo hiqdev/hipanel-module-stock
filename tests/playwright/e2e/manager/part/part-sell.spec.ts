@@ -19,7 +19,7 @@ test("Ensure I can sell parts @hipanel-module-stock @manager", async ({ managerP
   };
 
   await partIndexView.navigateCommon();
-  await partIndexView.filterBySerial("MG_TEST_PART");
+  await partIndexView.filterBySerial("test");
   await partIndexView.selectRows(sellData.prices.length);
   await partIndexView.openSellModal();
 

@@ -1,36 +1,49 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace hipanel\modules\stock\helpers;
 
 use hipanel\components\SettingsStorage;
-use hipanel\helpers\StringHelper;
-use hipanel\modules\stock\models\Model;
-use yii\caching\CacheInterface;
-use yii\helpers\Html;
+use hipanel\modules\stock\enums\StockLocationCategory;
+use hipanel\modules\stock\enums\StockLocationType;
+use hipanel\modules\stock\models\VO\LocationItem;
+use hipanel\modules\stock\repositories\StockLocationsRepository;
 use yii\web\Request;
-use yii\web\User;
 
+/**
+ * Class StockLocationsProvider
+ *
+ * @psalm-type StockLocationCategory = "stock"|"stock_group"|"chwbox"|"chwbox_group"|"location"|"location_group"|"alias_group"
+ * @psalm-type StockLocationType = "alias"|"building"|"cage"|"chwbox"|"chwbox_group"|"dc"|"for-test"|"location"|"rack"|"rma"|"stock"|"stock_group"|"used"
+ * @psalm-type LocationItem = array{
+ *     category: StockLocationCategory,
+ *     id: string,
+ *     location_type: StockLocationType,
+ *     location_name: string,
+ *     customers: string,
+ *     objects: array<string, string>
+ * }
+ * @psalm-type StockLocationList = list<LocationItem>
+ */
 class StockLocationsProvider
 {
-    private const KEY = 'stock-locations-list';
+    /** @var StockLocationList|null */
     private ?array $locations = null;
+    private const string KEY = 'stock-locations-list';
 
     public function __construct(
         private readonly SettingsStorage $storage,
-        private readonly CacheInterface $cache,
-        private readonly User $user,
         private readonly Request $request,
-    ) {}
-
-    public function getLocationsList(): array
+        private readonly StockLocationsRepository $locationsRepository,
+    )
     {
-        return $this->cache->getOrSet(
-            [self::KEY, $this->user->id],
-            fn() => Model::perform('stock-locations-list', ['show_deleted' => true]),
-            300
-        );
+    }
+
+    /**
+     * @return LocationItem[]
+     */
+    public function getAllLocations(): array
+    {
+        return $this->locationsRepository->getLocations();
     }
 
     public function setLocations(array $locations): void
@@ -41,74 +54,58 @@ class StockLocationsProvider
     public function getLocations(): array
     {
         $locations = $this->request->get('ModelSearch') ? $this->request->get('ModelSearch')['locations'] ?? null : null;
+
         if ($locations !== null) {
             $this->locations = $locations;
         }
         if ($this->locations === null) {
             $this->locations = $this->storage->getBounded(self::KEY);
         }
-        if (!empty($this->locations)) {
-            $locationIds = array_column($this->getLocationsList(), 'id');
-            $preserveLocations = array_intersect($this->locations, $locationIds);
-            $resetArrayOfLocations = array_values($preserveLocations); // to prevent a situation where, when preparing options for JavaScript, the array becomes an object
 
-            return $resetArrayOfLocations;
+        if (!empty($this->locations)) {
+            // Filter available locations based on selected IDs
+            $allLocations = $this->getAllLocations();
+
+            // Extract IDs from the VO list
+            $availableIds = array_map(fn(LocationItem $item) => $item->id, $allLocations);
+
+            // Intersect saved user preferences with actually available locations
+            $validSelectedIds = array_intersect($this->locations, $availableIds);
+
+            return array_values($validSelectedIds);
         }
 
         return [];
     }
 
-    public function getIcon(?string $location_type): string
+    private function getStockTypesWithAliasGroups(): array
     {
-        $name = match ($location_type) {
-            'chwbox' => 'fa-user',
-            'chwbox_group' => 'fa-users',
-            'deleted' => 'fa-ban',
-            'rma' => 'fa-wrench',
-            'sold' => 'fa-usd',
-            'stock' => 'fa-cube',
-            'supplier' => 'fa-shopping-cart',
-            'trash' => 'fa-trash-o',
-            'used' => 'fa-recycle',
-            'rack' => 'fa-server',
-            'cage' => 'fa-navicon fa-rotate-90',
-            'building' => 'fa-university',
-            'dc' => 'fa-building-o',
-            default => 'fa-cubes',
-        };
+        $result = [];
+        $stockTypes = ['stock', 'used', 'rma', 'for-test'];
+        $locations = $this->getLocations();
 
-        return Html::tag('span', null, ['class' => "fa fa-fw $name"]);
-    }
+        foreach ($stockTypes as $type) {
+            foreach ($locations as $alias) {
+                if ($alias->type->value !== 'alias_group') {
+                    continue;
+                }
 
-    public function getLabel(array $location): string
-    {
-        $customer = $this->getCustomer($location);
-        $label = null;
-        if ($location['id'] === 'chwbox' || $location['id'] === 'stock:ANY') {
-            $label = $location['location_name'];
-        } else if ($location['category'] === 'stock') {
-            $label = implode(':', [$location['location_type'], $location['location_name']]);
-        } else if ($location['category'] === 'stock_group') {
-            $label = $location['location_name'];
-        } else if ($location['category'] === 'chwbox_group' && $location['location_name'] === $customer) {
-            $label = $location['location_name'];
-        } else if ($location['category'] === 'chwbox_group' && $location['location_name'] !== $customer) {
-            $label = implode('/', [StringHelper::truncate($customer, '7'), $location['location_name']]);
-        } else if ($location['category'] === 'chwbox') {
-            $label = $location['id'];
-        } else if ($location['category'] === 'chwbox_group' && $location['location_type'] === 'chwbox') {
-            $label = implode(' / ', [$customer, $location['location_name']]);
-        } else if ($location['location_type'] === 'chwbox_group') {
-            $label = $customer;
+                foreach ($alias->objects as $id => $objectName) {
+                    foreach ($locations as $location) {
+                        if ($location->type->value === $type && $location->id === $objectName) {
+                            $result[$type][$alias->name][$location->name] = $location->id;
+                            //      -stock -AMS17        -AMS17_Z6G         -stock_AMS17_Z6G
+                        }
+                    }
+                }
+            }
         }
 
-        return $label ?? $location['id'];
-    }
-
-    public function getCustomer(array $location): string
-    {
-        $customers = explode(',', str_replace(['{', '}'], '', $location['customers'] ?? ''));
-
-        return reset($customers);
+        return $result;
+        // category: alias_group_by_stock_state
+        // alias_group_stock:AMS17
+        // alias_group_rma:AMS17
+        // alias_group_for-test:AMS17
+        // alias_group_used:AMS17
     }
 }

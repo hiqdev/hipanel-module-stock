@@ -51,6 +51,7 @@ class ModelController extends CrudController
                     'copy' => 'model.create',
                     'update' => 'model.update',
                     'delete' => 'model.delete',
+                    'restore' => 'model.delete',
                     'mark-hidden-from-user' => 'model.update',
                     'unmark-hidden-from-user' => 'model.update',
                     '*' => 'model.read',

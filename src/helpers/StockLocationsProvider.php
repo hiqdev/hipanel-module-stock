@@ -3,30 +3,13 @@
 namespace hipanel\modules\stock\helpers;
 
 use hipanel\components\SettingsStorage;
-use hipanel\modules\stock\enums\StockLocationCategory;
-use hipanel\modules\stock\enums\StockLocationType;
 use hipanel\modules\stock\models\VO\LocationItem;
 use hipanel\modules\stock\repositories\StockLocationsRepository;
 use yii\web\Request;
 
-/**
- * Class StockLocationsProvider
- *
- * @psalm-type StockLocationCategory = "stock"|"stock_group"|"chwbox"|"chwbox_group"|"location"|"location_group"|"alias_group"
- * @psalm-type StockLocationType = "alias"|"building"|"cage"|"chwbox"|"chwbox_group"|"dc"|"for-test"|"location"|"rack"|"rma"|"stock"|"stock_group"|"used"
- * @psalm-type LocationItem = array{
- *     category: StockLocationCategory,
- *     id: string,
- *     location_type: StockLocationType,
- *     location_name: string,
- *     customers: string,
- *     objects: array<string, string>
- * }
- * @psalm-type StockLocationList = list<LocationItem>
- */
 class StockLocationsProvider
 {
-    /** @var StockLocationList|null */
+    /** @var LocationItem[]|null */
     private ?array $locations = null;
     private const string KEY = 'stock-locations-list';
 

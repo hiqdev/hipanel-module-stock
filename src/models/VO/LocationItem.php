@@ -31,7 +31,7 @@ final readonly class LocationItem
         return new self(
             id: (string)$data['id'],
             category: StockLocationCategory::from($data['category']),
-            type: StockLocationType::from($data['location_type'] ?? 'for-test'),
+            type: StockLocationType::from($data['location_type']),
             name: (string)$data['location_name'],
             customers: (string)($data['customers'] ?? ''),
             objects: (array)($data['objects'] ?? []),

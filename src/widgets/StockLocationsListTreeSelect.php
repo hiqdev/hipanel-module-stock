@@ -1,12 +1,11 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace hipanel\modules\stock\widgets;
 
 use hipanel\components\SettingsStorage;
 use hipanel\helpers\StringHelper;
 use hipanel\modules\stock\helpers\StockLocationsProvider;
+use hipanel\modules\stock\models\VO\LocationItem;
 use hipanel\widgets\HookTrait;
 use hipanel\widgets\VueTreeSelectInput;
 use Yii;
@@ -31,7 +30,8 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
         private readonly SettingsStorage $storage,
         private readonly StockLocationsProvider $provider,
         $config = []
-    ) {
+    )
+    {
         parent::__construct($config);
     }
 
@@ -66,7 +66,9 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
             $activeInput = Html::hiddenInput($this->name, null, $options);
         }
 
-        $this->view->registerCss(sprintf('
+        $this->view->registerCss(
+            sprintf(
+                '
             .vue-treeselect__option,
             .vue-treeselect__label-container {
                 width: auto;
@@ -79,10 +81,13 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
             [v-cloak] {
                 display: none;
             }
-        ', $this->getId()));
+        ',
+                $this->getId()
+            )
+        );
 
         return sprintf(
-            /** @lang HTML */
+        /** @lang HTML */
             '
             <div id="%s" style="margin-bottom: 1em;">
                 <treeselect
@@ -121,7 +126,7 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
     private function registerVueContainer(): void
     {
         $this->view->registerJs(
-            /** @lang JavaScript */
+        /** @lang JavaScript */
             '
           ;(() => {
             $("a.export-report-link").not("[data-export-url]").click(function (evt) {
@@ -142,7 +147,7 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
 
         $this->view->registerJs(
             sprintf(
-                /** @lang JavaScript */
+            /** @lang JavaScript */
                 "
                 ;(() => {
                     const container = $('#%s');
@@ -210,21 +215,27 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
 
     private function buildOptions(): array
     {
-        $stockLocationsList = $this->provider->getLocationsList();
-        $options = array_merge(
-            $this->buildDataCentersTree($stockLocationsList),
-            $this->buildCHWTree($stockLocationsList),
-            $this->buildRacksTree($stockLocationsList),
-        );
+        $stockLocationsList = $this->provider->getAllLocations();
 
-        return $options;
+        $dcTree = $this->buildDataCentersTree($stockLocationsList);
+        $chwTree = $this->buildCHWTree($stockLocationsList);
+        $rackTree = $this->buildRacksTree($stockLocationsList);
+
+        return array_merge(
+            $dcTree,
+            $chwTree,
+            $rackTree,
+        );
     }
 
+    /**
+     * @param $stockLocationsList LocationItem[]
+     */
     private function buildRacksTree(array $stockLocationsList): array
     {
         $filterByLocationType = function (array $list, string $type) {
-            return array_filter($list, function (array $item) use ($type) {
-                return str_starts_with($item['category'], 'location') && $item['location_type'] === $type;
+            return array_filter($list, function (LocationItem $item) use ($type) {
+                return str_starts_with($item->category->value, 'location') && $item->type->value === $type;
             });
         };
 
@@ -253,15 +264,15 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
 
         $next = array_shift($dataOrders);
         foreach ($next as $item) {
-            if ($parent_location === null || str_starts_with($item['location_name'], $parent_location)) {
-                $children[$item['location_name']] = [
-                    'id' => $item['id'],
-                    'label' => $this->provider->getLabel($item),
+            if ($parent_location === null || str_starts_with($item->name, $parent_location)) {
+                $children[$item->name] = [
+                    'id' => $item->id,
+                    'label' => $item->label,
                 ];
 
-                $nested = $this->nestRackTreeChildren($dataOrders, $item['location_name']);
+                $nested = $this->nestRackTreeChildren($dataOrders, $item->name);
                 if ($nested !== null) {
-                    $children[$item['location_name']]['children'] = $nested;
+                    $children[$item->name]['children'] = $nested;
                 }
             }
         }
@@ -269,31 +280,34 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
         return $children;
     }
 
-    private function buildDataCentersTree(mixed $stockLocationsList): array
+    /**
+     * @param $stockLocationsList LocationItem[]
+     */
+    private function buildDataCentersTree(array $stockLocationsList): array
     {
         $children = [];
         $groups = array_filter(
             $stockLocationsList,
-            static fn($l) => $l['category'] === 'stock_group' && $l['id'] !== 'stock:ANY'
+            static fn(LocationItem $l) => $l->category->value === 'stock_group' && $l->id !== 'stock:ANY'
         );
         $stocks = array_filter(
             $stockLocationsList,
-            static fn($l) => $l['category'] === 'stock' && $l['id'] !== 'stock:ANY'
+            static fn(LocationItem $l) => $l->category->value === 'stock' && $l->id !== 'stock:ANY'
         );
         foreach ($groups as $g) {
-            $children[$g['location_name']]['id'] = $g['id'];
-            $children[$g['location_name']]['label'] = $this->provider->getLabel($g);
+            $children[$g->name]['id'] = $g->id;
+            $children[$g->name]['label'] = $g->label;
         }
         foreach ($stocks as $s) {
-            if (isset($children[$s['location_name']])) {
-                $children[$s['location_name']]['children'][$s['id']] = [
-                    'id' => $s['id'],
-                    'label' => $this->provider->getLabel($s),
+            if (isset($children[$s->name])) {
+                $children[$s->name]['children'][$s->id] = [
+                    'id' => $s->id,
+                    'label' => $s->label,
                 ];
             } else {
-                $children[$s['location_name']] = [
-                    'id' => $s['id'],
-                    'label' => $this->provider->getLabel($s),
+                $children[$s->name] = [
+                    'id' => $s->id,
+                    'label' => $s->label,
                 ];
             }
         }
@@ -310,24 +324,26 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
         ];
     }
 
-    private function buildCHWTree(mixed $stockLocationsList): array
+    /**
+     * @param $stockLocationsList LocationItem[]
+     */
+    private function buildCHWTree(array $stockLocationsList): array
     {
         $children = [];
         $locations = array_filter(
             $stockLocationsList,
-            static fn($l) => in_array($l['category'], ['chwbox', 'chwbox_group']) && $l['id'] !== 'chwbox'
+            static fn(LocationItem $l) => in_array($l->category->value, ['chwbox', 'chwbox_group']) && $l->id !== 'chwbox'
         );
         foreach ($locations as $l) {
-            $l['customer'] = $this->provider->getCustomer($l);
-            if ($l['category'] === 'chwbox_group' && $l['location_type'] === 'chwbox_group' && $l['location_name'] === $l['customer']) {
-                $children[$l['customer']]['id'] = $l['id'];
-                $children[$l['customer']]['label'] = $this->provider->getLabel($l);
-            } else if ($l['category'] === 'chwbox_group' && $l['location_name'] !== $l['customer']) {
-                $children[$l['customer']]['children'][$l['location_name']]['id'] = $l['id'];
-                $children[$l['customer']]['children'][$l['location_name']]['label'] = $this->provider->getLabel($l);
-            } else if ($l['category'] === 'chwbox') {
-                $children[$l['customer']]['children'][$l['location_name']]['children'][$l['id']]['id'] = $l['id'];
-                $children[$l['customer']]['children'][$l['location_name']]['children'][$l['id']]['label'] = $this->provider->getLabel($l);
+            if ($l->category->value === 'chwbox_group' && $l->type->value === 'chwbox_group' && $l->name === $l->customer) {
+                $children[$l->customer]['id'] = $l->id;
+                $children[$l->customer]['label'] = $l->label;
+            } else if ($l->category->value === 'chwbox_group' && $l->name !== $l->customer) {
+                $children[$l->customer]['children'][$l->name]['id'] = $l->id;
+                $children[$l->customer]['children'][$l->name]['label'] = $l->label;
+            } else if ($l->category->value === 'chwbox') {
+                $children[$l->customer]['children'][$l->name]['children'][$l->id]['id'] = $l->id;
+                $children[$l->customer]['children'][$l->name]['children'][$l->id]['label'] = $l->label;
             }
         }
         if ($children === []) {

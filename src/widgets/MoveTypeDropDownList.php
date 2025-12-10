@@ -21,7 +21,10 @@ class MoveTypeDropDownList extends InputWidget
         $this->view->registerJs(/** @lang JavaScript */ <<<JS
 (($) => {
     "use strict";
-    $("#$id").val("");
+    const url = new URL(window.location.href);
+    if (url.pathname !== '/stock/part/rma') {
+        $("#$id").val("");
+    }
     const dstSelect = $("#$id").parents(".box").find("select[id*=\"-dst_id\"]");
     if (dstSelect.length) {
       dstSelect.on("change", function () {
@@ -63,6 +66,6 @@ JS
 
     public function run()
     {
-        return Html::activeDropDownList($this->model, $this->attribute, $this->items, ArrayHelper::merge($this->options, ['prompt' => '']));
+        return Html::activeDropDownList($this->model, $this->attribute, $this->items, ArrayHelper::merge($this->options));
     }
 }

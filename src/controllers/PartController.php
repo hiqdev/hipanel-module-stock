@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /*
  * Stock Module for Hipanel
@@ -27,6 +27,7 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\StringHelper;
+use hipanel\modules\stock\actions\BulkMoveAction;
 use hipanel\modules\stock\actions\FastMoveAction;
 use hipanel\modules\stock\actions\ResolveRange;
 use hipanel\modules\stock\actions\SetRealSerialsAction;
@@ -209,9 +210,9 @@ class PartController extends CrudController
                         }
 
                         return $defaultSummary . SummaryWidget::widget([
-                            'local_sums' => $local_sums,
-                            'total_sums' => $total_sums,
-                        ]);
+                                'local_sums' => $local_sums,
+                                'total_sums' => $total_sums,
+                            ]);
                     },
                 ],
                 'on beforePerform' => function (Event $event) {
@@ -341,29 +342,16 @@ class PartController extends CrudController
                 },
             ],
             'trash' => [
-                'class' => SmartUpdateAction::class,
+                'class' => BulkMoveAction::class,
                 'scenario' => 'trash',
                 'success' => Yii::t('hipanel:stock', 'Parts have been moved'),
-                'on beforeSave' => function (Event $event) {
-                    /** @var Action $action */
-                    $action = $event->sender;
-                    $part = $this->request->post('Part');
-                    $parts = [];
-                    $partId2srcId = ArrayHelper::remove($part, 'partId2srcId');
-                    foreach ($partId2srcId as $partId => $srcId) {
-                        $parts[] = [...$part, 'id' => $partId, 'src_id' => $srcId];
-                    }
-                    $action->collection->load($parts);
-                },
-                'data' => function ($action, $data) {
-                    $data['models'] = array_map(fn($model) => $model->src_id = $model->dst_id, $data['models']);
-
-                    return [
-                        'moveTypes' => $action->controller->getMoveTypes('trash'),
-                        'suppliers' => $action->controller->getSuppliers(),
-                        'currencyTypes' => $action->controller->getCurrencyTypes(),
-                    ];
-                },
+                'data' => fn(RenderAction $action, array $data): array => [
+                    'moveTypes' => $this->getMoveTypes('trash'),
+                    'suppliers' => $action->controller->getSuppliers(),
+                    'currencyTypes' => $action->controller->getCurrencyTypes(),
+                    'remoteHands' => $this->getRemotehands(),
+                    ...$data,
+                ],
             ],
             'delete' => [
                 'class' => SmartDeleteAction::class,
@@ -422,16 +410,14 @@ class PartController extends CrudController
                 },
             ],
             'rma' => [
-                'class' => SmartUpdateAction::class,
+                'class' => BulkMoveAction::class,
                 'success' => Yii::t('hipanel:stock', 'Parts have been moved to RMA'),
-                'scenario' => 'move-by-one',
-                'view' => 'moveByOne',
-                'data' => function ($action) {
-                    return [
-                        'types' => $action->controller->getMoveTypes('rma'),
-                        'remotehands' => $action->controller->getRemotehands(),
-                    ];
-                },
+                'view' => 'rma',
+                'data' => fn(RenderAction $action, array $data): array => [
+                    'moveTypes' => $this->getMoveTypes('rma'),
+                    'remoteHands' => $this->getRemotehands(),
+                    ...$data,
+                ],
             ],
             'move' => [
                 'class' => SmartUpdateAction::class,

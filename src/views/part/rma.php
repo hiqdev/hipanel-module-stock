@@ -1,19 +1,19 @@
 <?php
 
 use hipanel\modules\stock\models\Part;
-use hipanel\modules\stock\widgets\combo\TrashDestinationDropDownList;
+use hipanel\modules\stock\widgets\combo\RmaDestinationCombo;
+use hipanel\modules\stock\widgets\MoveTypeDropDownList;
 use hipanel\widgets\ArraySpoiler;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
 /** @var array $moveTypes */
-/** @var array $suppliers */
 /** @var array $remoteHands */
-/** @var array $currencyTypes */
 /** @var Part[] $models */
+/** @var Part $model */
 
-$this->title = Yii::t('hipanel:stock', 'Trash');
+$this->title = Yii::t('hipanel:stock', 'RMA');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:stock', 'Parts'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -22,10 +22,7 @@ array_walk($models, static fn(Part $part) => $part->src_id = $part->dst_id);
 ?>
 
 <?php $form = ActiveForm::begin([
-    'id' => 'repair-form',
-    'enableClientValidation' => true,
-    'validateOnBlur' => true,
-    'enableAjaxValidation' => true,
+    'id' => 'rma-form',
     'validationUrl' => Url::toRoute(['validate-form', 'scenario' => reset($models)->scenario]),
 ]) ?>
 
@@ -46,16 +43,16 @@ array_walk($models, static fn(Part $part) => $part->src_id = $part->dst_id);
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6">
-                        <?= $form->field($model, "dst_id")->widget(TrashDestinationDropDownList::class) ?>
+                        <?= $form->field($model, "dst_id")->widget(RmaDestinationCombo::class) ?>
                     </div>
                     <div class="col-md-6">
-                        <?= $form->field($model, "move_type")->dropDownList($moveTypes) ?>
+                        <?= $form->field($model, "move_type")->widget(MoveTypeDropDownList::class, ['items' => $moveTypes]) ?>
                     </div>
                 </div>
                 <?= $form->field($model, "remotehands")->dropDownList($remoteHands) ?>
                 <?= $form->field($model, "remote_ticket") ?>
                 <?= $form->field($model, "hm_ticket") ?>
-                <?= $form->field($model, "move_descr")->textarea(['rows' => 5]) ?>
+                <?= $form->field($model, "descr")->textarea(['rows' => 5]) ?>
             </div>
         </div>
     </div>

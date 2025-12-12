@@ -15,4 +15,13 @@ class PartQuery extends ActiveQuery
 
         return $this;
     }
+
+    public function withProfit(): self
+    {
+        $this->addSelect('profit')
+             ->joinWith('profit')
+             ->andWhere(['with_profit' => true]);
+
+        return $this;
+    }
 }

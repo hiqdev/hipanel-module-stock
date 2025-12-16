@@ -11,4 +11,5 @@ enum StockLocationCategory: string
     case LOCATION = 'location';
     case LOCATION_GROUP = 'location_group';
     case ALIAS_GROUP = 'alias_group';
+    case ALIAS_GROUP_BY_STOCK_STATE = 'alias_group_by_stock_state';
 }

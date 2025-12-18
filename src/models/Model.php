@@ -192,6 +192,7 @@ class Model extends YiiModel
                     ? 500
                     : ceil($this->counters[$dc][$state] / 50) * 50;
 
+                // todo: fix this!
                 $link = Html::a($count,
                     Url::toSearch('part', [
                         'model_id' => $this->id,

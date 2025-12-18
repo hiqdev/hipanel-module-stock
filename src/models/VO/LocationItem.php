@@ -5,6 +5,7 @@ namespace hipanel\modules\stock\models\VO;
 use hipanel\helpers\StringHelper;
 use hipanel\modules\stock\enums\StockLocationCategory;
 use hipanel\modules\stock\enums\StockLocationType;
+use yii\helpers\Json;
 
 final readonly class LocationItem
 {
@@ -28,19 +29,21 @@ final readonly class LocationItem
 
     public static function fromArray(array $data): self
     {
+        $objects = Json::decode($data['objects'] ?? '[]');
+
         return new self(
             id: (string)$data['id'],
             category: StockLocationCategory::from($data['category']),
             type: StockLocationType::from($data['location_type']),
             name: (string)$data['location_name'],
             customers: (string)($data['customers'] ?? ''),
-            objects: (array)($data['objects'] ?? []),
+            objects: $objects,
         );
     }
 
     private function getLabel(): string
     {
-        if ($this->id === 'chwbox' || $this->id === 'stock:ANY') {
+        if ($this->id === 'chwbox' || $this->id === 'stock:ANY' || str_starts_with($this->id, 'alias_group')) {
             return $this->name;
         }
 

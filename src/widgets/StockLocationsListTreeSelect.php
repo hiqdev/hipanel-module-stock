@@ -10,6 +10,7 @@ use hipanel\widgets\HookTrait;
 use hipanel\widgets\VueTreeSelectInput;
 use Yii;
 use yii\base\InvalidConfigException;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
@@ -217,15 +218,50 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
     {
         $stockLocationsList = $this->provider->getAllLocations();
 
-        $dcTree = $this->buildDataCentersTree($stockLocationsList);
+        $aliasGroupTree = $this->buildAliasGroupTree($stockLocationsList);
+//        $anyStockTree = $this->buildDataCentersTree($stockLocationsList); // todo: legacy tree, may not be useful in the future
         $chwTree = $this->buildCHWTree($stockLocationsList);
         $rackTree = $this->buildRacksTree($stockLocationsList);
 
         return array_merge(
-            $dcTree,
+            $aliasGroupTree,
             $chwTree,
             $rackTree,
         );
+    }
+
+    private function buildAliasGroupTree(array $stockLocationsList): array
+    {
+        $children = [];
+        $locations = array_filter($stockLocationsList, static fn(LocationItem $l) => $l->category->value === 'alias_group_by_stock_state');
+        $stocks = ArrayHelper::index(array_filter(
+            $stockLocationsList,
+            static fn(LocationItem $l) => $l->category->value === 'stock' && $l->id !== 'stock:ANY'
+        ), 'id');
+
+        foreach ($locations as $l) {
+            if (str_ends_with($l->id, ':ANY')) {
+                $children[$l->type->value]['id'] = $l->id;
+                $children[$l->type->value]['label'] = $l->label;
+            } else {
+                $item = ['id' => $l->id, 'label' => $l->label];
+                foreach ($l->objects as $objName) {
+                    $item['children'][$objName] = ['id' => $objName, 'label' => $objName];
+                    if (isset($stocks[$objName])) {
+                        $item['children'][$objName]['label'] = $stocks[$objName]->label;
+                    }
+                }
+                $children[$l->type->value]['children'][$l->id] = $item;
+            }
+        }
+
+        return [
+            [
+                'id' => 'alias_group',
+                'label' => Yii::t('hipanel:stock', 'Alias groups'),
+                'children' => $this->removeKeysRecursively(array_values($children)),
+            ],
+        ];
     }
 
     /**
@@ -233,18 +269,17 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
      */
     private function buildRacksTree(array $stockLocationsList): array
     {
-        $filterByLocationType = function (array $list, string $type) {
-            return array_filter($list, function (LocationItem $item) use ($type) {
-                return str_starts_with($item->category->value, 'location') && $item->type->value === $type;
-            });
-        };
+        $filterByLocationType = fn(array $list, string $type) => array_filter(
+            $list,
+            fn(LocationItem $item) => str_starts_with($item->category->value, 'location') && $item->type->value === $type
+        );
 
         $dcs = $filterByLocationType($stockLocationsList, 'dc');
         $buildings = $filterByLocationType($stockLocationsList, 'building');
         $cages = $filterByLocationType($stockLocationsList, 'cage');
         $racks = $filterByLocationType($stockLocationsList, 'rack');
 
-        $result = $this->nestRackTreeChildren([$dcs, $buildings, $cages, $racks]);
+        $result = $this->nestTreeChildren([$dcs, $buildings, $cages, $racks]);
 
         return [
             [
@@ -255,7 +290,7 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
         ];
     }
 
-    private function nestRackTreeChildren($dataOrders, string $parent_location = null): array|null
+    private function nestTreeChildren($dataOrders, string $parent_location = null): array|null
     {
         $children = [];
         if ($dataOrders === []) {
@@ -270,7 +305,7 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
                     'label' => $item->label,
                 ];
 
-                $nested = $this->nestRackTreeChildren($dataOrders, $item->name);
+                $nested = $this->nestTreeChildren($dataOrders, $item->name);
                 if ($nested !== null) {
                     $children[$item->name]['children'] = $nested;
                 }

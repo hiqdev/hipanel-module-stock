@@ -16,8 +16,8 @@ use hipanel\grid\BoxedGridView;
 use hipanel\grid\RefColumn;
 use hipanel\modules\stock\helpers\StockLocationsProvider;
 use hipanel\modules\stock\models\Model;
-use hipanel\modules\stock\models\VO\LocationItem;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\web\User;
 
@@ -115,15 +115,9 @@ class ModelGridView extends BoxedGridView
     private function generateStockColumns(): array
     {
         $result = [];
-        $locations = $this->locationsProvider->getAllLocations();
-        $locationIds = array_column($locations, 'id');
+        $locations = ArrayHelper::index($this->locationsProvider->getAllLocations(), 'id');
         foreach ($this->locationsProvider->getLocations() as $key) {
-            $locationId = array_search($key, $locationIds, true);
-            if ($locationId === false) {
-                continue;
-            }
-            /** @var LocationItem $location */
-            $location = $locations[$locationId];
+            $location = $locations[$key];
             $icon = Html::tag('span', null, [
                     'class' => "fa fa-fw " . $location->icon,
                 ]

@@ -43,7 +43,7 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
     {
         $this->useStorage = !$this->hasModel();
         $this->value = $this->hasModel()
-            ? StringHelper::explode($this->model->{$this->attribute} ?? '')
+            ? (empty($this->model->{$this->attribute}) ? [] : StringHelper::explode($this->model->{$this->attribute}))
             : $this->provider->getLocations();
 
         parent::init();
@@ -232,7 +232,7 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
 
     private function buildAliasGroupTree(array $stockLocationsList): array
     {
-        $children = [];
+        $result = [];
         $locations = array_filter($stockLocationsList, static fn(LocationItem $l) => $l->category->value === 'alias_group_by_stock_state');
         $stocks = ArrayHelper::index(array_filter(
             $stockLocationsList,
@@ -241,8 +241,8 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
 
         foreach ($locations as $l) {
             if (str_ends_with($l->id, ':ANY')) {
-                $children[$l->type->value]['id'] = $l->id;
-                $children[$l->type->value]['label'] = $l->label;
+                $result[$l->type->value]['id'] = $l->id;
+                $result[$l->type->value]['label'] = $l->label;
             } else {
                 $item = ['id' => $l->id, 'label' => $l->label];
                 foreach ($l->objects as $objName) {
@@ -251,15 +251,21 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
                         $item['children'][$objName]['label'] = $stocks[$objName]->label;
                     }
                 }
-                $children[$l->type->value]['children'][$l->id] = $item;
+                $result[$l->type->value]['children'][$l->id] = $item;
             }
         }
+        $sortedResult = array_merge(array_flip([
+            'alias_group_stock',
+            'alias_group_used',
+            'alias_group_rma',
+            'alias_group_for-test',
+        ]), $result);
 
         return [
             [
                 'id' => 'alias_group',
                 'label' => Yii::t('hipanel:stock', 'Alias groups'),
-                'children' => $this->removeKeysRecursively(array_values($children)),
+                'children' => $this->removeKeysRecursively(array_values($sortedResult)),
             ],
         ];
     }

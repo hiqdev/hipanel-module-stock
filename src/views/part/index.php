@@ -275,7 +275,7 @@ $showFooter = ($uiModel->representation === 'profit-report')
                             'visible' => Yii::$app->user->can('part.update'),
                         ],
                         [
-                            'label' => Yii::t('hipanel:stock', 'Delete'),
+                            'label' => Yii::t('hipanel:stock', 'Mark as Deleted'),
                             'url' => '#',
                             'linkOptions' => [
                                 'data-action' => 'delete',

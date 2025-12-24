@@ -69,7 +69,7 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'visible' => Yii::$app->user->can('move.create'),
             ],
             [
-                'label' => Yii::t('hipanel', 'Delete'),
+                'label' => Yii::t('hipanel', 'Mark as Deleted'),
                 'icon' => 'fa-trash-o',
                 'url' => ['@part/delete', 'id' => $this->model->id],
                 'visible' => Yii::$app->user->can('part.delete') && $this->model->isDeletable(),

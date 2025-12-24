@@ -86,6 +86,26 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 ],
             ],
             [
+                'label' => Yii::t('hipanel', 'Erase'),
+                'icon' => 'fa-trash-o',
+                'url' => ['@part/erase', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('part.erase') && $this->model->isDeletable(),
+                'linkOptions' => [
+                    'data' => [
+                        'method' => 'post',
+                        'pjax' => '0',
+                        'form' => 'erase',
+                        'confirm' => Yii::t(
+                            'hipanel:stock',
+                            'Are you sure you want to erase the part along with its move history?',
+                        ),
+                        'params' => [
+                            'Part[id]' => $this->model->id,
+                        ],
+                    ],
+                ],
+            ],
+            [
                 'label' => AuditButton::widget(['model' => $this->model, 'rightIcon' => true]),
                 'encode' => false,
             ]

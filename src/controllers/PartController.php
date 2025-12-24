@@ -365,6 +365,18 @@ class PartController extends CrudController
                     'batch' => false,
                 ],
             ],
+            'erase' => [
+                'class' => SmartDeleteAction::class,
+                'success' => Yii::t('hipanel:stock', 'Part has been erased'),
+                'error' => Yii::t(
+                    'hipanel:stock',
+                    'An error occurred when trying to erase {object}',
+                    ['{object}' => Yii::t('hipanel:stock', 'part')]
+                ),
+                'queryOptions' => [
+                    'batch' => false,
+                ],
+            ],
             'replace' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'replace',

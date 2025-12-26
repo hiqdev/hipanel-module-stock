@@ -364,6 +364,10 @@ class PartController extends CrudController
                     'batch' => false,
                 ],
             ],
+            'bulk-delete-modal' => [
+                'class' => PrepareBulkAction::class,
+                'view' => '_bulkDelete',
+            ],
             'erase' => [
                 'class' => SmartDeleteAction::class,
                 'success' => Yii::t('hipanel:stock', 'Part has been erased'),
@@ -375,6 +379,10 @@ class PartController extends CrudController
                 'queryOptions' => [
                     'batch' => false,
                 ],
+            ],
+            'bulk-erase-modal' => [
+                'class' => PrepareBulkAction::class,
+                'view' => '_bulkErase',
             ],
             'replace' => [
                 'class' => SmartUpdateAction::class,

@@ -7,6 +7,7 @@ use hipanel\modules\stock\grid\PartGridView;
 use hipanel\modules\stock\grid\PartRepresentations;
 use hipanel\modules\stock\models\PartSearch;
 use hipanel\modules\stock\widgets\FastMoveModal;
+use hipanel\widgets\AjaxModal;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
@@ -169,178 +170,206 @@ $showFooter = ($uiModel->representation === 'profit-report')
                     <?= Yii::t('hipanel:stock', 'Bulk actions') ?>&nbsp;
                     <span class="caret"></span>
                 </button>
+                <?php $dropDownItems = array_filter([
+                    Yii::$app->user->can('part.update') ? AjaxModalWithTemplatedButton::widget([
+                        'ajaxModalOptions' => [
+                            'id' => 'set-serial-modal',
+                            'bulkPage' => true,
+                            'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set serial'), ['class' => 'modal-title']),
+                            'scenario' => 'set-serial',
+                            'actionUrl' => ['bulk-set-serial'],
+                            'size' => Modal::SIZE_LARGE,
+                            'handleSubmit' => Url::toRoute('set-serial'),
+                            'toggleButton' => [
+                                'tag' => 'a',
+                                'label' => Yii::t('hipanel:stock', 'Set serial'),
+                            ],
+                        ],
+                        'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                    ]) : null,
+                    Yii::$app->user->can('part.update') ? AjaxModalWithTemplatedButton::widget([
+                        'ajaxModalOptions' => [
+                            'id' => 'set-real-serials-modal',
+                            'bulkPage' => true,
+                            'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set real serials'), ['class' => 'modal-title']),
+                            'scenario' => 'set-real-serial',
+                            'actionUrl' => ['set-real-serials'],
+                            'size' => Modal::SIZE_LARGE,
+                            'handleSubmit' => Url::toRoute('set-real-serials'),
+                            'toggleButton' => [
+                                'tag' => 'a',
+                                'label' => Yii::t('hipanel:stock', 'Set real serials'),
+                            ],
+                        ],
+                        'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                    ]) : null,
+                    Yii::$app->user->can('part.update') ? AjaxModalWithTemplatedButton::widget([
+                        'ajaxModalOptions' => [
+                            'id' => 'bulk-set-price-modal',
+                            'bulkPage' => true,
+                            'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set price'), ['class' => 'modal-title']),
+                            'scenario' => 'bulk-set-price',
+                            'toggleButton' => [
+                                'tag' => 'a',
+                                'label' => Yii::t('hipanel:stock', 'Set price'),
+                            ],
+                        ],
+                        'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                    ]) : null,
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Repair'),
+                        'url' => '#',
+                        'linkOptions' => [
+                            'data-action' => 'repair',
+                        ],
+                        'visible' => Yii::$app->user->can('move.create'),
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Copy'),
+                        'url' => '#',
+                        'linkOptions' => [
+                            'data-action' => 'copy',
+                        ],
+                        'visible' => Yii::$app->user->can('part.create'),
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Replace'),
+                        'url' => '#',
+                        'linkOptions' => [
+                            'data-action' => 'replace',
+                        ],
+                        'visible' => Yii::$app->user->can('move.create'),
+                    ],
+
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Reserve'),
+                        'url' => '#',
+                        'linkOptions' => [
+                            'data-action' => 'reserve',
+                        ],
+                        'visible' => Yii::$app->user->can('part.update'),
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Unreserve'),
+                        'url' => '#',
+                        'linkOptions' => [
+                            'data-action' => 'unreserve',
+                        ],
+                        'visible' => Yii::$app->user->can('part.update'),
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Update'),
+                        'url' => '#',
+                        'linkOptions' => [
+                            'data-action' => 'update',
+                        ],
+                        'visible' => Yii::$app->user->can('part.update'),
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Update Order No.'),
+                        'url' => '#',
+                        'linkOptions' => [
+                            'data-action' => 'update-order-no',
+                        ],
+                        'visible' => Yii::$app->user->can('part.update'),
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Mark as Deleted'),
+                        'url' => '#bulk-delete-modal',
+                        'linkOptions' => ['data-toggle' => 'modal'],
+                        'visible' => Yii::$app->user->can('part.delete'),
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Erase'),
+                        'url' => '#bulk-erase-modal',
+                        'linkOptions' => ['data-toggle' => 'modal'],
+                        'visible' => Yii::$app->user->can('part.erase'),
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Change model'),
+                        'url' => '#',
+                        'linkOptions' => [
+                            'data-action' => 'change-model',
+                        ],
+                        'visible' => Yii::$app->user->can('part.update'),
+                    ],
+                    '<li role="presentation" class="divider"></li>',
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Move by one'),
+                        'url' => '#',
+                        'linkOptions' => [
+                            'data-action' => 'move-by-one',
+                        ],
+                        'visible' => Yii::$app->user->can('move.create'),
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Move by {0}', 2),
+                        'url' => '#',
+                        'linkOptions' => [
+                            'data-action' => 'move?groupBy=2',
+                        ],
+                        'visible' => Yii::$app->user->can('move.create'),
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Move by {0}', 4),
+                        'url' => '#',
+                        'linkOptions' => [
+                            'data-action' => 'move?groupBy=4',
+                        ],
+                        'visible' => Yii::$app->user->can('move.create'),
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Move by {0}', 8),
+                        'url' => '#',
+                        'linkOptions' => [
+                            'data-action' => 'move?groupBy=8',
+                        ],
+                        'visible' => Yii::$app->user->can('move.create'),
+                    ],
+                    [
+                        'label' => Yii::t('hipanel:stock', 'Move by {0}', 16),
+                        'url' => '#',
+                        'linkOptions' => [
+                            'data-action' => 'move?groupBy=16',
+                        ],
+                        'visible' => Yii::$app->user->can('move.create'),
+                    ],
+                ])?>
+                <?php
+                $ajaxModals = [];
+                if (Yii::$app->user->can('part.delete')) {
+                    $ajaxModals[] = [
+                        'id' => 'bulk-delete-modal',
+                        'scenario' => 'bulk-delete-modal',
+                        'bulkPage' => true,
+                        'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Mark as Deleted'), ['class' => 'modal-title']),
+                        'headerOptions' => ['class' => 'label-danger'],
+                        'handleSubmit' => false,
+                        'toggleButton' => false,
+                    ];
+                }
+                if (Yii::$app->user->can('part.erase')) {
+                    $ajaxModals[] = [
+                        'id' => 'bulk-erase-modal',
+                        'scenario' => 'bulk-erase-modal',
+                        'bulkPage' => true,
+                        'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Erase parts'), ['class' => 'modal-title']),
+                        'headerOptions' => ['class' => 'label-danger'],
+                        'handleSubmit' => false,
+                        'toggleButton' => false,
+                    ];
+                }
+                ?>
                 <?= Dropdown::widget([
                     'encodeLabels' => false,
-                    'items' => array_filter([
-                        Yii::$app->user->can('part.update') ? AjaxModalWithTemplatedButton::widget([
-                            'ajaxModalOptions' => [
-                                'id' => 'set-serial-modal',
-                                'bulkPage' => true,
-                                'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set serial'), ['class' => 'modal-title']),
-                                'scenario' => 'set-serial',
-                                'actionUrl' => ['bulk-set-serial'],
-                                'size' => Modal::SIZE_LARGE,
-                                'handleSubmit' => Url::toRoute('set-serial'),
-                                'toggleButton' => [
-                                    'tag' => 'a',
-                                    'label' => Yii::t('hipanel:stock', 'Set serial'),
-                                ],
-                            ],
-                            'toggleButtonTemplate' => '<li>{toggleButton}</li>',
-                        ]) : null,
-                        Yii::$app->user->can('part.update') ? AjaxModalWithTemplatedButton::widget([
-                            'ajaxModalOptions' => [
-                                'id' => 'set-real-serials-modal',
-                                'bulkPage' => true,
-                                'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set real serials'), ['class' => 'modal-title']),
-                                'scenario' => 'set-real-serial',
-                                'actionUrl' => ['set-real-serials'],
-                                'size' => Modal::SIZE_LARGE,
-                                'handleSubmit' => Url::toRoute('set-real-serials'),
-                                'toggleButton' => [
-                                    'tag' => 'a',
-                                    'label' => Yii::t('hipanel:stock', 'Set real serials'),
-                                ],
-                            ],
-                            'toggleButtonTemplate' => '<li>{toggleButton}</li>',
-                        ]) : null,
-                        Yii::$app->user->can('part.update') ? AjaxModalWithTemplatedButton::widget([
-                            'ajaxModalOptions' => [
-                                'id' => 'bulk-set-price-modal',
-                                'bulkPage' => true,
-                                'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Set price'), ['class' => 'modal-title']),
-                                'scenario' => 'bulk-set-price',
-                                'toggleButton' => [
-                                    'tag' => 'a',
-                                    'label' => Yii::t('hipanel:stock', 'Set price'),
-                                ],
-                            ],
-                            'toggleButtonTemplate' => '<li>{toggleButton}</li>',
-                        ]) : null,
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Repair'),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'repair',
-                            ],
-                            'visible' => Yii::$app->user->can('move.create'),
-                        ],
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Copy'),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'copy',
-                            ],
-                            'visible' => Yii::$app->user->can('part.create'),
-                        ],
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Replace'),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'replace',
-                            ],
-                            'visible' => Yii::$app->user->can('move.create'),
-                        ],
-
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Reserve'),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'reserve',
-                            ],
-                            'visible' => Yii::$app->user->can('part.update'),
-                        ],
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Unreserve'),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'unreserve',
-                            ],
-                            'visible' => Yii::$app->user->can('part.update'),
-                        ],
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Update'),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'update',
-                            ],
-                            'visible' => Yii::$app->user->can('part.update'),
-                        ],
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Update Order No.'),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'update-order-no',
-                            ],
-                            'visible' => Yii::$app->user->can('part.update'),
-                        ],
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Mark as Deleted'),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'delete',
-                            ],
-                            'visible' => Yii::$app->user->can('part.delete'),
-                        ],
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Erase'),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'erase',
-                            ],
-                            'visible' => Yii::$app->user->can('part.erase'),
-                        ],
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Change model'),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'change-model',
-                            ],
-                            'visible' => Yii::$app->user->can('part.update'),
-                        ],
-                        '<li role="presentation" class="divider"></li>',
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Move by one'),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'move-by-one',
-                            ],
-                            'visible' => Yii::$app->user->can('move.create'),
-                        ],
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Move by {0}', 2),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'move?groupBy=2',
-                            ],
-                            'visible' => Yii::$app->user->can('move.create'),
-                        ],
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Move by {0}', 4),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'move?groupBy=4',
-                            ],
-                            'visible' => Yii::$app->user->can('move.create'),
-                        ],
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Move by {0}', 8),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'move?groupBy=8',
-                            ],
-                            'visible' => Yii::$app->user->can('move.create'),
-                        ],
-                        [
-                            'label' => Yii::t('hipanel:stock', 'Move by {0}', 16),
-                            'url' => '#',
-                            'linkOptions' => [
-                                'data-action' => 'move?groupBy=16',
-                            ],
-                            'visible' => Yii::$app->user->can('move.create'),
-                        ],
-                    ]),
+                    'options' => ['class' => 'pull-right'],
+                    'items' => $dropDownItems,
                 ]) ?>
+                <div class="text-left">
+                    <?php foreach ($ajaxModals as $ajaxModal) : ?>
+                        <?= AjaxModal::widget($ajaxModal) ?>
+                    <?php endforeach ?>
+                </div>
             </div>
         <?php endif ?>
         <?php if (Yii::$app->user->can('part.delete')) : ?>

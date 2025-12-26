@@ -44,6 +44,7 @@ class PartSearch extends Part
             'device_location_leftLikei',
             'first_move_source_regexp',
             'first_move_destination_regexp',
+            'show_deleted',
             'model_group_id',
         ]);
     }
@@ -73,6 +74,7 @@ class PartSearch extends Part
             'device_location_leftLikei' => Yii::t('hipanel:stock', 'DC location'),
             'first_move_source_regexp' => Yii::t('hipanel:stock', 'First move source regexp'),
             'first_move_destination_regexp' => Yii::t('hipanel:stock', 'First move destination regexp'),
+            'show_deleted' => Yii::t('hipanel:stock', 'Show Deleted Parts'),
         ]);
     }
 }

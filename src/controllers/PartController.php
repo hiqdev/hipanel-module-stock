@@ -74,6 +74,7 @@ class PartController extends CrudController
                     'sell' => 'part.sell',
                     'sell-by-plan' => 'part.sell',
                     'delete' => 'part.delete',
+                    'erase' => 'part.erase',
                     'calculate-sell-sum' => 'part.sell',
                     'fast-move' => 'move.create',
 
@@ -362,6 +363,26 @@ class PartController extends CrudController
                 'queryOptions' => [
                     'batch' => false,
                 ],
+            ],
+            'bulk-delete-modal' => [
+                'class' => PrepareBulkAction::class,
+                'view' => '_bulkDelete',
+            ],
+            'erase' => [
+                'class' => SmartDeleteAction::class,
+                'success' => Yii::t('hipanel:stock', 'Part has been erased'),
+                'error' => Yii::t(
+                    'hipanel:stock',
+                    'An error occurred when trying to erase {object}',
+                    ['{object}' => Yii::t('hipanel:stock', 'part')]
+                ),
+                'queryOptions' => [
+                    'batch' => false,
+                ],
+            ],
+            'bulk-erase-modal' => [
+                'class' => PrepareBulkAction::class,
+                'view' => '_bulkErase',
             ],
             'replace' => [
                 'class' => SmartUpdateAction::class,

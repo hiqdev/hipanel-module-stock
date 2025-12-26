@@ -301,6 +301,11 @@ class Part extends \hipanel\base\Model
         return $this->state === self::STATE_DELETED;
     }
 
+    public function isNotDeleted(): bool
+    {
+        return !$this->isDeleted();
+    }
+
     public function getProfit(): ActiveQuery
     {
         return $this->hasMany(PartWithProfit::class, ['id' => 'id'])->indexBy('currency');

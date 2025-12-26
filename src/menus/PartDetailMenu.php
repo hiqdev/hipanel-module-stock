@@ -28,7 +28,7 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                     'handleSubmit' => false,
                 ]),
                 'encode' => false,
-                'visible' => Yii::$app->user->can('part.sell')
+                'visible' => Yii::$app->user->can('part.sell') && $this->model->isNotDeleted()
             ],
             [
                 'label' => $this->model->reserve ? Yii::t('hipanel:stock', 'Unreserve') : Yii::t('hipanel:stock', 'Reserve'),
@@ -37,37 +37,37 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                     '@part/reserve',
                     'id' => $this->model->id,
                 ],
-                'visible' => Yii::$app->user->can('part.update'),
+                'visible' => Yii::$app->user->can('part.update') && $this->model->isNotDeleted(),
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Replace'),
                 'icon' => 'fa-repeat',
                 'url' => ['@part/replace', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('move.create'),
+                'visible' => Yii::$app->user->can('move.create') && $this->model->isNotDeleted(),
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Copy'),
                 'icon' => 'fa-files-o',
                 'url' => ['@part/copy', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('part.create'),
+                'visible' => Yii::$app->user->can('part.create') && $this->model->isNotDeleted(),
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Move'),
                 'icon' => 'fa-arrows-h',
                 'url' => ['@part/move-by-one', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('move.create'),
+                'visible' => Yii::$app->user->can('move.create') && $this->model->isNotDeleted(),
             ],
             [
                 'label' => Yii::t('hipanel', 'Update'),
                 'icon' => 'fa-pencil',
                 'url' => ['@part/update', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('part.update'),
+                'visible' => Yii::$app->user->can('part.update') && $this->model->isNotDeleted(),
             ],
             [
                 'label' => Yii::t('hipanel:stock', 'Trash'),
                 'icon' => 'fa-trash-o',
                 'url' => ['@part/trash', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('move.create'),
+                'visible' => Yii::$app->user->can('move.create') && $this->model->isNotDeleted(),
             ],
             [
                 'label' => SimpleOperation::widget([
@@ -83,7 +83,7 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                     'modalFooterClass' => 'btn btn-danger',
                 ]),
                 'encode' => false,
-                'visible' => Yii::$app->user->can('part.delete') && $this->model->isDeletable() && !$this->model->isDeleted(),
+                'visible' => Yii::$app->user->can('part.delete') && $this->model->isNotDeleted(),
             ],
             [
                 'label' => SimpleOperation::widget([

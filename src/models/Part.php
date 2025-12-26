@@ -296,6 +296,11 @@ class Part extends \hipanel\base\Model
         return $this->first_move_id === $this->last_move_id;
     }
 
+    public function isDeleted(): bool
+    {
+        return $this->state === self::STATE_DELETED;
+    }
+
     public function getProfit(): ActiveQuery
     {
         return $this->hasMany(PartWithProfit::class, ['id' => 'id'])->indexBy('currency');

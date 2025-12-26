@@ -83,7 +83,7 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                     'modalFooterClass' => 'btn btn-danger',
                 ]),
                 'encode' => false,
-                'visible' => Yii::$app->user->can('part.delete') && $this->model->isDeletable(),
+                'visible' => Yii::$app->user->can('part.delete') && $this->model->isDeletable() && !$this->model->isDeleted(),
             ],
             [
                 'label' => SimpleOperation::widget([

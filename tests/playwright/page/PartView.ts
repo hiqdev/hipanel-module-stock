@@ -27,7 +27,7 @@ export default class PartView {
 
   async erasePart() {
     await this.detailMenu.clickDetailMenuItem("Erase");
-    await this.confirmModalAction('Erase');
+    await this.confirmModalAction('Erase part');
 
     await this.alert.hasText("Part has been erased");
   }

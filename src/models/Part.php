@@ -203,7 +203,7 @@ class Part extends \hipanel\base\Model
             [['id', 'model_id'], 'required', 'on' => 'change-model'],
 
             // Delete
-            [['id'], 'required', 'on' => ['delete']],
+            [['id'], 'required', 'on' => ['delete', 'erase']],
         ];
     }
 

@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import { Alert } from "@hipanel-core/shared/ui/components";
+import { Alert, Modal } from "@hipanel-core/shared/ui/components";
 import DetailMenu from "@hipanel-core/helper/DetailMenu";
 
 export default class PartView {
@@ -11,17 +11,24 @@ export default class PartView {
     this.page = page;
     this.detailMenu = new DetailMenu(page);
     this.alert = Alert.on(page);
-    this.registerAcceptDeleteDialogHandler();
   }
 
-  async deletePart() {
-    await this.detailMenu.clickDetailMenuItem("Delete");
+  async markPartAsDeleted() {
+    await this.detailMenu.clickDetailMenuItem("Mark as Deleted");
+    await this.confirmModalAction('Mark as Deleted');
+
     await this.alert.hasText("Part has been deleted");
   }
 
-  private registerAcceptDeleteDialogHandler() {
-    // By default, dialogs are auto-dismissed by Playwright, so you don't have to handle them
-    this.page.on("dialog", async dialog => await dialog.accept());
+  private async confirmModalAction(action) {
+    const modal = new Modal(this.page);
+    await modal.clickButton(action);
   }
 
+  async erasePart() {
+    await this.detailMenu.clickDetailMenuItem("Erase");
+    await this.confirmModalAction('Erase part');
+
+    await this.alert.hasText("Part has been erased");
+  }
 }

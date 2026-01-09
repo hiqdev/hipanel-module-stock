@@ -203,7 +203,7 @@ class Part extends \hipanel\base\Model
             [['id', 'model_id'], 'required', 'on' => 'change-model'],
 
             // Delete
-            [['id'], 'required', 'on' => ['delete']],
+            [['id'], 'required', 'on' => ['delete', 'erase']],
         ];
     }
 
@@ -294,6 +294,16 @@ class Part extends \hipanel\base\Model
     public function isDeletable(): bool
     {
         return $this->first_move_id === $this->last_move_id;
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->state === self::STATE_DELETED;
+    }
+
+    public function isNotDeleted(): bool
+    {
+        return !$this->isDeleted();
     }
 
     public function getProfit(): ActiveQuery

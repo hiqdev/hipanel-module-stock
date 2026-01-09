@@ -87,7 +87,7 @@ test.describe("Part Management", () => {
     await partIndexView.seePartWasCreated();
   });
 
-  test("Ensure a part can be created and then deleted @hipanel-module-stock @manager", async ({ managerPage }) => {
+  test("Ensure a part can be created and then marked as deleted @hipanel-module-stock @manager", async ({ managerPage }) => {
     const partCreateView = new PartCreateView(managerPage);
     const partIndexView = new PartIndexView(managerPage);
 
@@ -98,6 +98,20 @@ test.describe("Part Management", () => {
     await partIndexView.seePartWasCreated();
 
     const partView = new PartView(managerPage);
-    await partView.deletePart();
+    await partView.markPartAsDeleted();
+  });
+
+  test("Ensure a part can be created and then erased @hipanel-module-stock @manager", async ({ managerPage }) => {
+    const partCreateView = new PartCreateView(managerPage);
+    const partIndexView = new PartIndexView(managerPage);
+
+    await partCreateView.navigate();
+    await partCreateView.fillPartFields(getPartData());
+    await partCreateView.save();
+
+    await partIndexView.seePartWasCreated();
+
+    const partView = new PartView(managerPage);
+    await partView.erasePart();
   });
 });

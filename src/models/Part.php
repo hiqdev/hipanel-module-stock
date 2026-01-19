@@ -97,6 +97,8 @@ class Part extends \hipanel\base\Model
                     'company',
                     'device_location',
                     'warranty_till',
+                    'src_class',
+                    'dst_class',
                 ],
                 'safe',
             ],

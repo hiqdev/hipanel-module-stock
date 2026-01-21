@@ -1,6 +1,7 @@
 <?php
 
-use hipanel\helpers\Url;use hipanel\modules\stock\models\ModelGroup;
+use hipanel\helpers\Url;
+use hipanel\modules\stock\models\ModelGroup;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;

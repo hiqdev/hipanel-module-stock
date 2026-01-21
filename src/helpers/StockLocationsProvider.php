@@ -60,35 +60,4 @@ class StockLocationsProvider
 
         return [];
     }
-
-    private function getStockTypesWithAliasGroups(): array
-    {
-        $result = [];
-        $stockTypes = ['stock', 'used', 'rma', 'for-test'];
-        $locations = $this->getLocations();
-
-        foreach ($stockTypes as $type) {
-            foreach ($locations as $alias) {
-                if ($alias->type->value !== 'alias_group') {
-                    continue;
-                }
-
-                foreach ($alias->objects as $id => $objectName) {
-                    foreach ($locations as $location) {
-                        if ($location->type->value === $type && $location->id === $objectName) {
-                            $result[$type][$alias->name][$location->name] = $location->id;
-                            //      -stock -AMS17        -AMS17_Z6G         -stock_AMS17_Z6G
-                        }
-                    }
-                }
-            }
-        }
-
-        return $result;
-        // category: alias_group_by_stock_state
-        // alias_group_stock:AMS17
-        // alias_group_rma:AMS17
-        // alias_group_for-test:AMS17
-        // alias_group_used:AMS17
-    }
 }

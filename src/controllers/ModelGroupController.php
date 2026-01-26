@@ -52,7 +52,7 @@ class ModelGroupController extends CrudController
                     'update' => 'model.update',
                     'delete' => 'model.delete',
                     'copy' => 'model.create',
-                    '*' => 'model.read',
+                    '*' => 'model.update',
                 ],
             ],
         ]);

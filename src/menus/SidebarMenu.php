@@ -53,7 +53,7 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
                         'label' => Yii::t('hipanel:stock', 'Model groups'),
                         'url'   => ['/stock/model-group/index'],
                         'icon'  => 'fa-folder-open',
-                        'visible' => $user->can('model.read'),
+                        'visible' => $user->can('model.update'),
                     ],
                     'hwconfig' => [
                         'label'   => Yii::t('hipanel:stock', 'Config Templates'),

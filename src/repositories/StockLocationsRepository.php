@@ -30,10 +30,6 @@ class StockLocationsRepository
             self::CACHE_DURATION
         );
 
-        // todo: remove filter when API will return correct type and category without nulls
-        return array_map(
-            static fn(array $item) => LocationItem::fromArray($item),
-            array_filter($data, static fn(array $datum) => !in_array(null, $datum, true))
-        );
+        return array_map(fn(array $item) => LocationItem::fromArray($item), $data);
     }
 }

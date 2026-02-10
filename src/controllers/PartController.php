@@ -28,6 +28,7 @@ use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\StringHelper;
 use hipanel\modules\stock\actions\BulkMoveAction;
+use hipanel\modules\stock\actions\ExportPartsAction;
 use hipanel\modules\stock\actions\FastMoveAction;
 use hipanel\modules\stock\actions\ResolveRange;
 use hipanel\modules\stock\actions\SetRealSerialsAction;
@@ -534,6 +535,7 @@ class PartController extends CrudController
                     $action->dataProvider->query->andWhere(['groupby' => 'place'])->limit(-1);
                 },
             ],
+            'export-parts' => ExportPartsAction::class,
         ]);
     }
 

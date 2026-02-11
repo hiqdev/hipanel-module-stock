@@ -361,9 +361,6 @@ class PartController extends CrudController
                     'An error occurred when trying to delete {object}',
                     ['{object}' => Yii::t('hipanel:stock', 'part')]
                 ),
-                'queryOptions' => [
-                    'batch' => false,
-                ],
             ],
             'bulk-delete-modal' => [
                 'class' => PrepareBulkAction::class,
@@ -377,9 +374,6 @@ class PartController extends CrudController
                     'An error occurred when trying to erase {object}',
                     ['{object}' => Yii::t('hipanel:stock', 'part')]
                 ),
-                'queryOptions' => [
-                    'batch' => false,
-                ],
             ],
             'bulk-erase-modal' => [
                 'class' => PrepareBulkAction::class,

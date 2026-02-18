@@ -23,12 +23,15 @@ use yii\web\User;
 
 class ModelGridView extends BoxedGridView
 {
+    private array $stockColumns;
+
     public function __construct(
         private readonly StockLocationsProvider $locationsProvider,
         private readonly User $user,
         $config = []
     )
     {
+        $this->stockColumns = $this->generateStockColumns();
         parent::__construct($config);
     }
 
@@ -109,7 +112,7 @@ class ModelGridView extends BoxedGridView
                 'template' => '{view} {update}',
                 'header' => Yii::t('hipanel', 'Actions'),
             ],
-        ], $this->generateStockColumns());
+        ], $this->stockColumns);
     }
 
     private function generateStockColumns(): array

@@ -9,14 +9,13 @@ use yii\web\User;
 
 class StockLocationsRepository
 {
-    private const string CACHE_KEY = 'stock-locations';
-    private const int CACHE_DURATION = 60*60*24; // 1 day
+    private const string CACHE_KEY = 'stock-locations-objects';
+    private const int CACHE_DURATION = 60 * 60 * 24; // 1 day
 
     public function __construct(
         private readonly CacheInterface $cache,
         private readonly User $user
-    )
-    {
+    ) {
     }
 
     /**
@@ -24,12 +23,14 @@ class StockLocationsRepository
      */
     public function getLocations(): array
     {
-        $data = $this->cache->getOrSet(
+        return $this->cache->getOrSet(
             [self::CACHE_KEY, $this->user->id],
-            static fn() => Model::perform('stock-locations-list', ['show_deleted' => true]),
+            static function () {
+                $locations = Model::perform('stock-locations-list', ['show_deleted' => true]);
+
+                return array_map(fn(array $item) => LocationItem::fromArray($item), $locations);
+            },
             self::CACHE_DURATION
         );
-
-        return array_map(fn(array $item) => LocationItem::fromArray($item), $data);
     }
 }

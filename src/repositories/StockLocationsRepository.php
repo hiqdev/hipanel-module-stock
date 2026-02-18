@@ -10,7 +10,7 @@ use yii\web\User;
 class StockLocationsRepository
 {
     private const string CACHE_KEY = 'stock-locations';
-    private const int CACHE_DURATION = 1;
+    private const int CACHE_DURATION = 60*60*24; // 1 day
 
     public function __construct(
         private readonly CacheInterface $cache,

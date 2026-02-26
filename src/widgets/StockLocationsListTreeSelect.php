@@ -98,8 +98,9 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
                   :append-to-body="true"
                   :disable-branch-nodes="false"
                   :multiple="true"
-                  value-consists-of="BRANCH_PRIORITY"
+                  :value-consists-of="selectionMode"
                   delimiter=","
+                  sort-value-by="LEVEL"
                   :auto-select-ancestors="true"
                   :clearable="false"
                   :allow-selecting-disabled-descendants="true"
@@ -111,6 +112,12 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
                   @close="updateColumns"
                 >
                     <div slot="value-label" slot-scope="{ node }" v-html="node.raw.label"></div>
+                    <div slot="after-list" style="padding: 0 0.5em 0;">
+                      <hr style="margin: 0.5em 0;">
+                      <label style="margin-bottom: 0.5em; display: block; cursor: pointer;">
+                        <input type="checkbox" v-model="includeDescendants" @change="onModeChange"> %s
+                      </label>
+                    </div>
                 </treeselect>
                 %s
                 <button class="btn btn-xs btn-danger btn-flat" v-cloak v-show="locationsInQueryParams()" @click="resetQueryLocations">
@@ -119,6 +126,7 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
             </div>',
             $this->getId(),
             Yii::t('hipanel:stock', 'Choose stock columns'),
+            Yii::t('hipanel:stock', 'Include all descendants'),
             $activeInput,
             Yii::t('hipanel:stock', 'Back to prefered stock locations'),
         );
@@ -152,6 +160,8 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
                 "
                 ;(() => {
                     const container = $('#%s');
+                    const STORAGE_KEY = 'stockLocations.includeDescendants';
+                    
                     new Vue({
                         el: container.get(0),
                         components: {
@@ -161,7 +171,13 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
                             value: container.find('input[type=hidden]').data('value'),
                             options: container.find('input[type=hidden]').data('options'),
                             saveOnChange: container.find('input[type=hidden]').data('save-on-change'),
-                            allowUpdate: false
+                            allowUpdate: false,
+                            includeDescendants: localStorage.getItem(STORAGE_KEY) === 'true'
+                        },
+                        computed: {
+                          selectionMode: function() {
+                            return this.includeDescendants ? 'ALL' : 'BRANCH_PRIORITY';
+                          }
                         },
                         methods: {
                           locationsInQueryParams: function () {
@@ -175,6 +191,9 @@ class StockLocationsListTreeSelect extends VueTreeSelectInput
                           },
                           resetQueryLocations: function () {
                             window.location.href = '%s';
+                          },
+                          onModeChange: function() {
+                            localStorage.setItem(STORAGE_KEY, this.includeDescendants);
                           },
                           onChange: function(value) {
                             if (!this.saveOnChange) {

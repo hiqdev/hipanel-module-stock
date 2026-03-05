@@ -20,6 +20,7 @@ class HardwareSettingsForm extends Widget
         'ssd' => [
             '2.5"' => 'SSD 2.5"',
             'HHHL' => 'SSD HHHL',
+            'U.3' => 'SSD U.3',
             'M.2' => 'SSD M.2',
         ],
     ];

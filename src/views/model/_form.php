@@ -98,12 +98,11 @@ JS
                                 'data' => $types,
                                 'inputOptions' => array_merge(
                                     ['class' => 'type-element'],
-                                    (!$model->isNewRecord && $model->scenario != Model::SCENARIO_COPY) ? ['readonly' => 'readonly'] : []),
+                                ),
                             ]) ?>
                         </div>
                         <div class="col-md-6">
-                            <?= $form->field($model, "[$i]brand")->dropDownList($brands,
-                                (!$model->isNewRecord && $model->scenario != Model::SCENARIO_COPY) ? ['disabled' => 'disabled'] : ['prompt' => '--']) ?>
+                            <?= $form->field($model, "[$i]brand")->dropDownList($brands, ['prompt' => '--']) ?>
                         </div>
                     </div>
                     <div class="row">

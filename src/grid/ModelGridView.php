@@ -67,6 +67,23 @@ class ModelGridView extends BoxedGridView
             'model' => [
                 'filterAttribute' => 'model_like',
                 'filterOptions' => ['class' => 'narrow-filter'],
+                'value' => function (Model $model) {
+                    if (in_array($model->type, ['hdd', 'ssd'], true) && !empty($model->props)) {
+                        $type = $model->type;
+                        $props = $model->props;
+                        $parts = array_filter([
+                            $props["{$type}:size"] ?? null,
+                            $props["{$type}:type"] ?? null,
+                            $props["{$type}:interface"] ?? null,
+                            $props["{$type}:formfactor"] ?? null,
+                        ]);
+                        if (!empty($parts)) {
+                            return implode(' ', $parts);
+                        }
+                    }
+
+                    return $model->model;
+                },
             ],
             'partno' => [
                 'enableSorting' => false,

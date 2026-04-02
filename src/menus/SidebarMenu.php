@@ -66,6 +66,12 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
                         'icon'  => 'fa-mobile',
                         'visible' => $user->can('move.read'),
                     ],
+                    'installment-plan' => [
+                        'label'   => Yii::t('hipanel:stock', 'Installment plans'),
+                        'url'     => ['/stock/installment-plan/index'],
+                        'icon'    => 'fa-credit-card',
+                        'visible' => $user->can('sale.read'),
+                    ],
                 ],
             ],
         ];

@@ -82,7 +82,7 @@ class InstallmentPlanItemGridView extends BoxedGridView
                 'filter' => false,
                 'format' => 'raw',
                 'value' => fn(InstallmentPlanItem $model) => $model->installment_plan_id
-                    ? Html::a('#' . $model->installment_plan_id, ['/stock/installment-plan/view', 'id' => $model->installment_plan_id])
+                    ? Html::a('#' . $model->installment_plan_id, ['@installment-plan/view', 'id' => $model->installment_plan_id])
                     : '—',
             ],
         ]);

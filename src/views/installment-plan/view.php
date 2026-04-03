@@ -2,6 +2,7 @@
 
 use hipanel\modules\stock\grid\InstallmentPlanGridView;
 use hipanel\modules\stock\grid\InstallmentPlanItemGridView;
+use hipanel\modules\stock\menus\InstallmentPlanDetailMenu;
 use hipanel\modules\stock\models\InstallmentPlan;
 use hipanel\widgets\Box;
 use hipanel\widgets\IndexPage;
@@ -29,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'title' => $this->title,
                     'icon' => 'fa-credit-card',
                     'subTitle' => Html::encode($model->client),
+                    'menu' => InstallmentPlanDetailMenu::widget(['model' => $model]),
                 ]) ?>
             </div>
             <div class="col-md-12">

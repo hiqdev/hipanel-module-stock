@@ -52,6 +52,7 @@ class InstallmentPlan extends \hipanel\base\Model
     const string STATE_BUYOUT = 'buyout';
     const string STATE_INTERRUPTED = 'interrupted';
     const string STATE_AMBIGUOUS = 'ambiguous';
+    const string STATE_DELETED = 'deleted';
 
     use \hipanel\base\ModelTrait;
 
@@ -102,6 +103,11 @@ class InstallmentPlan extends \hipanel\base\Model
             'currency'             => Yii::t('hipanel:finance', 'Currency'),
             'currency_id'          => Yii::t('hipanel:finance', 'Currency'),
         ]);
+    }
+
+    public function isDeleted(): bool
+    {
+        return $this->state === self::STATE_DELETED;
     }
 
     /**

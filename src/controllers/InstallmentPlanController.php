@@ -11,8 +11,11 @@
 namespace hipanel\modules\stock\controllers;
 
 use hipanel\actions\IndexAction;
+use hipanel\actions\SmartDeleteAction;
+use hipanel\actions\SmartPerformAction;
 use hipanel\actions\ViewAction;
 use hipanel\filters\EasyAccessControl;
+use Yii;
 use yii\data\ArrayDataProvider;
 
 class InstallmentPlanController extends \hipanel\base\CrudController
@@ -23,7 +26,9 @@ class InstallmentPlanController extends \hipanel\base\CrudController
             [
                 'class' => EasyAccessControl::class,
                 'actions' => [
-                    '*' => 'sale.read',
+                    'delete'  => 'installment-plan.delete',
+                    'restore' => 'installment-plan.delete',
+                    '*'       => 'sale.read',
                 ],
             ],
         ]);
@@ -35,9 +40,21 @@ class InstallmentPlanController extends \hipanel\base\CrudController
             'index' => [
                 'class' => IndexAction::class,
             ],
+            'delete' => [
+                'class' => SmartDeleteAction::class,
+                'success' => Yii::t('hipanel:stock', 'Installment plan has been deleted'),
+                'error' => Yii::t('hipanel:stock', 'An error occurred when trying to delete installment plan'),
+            ],
+            'restore' => [
+                'class' => SmartPerformAction::class,
+                'success' => Yii::t('hipanel:stock', 'Installment plan has been restored'),
+            ],
             'view' => [
                 'class' => ViewAction::class,
-                'findOptions' => ['with_items' => 1],
+                'findOptions' => [
+                    'with_items' => 1,
+                    'with_all_states' => 1,
+                ],
                 'data' => function ($action) {
                     $model = $action->getModel();
 

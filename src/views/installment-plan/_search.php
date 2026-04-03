@@ -4,7 +4,7 @@
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\client\widgets\combo\SellerCombo;
-use hipanel\modules\finance\widgets\MonthRangePicker;
+use hipanel\widgets\MonthPicker;
 use hipanel\modules\stock\widgets\combo\InstallmentPlanStateCombo;
 
 ?>
@@ -22,9 +22,9 @@ use hipanel\modules\stock\widgets\combo\InstallmentPlanStateCombo;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= MonthRangePicker::widget([
-        'model' => $search->model,
-        'timeTillAttribute' => 'month',
-        'timeFromAttribute' => 'month',
+    <?= $search->field('month')->widget(MonthPicker::class, [
+        'clientOptions' => [
+            'dateFormat' => 'Y-m-01',
+        ],
     ]) ?>
 </div>

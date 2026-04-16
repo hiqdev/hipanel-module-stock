@@ -25,6 +25,7 @@ use Yii;
  *
  * @property Model $model
  * @property string $currency
+ * @property null|bool $is_sold
  * @property-read array $extractedSerials
  * @property-read mixed $title
  * @property-read ActiveQuery $sale

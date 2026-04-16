@@ -112,7 +112,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?= $form->field($model, "[$i]dst_id")->widget(RmaDestinationCombo::class) ?>
                             <?php else : ?>
                                 <?= $form->field($model, "[$i]dst_id")->widget(DestinationCombo::class, [
-                                    'warnIfMovingToStock' => $model->is_sold,
+                                    'warnIfMovingToStock' => $model->is_sold === true,
                                 ]) ?>
                             <?php endif ?>
 

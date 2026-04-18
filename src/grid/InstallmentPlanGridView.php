@@ -18,6 +18,8 @@ use hipanel\grid\CurrencyColumn;
 use hipanel\modules\stock\models\InstallmentPlan;
 use hipanel\modules\stock\widgets\combo\InstallmentPlanStateCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
+use hipanel\modules\stock\widgets\combo\OrderCombo;
+
 use Yii;
 use yii\helpers\Html;
 
@@ -145,12 +147,40 @@ class InstallmentPlanGridView extends BoxedGridView
                     ? Html::encode((new \DateTimeImmutable($model->till))->format('Y-m-d'))
                     : '—',
             ],
+            'company_id' => [
+                'class' => CompanyColumn::class,
+                'visible' => Yii::$app->user->can('order.create'),
+            ],
+            'order_name' => [
+                'attribute' => 'order_id',
+                'filterAttribute' => 'order_id',
+                'filter' => function ($column, $model, $attribute) {
+                    return OrderCombo::widget([
+                        'model' => $model,
+                        'attribute' => $attribute,
+                        'formElementSelector' => 'td',
+                    ]);
+                },
+                'filterOptions' => ['class' => 'narrow-filter'],
+                'contentOptions' => ['style' => 'white-space: nowrap;'],
+                'format' => 'raw',
+                'visible' => Yii::$app->user->can('order.read') && Yii::$app->user->can('owner-staff'),
+                'value' => function (InstallmentPlan $model): string {
+                    return HTML::a(Html::encode($model->order_name), ['@order/view', 'id' => $model->order_id]);
+                },
+            ],
+            'warranty_till' => [
+                'class' => WarrantyColumn::class,
+                'attribute' => 'warranty_till',
+                'contentOptions' => ['style' => 'white-space: nowrap;'],
+                'format' => ['datetime', 'php:Y-m-d'],
+            ],
             'actions' => [
                 'class' => ActionColumn::class,
                 'template' => '{view} {delete} {restore}',
                 'visibleButtons' => [
                     'delete'  => fn(InstallmentPlan $model) => Yii::$app->user->can('installment-plan.delete') && !$model->isDeleted(),
-                    'restore' => fn(InstallmentPlan $model) => Yii::$app->user->can('installment-plan.delete') && $model->isDeleted(),
+                    'restore' => fn(InstallmentPlan $model) => Yii::$app->user->can('installment-plan.restore') && $model->isDeleted(),
                 ],
                 'buttons' => [
                     'restore' => function (string $url, InstallmentPlan $model) {

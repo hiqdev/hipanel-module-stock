@@ -17,18 +17,22 @@ class InstallmentPlanRepresentations extends RepresentationCollection
 {
     protected function fillRepresentations()
     {
+        $user = Yii::$app->user;
         $this->representations = array_filter([
             'common' => [
                 'label' => Yii::t('hipanel', 'common'),
-                'columns' => [
+                'columns' => array_filter([
                     'checkbox',
                     'client',
                     'serialno', 'model', 'device',
                     'state',
                     'since', 'till', 'quantity',
                     'expected_monthly_sum', 'charged_sum', 'left_sum', 'expected_sum',
+                    $user->can('order.update') ? 'order_name' : null,
+                    $user->can('order.update') ? 'company_id' : null,
+                    'warranty_till',
                     'actions',
-                ],
+                ]),
             ],
         ]);
     }

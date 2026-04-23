@@ -43,6 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $box->renderTitle(Yii::t('hipanel:stock', 'Details')) ?>
                     <?php $box->endHeader() ?>
                     <?php $box->beginBody() ?>
+                        <div class="table-responsive">
                         <?= InstallmentPlanGridView::detailView([
                             'model' => $model,
                             'boxed' => false,
@@ -61,6 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'expected_sum',
                             ],
                         ]) ?>
+                        </div>
                     <?php $box->endBody() ?>
                 <?php $box->end() ?>
             </div>

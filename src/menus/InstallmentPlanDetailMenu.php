@@ -12,6 +12,7 @@ namespace hipanel\modules\stock\menus;
 
 use hipanel\menus\AbstractDetailMenu;
 use hipanel\modules\stock\models\InstallmentPlan;
+use hipanel\widgets\AuditButton;
 use Yii;
 
 class InstallmentPlanDetailMenu extends AbstractDetailMenu
@@ -22,9 +23,9 @@ class InstallmentPlanDetailMenu extends AbstractDetailMenu
     {
         return [
             [
-                'label' => Yii::t('hipanel:stock', 'Delete'),
-                'icon' => 'fa-trash',
+                'label' => '<i class="fa fa-trash fa-fw pull-right"></i>' . Yii::t('hipanel:stock', 'Delete'),
                 'url' => ['@installment-plan/delete', 'id' => $this->model->id],
+                'encode' => false,
                 'visible' => Yii::$app->user->can('installment-plan.delete') && !$this->model->isDeleted(),
                 'linkOptions' => [
                     'data' => [
@@ -38,9 +39,9 @@ class InstallmentPlanDetailMenu extends AbstractDetailMenu
                 ],
             ],
             [
-                'label' => Yii::t('hipanel:stock', 'Restore'),
-                'icon' => 'fa-undo',
+                'label' => '<i class="fa fa-undo fa-fw pull-right"></i>' . Yii::t('hipanel:stock', 'Restore'),
                 'url' => ['@installment-plan/restore', 'id' => $this->model->id],
+                'encode' => false,
                 'visible' => Yii::$app->user->can('installment-plan.restore') && $this->model->isDeleted(),
                 'linkOptions' => [
                     'data' => [
@@ -51,6 +52,10 @@ class InstallmentPlanDetailMenu extends AbstractDetailMenu
                         ],
                     ],
                 ],
+            ],
+            [
+                'label' => AuditButton::widget(['model' => $this->model, 'rightIcon' => true]),
+                'encode' => false,
             ],
         ];
     }

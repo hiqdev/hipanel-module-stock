@@ -169,24 +169,21 @@ class InstallmentPlanGridView extends BoxedGridView
                         $sum = Html::tag('b', $sum);
                     }
                     $url = $this->getChargeUrl($model);
-                    $icon = Html::tag('i', '', ['class' => 'fa fa-list']);
-                    
-                    if ($url) {
-                        $sum = Html::a($sum, $url);
-                        $icon = Html::a($icon, $url, [
-                            'class' => 'btn btn-default btn-xs',
-                            'title' => Yii::t('hipanel:stock', 'Charges'),
-                            'data-toggle' => 'tooltip',
-                            'style' => 'margin-left: .5em',
-                        ]);
-                    } else {
-                        $icon = Html::tag('span', $icon, [
-                            'class' => 'btn btn-default btn-xs disabled',
-                            'style' => 'margin-left: .5em; opacity: 0.5;',
-                        ]);
+                    if (!$url) {
+                        return Html::tag('span', $sum, ['class' => 'text-right' . ($model->left_sum > 0 ? ' text-bold' : '')]);
                     }
 
+                    $icon = Html::tag('i', '', ['class' => 'fa fa-list']);
+                    
+                    $sum = Html::a($sum, $url);
+                    $icon = Html::a($icon, $url, [
+                        'class' => 'btn btn-default btn-xs',
+                        'title' => Yii::t('hipanel:stock', 'Charges'),
+                        'data-toggle' => 'tooltip',
+                        'style' => 'margin-left: .5em',
+                    ]);
                     return Html::tag('span', $sum . $icon, ['style' => 'display: flex; justify-content: flex-end; align-items: center;']);
+
                 },
                 'exportedColumns' => ['export_charged_sum', 'export_currency'],
             ],

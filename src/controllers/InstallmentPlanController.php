@@ -75,7 +75,7 @@ class InstallmentPlanController extends \hipanel\base\CrudController
     {
         if (Yii::$app->request->isPost) {
             try {
-                InstallmentPlan::perform('process', []);
+                InstallmentPlan::perform('process', [], ['batch' => true]);
                 Yii::$app->session->setFlash('success', Yii::t('hipanel:stock', 'Installment plans have been processed'));
             } catch (\Exception $e) {
                 Yii::$app->session->setFlash('error', $e->getMessage());

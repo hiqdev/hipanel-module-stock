@@ -12,6 +12,7 @@ namespace hipanel\modules\stock\models;
 
 use hipanel\modules\finance\models\Bill;
 use hipanel\modules\finance\models\Charge;
+use hipanel\modules\finance\models\Plan;
 use Yii;
 
 /**
@@ -39,8 +40,8 @@ class InstallmentPlanItem extends \hipanel\base\Model
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['id', 'installment_plan_id', 'charge_id', 'bill_id', 'no'], 'integer'],
-            [['month', 'currency'], 'string'],
+            [['id', 'installment_plan_id', 'charge_id', 'bill_id', 'no', 'tariff_id'], 'integer'],
+            [['month', 'currency', 'tariff'], 'string'],
             [['sum', 'charge_sum'], 'number'],
         ]);
     }
@@ -72,6 +73,11 @@ class InstallmentPlanItem extends \hipanel\base\Model
     public function getBill()
     {
         return $this->hasOne(Bill::class, ['id' => 'bill_id']);
+    }
+
+    public function getTariff()
+    {
+        return $this->hasOne(Plan::class, ['id' => 'tariff_od']);
     }
 
     public function isPaid(): bool

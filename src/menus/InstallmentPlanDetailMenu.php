@@ -41,7 +41,7 @@ class InstallmentPlanDetailMenu extends AbstractDetailMenu
                 'label' => Yii::t('hipanel:stock', 'Restore'),
                 'icon' => 'fa-undo',
                 'url' => ['@installment-plan/restore', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('installment-plan.delete') && $this->model->isDeleted(),
+                'visible' => Yii::$app->user->can('installment-plan.restore') && $this->model->isDeleted(),
                 'linkOptions' => [
                     'data' => [
                         'method' => 'post',

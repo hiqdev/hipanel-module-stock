@@ -10,6 +10,8 @@
 
 namespace hipanel\modules\stock\models;
 
+use hipanel\modules\finance\models\Plan;
+
 use Yii;
 
 /**
@@ -18,6 +20,7 @@ use Yii;
  * @property int    $id
  * @property int    $state_id
  * @property string $state
+ * @property string $state_name
  * @property int    $seller_id
  * @property string $seller
  * @property int    $client_id
@@ -65,9 +68,9 @@ class InstallmentPlan extends \hipanel\base\Model
     {
         return array_merge(parent::rules(), [
             [['id', 'state_id', 'seller_id', 'client_id', 'part_id', 'model_id', 'brand_id', 'part_type_id', 'device_id', 'currency_id'], 'integer'],
-            [['state', 'seller', 'client', 'serialno', 'model', 'brand', 'part_type', 'device', 'currency', 'reason', 'order_name', 'company'], 'string'],
+            [['state', 'state_name', 'seller', 'client', 'serialno', 'model', 'brand', 'part_type', 'device', 'currency', 'reason', 'order_name', 'company', 'tariff'], 'string'],
             [['since', 'till', 'warranty_till'], 'datetime', 'format' => 'php:Y-m-d H:i:s'],
-            [['quantity', 'order_id', 'company_id'], 'integer'],
+            [['quantity', 'order_id', 'company_id', 'tariff_id'], 'integer'],
             [['expected_monthly_sum', 'expected_sum', 'charged_sum', 'left_sum'], 'number'],
             [['items'], 'safe'],
         ]);
@@ -92,18 +95,19 @@ class InstallmentPlan extends \hipanel\base\Model
             'device'                => Yii::t('hipanel:finance:sale', 'Device'),
             'state'                 => Yii::t('hipanel', 'State'),
             'state_id'              => Yii::t('hipanel', 'State'),
-            'since'                 => Yii::t('hipanel:finance:sale', 'Installment start'),
-            'till'                  => Yii::t('hipanel:finance:sale', 'Installment end'),
-            'quantity'              => Yii::t('hipanel:finance:sale', 'Periods'),
+            'since'                 => Yii::t('hipanel:stock', 'Installment start'),
+            'till'                  => Yii::t('hipanel:stock', 'Installment end'),
+            'quantity'              => Yii::t('hipanel:stock', 'Periods'),
             'reason'                => Yii::t('hipanel', 'Reason'),
-            'expected_monthly_sum'  => Yii::t('hipanel:finance:sale', 'Monthly sum'),
-            'expected_sum'          => Yii::t('hipanel:finance:sale', 'Total sum'),
-            'charged_sum'           => Yii::t('hipanel:finance:sale', 'Charged sum'),
-            'left_sum'              => Yii::t('hipanel:finance:sale', 'Left sum'),
+            'expected_monthly_sum'  => Yii::t('hipanel:stock', 'Monthly sum'),
+            'expected_sum'          => Yii::t('hipanel:stock', 'Total sum'),
+            'charged_sum'           => Yii::t('hipanel:stock', 'Charged sum'),
+            'left_sum'              => Yii::t('hipanel:stock', 'Left sum'),
             'currency'              => Yii::t('hipanel:finance', 'Currency'),
             'currency_id'           => Yii::t('hipanel:finance', 'Currency'),
             'company_id'            => Yii::t('hipanel:stock', 'Company'),
             'order_id'              => Yii::t('hipanel:stock', 'Order'),
+            'warranty_till'         => Yii::t('hipanel:stock', 'Warranty till'),
         ]);
     }
 
@@ -144,4 +148,11 @@ class InstallmentPlan extends \hipanel\base\Model
 
         return $models;
     }
+
+    public function getTariff()
+    {
+        return $this->hasOne(Plan::class, ['id' => 'tariff_od']);
+    }
+
+
 }

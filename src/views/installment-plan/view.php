@@ -47,18 +47,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             'model' => $model,
                             'boxed' => false,
                             'columns' => [
-                                'client',
-                                'serialno',
-                                'model',
-                                'device',
-                                'state',
-                                'since',
-                                'till',
-                                'quantity',
-                                'expected_monthly_sum',
-                                'charged_sum',
-                                'left_sum',
-                                'expected_sum',
+                                'client', 'seller',
+                                'serialno', 'model', 'device',
+                                'state', 'since', 'till', 'quantity',
+                                'expected_monthly_sum', 'charged_sum', 'left_sum', 'expected_sum',
+                                'order_name', 'company_id', 'warranty_till',
                             ],
                         ]) ?>
                     <?php $box->endBody() ?>
@@ -78,14 +71,11 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= InstallmentPlanItemGridView::widget([
                 'boxed' => false,
                 'dataProvider' => $itemsDataProvider,
-                'columns' => [
-                    'no',
-                    'month',
-                    'sum',
-                    'charge_sum',
-                    'charge_id',
+                'columns' => array_filter([
+                    'no', 'month', 'tariff_link', 'sum', 'charge_sum',
+                    Yii::$app->user->can('bill.charges.read') ? 'charge_id' : null,
                     'bill_id',
-                ],
+                ]),
             ]) ?>
         <?php $page->endContent() ?>
 

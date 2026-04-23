@@ -18,8 +18,7 @@ use hipanel\grid\CurrencyColumn;
 use hipanel\modules\stock\models\InstallmentPlan;
 use hipanel\modules\stock\widgets\combo\InstallmentPlanStateCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
-use hipanel\modules\stock\widgets\combo\OrderCombo;
-
+use hipanel\widgets\gridLegend\GridLegend;
 use Yii;
 use yii\helpers\Html;
 
@@ -28,6 +27,29 @@ class InstallmentPlanGridView extends BoxedGridView
     public function columns(): array
     {
         return array_merge(parent::columns(), [
+            'view_link' => [
+                'label' => '',
+                'filter' => false,
+                'format' => 'raw',
+                'headerOptions' => ['style' => 'width:1%'],
+                'contentOptions' => function ($model) {
+                    $legend = new InstallmentPlanGridLegend($model);
+                    foreach ($legend->items() as $item) {
+                        if ($item['rule']) {
+                            return [
+                                'style' => "background-color: {$item['color']} !important;",
+                            ];
+                        }
+                    }
+
+                    return [];
+                },
+                'value' => fn(InstallmentPlan $model) => Html::a(
+                    '<i class="fa fa-bars"></i>',
+                    ['@installment-plan/view', 'id' => $model->id],
+                    ['class' => 'btn btn-default btn-xs', 'title' => Yii::t('hipanel', 'Details'), 'data-toggle' => 'tooltip'],
+                ),
+            ],
             'serialno' => [
                 'label' => Yii::t('hipanel:stock', 'Serial'),
                 'filterOptions' => ['class' => 'narrow-filter'],
@@ -37,13 +59,16 @@ class InstallmentPlanGridView extends BoxedGridView
             ],
             'model' => [
                 'filterAttribute' => 'model_like',
-                'filter' => function ($column, $model, $attribute) {
-                    return PartnoCombo::widget([
-                        'model' => $model,
-                        'attribute' => $attribute,
-                        'formElementSelector' => 'td',
-                    ]);
-                },
+                'filterOptions' => ['class' => 'narrow-filter'],
+                'filter' => Yii::$app->user->can('model.read')
+                    ? function ($column, $model, $attribute) {
+                        return PartnoCombo::widget([
+                            'model' => $model,
+                            'attribute' => $attribute,
+                            'formElementSelector' => 'td',
+                        ]);
+                    }
+                    : true,
                 'format' => 'raw',
                 'label' => Yii::t('hipanel:stock', 'Part No.'),
                 'value' => static function (InstallmentPlan $model): string {
@@ -69,6 +94,13 @@ class InstallmentPlanGridView extends BoxedGridView
                     return Html::tag('b', Html::encode($model->device), ['style' => 'margin-left:1em']);
                 },
             ],
+            'tariff_link' => [
+                'attribute' => 'tariff',
+                'format' => 'raw',
+                'value' => function (InstallmentPlan $model) {
+                    return $this->tariffLink($model);
+                },
+            ],
             'state' => [
                 'filterAttribute' => 'state',
                 'filter' => static function ($column, $model, $attribute) {
@@ -87,7 +119,7 @@ class InstallmentPlanGridView extends BoxedGridView
                         default                         => 'label-danger',
                     };
 
-                    return Html::tag('span', Html::encode($model->state), ['class' => "label {$labelClass}"]);
+                    return Html::tag('span', Html::encode($model->state_name), ['class' => "label {$labelClass}"]);
                 },
             ],
             'expected_sum' => [
@@ -99,6 +131,7 @@ class InstallmentPlanGridView extends BoxedGridView
                 'contentOptions' => function (InstallmentPlan $model) {
                     return ['class' => 'text-right' . ($model->expected_sum > 0 ? ' text-bold' : '')];
                 },
+                'exportedColumns' => ['export_expected_sum'],
             ],
             'expected_monthly_sum' => [
                 'class' => CurrencyColumn::class,
@@ -109,6 +142,7 @@ class InstallmentPlanGridView extends BoxedGridView
                 'contentOptions' => function (InstallmentPlan $model) {
                     return ['class' => 'text-right' . ($model->expected_monthly_sum > 0 ? ' text-bold' : '')];
                 },
+                'exportedColumns' => ['export_expected_monthly_sum'],
             ],
             'left_sum' => [
                 'class' => CurrencyColumn::class,
@@ -119,16 +153,66 @@ class InstallmentPlanGridView extends BoxedGridView
                 'contentOptions' => function (InstallmentPlan $model) {
                     return ['class' => 'text-right' . ($model->left_sum > 0 ? ' text-bold' : '')];
                 },
+                'exportedColumns' => ['export_left_sum'],
             ],
             'charged_sum' => [
-                'class' => CurrencyColumn::class,
                 'filter' => false,
                 'attribute' => 'charged_sum',
-                'colors' => ['danger' => 'warning'],
                 'headerOptions' => ['class' => 'text-right'],
                 'contentOptions' => function (InstallmentPlan $model) {
                     return ['class' => 'text-right' . ($model->charged_sum > 0 ? ' text-bold' : '')];
                 },
+                'format' => 'raw',
+                'value' => function (InstallmentPlan $model) {
+                    $sum = $this->formatter->asCurrency($model->charged_sum, $model->currency);
+                    if ($model->charged_sum > 0) {
+                        $sum = Html::tag('b', $sum);
+                    }
+                    $url = $this->getChargeUrl($model);
+                    $icon = Html::tag('i', '', ['class' => 'fa fa-list']);
+                    
+                    if ($url) {
+                        $sum = Html::a($sum, $url);
+                        $icon = Html::a($icon, $url, [
+                            'class' => 'btn btn-default btn-xs',
+                            'title' => Yii::t('hipanel:stock', 'Charges'),
+                            'data-toggle' => 'tooltip',
+                            'style' => 'margin-left: .5em',
+                        ]);
+                    } else {
+                        $icon = Html::tag('span', $icon, [
+                            'class' => 'btn btn-default btn-xs disabled',
+                            'style' => 'margin-left: .5em; opacity: 0.5;',
+                        ]);
+                    }
+
+                    return Html::tag('span', $sum . $icon, ['style' => 'display: flex; justify-content: flex-end; align-items: center;']);
+                },
+                'exportedColumns' => ['export_charged_sum', 'export_currency'],
+            ],
+            'export_expected_sum' => [
+                'label' => Yii::t('hipanel:stock', 'Total sum'),
+                'format' => static fn(float $value): float => $value,
+                'value' => static fn(InstallmentPlan $model): float => (float)$model->expected_sum,
+            ],
+            'export_expected_monthly_sum' => [
+                'label' => Yii::t('hipanel:stock', 'Monthly sum'),
+                'format' => static fn(float $value): float => $value,
+                'value' => static fn(InstallmentPlan $model): float => (float)$model->expected_monthly_sum,
+            ],
+            'export_left_sum' => [
+                'label' => Yii::t('hipanel:stock', 'Left sum'),
+                'format' => static fn(float $value): float => $value,
+                'value' => static fn(InstallmentPlan $model): float => (float)$model->left_sum,
+            ],
+            'export_charged_sum' => [
+                'label' => Yii::t('hipanel:stock', 'Charged sum'),
+                'format' => static fn(float $value): float => $value,
+                'value' => static fn(InstallmentPlan $model): float => (float)$model->charged_sum,
+            ],
+            'export_currency' => [
+                'label' => Yii::t('hipanel:finance', 'Currency'),
+                'value' => static fn(InstallmentPlan $model): string => strtoupper((string)$model->currency),
             ],
             'quantity' => [
                 'filter' => false,
@@ -149,13 +233,13 @@ class InstallmentPlanGridView extends BoxedGridView
             ],
             'company_id' => [
                 'class' => CompanyColumn::class,
-                'visible' => Yii::$app->user->can('order.create'),
+                'visible' => Yii::$app->user->can('order.read'),
             ],
             'order_name' => [
                 'attribute' => 'order_id',
                 'filterAttribute' => 'order_id',
                 'filter' => function ($column, $model, $attribute) {
-                    return OrderCombo::widget([
+                    return \hipanel\modules\stock\widgets\combo\OrderCombo::widget([
                         'model' => $model,
                         'attribute' => $attribute,
                         'formElementSelector' => 'td',
@@ -166,7 +250,7 @@ class InstallmentPlanGridView extends BoxedGridView
                 'format' => 'raw',
                 'visible' => Yii::$app->user->can('order.read') && Yii::$app->user->can('owner-staff'),
                 'value' => function (InstallmentPlan $model): string {
-                    return HTML::a(Html::encode($model->order_name), ['@order/view', 'id' => $model->order_id]);
+                    return Html::a(Html::encode($model->order_name), ['@order/view', 'id' => $model->order_id]);
                 },
             ],
             'warranty_till' => [
@@ -177,7 +261,9 @@ class InstallmentPlanGridView extends BoxedGridView
             ],
             'actions' => [
                 'class' => ActionColumn::class,
-                'template' => '{view} {delete} {restore}',
+                'template' => '{delete} {restore}',
+                'visibleButtonsCount' => 2,
+                'visible' => Yii::$app->user->can('installment-plan.delete') || Yii::$app->user->can('installment-plan.restore') || Yii::$app->user->can('installment-plan.update'),
                 'visibleButtons' => [
                     'delete'  => fn(InstallmentPlan $model) => Yii::$app->user->can('installment-plan.delete') && !$model->isDeleted(),
                     'restore' => fn(InstallmentPlan $model) => Yii::$app->user->can('installment-plan.restore') && $model->isDeleted(),
@@ -202,5 +288,27 @@ class InstallmentPlanGridView extends BoxedGridView
                 },
             ],
         ]);
+    }
+
+    public function tariffLink(InstallmentPlan $model): ?string
+    {
+        $canSeeLink = Yii::$app->user->can('plan.read');
+        $tariff = Html::encode($model->tariff);
+
+        return $canSeeLink ? Html::a($tariff, ['@plan/view', 'id' => $model->tariff_id]) : $tariff;
+    }
+
+    private function getChargeUrl(InstallmentPlan $model): ?array
+    {
+        if (!Yii::$app->user->can('bill.charges.read') || !$model->part_id) {
+            return null;
+        }
+
+        return [
+            '/finance/charge/index',
+            'ChargeSearch' => [
+                'object_id' => $model->part_id,
+             ],
+        ];
     }
 }

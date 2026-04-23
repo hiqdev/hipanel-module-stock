@@ -63,18 +63,18 @@ class InstallmentPlanItemGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:finance', 'Charge'),
                 'filter' => false,
                 'format' => 'raw',
-                'value' => fn(InstallmentPlanItem $model) => $model->charge_id
+                'value' => fn(InstallmentPlanItem $model) => $model->charge_id && Yii::$app->user->can('bill.charges.read')
                     ? Html::a('#' . $model->charge_id, ['@charge/view', 'id' => $model->charge_id])
-                    : '—',
+                    : ($model->charge_id ? '#' . $model->charge_id : '—'),
             ],
             'bill_id' => [
                 'attribute' => 'bill_id',
                 'label' => Yii::t('hipanel:finance', 'Bill'),
                 'filter' => false,
                 'format' => 'raw',
-                'value' => fn(InstallmentPlanItem $model) => $model->bill_id
+                'value' => fn(InstallmentPlanItem $model) => $model->bill_id && Yii::$app->user->can('bill.read')
                     ? Html::a('#' . $model->bill_id, ['@bill/view', 'id' => $model->bill_id])
-                    : '—',
+                    : ($model->bill_id ? '#' . $model->bill_id : '—'),
             ],
             'installment_plan_id' => [
                 'attribute' => 'installment_plan_id',
@@ -85,6 +85,21 @@ class InstallmentPlanItemGridView extends BoxedGridView
                     ? Html::a('#' . $model->installment_plan_id, ['@installment-plan/view', 'id' => $model->installment_plan_id])
                     : '—',
             ],
+            'tariff_link' => [
+                'attribute' => 'tariff',
+                'format' => 'raw',
+                'value' => function (InstallmentPlanItem $model) {
+                    return $this->tariffLink($model);
+                },
+            ],
         ]);
+    }
+
+    public function tariffLink(InstallmentPlanItem $model): ?string
+    {
+        $canSeeLink = Yii::$app->user->can('plan.read');
+        $tariff = Html::encode($model->tariff);
+
+        return $canSeeLink ? Html::a($tariff, ['@plan/view', 'id' => $model->tariff_id]) : $tariff;
     }
 }

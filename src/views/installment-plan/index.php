@@ -8,6 +8,7 @@ use hipanel\modules\stock\models\InstallmentPlanSearch;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Html;
 use yii\web\View;
 
 /**
@@ -43,6 +44,15 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php endif ?>
         <?php if (Yii::$app->user->can('installment-plan.restore')): ?>
             <?= $page->renderBulkButton('restore', Yii::t('hipanel:stock', 'Restore')) ?>
+        <?php endif ?>
+        <?php if (Yii::$app->user->can('installment-plan.process')): ?>
+            <?= Html::a(Yii::t('hipanel:stock', 'Process'), ['process'], [
+                'class' => 'btn btn-sm btn-info',
+                'data' => [
+                    'method' => 'POST',
+                    'confirm' => Yii::t('hipanel:stock', 'Are you sure you want to process all installment plans?'),
+                ],
+            ]) ?>
         <?php endif ?>
     <?php $page->endContent() ?>
 

@@ -17,6 +17,7 @@ use hipanel\actions\ViewAction;
 use hipanel\filters\EasyAccessControl;
 use hipanel\modules\stock\actions\InstallmentPlanCreateBillAction;
 use hipanel\modules\stock\actions\InstallmentPlanProcessAction;
+use hipanel\modules\stock\models\InstallmentPlan;
 use Yii;
 use yii\data\ArrayDataProvider;
 
@@ -77,5 +78,19 @@ class InstallmentPlanController extends \hipanel\base\CrudController
                 'class' => InstallmentPlanCreateBillAction::class,
             ],
         ]);
+    }
+
+    public function actionProcess()
+    {
+        if (Yii::$app->request->isPost) {
+            try {
+                InstallmentPlan::perform('process', [], ['batch' => true]);
+                Yii::$app->session->setFlash('success', Yii::t('hipanel:stock', 'Installment plans have been processed'));
+            } catch (\Exception $e) {
+                Yii::$app->session->setFlash('error', $e->getMessage());
+            }
+        }
+
+        return $this->redirect(['index']);
     }
 }

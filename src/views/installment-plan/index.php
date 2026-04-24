@@ -32,6 +32,18 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= GridLegend::widget(['legendItem' => new InstallmentPlanGridLegend($model)]) ?>
     <?php $page->endContent() ?>
 
+    <?php $page->beginContent('main-actions') ?>
+        <?php if (Yii::$app->user->can('installment-plan.process')): ?>
+            <?= Html::a('<i class="fa fa-refresh"></i>&nbsp;' . Yii::t('hipanel:stock', 'Process'), ['process'], [
+                'class' => 'btn btn-sm btn-info',
+                'data' => [
+                    'method' => 'POST',
+                    'confirm' => Yii::t('hipanel:stock', 'Are you sure you want to process all installment plans?'),
+                ],
+            ]) ?>
+        <?php endif ?>
+    <?php $page->endContent() ?>
+
     <?php $page->beginContent('sorter-actions') ?>
         <?= $page->renderSorter(['attributes' => ['id', 'since', 'till']]) ?>
     <?php $page->endContent() ?>
@@ -50,15 +62,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'confirm' => Yii::t('hipanel:stock', 'Are you sure you want to restore these installment plans?'),
             ]) ?>
         <?php endif ?>
-        <?php if (Yii::$app->user->can('installment-plan.process')): ?>
-            <?= Html::a('<i class="fa fa-refresh"></i>&nbsp;' . Yii::t('hipanel:stock', 'Process'), ['process'], [
-                'class' => 'btn btn-sm btn-info',
-                'data' => [
-                    'method' => 'POST',
-                    'confirm' => Yii::t('hipanel:stock', 'Are you sure you want to process all installment plans?'),
-                ],
-            ]) ?>
-        <?php endif ?>
         <?php if (Yii::$app->user->can('bill.create')): ?>
             <?= AjaxModalWithTemplatedButton::widget([
                 'ajaxModalOptions' => [
@@ -72,7 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'header'       => Html::tag('h4', Yii::t('hipanel:stock', 'Create bill for installment plans'), ['class' => 'modal-title']),
                     'toggleButton' => [
                         'tag'   => 'button',
-                        'label' => Yii::t('hipanel:stock', 'Create bill'),
+                        'label' => '<i class="fa fa-money"></i>&nbsp;' . Yii::t('hipanel:stock', 'Create bill'),
                         'class' => 'btn btn-sm btn-default',
                     ],
                 ],

@@ -187,4 +187,5 @@ return [
     'Plans' => 'Планы',
     'Proceed to bill form' => 'Перейти к форме счёта',
     'Create bill' => 'Создать счёт',
+    'Process' => 'Обработать',
 ];

@@ -266,7 +266,24 @@ class InstallmentPlanGridView extends BoxedGridView
                     'restore' => fn(InstallmentPlan $model) => Yii::$app->user->can('installment-plan.restore') && $model->isDeleted(),
                 ],
                 'buttons' => [
-                    'restore' => function (string $url, InstallmentPlan $model) {
+                    'delete' => function ($url, InstallmentPlan $model) {
+                        return Html::a(
+                            '<i class="fa fa-trash"></i>&nbsp;' . Yii::t('hipanel', 'Delete'),
+                            $url,
+                            [
+                                'class' => 'btn btn-default btn-xs',
+                                'data' => [
+                                    'method' => 'POST',
+                                    'pjax'   => '0',
+                                    'confirm' => Yii::t('hipanel:stock', 'Are you sure you want to delete this installment plan?'),
+                                    'params' => [
+                                        'InstallmentPlan[id]' => $model->id,
+                                    ],
+                                ],
+                            ]
+                        );
+                    },
+                    'restore' => function ($url, InstallmentPlan $model) {
                         return Html::a(
                             '<i class="fa fa-undo"></i>&nbsp;' . Yii::t('hipanel:stock', 'Restore'),
                             $url,
@@ -275,6 +292,9 @@ class InstallmentPlanGridView extends BoxedGridView
                                 'data' => [
                                     'method' => 'POST',
                                     'pjax'   => '0',
+                                    'params' => [
+                                        'InstallmentPlan[id]' => $model->id,
+                                    ],
                                 ],
                             ]
                         );

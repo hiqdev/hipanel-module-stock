@@ -5,8 +5,10 @@ use hipanel\modules\stock\grid\InstallmentPlanGridLegend;
 use hipanel\modules\stock\grid\InstallmentPlanGridView;
 use hipanel\modules\stock\grid\InstallmentPlanRepresentations;
 use hipanel\modules\stock\models\InstallmentPlanSearch;
+use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
+use yii\bootstrap\Modal;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 use yii\web\View;
@@ -40,17 +42,39 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $page->beginContent('bulk-actions') ?>
         <?php if (Yii::$app->user->can('installment-plan.delete')): ?>
-            <?= $page->renderBulkDeleteButton('delete', Yii::t('hipanel:stock', 'Delete')) ?>
+            <?= $page->renderBulkDeleteButton('delete', '<i class="fa fa-trash"></i>&nbsp;' . Yii::t('hipanel:stock', 'Delete')) ?>
         <?php endif ?>
         <?php if (Yii::$app->user->can('installment-plan.restore')): ?>
-            <?= $page->renderBulkButton('restore', Yii::t('hipanel:stock', 'Restore')) ?>
+            <?= $page->renderBulkButton('restore', '<i class="fa fa-undo"></i>&nbsp;' . Yii::t('hipanel:stock', 'Restore'), [
+                'color' => 'default',
+                'confirm' => Yii::t('hipanel:stock', 'Are you sure you want to restore these installment plans?'),
+            ]) ?>
         <?php endif ?>
         <?php if (Yii::$app->user->can('installment-plan.process')): ?>
-            <?= Html::a(Yii::t('hipanel:stock', 'Process'), ['process'], [
+            <?= Html::a('<i class="fa fa-refresh"></i>&nbsp;' . Yii::t('hipanel:stock', 'Process'), ['process'], [
                 'class' => 'btn btn-sm btn-info',
                 'data' => [
                     'method' => 'POST',
                     'confirm' => Yii::t('hipanel:stock', 'Are you sure you want to process all installment plans?'),
+                ],
+            ]) ?>
+        <?php endif ?>
+        <?php if (Yii::$app->user->can('bill.create')): ?>
+            <?= AjaxModalWithTemplatedButton::widget([
+                'ajaxModalOptions' => [
+                    'bulkPage'     => true,
+                    'usePost'      => true,
+                    'id'           => 'installment-plan-create-bill-modal',
+                    'scenario'     => 'create-bill',
+                    'actionUrl'    => ['create-bill'],
+                    'handleSubmit' => false,
+                    'size'         => Modal::SIZE_LARGE,
+                    'header'       => Html::tag('h4', Yii::t('hipanel:stock', 'Create bill for installment plans'), ['class' => 'modal-title']),
+                    'toggleButton' => [
+                        'tag'   => 'button',
+                        'label' => Yii::t('hipanel:stock', 'Create bill'),
+                        'class' => 'btn btn-sm btn-default',
+                    ],
                 ],
             ]) ?>
         <?php endif ?>

@@ -73,6 +73,7 @@ class InstallmentPlan extends \hipanel\base\Model
             [['quantity', 'order_id', 'company_id', 'tariff_id'], 'integer'],
             [['expected_monthly_sum', 'expected_sum', 'charged_sum', 'left_sum'], 'number'],
             [['items'], 'safe'],
+            [['id'], 'required', 'on' => ['delete', 'restore', 'update']],
         ]);
     }
 

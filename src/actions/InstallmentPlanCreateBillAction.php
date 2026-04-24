@@ -19,7 +19,10 @@ class InstallmentPlanCreateBillAction extends Action
         $confirmed = (bool) Yii::$app->request->post('confirmed', false);
 
         $plans = !empty($ids)
-            ? InstallmentPlan::find()->where(['ids' => $ids, 'with_all_states' => 1])->all()
+            ? InstallmentPlan::find()
+                ->where(['ids' => $ids, 'with_all_states' => 1])
+                ->limit(-1)
+                ->all()
             : [];
 
         $validPlans = array_values(array_filter(

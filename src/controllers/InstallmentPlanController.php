@@ -15,6 +15,8 @@ use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\ViewAction;
 use hipanel\filters\EasyAccessControl;
+use hipanel\modules\stock\actions\InstallmentPlanCreateBillAction;
+use hipanel\modules\stock\actions\InstallmentPlanProcessAction;
 use hipanel\modules\stock\models\InstallmentPlan;
 use Yii;
 use yii\data\ArrayDataProvider;
@@ -27,10 +29,11 @@ class InstallmentPlanController extends \hipanel\base\CrudController
             [
                 'class' => EasyAccessControl::class,
                 'actions' => [
-                    'delete'  => 'installment-plan.delete',
-                    'restore' => 'installment-plan.restore',
-                    'process' => 'installment-plan.process',
-                    '*'       => 'sale.read',
+                    'delete'       => 'installment-plan.delete',
+                    'restore'      => 'installment-plan.restore',
+                    'process'      => 'installment-plan.process',
+                    'create-bill'  => 'bill.create',
+                    '*'            => 'sale.read',
                 ],
             ],
         ]);
@@ -67,6 +70,12 @@ class InstallmentPlanController extends \hipanel\base\CrudController
                         ]),
                     ];
                 },
+            ],
+            'process' => [
+                'class' => InstallmentPlanProcessAction::class,
+            ],
+            'create-bill' => [
+                'class' => InstallmentPlanCreateBillAction::class,
             ],
         ]);
     }

@@ -66,16 +66,16 @@ class InstallmentPlanCreateBillAction extends Action
         $billFType = 'other,hw_purchase';
         $billType = 'hw_purchase';
         $billTypeId = (string) ($typeIndex[$billFType] ?? $typeIndex[$billType] ?? '');
+        $chargeTypeId = (string) ($typeIndex[$billType] ?? $typeIndex[$billFType] ?? '');
         $now = date('Y-m-d H:i:s');
 
         $billsData = [];
         foreach ($groups as $groupMeta) {
             $totalQuantity = 0;
-            $charges = array_map(static function (InstallmentPlan $p) use ($now, $billType, $billFType, $billTypeId, $groupMeta, &$totalQuantity): array {
+            $charges = array_map(static function (InstallmentPlan $p) use ($now, $billType, $chargeTypeId, &$totalQuantity): array {
                 $totalQuantity += 1;
                 return [
-                    'id'         => null,
-                    'bill_id'    => null,
+                    'id'         => 'fake_id', // required for DynamicForm to display charges
                     'class'      => 'part',
                     'object_id'  => (string) $p->part_id,
                     'name'       => (string) $p->serialno,
@@ -83,12 +83,9 @@ class InstallmentPlanCreateBillAction extends Action
                     'quantity'   => '1',
                     'unit'       => 'items',
                     'type'       => (string) $billType,
-                    'ftype'      => (string) $billFType,
-                    'type_id'    => (string) $billTypeId,
+                    'type_id'    => (string) $chargeTypeId,
                     'time'       => (string) $now,
                     'label'      => (string) ($p->serialno . ($p->model ? ' / ' . $p->model : '')),
-                    'client_id'  => (string) $groupMeta['client_id'],
-                    'currency'   => (string) $groupMeta['currency'],
                 ];
             }, $groupMeta['plans']);
 

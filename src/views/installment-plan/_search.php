@@ -9,9 +9,11 @@ use hipanel\modules\stock\widgets\combo\InstallmentPlanStateCombo;
 
 ?>
 
+<?php if (Yii::$app->user->can('owner-staff')): ?>
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('seller_id')->widget(SellerCombo::class) ?>
 </div>
+<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('client_id')->widget(ClientCombo::class) ?>
@@ -22,9 +24,14 @@ use hipanel\modules\stock\widgets\combo\InstallmentPlanStateCombo;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('month')->widget(MonthPicker::class, [
-        'clientOptions' => [
-            'dateFormat' => 'Y-m-01',
-        ],
-    ]) ?>
+    <?= $search->field('month')
+        ->label(false)
+        ->widget(MonthPicker::class, [
+            'options' => [
+                'placeholder' => Yii::t('hipanel:stock', 'Month within plan period'),
+            ],
+            'clientOptions' => [
+                'dateFormat' => 'Y-m-01',
+            ],
+        ]) ?>
 </div>

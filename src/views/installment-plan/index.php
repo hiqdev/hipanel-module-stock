@@ -1,11 +1,14 @@
 <?php
 
 use hipanel\models\IndexPageUiOptions;
+use hipanel\modules\stock\grid\InstallmentPlanGridLegend;
 use hipanel\modules\stock\grid\InstallmentPlanGridView;
 use hipanel\modules\stock\grid\InstallmentPlanRepresentations;
 use hipanel\modules\stock\models\InstallmentPlanSearch;
+use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use yii\data\ActiveDataProvider;
+use yii\helpers\Html;
 use yii\web\View;
 
 /**
@@ -23,12 +26,34 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php $page = IndexPage::begin(['model' => $model, 'dataProvider' => $dataProvider]) ?>
 
+    <?php $page->beginContent('legend') ?>
+        <?= GridLegend::widget(['legendItem' => new InstallmentPlanGridLegend($model)]) ?>
+    <?php $page->endContent() ?>
+
     <?php $page->beginContent('sorter-actions') ?>
         <?= $page->renderSorter(['attributes' => ['id', 'since', 'till']]) ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('representation-actions') ?>
         <?= $page->renderRepresentations($representationCollection) ?>
+    <?php $page->endContent() ?>
+
+    <?php $page->beginContent('bulk-actions') ?>
+        <?php if (Yii::$app->user->can('installment-plan.delete')): ?>
+            <?= $page->renderBulkDeleteButton('delete', Yii::t('hipanel:stock', 'Delete')) ?>
+        <?php endif ?>
+        <?php if (Yii::$app->user->can('installment-plan.restore')): ?>
+            <?= $page->renderBulkButton('restore', Yii::t('hipanel:stock', 'Restore')) ?>
+        <?php endif ?>
+        <?php if (Yii::$app->user->can('installment-plan.process')): ?>
+            <?= Html::a(Yii::t('hipanel:stock', 'Process'), ['process'], [
+                'class' => 'btn btn-sm btn-info',
+                'data' => [
+                    'method' => 'POST',
+                    'confirm' => Yii::t('hipanel:stock', 'Are you sure you want to process all installment plans?'),
+                ],
+            ]) ?>
+        <?php endif ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('table') ?>

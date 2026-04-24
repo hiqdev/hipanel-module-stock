@@ -151,7 +151,7 @@ class InstallmentPlan extends \hipanel\base\Model
 
     public function getTariff()
     {
-        return $this->hasOne(Plan::class, ['id' => 'tariff_od']);
+        return $this->hasOne(Plan::class, ['id' => 'tariff_id']);
     }
 
 

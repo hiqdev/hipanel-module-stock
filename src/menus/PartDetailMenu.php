@@ -64,6 +64,12 @@ class PartDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'visible' => Yii::$app->user->can('part.update') && $this->model->isNotDeleted(),
             ],
             [
+                'label' => Yii::t('hipanel:stock', 'RMA'),
+                'icon' => 'fa-trash-o',
+                'url' => ['@part/rma', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('move.create') && $this->model->isNotDeleted(),
+            ],
+            [
                 'label' => Yii::t('hipanel:stock', 'Trash'),
                 'icon' => 'fa-trash-o',
                 'url' => ['@part/trash', 'id' => $this->model->id],

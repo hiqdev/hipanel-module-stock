@@ -9,7 +9,7 @@ use yii\web\User;
 
 class StockLocationsRepository
 {
-    private const string CACHE_KEY = 'stock-locations-objects';
+    private const string CACHE_KEY = 'stock-locations-objects-cache-key';
     private const int CACHE_DURATION = 60 * 60 * 24; // 1 day
 
     public function __construct(

@@ -2,28 +2,40 @@
 
 namespace hipanel\modules\stock\enums;
 
-enum StockLocationType: string
+final class StockLocationType
 {
-    case ALIAS = 'alias';
-    case BUILDING = 'building';
-    case CAGE = 'cage';
-    case CHWBOX = 'chwbox';
-    case CHWBOX_GROUP = 'chwbox_group';
-    case DC = 'dc';
-    case FOR_TEST = 'for-test';
-    case LOCATION = 'location';
-    case RACK = 'rack';
-    case RMA = 'rma';
-    case STOCK = 'stock';
-    case STOCK_GROUP = 'stock_group';
-    case USED = 'used';
-    case DELETED = 'deleted';
-    case SOLD = 'sold';
-    case SUPPLIER = 'supplier';
-    case TRASH = 'trash';
-    case ALIAS_GROUP_USED = 'alias_group_used';
-    case ALIAS_GROUP_RMA = 'alias_group_rma';
-    case ALIAS_GROUP_FOR_TEST = 'alias_group_for-test';
-    case ALIAS_GROUP_STOCK = 'alias_group_stock';
-    case DISPOSAL = 'disposal';
+    public const string ALIAS = 'alias';
+    public const string BUILDING = 'building';
+    public const string CAGE = 'cage';
+    public const string CHWBOX = 'chwbox';
+    public const string CHWBOX_GROUP = 'chwbox_group';
+    public const string DC = 'dc';
+    public const string FOR_TEST = 'for-test';
+    public const string LOCATION = 'location';
+    public const string RACK = 'rack';
+    public const string RMA = 'rma';
+    public const string STOCK = 'stock';
+    public const string STOCK_GROUP = 'stock_group';
+    public const string USED = 'used';
+    public const string DELETED = 'deleted';
+    public const string SOLD = 'sold';
+    public const string SUPPLIER = 'supplier';
+    public const string TRASH = 'trash';
+    public const string ALIAS_GROUP_USED = 'alias_group_used';
+    public const string ALIAS_GROUP_RMA = 'alias_group_rma';
+    public const string ALIAS_GROUP_FOR_TEST = 'alias_group_for-test';
+    public const string ALIAS_GROUP_STOCK = 'alias_group_stock';
+    public const string DISPOSAL = 'disposal';
+
+    private(set) string $value;
+
+    private function __construct(string $value)
+    {
+        $this->value = $value;
+    }
+
+    public static function from(string $value): self
+    {
+        return new self($value);
+    }
 }

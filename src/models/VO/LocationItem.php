@@ -47,14 +47,14 @@ final readonly class LocationItem
             return $this->name;
         }
 
-        return match ($this->category) {
+        return match ($this->category->value) {
             StockLocationCategory::STOCK => implode(':', [$this->type->value, $this->name]),
             StockLocationCategory::STOCK_GROUP => $this->name,
             StockLocationCategory::CHWBOX_GROUP => $this->name === $this->customer
                 ? $this->name
                 : implode('/', [StringHelper::truncate($this->customer, 7), $this->name]),
             StockLocationCategory::CHWBOX => $this->id,
-            default => ($this->type === StockLocationType::CHWBOX_GROUP) ? $this->customer : $this->id,
+            default => ($this->type->value === StockLocationType::CHWBOX_GROUP) ? $this->customer : $this->id,
         };
     }
 
@@ -67,7 +67,7 @@ final readonly class LocationItem
 
     private function getIcon(): string
     {
-        return match ($this->type) {
+        return match ($this->type->value) {
             StockLocationType::CHWBOX => 'fa-user',
             StockLocationType::CHWBOX_GROUP => 'fa-users',
             StockLocationType::DELETED => 'fa-ban',

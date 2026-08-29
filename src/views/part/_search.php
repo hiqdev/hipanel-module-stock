@@ -184,32 +184,33 @@ JS
     ]) ?>
 </div>
 
-<?php $this->registerCss(<<<CSS
-.buyer-with-checkbox .input-group-addon {
-  padding: 4px 12px;
-  & > label {
-    margin: 0;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: space-around;
-    align-items: center;
-    gap: 0.3rem;
-  }
-}
-CSS
-) ?>
-
 <div class="col-md-4 col-sm-6 col-xs-12 buyer-with-checkbox">
     <?= $search->field('buyer_in', [
-        'template' => "{label}<div class='input-group'><span class='input-group-addon'>{ch}</span>{input}</div>\n{hint}\n{error}",
+        'template' => "{label}<div class='buyer-with-checkbox__group'><div class='checkbox buyer-with-checkbox__is-sold'>{ch}</div>{input}</div>\n{hint}\n{error}",
         'parts' => [
             '{ch}' => Html::activeCheckbox($search->model, 'is_sold'),
         ],
     ])->widget(ClientCombo::class, ['multiple' => true]) ?>
 </div>
 
+<?php $this->registerCss(<<<CSS
+.buyer-with-checkbox__group {
+  border: 1px solid #d2d6de;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.buyer-with-checkbox__is-sold {
+  margin: 0;
+  padding: 6px 10px;
+  background: #f7f7f7;
+  border-bottom: 1px solid #d2d6de;
+}
+.buyer-with-checkbox__group .select2-container--default .select2-selection--multiple {
+  border: none;
+  border-radius: 0;
+}
+CSS
+) ?>
 
 <?php if (Yii::$app->user->can('order.read')): ?>
     <div class="col-md-4 col-sm-6 col-xs-12">

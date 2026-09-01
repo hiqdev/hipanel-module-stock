@@ -7,8 +7,6 @@ use yii\helpers\Html;
 /** @var array $models */
 /** @var array $types */
 /** @var array $groupedModels */
-/** @var array $remotehands */
-/** @var array $remotehands */
 
 $scenario = $this->context->action->scenario;
 $this->title = Yii::t('hipanel:stock', 'Bulk move');
@@ -29,12 +27,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php if (empty($groupedModels)) : ?>
         <?php foreach ($models as $src_id => $group) : ?>
-            <?= $this->render('_move', compact(['src_id', 'group', 'form', 'remotehands', 'types'])) ?>
+            <?= $this->render('_move', [
+                'src_id' => $src_id,
+                'group' => $group,
+                'form' => $form,
+                'types' => $types,
+            ]) ?>
         <?php endforeach; ?>
     <?php else: ?>
         <?php foreach ($groupedModels as $preGroup) : ?>
             <?php foreach ($preGroup as $src_id => $group) : ?>
-                <?= $this->render('_move', compact(['src_id', 'group', 'form', 'remotehands', 'types'])) ?>
+                <?= $this->render('_move', [
+                    'src_id' => $src_id,
+                    'group' => $group,
+                    'form' => $form,
+                    'types' => $types,
+                ]) ?>
             <?php endforeach; ?>
         <?php endforeach; ?>
     <?php endif; ?>

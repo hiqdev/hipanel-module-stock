@@ -26,8 +26,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="container-items">
 
     <?php foreach ($models as $src_id => $group) : ?>
-        <?= $this->render('_move', compact(['src_id', 'group', 'form', 'remotehands', 'types'])) ?>
-    <?php endforeach; ?>
+        <?= $this->render('_move', [
+            'src_id' => $src_id,
+            'group' => $group,
+            'form' => $form,
+            'types' => $types,
+        ]) ?>
+    <?php endforeach ?>
 
     <div class="row">
         <div class="col-md-12 no">

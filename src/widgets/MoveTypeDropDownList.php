@@ -52,6 +52,7 @@ class MoveTypeDropDownList extends InputWidget
           "cdnv2",
           "vdsmaster",
           "cloudservers",
+          "unmanaged",
         ].includes(dstType) || dstName.startsWith('SW')) {
             $("#$id").val("install");
         } else {

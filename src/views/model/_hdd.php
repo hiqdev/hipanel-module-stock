@@ -1,9 +1,13 @@
 <?php
-use yii\helpers\Html;
 
+use yii\helpers\Html;
+use hipanel\modules\stock\models\Model;
+
+/** @var Model $model */
+/** @var int $i */
 ?>
 
 <div class="form-group">
-    <label><?= Html::activeLabel($model, 'FORMFACTOR')?></label>
-    <?= Html::activeTextInput($model, "[$i][props]FORMFACTOR", ['class' => 'form-control', 'value' => $model->props['FORMFACTOR'] ?? null]) ?>
+    <label class="control-label"><?= $model->getAttributeLabel('formfactor') ?></label>
+    <?= Html::activeTextInput($model, "[$i]props[formfactor]", ['class' => 'form-control', 'value' => $model->getModelProp('formfactor')]) ?>
 </div>

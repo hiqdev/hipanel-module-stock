@@ -1,19 +1,23 @@
 <?php
-use yii\helpers\Html;
 
+use yii\helpers\Html;
+use hipanel\modules\stock\models\Model;
+
+/** @var Model $model */
+/** @var int $i */
 ?>
 
 <div class="form-group">
-    <label><?= Html::activeLabel($model, 'RAM_AMOUNT')?></label>
-    <?= Html::activeTextInput($model, "[$i][props]RAM_AMOUNT", ['class' => 'form-control', 'value' => $model->props['RAM_AMOUNT']]); ?>
+    <label class="control-label"><?= $model->getAttributeLabel('max_ram_size') ?></label>
+    <?= Html::activeTextInput($model, "[$i]props[max_ram_size]", ['class' => 'form-control', 'value' => $model->getModelProp('max_ram_size')]) ?>
 </div>
 
 <div class="form-group">
-    <label><?= Html::activeLabel($model, 'RAM_QTY')?></label>
-    <?= Html::activeInput('number', $model, "[$i][props]RAM_QTY", ['class' => 'form-control', 'min' => 1, 'max' => 100, 'value' => $model->props['RAM_QTY']]); ?>
+    <label class="control-label"><?= $model->getAttributeLabel('ram_slots') ?></label>
+    <?= Html::activeInput('number', $model, "[$i]props[ram_slots]", ['class' => 'form-control', 'min' => 1, 'max' => 100, 'value' => $model->getModelProp('ram_slots')]) ?>
 </div>
 
 <div class="form-group">
-    <label><?= Html::activeLabel($model, 'CPU_QTY')?></label>
-    <?= Html::activeTextInput($model, "[$i][props]CPU_QTY", ['class' => 'form-control', 'value' => $model->props['CPU_QTY']]); ?>
+    <label class="control-label"><?= $model->getAttributeLabel('cpu_sockets') ?></label>
+    <?= Html::activeTextInput($model, "[$i]props[cpu_sockets]", ['class' => 'form-control', 'value' => $model->getModelProp('cpu_sockets')]) ?>
 </div>

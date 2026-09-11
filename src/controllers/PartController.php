@@ -33,6 +33,7 @@ use hipanel\modules\stock\actions\FastMoveAction;
 use hipanel\modules\stock\actions\ResolveRange;
 use hipanel\modules\stock\actions\SetRealSerialsAction;
 use hipanel\modules\stock\actions\ValidateSellFormAction;
+use hipanel\modules\stock\forms\PartSellAsInstallmentForm;
 use hipanel\modules\stock\forms\PartSellByPlanForm;
 use hipanel\modules\stock\forms\PartSellForm;
 use hipanel\modules\stock\helpers\PartSort;
@@ -74,6 +75,7 @@ class PartController extends CrudController
                     'move-by-one' => 'move.create',
                     'sell' => 'part.sell',
                     'sell-by-plan' => 'part.sell',
+                    'sell-as-installment' => 'part.sell',
                     'delete' => 'part.delete',
                     'erase' => 'part.erase',
                     'calculate-sell-sum' => 'part.sell',
@@ -518,6 +520,13 @@ class PartController extends CrudController
                     'model' => new PartSellByPlanForm(),
                 ],
             ],
+            'validate-sell-as-installment-form' => [
+                'class' => ValidateFormAction::class,
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new PartSellAsInstallmentForm(),
+                ],
+            ],
             'resolve-destination-range' => [
                 'class' => ResolveRange::class,
             ],
@@ -641,6 +650,41 @@ class PartController extends CrudController
         return $this->renderAjax('modals/sell-by-plan', [
             'model' => $model,
             'partsByModelType' => $partsByModelType,
+        ]);
+    }
+
+    public function actionSellAsInstallment()
+    {
+        $model = new PartSellAsInstallmentForm();
+        $action = new SmartUpdateAction('sell-as-installment', $this);
+        $request = Yii::$app->request;
+        $session = Yii::$app->session;
+        if ($model->load($request->post()) && $model->validate()) {
+            try {
+                $sharedAttributes = $model->getAttributes(['client_id', 'currency', 'monthly_sum', 'since', 'months', 'reason']);
+                $rows = array_map(
+                    static fn($id) => array_merge($sharedAttributes, ['part_id' => $id]),
+                    $model->ids
+                );
+                Part::batchPerform('sell-as-installment', $rows);
+                $session->addFlash('success', Yii::t('hipanel:stock', 'Parts have been successfully sold as installment.'));
+            } catch (\Exception $e) {
+                $session->addFlash('error', $e->getMessage());
+            }
+
+            return $this->redirect($request->referrer);
+        }
+        $parts = $action->fetchModels();
+        $partsByModelType = $this->sortByModelType($parts);
+        $currencyOptions = $this->getCurrencyTypes();
+        array_walk($currencyOptions, static function (&$value, $key): void {
+            $value = StringHelper::getCurrencySymbol($key);
+        });
+
+        return $this->renderAjax('modals/sell-as-installment', [
+            'model' => $model,
+            'partsByModelType' => $partsByModelType,
+            'currencyOptions' => $currencyOptions,
         ]);
     }
 

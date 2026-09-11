@@ -158,6 +158,24 @@ $showFooter = ($uiModel->representation === 'profit-report')
                             ],
                             'toggleButtonTemplate' => '<li>{toggleButton}</li>',
                         ]),
+                        AjaxModalWithTemplatedButton::widget([
+                            'ajaxModalOptions' => [
+                                'bulkPage' => true,
+                                'usePost' => true,
+                                'id' => 'parts-sell-as-installment',
+                                'scenario' => 'sell',
+                                'actionUrl' => ['sell-as-installment'],
+                                'handleSubmit' => Url::toRoute('sell-as-installment'),
+                                'size' => Modal::SIZE_LARGE,
+                                'header' => Html::tag('h4', Yii::t('hipanel:stock', 'Sell parts as Installment'), ['class' => 'modal-title']),
+                                'toggleButton' => [
+                                    'tag' => 'a',
+                                    'label' => Yii::t('hipanel:stock', 'Sell parts as Installment'),
+                                    'class' => 'clickable',
+                                ],
+                            ],
+                            'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                        ]),
                     ])
                 ]) ?>
             </div>

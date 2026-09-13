@@ -30,8 +30,33 @@ use yii\web\View;
 $this->registerJs(
     <<<"JS"
 (() => {
-  $("#{$search->getForm()->getId()}").on("afterValidate", function () {
+  const form = $("#{$search->getForm()->getId()}");
+
+  form.on("afterValidate", function () {
     $(this).data("yiiActiveForm").validated = true;
+  });
+
+  const enableAttributeValidation = (attribute) => {
+    const id = "partsearch-" + attribute;
+    const data = form.data("yiiActiveForm");
+    if (data.attributes.some((existing) => existing.id === id)) {
+      return;
+    }
+    form.yiiActiveForm("add", {
+      id: id,
+      name: attribute,
+      container: ".field-" + id,
+      input: "#" + id,
+      enableAjaxValidation: true,
+      validateOnType: true,
+      validateOnChange: true,
+      validateOnBlur: true,
+    });
+    form.yiiActiveForm("validateAttribute", id);
+  };
+
+  ["src_name_in", "dst_name_in"].forEach((attribute) => {
+    $("#partsearch-" + attribute).one("input", () => enableAttributeValidation(attribute));
   });
 })();
 JS

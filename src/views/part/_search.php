@@ -124,10 +124,6 @@ JS
     ]) ?>
 </div>
 
-<?php if (Yii::$app->user->can('part.create')): ?>
-    <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('limit') ?></div>
-<?php endif ?>
-
 <div class="col-md-4 col-sm-6 col-xs-12">
     <div class="form-group">
         <?= DateTimePicker::widget([

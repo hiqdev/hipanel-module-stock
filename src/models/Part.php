@@ -81,7 +81,6 @@ class Part extends \hipanel\base\Model
                     'remotehands',
                     'show_deleted',
                     'show_groups',
-                    'limit',
                     'descr',
                     'price',
                     'currency',

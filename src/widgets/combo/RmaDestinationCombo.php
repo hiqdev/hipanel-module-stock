@@ -9,7 +9,7 @@ class RmaDestinationCombo extends DestinationCombo
     public function getFilter()
     {
         return ArrayHelper::merge(parent::getFilter(), [
-            'name_like' => ['format' => 'rma'],
+            'pnames' => ['format' => ['destination,rma', 'destination,trash,rma']],
         ]);
     }
 }

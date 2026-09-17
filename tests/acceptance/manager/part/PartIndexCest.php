@@ -49,7 +49,6 @@ class PartIndexCest
             Textarea::asAdvancedSearch($I, 'Destination'),
             Select2::asAdvancedSearch($I, 'Location'),
             Select2::asAdvancedSearch($I, 'Currency'),
-            Input::asAdvancedSearch($I, 'Limit'),
             Input::asAdvancedSearch($I, 'Reserve'),
             Input::asAdvancedSearch($I, 'First move description'),
             Input::asAdvancedSearch($I, 'Last move description'),

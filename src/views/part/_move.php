@@ -7,7 +7,6 @@
 
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
-use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hipanel\modules\stock\widgets\MoveTypeDropDownList;
 use hipanel\widgets\Box;
 use hipanel\widgets\ArraySpoiler;
@@ -39,13 +38,16 @@ use yii\widgets\ActiveForm;
                 <div class="col-lg-9">
                     <div class="row">
                         <div class="col-lg-4">
-                            <?= $form->field($model, "[$src_id]src_id")->widget(SourceCombo::class, [
-                                'inputOptions' => [
-                                    'id' => "$src_id-src_id-" . uniqid(),
+                            <?= Html::activeHiddenInput($model, "[$src_id]src_id") ?>
+                            <div class="form-group">
+                                <label class="control-label"><?= $model->getAttributeLabel('src_id') ?></label>
+                                <?= Html::input('text', null, $model->src_name, [
                                     'readonly' => true,
-                                    'unselect' => $model->src_id,
-                                ],
-                            ]) ?>
+                                    'tabindex' => -1,
+                                    'class' => 'form-control',
+                                    'style' => 'width: 100%; padding: 6px 12px',
+                                ]) ?>
+                            </div>
                         </div>
                         <div class="col-lg-4">
                             <?= $form->field($model, "[$src_id]dst_id")->widget(DestinationCombo::class, [

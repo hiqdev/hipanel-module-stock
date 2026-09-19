@@ -5,8 +5,8 @@ use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\DestinationCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
 use hipanel\modules\stock\widgets\combo\RmaDestinationCombo;
-use hipanel\modules\stock\widgets\combo\SourceCombo;
 use hipanel\modules\stock\widgets\MoveTypeDropDownList;
+use hipanel\modules\stock\widgets\PartSourceWidget;
 use hipanel\widgets\Box;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
@@ -94,13 +94,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php endif; ?>
                     <div class="row">
                         <div class="col-md-6">
-                            <?php $model->src_id = $model->dst_id ?>
-                            <?= $form->field($model, "[$i]src_id")->widget(SourceCombo::class, [
-                                'inputOptions' => [
-                                    'readonly' => true,
-                                    'unselect' => $model->src_id,
-                                ],
-                            ]) ?>
+                            <?= PartSourceWidget::widget(['index' => $i, 'model' => $model]) ?>
                         </div>
                         <div class="col-md-6">
                             <?php $model->dst_id = null ?>

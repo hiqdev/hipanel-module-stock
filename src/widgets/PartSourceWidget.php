@@ -17,8 +17,8 @@ final class PartSourceWidget extends Widget
         return Html::beginTag('div', ['class' => 'form-group'])
             . Html::tag('label', Yii::t('hipanel:stock', 'Source'), ['for' => 'source-combo'])
             . Html::input('text', null, $this->model->dst_name, [
-                'disabled' => true,
                 'readonly' => true,
+                'tabindex' => -1,
                 'class' => 'source-combo form-control',
                 'style' => 'width: 100%; padding: 6px 12px',
             ])

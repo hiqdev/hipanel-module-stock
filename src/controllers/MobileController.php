@@ -99,7 +99,7 @@ class MobileController extends Controller
 
             return $this->response();
         } catch (Exception) {
-            throw new HttpException('Sorry, the session could not be saved.');
+            throw new HttpException(500, 'Sorry, the session could not be saved.');
         }
     }
 

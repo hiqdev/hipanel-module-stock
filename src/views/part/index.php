@@ -22,6 +22,9 @@ use yii\web\View;
  * @var PartRepresentations $representationCollection
  * @var PartSearch $model
  * @var View $this
+ * @var array $types
+ * @var array $brands
+ * @var array $states
  */
 
 $this->title = Yii::t('hipanel:stock', 'Parts');
@@ -69,14 +72,13 @@ $showFooter = ($uiModel->representation === 'profit-report')
                 && (Yii::$app->user->can('order.read-profits'));
 
 ?>
-
-<?php $page = IndexPage::begin(compact('model', 'dataProvider', 'insteadPerPageRender')) ?>
-    <?php $page->setSearchFormData(compact(['types', 'brands', 'states', 'uiModel'])) ?>
+<?php $page = IndexPage::begin(['model' => $model, 'dataProvider' => $dataProvider, 'insteadPerPageRender' => $insteadPerPageRender]) ?>
+    <?php $page->setSearchFormData(['types' => $types, 'brands' => $brands, 'states' => $states, 'uiModel' => $uiModel]); ?>
     <?php $page->setSearchFormOptions([
         'formOptions' => [
             'enableClientValidation' => false,
-            'enableAjaxValidation' => true,
-            'validateOnType' => true,
+            'enableAjaxValidation' => false,
+            'validateOnType' => false,
             'validationUrl' => Url::toRoute(['validate-search-form', 'scenario' => 'search']),
         ],
     ]) ?>

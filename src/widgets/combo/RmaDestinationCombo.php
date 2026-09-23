@@ -6,6 +6,8 @@ use yii\helpers\ArrayHelper;
 
 class RmaDestinationCombo extends DestinationCombo
 {
+    public bool $hideRmaAndTrash = false;
+
     public function getFilter()
     {
         return ArrayHelper::merge(parent::getFilter(), [

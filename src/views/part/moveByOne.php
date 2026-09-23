@@ -17,7 +17,6 @@ use yii\web\View;
 /**
  * @var View $this
  * @var Part[] $models
- * @var array $remotehands
  * @var array $types
  */
 
@@ -54,9 +53,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'src_id',
         'dst_id',
         'descr',
-        'remotehands',
-        'remote_ticket',
-        'hm_ticket',
     ],
 ]) ?>
 <div class="container-items">
@@ -122,18 +118,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     <div class="row">
                         <div class="col-md-6">
                             <?= $form->field($model, "[$i]move_type")->widget(MoveTypeDropDownList::class, ['items' => $types]) ?>
-                        </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, "[$i]remotehands")->dropDownList($remotehands) ?>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <?= $form->field($model, "[$i]remote_ticket")->textInput() ?>
-                        </div>
-                        <div class="col-md-6">
-                            <?= $form->field($model, "[$i]hm_ticket")->textInput() ?>
                         </div>
                     </div>
 

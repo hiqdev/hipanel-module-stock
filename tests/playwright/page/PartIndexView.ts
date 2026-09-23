@@ -25,6 +25,10 @@ export default class PartIndexView {
     await this.index.advancedSearch.applyFilter("serial_ilike", serial);
   }
 
+  async getColumnValue(columnName: string, row: number = 1): Promise<string> {
+    return await this.index.getValueInColumnByNumberRow(columnName, row);
+  }
+
   async filterDeletedBySerial(serial: string) {
     // Yii renders the "show_deleted" checkbox alongside a same-named hidden
     // input, so the generic name-based filter locator matches two elements.
@@ -43,9 +47,17 @@ export default class PartIndexView {
   }
 
   async confirmReplacement() {
+    await this.confirmReplacementNotification();
+    await this.seeReplacementInGrid();
+  }
+
+  async confirmReplacementNotification() {
     await this.index.hasNotification("Part has been replaced");
+  }
+
+  async seeReplacementInGrid() {
     // await expect(this.page.getByRole('link', { name: 'TRASH_RMA' }).first()).toBeVisible(); // todo: uncomment when HP-2811
-    await expect(this.page.getByRole('cell', { name: 'REPLACE', exact: true })).toBeVisible();
+    await expect(this.page.getByRole('link', { name: 'REPLACE', exact: true })).toBeVisible();
   }
 
   async deleteItemOnTable(number: number) {

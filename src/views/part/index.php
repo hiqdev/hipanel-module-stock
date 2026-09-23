@@ -6,7 +6,6 @@ use hipanel\modules\stock\grid\PartGridLegend;
 use hipanel\modules\stock\grid\PartGridView;
 use hipanel\modules\stock\grid\PartRepresentations;
 use hipanel\modules\stock\models\PartSearch;
-use hipanel\modules\stock\widgets\FastMoveModal;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
@@ -23,6 +22,9 @@ use yii\web\View;
  * @var PartRepresentations $representationCollection
  * @var PartSearch $model
  * @var View $this
+ * @var array $types
+ * @var array $brands
+ * @var array $states
  */
 
 $this->title = Yii::t('hipanel:stock', 'Parts');
@@ -70,14 +72,13 @@ $showFooter = ($uiModel->representation === 'profit-report')
                 && (Yii::$app->user->can('order.read-profits'));
 
 ?>
-
-<?php $page = IndexPage::begin(compact('model', 'dataProvider', 'insteadPerPageRender')) ?>
-    <?php $page->setSearchFormData(compact(['types', 'brands', 'states', 'uiModel'])) ?>
+<?php $page = IndexPage::begin(['model' => $model, 'dataProvider' => $dataProvider, 'insteadPerPageRender' => $insteadPerPageRender]) ?>
+    <?php $page->setSearchFormData(['types' => $types, 'brands' => $brands, 'states' => $states, 'uiModel' => $uiModel]); ?>
     <?php $page->setSearchFormOptions([
         'formOptions' => [
             'enableClientValidation' => false,
-            'enableAjaxValidation' => true,
-            'validateOnType' => true,
+            'enableAjaxValidation' => false,
+            'validateOnType' => false,
             'validationUrl' => Url::toRoute(['validate-search-form', 'scenario' => 'search']),
         ],
     ]) ?>
@@ -89,7 +90,6 @@ $showFooter = ($uiModel->representation === 'profit-report')
     <?php $page->beginContent('main-actions') ?>
         <?php if (Yii::$app->user->can('part.create')) : ?>
             <?= Html::a(Yii::t('hipanel', 'Create'), 'create', ['class' => 'btn btn-sm btn-success']) ?>
-            <?= FastMoveModal::widget() ?>
         <?php endif ?>
     <?php $page->endContent() ?>
 
@@ -317,38 +317,6 @@ $showFooter = ($uiModel->representation === 'profit-report')
                         'url' => '#',
                         'linkOptions' => [
                             'data-action' => 'move-by-one',
-                        ],
-                        'visible' => Yii::$app->user->can('move.create'),
-                    ],
-                    [
-                        'label' => Yii::t('hipanel:stock', 'Move by {0}', 2),
-                        'url' => '#',
-                        'linkOptions' => [
-                            'data-action' => 'move?groupBy=2',
-                        ],
-                        'visible' => Yii::$app->user->can('move.create'),
-                    ],
-                    [
-                        'label' => Yii::t('hipanel:stock', 'Move by {0}', 4),
-                        'url' => '#',
-                        'linkOptions' => [
-                            'data-action' => 'move?groupBy=4',
-                        ],
-                        'visible' => Yii::$app->user->can('move.create'),
-                    ],
-                    [
-                        'label' => Yii::t('hipanel:stock', 'Move by {0}', 8),
-                        'url' => '#',
-                        'linkOptions' => [
-                            'data-action' => 'move?groupBy=8',
-                        ],
-                        'visible' => Yii::$app->user->can('move.create'),
-                    ],
-                    [
-                        'label' => Yii::t('hipanel:stock', 'Move by {0}', 16),
-                        'url' => '#',
-                        'linkOptions' => [
-                            'data-action' => 'move?groupBy=16',
                         ],
                         'visible' => Yii::$app->user->can('move.create'),
                     ],

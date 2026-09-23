@@ -9,7 +9,6 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 /** @var array $moveTypes */
-/** @var array $remoteHands */
 /** @var Part[] $models */
 /** @var Part $model */
 
@@ -49,9 +48,6 @@ array_walk($models, static fn(Part $part) => $part->src_id = $part->dst_id);
                         <?= $form->field($model, "move_type")->widget(MoveTypeDropDownList::class, ['items' => $moveTypes]) ?>
                     </div>
                 </div>
-                <?= $form->field($model, "remotehands")->dropDownList($remoteHands) ?>
-                <?= $form->field($model, "remote_ticket") ?>
-                <?= $form->field($model, "hm_ticket") ?>
                 <?= $form->field($model, "descr")->textarea(['rows' => 5]) ?>
             </div>
         </div>

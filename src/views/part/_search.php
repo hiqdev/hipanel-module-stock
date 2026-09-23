@@ -30,8 +30,33 @@ use yii\web\View;
 $this->registerJs(
     <<<"JS"
 (() => {
-  $("#{$search->getForm()->getId()}").on("afterValidate", function () {
+  const form = $("#{$search->getForm()->getId()}");
+
+  form.on("afterValidate", function () {
     $(this).data("yiiActiveForm").validated = true;
+  });
+
+  const enableAttributeValidation = (attribute) => {
+    const id = "partsearch-" + attribute;
+    const data = form.data("yiiActiveForm");
+    if (data.attributes.some((existing) => existing.id === id)) {
+      return;
+    }
+    form.yiiActiveForm("add", {
+      id: id,
+      name: attribute,
+      container: ".field-" + id,
+      input: "#" + id,
+      enableAjaxValidation: true,
+      validateOnType: true,
+      validateOnChange: true,
+      validateOnBlur: true,
+    });
+    form.yiiActiveForm("validateAttribute", id);
+  };
+
+  ["src_name_in", "dst_name_in"].forEach((attribute) => {
+    $("#partsearch-" + attribute).one("input", () => enableAttributeValidation(attribute));
   });
 })();
 JS
@@ -98,25 +123,13 @@ JS
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('rack_in')->widget(HubCombo::class, [
         'multiple' => true,
-        'hubType' => 'rack',
+        'hubTypes' => [HubCombo::RACK],
     ]) ?>
 </div>
 
 <?php if (Yii::$app->user->can('sale.create')): ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('company_id')->widget(CompanyCombo::class) ?>
-    </div>
-<?php endif ?>
-
-<?php if (Yii::$app->user->can('owner-staff')) : ?>
-    <div class="col-md-4 col-sm-6 col-xs-12">
-        <?= $search->field('device_location')->widget(
-            SearchManagedField::class,
-            [
-                'searchBy' => [SearchBy::LIKEI, SearchBy::LEFT_LIKEI],
-                'default' => SearchBy::LIKEI,
-            ]
-        ) ?>
     </div>
 <?php endif ?>
 
@@ -135,10 +148,6 @@ JS
         'multiple' => false,
     ]) ?>
 </div>
-
-<?php if (Yii::$app->user->can('part.create')): ?>
-    <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('limit') ?></div>
-<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <div class="form-group">

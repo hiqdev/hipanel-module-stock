@@ -2,7 +2,6 @@
 
 /** @var integer $src_id */
 /** @var array $types */
-/** @var array $remotehands */
 /** @var Part[] $group */
 /** @var ActiveForm $form */
 
@@ -58,17 +57,6 @@ use yii\widgets\ActiveForm;
                         </div>
                         <div class="col-lg-4">
                             <?= $form->field($model, "[$src_id]type")->widget(MoveTypeDropDownList::class, ['items' => $types, 'id' => "$src_id-type-" . uniqid()]) ?>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <?= $form->field($model, "[$src_id]remotehands")->dropDownList($remotehands, ['id' => "$src_id-remotehands-" . uniqid()]) ?>
-                        </div>
-                        <div class="col-lg-4">
-                            <?= $form->field($model, "[$src_id]remote_ticket")->textInput(['id' => "$src_id-remote_ticket-" . uniqid()]) ?>
-                        </div>
-                        <div class="col-lg-4">
-                            <?= $form->field($model, "[$src_id]hm_ticket")->textInput(['id' => "$src_id-hm_ticket-" . uniqid()]) ?>
                         </div>
                     </div>
                     <?= $form->field($model, "[$src_id]descr")->textarea(['id' => "$src_id-descr-" . uniqid()])->label(Yii::t('hipanel:stock', 'Move description')) ?>

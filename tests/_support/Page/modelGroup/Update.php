@@ -17,6 +17,7 @@ class Update extends Authenticated
      */
     public function fillInputAndPressSaveButton(Manager $I, int $count, string $action): void
     {
+        $I->waitPageLoad();
         foreach (range(0, $count - 1) as $i) {
             (new Input($I, "//input[@name='ModelGroup[$i][name]']"))
                 ->setValue($action . '_' . $i);

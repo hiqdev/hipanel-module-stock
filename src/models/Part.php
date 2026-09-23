@@ -81,7 +81,6 @@ class Part extends \hipanel\base\Model
                     'remotehands',
                     'show_deleted',
                     'show_groups',
-                    'limit',
                     'descr',
                     'price',
                     'currency',
@@ -148,7 +147,7 @@ class Part extends \hipanel\base\Model
 
             // Move Trash/RMA
             [['id', 'dst_id', 'move_type'], 'required', 'on' => ['trash', 'rma']],
-            [['descr', 'move_descr', 'remotehands', 'remote_ticket', 'hm_ticket'], 'safe', 'on' => ['rma', 'trash']],
+            [['descr', 'move_descr'], 'safe', 'on' => ['rma', 'trash']],
             [['src_id'], 'safe', 'on' => ['trash', 'rma']],
             [['partId2srcId'], 'safe', 'on' => ['trash', 'rma']],
 

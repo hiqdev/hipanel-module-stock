@@ -20,6 +20,19 @@ export default class PartForm {
     await PriceWithCurrency.field(this.page, "part", index).setSumAndCurrency(partData.price, partData.currency);
 
     await this.page.selectOption(this.selector("select", "company_id", index), partData.company_id);
+
+    if (partData.warranty_till) {
+      await this.fillWarrantyTill(partData.warranty_till, index);
+    }
+  }
+
+  /**
+   * The field is a flatpickr datepicker with allowInput enabled, so typing
+   * "Y-m-d" directly into it works. Escape closes the popover it opens on focus.
+   */
+  async fillWarrantyTill(warrantyTill: string, index: number = 0) {
+    await this.page.fill(this.selector("input", "warranty_till", index), warrantyTill);
+    await this.page.keyboard.press("Escape");
   }
 
   private selector(type: string, name: string, index: number = 0): string {

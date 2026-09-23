@@ -5,6 +5,7 @@ declare(strict_types=1);
 
 namespace hipanel\modules\stock\widgets\combo;
 
+use hipanel\modules\stock\models\MoveSearch;
 use hiqdev\combo\Combo;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -14,6 +15,8 @@ use yii\web\JsExpression;
 class DestinationCombo extends Combo
 {
     public bool $warnIfMovingToStock = false;
+    /** RMA/TRASH have dedicated actions, so general moves don't offer them */
+    public bool $hideRmaAndTrash = true;
     public $type = 'stock/dst_name';
     public $name = 'name';
     public $url = '/stock/move/directions-list';
@@ -46,6 +49,17 @@ class DestinationCombo extends Combo
             JS
             );
         }
+    }
+
+    public function getFilter()
+    {
+        if (!$this->hideRmaAndTrash) {
+            return parent::getFilter();
+        }
+
+        return ArrayHelper::merge(parent::getFilter(), [
+            MoveSearch::HIDE_RMA_AND_TRASH => ['format' => 1],
+        ]);
     }
 
     public function getPluginOptions($options = [])

@@ -23,6 +23,8 @@ class MoveSearch extends Move
         SearchModelTrait::searchAttributes as defaultSearchAttributes;
     }
 
+    public const HIDE_RMA_AND_TRASH = 'hide_rma_and_trash';
+
     public function searchAttributes()
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
@@ -35,6 +37,7 @@ class MoveSearch extends Move
             'time_till',
             'time_from',
             'show_deleted',
+            self::HIDE_RMA_AND_TRASH,
         ]);
     }
 

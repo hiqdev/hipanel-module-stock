@@ -1,13 +1,16 @@
 <?php
-use yii\helpers\Html;
-$a = 1;
 
+use yii\helpers\Html;
+use hipanel\modules\stock\models\Model;
+
+/** @var Model $model */
+/** @var int $i */
 ?>
 
 <div class="form-group">
-    <label class="control-label"><?= Html::activeLabel($model, 'RAM_VOLUME')?></label>
+    <label class="control-label"><?= $model->getAttributeLabel('size') ?></label>
     <div class="input-group">
-        <?= Html::activeTextInput($model, "[$i][props]RAM_VOLUME", ['class' => 'form-control', 'value' => $model->props['RAM_VOLUME'] ?? null]) ?>
+        <?= Html::activeTextInput($model, "[$i]props[size]", ['class' => 'form-control', 'value' => $model->getModelProp('size')]) ?>
         <span class="input-group-addon">GB</span>
     </div>
 </div>

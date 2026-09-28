@@ -23,6 +23,7 @@ use yii\helpers\Html;
  *
  * @property string $type
  * @property string $name
+ * @property array $props
  */
 class Model extends YiiModel
 {
@@ -81,16 +82,21 @@ class Model extends YiiModel
                     'ram_qty',
                     'cpu_qty',
 
-                    // HDD
+                    // HDD / SSD / Chassis
                     'FORMFACTOR',
+                    'formfactor',
 
                     // Motherboard
                     'RAM_AMOUNT',
                     'RAM_QTY',
                     'CPU_QTY',
+                    'max_ram_size',
+                    'ram_slots',
+                    'cpu_sockets',
 
                     // RAM
                     'RAM_VOLUME',
+                    'size',
                 ],
                 'safe',
             ],
@@ -157,14 +163,19 @@ class Model extends YiiModel
             'cpu_qty' => Yii::t('hipanel:stock', 'CPU quantity'),
             // CPU
             'prop_tags' => Yii::t('hipanel:stock', 'Tags'),
-            // HDD
+            // HDD / SSD / Chassis
             'FORMFACTOR' => Yii::t('hipanel:stock', 'Form factor'),
+            'formfactor' => Yii::t('hipanel:stock', 'Form factor'),
             // Motherboard
             'RAM_AMOUNT' => Yii::t('hipanel:stock', 'Max RAM'),
             'RAM_QTY' => Yii::t('hipanel:stock', 'RAM slots'),
             'CPU_QTY' => Yii::t('hipanel:stock', 'CPU sockets'),
+            'max_ram_size' => Yii::t('hipanel:stock', 'Max RAM'),
+            'ram_slots' => Yii::t('hipanel:stock', 'RAM slots'),
+            'cpu_sockets' => Yii::t('hipanel:stock', 'CPU sockets'),
             // RAM
             'RAM_VOLUME' => Yii::t('hipanel:stock', 'RAM volume'),
+            'size' => Yii::t('hipanel:stock', 'Size'),
             'dcs' => Yii::t('hipanel:stock', 'DCS'),
             'brand' => Yii::t('hipanel:stock', 'Brand'),
             'model' => Yii::t('hipanel:stock', 'Model'),
@@ -234,5 +245,10 @@ class Model extends YiiModel
     public function isDeleted(): bool
     {
         return $this->state === self::STATE_DELETED;
+    }
+
+    public function getModelProp(string $propName): ?string
+    {
+        return $this->props[$this->type . ':' . $propName] ?? null;
     }
 }

@@ -179,7 +179,7 @@ class ModelController extends CrudController
 
     public function getCustomType()
     {
-        return ['server', 'chassis', 'motherboard', 'ram', 'hdd', 'cpu'];
+        return ['server', 'chassis', 'motherboard', 'ram', 'hdd', 'ssd', 'cpu'];
     }
 
     public function actionSetLocations()

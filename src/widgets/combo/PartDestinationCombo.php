@@ -15,6 +15,8 @@ class PartDestinationCombo extends DestinationCombo
 
     public bool $replaceIdToName = false;
 
+    public bool $hideRmaAndTrash = false;
+
     /** {@inheritdoc} */
     public function getPluginOptions($options = []): array
     {

@@ -79,7 +79,7 @@ class PartRepresentations extends RepresentationCollection
                 'label' => Yii::t('hipanel', 'profit report'),
                 'columns' => ProfitColumns::getColumnNames(['checkbox', 'buyer', 'company_id', 'serial', 'partno']),
             ] : null,
-            'admin' => $user->can('admin') && $user->can('order.create') ? [
+            'admin' => $user->can('part.read-administrative') && $user->can('order.create') ? [
                 'label' => Yii::t('hipanel:stock', 'Administrative'),
                 'columns' => [
                     'checkbox',

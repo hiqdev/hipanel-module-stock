@@ -46,8 +46,11 @@ export default class PartIndexView {
     await this.index.chooseRangeOfRowsOnTable(1, count);
   }
 
-  async confirmReplacement() {
+  async confirmReplacement(replacementSerial: string) {
     await this.confirmReplacementNotification();
+
+    await this.navigateCommon();
+    await this.filterBySerial(replacementSerial);
     await this.seeReplacementInGrid();
   }
 

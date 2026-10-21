@@ -30,6 +30,9 @@ const data = {
 
 test.describe("Part Replacement", () => {
   test("Ensure parts can be replaced @hipanel-module-stock @manager", async ({ page }) => {
+    // A replace round-trip plus two grid filter reloads is slow on a loaded dump env.
+    test.setTimeout(200_000);
+
     const partIndexPage = new PartIndexView(page);
     const partReplacePage = new PartReplaceView(page);
 
@@ -40,7 +43,7 @@ test.describe("Part Replacement", () => {
     await partReplacePage.fillReplaceForm(data.replaceData);
     await partReplacePage.save();
 
-    await partIndexPage.confirmReplacement();
+    await partIndexPage.confirmReplacement(serialNo);
   });
 
   test("Ensure warranty_till is copied to the replacement part @hipanel-module-stock @manager", async ({ page }) => {
@@ -77,11 +80,7 @@ test.describe("Part Replacement", () => {
     await partReplacePage.fillReplaceForm([{ serialno: replacementSerial }]);
     await partReplacePage.save();
 
-    await partIndexPage.confirmReplacementNotification();
-
-    await partIndexPage.navigateCommon();
-    await partIndexPage.filterBySerial(replacementSerial);
-    await partIndexPage.seeReplacementInGrid();
+    await partIndexPage.confirmReplacement(replacementSerial);
 
     expect(await partIndexPage.getColumnValue("Warranty till")).toBe(warrantyTill);
   });

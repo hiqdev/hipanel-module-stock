@@ -10,15 +10,9 @@ export default class BillIndexView {
         this.index = new Index(page);
     }
 
-    public async navigate() {
-        await this.page.goto('/finance/bill/index');
-    }
-
     public async ensureSellingBillWasCreated(sellData: { descr: string; prices: number[] }) {
-        await this.navigate();
-
-        // Apply filter for the description
-        await this.index.applyFilter('descr', sellData.descr);
+        // Open the grid already filtered by description: the unfiltered bill index is the slowest page in the flow
+        await this.page.goto(`/finance/bill/index?BillSearch[descr]=${encodeURIComponent(sellData.descr)}`);
 
         // Open the row menu of the first bill and select "View"
         await this.index.clickPopoverMenu(1, 'View');

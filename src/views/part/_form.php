@@ -1,5 +1,6 @@
 <?php
 
+use hipanel\assets\MomentAsset;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\CompanyCombo;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
@@ -22,6 +23,7 @@ use yii\web\View;
  * @var array $currencyTypes
  */
 
+MomentAsset::register($this);
 $this->registerJs(/** @lang JavaScript */ <<<JS
 (() => {
   $(document).on("select2:select", "[id$='partno']", function (event) {

@@ -102,7 +102,9 @@ JS
     ]) ?>
 </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('move_descr_ilike') ?></div>
+<?php if (Yii::$app->user->can('move.read-all')): ?>
+    <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('move_descr_ilike') ?></div>
+<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('src_name_in')->textarea() ?>
@@ -235,13 +237,19 @@ CSS
     </div>
 <?php endif ?>
 
-<?php if (Yii::$app->user->can('move.read')): ?>
+<?php if (Yii::$app->user->can('order.read')): ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('first_move_ilike') ?>
     </div>
+<?php endif ?>
+
+<?php if (Yii::$app->user->can('move.read-all')): ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('last_move_ilike') ?>
     </div>
+<?php endif ?>
+
+<?php if (Yii::$app->user->can('move.read')): ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('first_move_source_regexp') ?>
     </div>

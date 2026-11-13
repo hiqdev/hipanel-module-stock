@@ -323,7 +323,7 @@ class PartGridView extends BoxedGridView
                 },
             ],
             'first_move' => [
-                'visible' => Yii::$app->user->can('move.read-all'),
+                'visible' => Yii::$app->user->can('order.read'),
             ],
             'last_move_with_descr' => [
                 'label' => Yii::t('hipanel:stock', 'Last move with descr'),

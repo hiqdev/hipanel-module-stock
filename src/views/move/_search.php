@@ -55,5 +55,9 @@ use hiqdev\yii2\daterangepicker\DateRangePicker;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('serial_like') ?></div>
-<div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('descr_like') ?></div>
-<div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('first_move_ilike') ?></div>
+<?php if (Yii::$app->user->can('move.read-all')): ?>
+    <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('descr_like') ?></div>
+<?php endif ?>
+<?php if (Yii::$app->user->can('order.read')): ?>
+    <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('first_move_ilike') ?></div>
+<?php endif ?>

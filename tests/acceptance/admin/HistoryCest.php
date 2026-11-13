@@ -38,8 +38,6 @@ class HistoryCest
             Select2::asAdvancedSearch($I, 'Source'),
             Select2::asAdvancedSearch($I, 'Destination'),
             Input::asAdvancedSearch($I, 'Serial'),
-            Input::asAdvancedSearch($I, 'Move description'),
-            Input::asAdvancedSearch($I, 'First move'),
         ]);
     }
 

@@ -170,6 +170,7 @@ class ModelsCest
 
         $I->needPage(Url::to('@model'));
         $this->index->filterBy((Input::asAdvancedSearch($I, 'Model')), $modelData['model']);
+        $this->waitForGridFilteredBy($I, $modelData['model']);
 
         $this->index->selectTableRowByNumber(1);
 
@@ -178,6 +179,17 @@ class ModelsCest
         $I->closeNotification('Model(s) deleted');
 
         $I->waitForText('No results found.');
+    }
+
+    /**
+     * The search form may submit after filterBy() has already found no
+     * request in flight; pjax pushes the filtered URL in the same step
+     * that replaces the old grid with the filtered one.
+     */
+    private function waitForGridFilteredBy(Manager $I, string $value): void
+    {
+        $I->waitForJS(sprintf('return window.location.href.indexOf(%s) !== -1;', json_encode($value)), 60);
+        $I->waitForPageUpdate();
     }
 
     /**

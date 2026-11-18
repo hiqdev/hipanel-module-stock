@@ -239,6 +239,7 @@ class PartController extends CrudController
                     $query = $dataProvider->query;
                     $query->joinWith('model')
                           ->withSale()
+                          ->withSerialHistory()
                           ->addSelect('selling')
                           ->andWhere(['show_deleted' => true]);
                 },

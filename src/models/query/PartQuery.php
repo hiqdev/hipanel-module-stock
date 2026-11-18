@@ -16,6 +16,13 @@ class PartQuery extends ActiveQuery
         return $this;
     }
 
+    public function withSerialHistory(): self
+    {
+        $this->addSelect('serial_history');
+
+        return $this;
+    }
+
     public function withProfit(): self
     {
         $this->addSelect('profit')

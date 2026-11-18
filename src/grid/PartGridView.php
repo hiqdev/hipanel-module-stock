@@ -22,6 +22,7 @@ use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\widgets\combo\LocationsCombo;
 use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\modules\stock\widgets\combo\PartnoCombo;
+use hipanel\modules\stock\widgets\OldSerials;
 use Yii;
 use yii\base\Model;
 use yii\helpers\Html;
@@ -45,6 +46,11 @@ class PartGridView extends BoxedGridView
                 'filterAttribute' => 'serial_ilike',
                 'format' => 'raw',
                 'value' => fn($model) => Html::a(Html::encode($model->serial), ['@part/view', 'id' => $model->id], ['class' => 'text-bold']),
+            ],
+            'old_serials' => [
+                'label' => Yii::t('hipanel:stock', 'Old serials'),
+                'format' => 'raw',
+                'value' => static fn($model) => OldSerials::widget(['history' => $model->serial_history ?? []]),
             ],
             'main' => [
                 'class' => RefColumn::class,

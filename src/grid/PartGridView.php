@@ -155,7 +155,11 @@ class PartGridView extends BoxedGridView
                         ], ['class' => 'text-bold']);
                     }
 
-                    return $linkToMove . ' ' . Html::tag('nobr', $this->formatter->asDate($model->move_time));
+                    return implode(' ', array_filter([
+                        $linkToMove,
+                        Html::tag('nobr', $this->formatter->asDate($model->move_time)),
+                        self::orderLink($model->order_id, $model->order_name),
+                    ]));
                 },
             ],
             'move_type_label' => [
@@ -209,10 +213,8 @@ class PartGridView extends BoxedGridView
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'contentOptions' => ['style' => 'white-space: nowrap;'],
                 'format' => 'raw',
-                'visible' => Yii::$app->user->can('order.read') && Yii::$app->user->can('owner-staff'),
-                'value' => function (Part $model): string {
-                    return HTML::a(Html::encode($model->order_name), ['@order/view', 'id' => $model->order_id]);
-                },
+                'visible' => Yii::$app->user->can('order.read'),
+                'value' => static fn(Part $model): string => self::orderLink($model->order_id, $model->order_name),
             ],
             'dc_ticket' => [
                 'filter' => false,
@@ -357,6 +359,18 @@ class PartGridView extends BoxedGridView
                 'format' => ['datetime', 'php:Y-m-d'],
             ],
         ]);
+    }
+
+    /**
+     * The supplier order is shown only to users allowed to read supplier data.
+     */
+    public static function orderLink(mixed $orderId, ?string $orderName): string
+    {
+        if (empty($orderId) || !Yii::$app->user->can('order.read')) {
+            return '';
+        }
+
+        return Html::a(Html::encode($orderName), ['@order/view', 'id' => $orderId], ['class' => 'text-nowrap']);
     }
 
     public static function lastMove(Part|Move $model): string

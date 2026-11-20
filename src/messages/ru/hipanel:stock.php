@@ -37,6 +37,7 @@ return [
     'Destination' => 'Куда',
     'Failed set serial' => 'Не удалось установить серийные номера',
     'Form factor' => 'Форм-фактор',
+    'Network interfaces count' => 'Количество сетевых интерфейсов',
     'Group' => 'Группа',
     'Hide from users' => 'Спрятать от пользователей',
     'History' => 'История',

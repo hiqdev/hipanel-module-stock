@@ -108,6 +108,23 @@ class Move extends \hipanel\base\Model
         return implode('<br>', [static::prepareDescr($this->descr), $replace ?? '']);
     }
 
+    /**
+     * A move can carry parts bought by different supplier orders.
+     *
+     * @return array<int, string> order name by order id, of every distinct order of the move's parts
+     */
+    public function getOrders(): array
+    {
+        $orders = [];
+        foreach ($this->parts ?? [] as $part) {
+            if (!empty($part['order_id'])) {
+                $orders[$part['order_id']] = $part['order_name'] ?? '';
+            }
+        }
+
+        return $orders;
+    }
+
     public static function prepareDescr(?string $descr): array|string|null
     {
         if (empty($descr)) {

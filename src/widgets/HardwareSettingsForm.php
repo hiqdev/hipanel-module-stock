@@ -179,7 +179,7 @@ class HardwareSettingsForm extends Widget
         $transform = static fn(string $attr): string => "props[$type][$attribute]";
 
         return match ($attribute) {
-            'cores', 'threads', 'max_ram_size', 'ram_slots', 'cpu_sockets' => $this->getInputNumber($form, $transform, $attribute),
+            'cores', 'threads', 'max_ram_size', 'ram_slots', 'cpu_sockets', 'network_interfaces_count' => $this->getInputNumber($form, $transform, $attribute),
             'average_power_consumption' => $this->getInputNumber($form, $transform, $attribute, ['step' => 0.001]),
             'interface' => $this->getInterface($form, $type, $transform, $attribute),
             'formfactor' => $this->getFormFactor($form, $type, $transform, $attribute),

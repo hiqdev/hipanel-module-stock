@@ -30,6 +30,7 @@ class HardwareSettings extends Model
         return [
             'formfactor' => Yii::t('hipanel:stock', 'Form factor'),
             'average_power_consumption' => Yii::t('hipanel:stock', 'Estimated average power consumption in W'),
+            'network_interfaces_count' => Yii::t('hipanel:stock', 'Network interfaces count'),
         ];
     }
 

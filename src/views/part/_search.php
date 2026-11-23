@@ -94,6 +94,8 @@ JS
 
 <div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('serial_ilike') ?></div>
 
+<div class="col-md-4 col-sm-6 col-xs-12"><?= $search->field('old_serial_ilike') ?></div>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('id_in')->widget(PartCombo::class, [
         'hasId' => true,

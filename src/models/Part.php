@@ -65,6 +65,7 @@ class Part extends \hipanel\base\Model
                     'reserve',
                     'serial',
                     'serials',
+                    'serial_history',
                     'partno',
                     'create_time',
                     'place',
@@ -251,6 +252,7 @@ class Part extends \hipanel\base\Model
             'device_location' => Yii::t('hipanel:stock', 'DC location'),
             'disposal_id' => Yii::t('hipanel:stock', 'Disposal'),
             'is_sold' => Yii::t('hipanel:stock', 'Is sold?'),
+            'old_serials' => Yii::t('hipanel:stock', 'Old serials'),
         ]);
     }
 

@@ -67,6 +67,7 @@ $this->params['breadcrumbs'][] = yii::t('hipanel', $this->title);
                                     'model',
                                     'model_group',
                                     ['attribute' => 'serial'],
+                                    'old_serials',
                                     'last_move',
                                     'move_type_label',
                                     'move_time',
